@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Weavers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
+  <Costura Compress="true" CreateTemporaryAssemblies="false">
+    <!-- 排除系统自带程序集，不打包到单文件中 -->
+    <ExcludeAssemblies>
+      System\.Management
+      System\.Net\.Http
+      Microsoft\.CSharp
+      System\.Management\.Automation
+    </ExcludeAssemblies>
+  </Costura>
+</Weavers>

@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json.schemastore.org/sarif-1.0.0",
+  "version": "1.0.0",
+  "runs": [
+    {
+      "tool": {
+        "name": "Microsoft(R) Visual C# 编译器",
+        "version": "4.11.0.0",
+        "fileVersion": "4.11.0-3.25569.22 (3fb752d4)",
+        "semanticVersion": "4.11.0",
+        "language": "zh-CN"
+      },
+      "results": [
+        {
+          "ruleId": "CS1002",
+          "level": "error",
+          "message": "应输入 ;",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/code-%E8%99%9A%E6%8B%9F%E5%8C%96%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7.NET-v1.7.2.8-publish/VirtualizationOpsTool/Core/SessionManager.cs",
+                "region": {
+                  "startLine": 501,
+                  "startColumn": 95,
+                  "endLine": 501,
+                  "endColumn": 96
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS1002",
+          "level": "error",
+          "message": "应输入 ;",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/code-%E8%99%9A%E6%8B%9F%E5%8C%96%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7.NET-v1.7.2.8-publish/VirtualizationOpsTool/Core/SessionManager.cs",
+                "region": {
+                  "startLine": 504,
+                  "startColumn": 86,
+                  "endLine": 504,
+                  "endColumn": 87
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS1002",
+          "level": "error",
+          "message": "应输入 ;",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/code-%E8%99%9A%E6%8B%9F%E5%8C%96%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7.NET-v1.7.2.8-publish/VirtualizationOpsTool/Core/SessionManager.cs",
+                "region": {
+                  "startLine": 508,
+                  "startColumn": 102,
+                  "endLine": 508,
+                  "endColumn": 103
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "rules": {
+        "CS1002": {
+          "id": "CS1002",
+          "defaultLevel": "error",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS1002)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry",
+              "NotConfigurable"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
