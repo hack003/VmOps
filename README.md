@@ -67,7 +67,7 @@ Get-ChildItem "C:\Program Files\WindowsPowerShell\Modules\VMware*" -Recurse -Fil
 
 ### 2. 下载 VmOps 可执行文件
 
-前往 **[Releases](https://gitee.com/xuGH/VmOps-Tool/releases)** 页面下载最新版本压缩包，解压后直接运行 `VirtualizationOpsTool.exe`（无需安装，单文件分发）。
+前往 **[Releases](https://gitee.com/hack003/VmOps-Tool/releases)** 页面下载最新版本 `虚拟化运维工具.Net.exe`（无需安装，单文件分发）。
 
 ### 3. 连接 vCenter / ESXi
 
@@ -76,7 +76,7 @@ Get-ChildItem "C:\Program Files\WindowsPowerShell\Modules\VMware*" -Recurse -Fil
 | 字段 | vCenter 示例 | ESXi 示例 |
 |------|-------------|-----------|
 | 连接别名 | 生产VC | ESXi-Node01 |
-| 连接地址 | 192.168.200.88 | 192.168.1.200 |
+| 连接地址 | 192.168.2.88 | 192.168.1.200 |
 | 用户域 | vsphere.local | _（留空）_ |
 | 用户名 | administrator | root |
 
