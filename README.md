@@ -9,7 +9,6 @@
 
 本工具已在实际生产环境中长期稳定运行，适用于需要频繁批量部署虚拟机及日常运维的企业场景。
 
-> ⚠️ **本工具为个人兴趣开发，永久免费，请勿商用或售卖。**
 
 ---
 
@@ -166,18 +165,12 @@ VmOps-Tool/
 
 ---
 
-## ⚠️ 免责声明
-
-本工具由个人兴趣开发并免费提供，**仅供内部学习和运维使用**。作者不对任何生产环境使用后果负责，使用前请充分测试。**禁止商用、售卖或作为商业产品的一部分分发。**
-
----
-
 ## 📄 许可证
 
 本项目基于 [MIT License](https://opensource.org/licenses/MIT) 开源。
 
 ```
-Copyright (c) 2024 VmOps Team
+Copyright (c) 2026 XuGuihong
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -204,7 +197,7 @@ SOFTWARE.
 
 - **VMware PowerCLI** —— 本工具的核心依赖
 - **Costura.Fody** —— 单 exe 分发方案
-- **所有内部测试用户** —— 生产环境反馈与改进建议
+- **所有测试用户** —— 生产环境反馈与改进建议
 
 
 
