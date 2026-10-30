@@ -1,44 +1,4 @@
-用户仓库建好了，现在需要 README.md 内容。让我根据项目的实际功能来写一个完整的 README。先回顾一下项目的核心功能：
 
-从 help.html 里提取的：
-1. 批量部署虚拟机（CSV 模板）
-2. 资源查询（VM/主机/存储/网络列表）
-3. VM 日常运维（远程连接、电源管理、编辑配置、磁盘管理、迁移克隆、快照管理、删除）
-4. 批量操作（多选 VM 批量电源/快照/删除/迁移）
-5. VMRC 远程控制台
-6. 在线编辑 CSV 部署模板
-7. OVF Tool 集成
-8. 连接凭据记忆
-
-技术栈：
-- C# .NET Framework 4.8
-- VMware PowerCLI
-- Get-View VIM API
-- WinForms
-
-让我写一个专业、友好的 README，适合 Gitee 公开仓库。
-
-好的，让我先快速回顾一下项目的完整功能细节，然后给你写 README：
-OK, the skill-creator tool is not relevant here - the user wants README.md content for their Gitee repo, not to create a skill. Let me stop that and focus on writing the README.
-
-Let me look at the project's actual features from help.html and MainForm.cs to write an accurate README.
-
-OK let me write a complete README.md for this project. I need to include:
-
-1. 项目简介
-2. 核心功能
-3. 技术栈
-4. 系统要求/环境准备
-5. 快速开始
-6. 功能模块介绍
-7. 目录结构
-8. 免责声明
-9. 许可证
-
-Let me write this comprehensively but concisely, matching the actual project features.
-好，信息齐了，下面是完整的 README.md 内容。在 Gitee 仓库页面上点「README.md」文件里的编辑按钮（或点笔形图标），全选原有内容替换成下面这段：
-
-```markdown
 # VmOps - 虚拟化运维管理工具
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -245,13 +205,7 @@ SOFTWARE.
 - **VMware PowerCLI** —— 本工具的核心依赖
 - **Costura.Fody** —— 单 exe 分发方案
 - **所有内部测试用户** —— 生产环境反馈与改进建议
-```
 
----
 
-## 额外说明
 
-README 里用了几个 `[Releases](https://gitee.com/xuGH/VmOps-Tool/releases)` 的链接——Gitee 仓库建好之后，你需要手动启用「Gitee Go Releases」或者直接在仓库页面上传附件，那个链接才生效。如果暂时没启用，先不管它，以后上下载包的时候再说。
-
-另外仓库路径我暂时按 `XuGH/VmOps-Tool` 写的，如果你的仓库路径不一样，把 `https://gitee.com/xuGH/VmOps-Tool` 换成你实际的就行。
 
