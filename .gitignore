@@ -1,52 +1,28 @@
-# Prerequisites
-*.d
-
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
-
-# Linker output
-*.ilk
-*.map
-*.exp
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
+# 编译输出
+bin/
+obj/
 *.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
 *.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-*.su
-*.idb
 *.pdb
+*.cache
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+# Visual Studio
+.vs/
+.vscode/
+*.user
+*.suo
+*.sln
+*.csproj.user
+
+# 备份目录（你本地的手动备份）
+backups/
+_backups/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 临时文件
+*.log
+*.tmp
+*.bak
