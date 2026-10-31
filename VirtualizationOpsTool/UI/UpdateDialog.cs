@@ -1,353 +1,87 @@
 // ============================================================================
 // UpdateDialog.cs - ç‰ˆæœ¬æ›´æ–°å¼¹çª—ï¼ˆå«è‡ªåŠ¨ä¸‹è½½ï¼‰
 // ============================================================================
-// å†…åµŒ WebBrowser æ¸²æŸ“ Markdown æ›´æ–°æ—¥å¿—
-// package_url å­˜åœ¨æ—¶æ˜¾ç¤ºã€Œç«‹å³ä¸‹è½½å¹¶æ›´æ–°ã€æŒ‰é’® + è¿›åº¦æ¡
-// ä¸‹è½½å®Œæˆ â†’ å¯åŠ¨ update_helper.exe â†’ ä¸»ç¨‹åºé€€å‡º â†’ helper æ›¿æ¢å¹¶é‡å¯
-// ============================================================================
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
-using VirtualizationOpsTool.Utils;
+// å†…åµŒ WebBrowser æ¸²æŸ“ Markdown æ›´æ–°æ—¥åµÃB‹ËÈXÚØYÙWİ\›9kf9g*9¥í¹¦/¹é.¸à#9êâùclù."ú/oynm¹¦í9¥¬8à#y£"zd«ˆ
+È:/æùn©¹§hCB‹ËÈ9."‹ÛŞZèÎh‰(i"Y
+şXª‚WFFUö†VÇW"æW†R(i"K‹¾zˆ¾[¨ş˜X{¢(i"†VÇW"i»şhÚ.[›n˜xŞY
+ğĞ¢òòÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓĞĞ§W6–ær7—7FVÓ°Ğ§W6–ær7—7FVÒäF–væ÷7F–73°Ğ§W6–ær7—7FVÒäG&v–æs°Ğ§W6–ær7—7FVÒä”ó°Ğ§W6–ær7—7FVÒåv–æF÷w2äf÷&×3°Ğ§W6–ærf—'GVÆ—¦F–öä÷5FööÂåWF–Ç3°Ğ Ğ¦æÖW76Rf—'GVÆ—¦F–öä÷5FööÂåTĞ§°Ğ¢V&Æ–26Æ72WFFTF–Æör¢f÷&ĞĞ¢°Ğ¢&—fFR&VFöæÇ’WFFUWF–Ç2åWFFT–æfòö–æfó°Ğ¢&—fFR&VFöæÇ’7G&–ærö7W'&VçEfW'6–öã°Ğ Ğ¢&—fFR'WGFöãòö'FäWFõWFFS°Ğ¢&—fFR'WGFöãòö'Fä6Æ÷6S°Ğ¢&—fFR&öw&W74&#ò÷&öw&W74&#°Ğ¢&—fFRÆ&VÃòöÆ&Å&öw&W73°Ğ¢&—fFRæVÃò÷æVÅ&öw&W73°Ğ Ğ¢&—fFR&ööÂö—4F÷væÆöF–æs°Ğ Ğ¢V&Æ–2WFFTF–Æör…WFFUWF–Ç2åWFFT–æfò–æfòÂ7G&–ær7W'&VçEfW'6–öâĞ¢°Ğ¢WFõ66ÆTÖöFRÒWFõ66ÆTÖöFRäG“°Ğ¢WFõ66ÆTF–ÖVç6–öç2ÒæWr6—¦Tbƒ“dbÂ“db“°Ğ¢ö–æfòÒ–æfó°Ğ¢ö7W'&VçEfW'6–öâÒ7W'&VçEfW'6–öã°Ğ¢'V–ÆET’‚“°Ğ¢ĞĞ Ğ¢&—fFRfö–B'V–ÆET’‚Ğ¢°Ğ¢FW‡BÒ.x˜iÊÎi»Nik#°Ğ¢föçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â–bÂföçE7G–ÆRå&VwVÆ"“°Ğ¢7F'E÷6—F–öâÒf÷&Õ7F'E÷6—F–öâä6VçFW%&VçC°Ğ¢f÷&Ô&÷&FW%7G–ÆRÒf÷&Ô&÷&FW%7G–ÆRäf—†VDF–Æös°Ğ¢Ö†–Ö—¦T&÷‚ÒfÇ6S°Ğ¢Ö–æ–Ö—¦T&÷‚ÒfÇ6S°Ğ¢6†÷t–åF6¶&"ÒfÇ6S°Ğ¢–6öâÒ6÷&UWF–Ç2ävWD–6öâ‚“°Ğ¢&6´6öÆ÷"Ò6öÆ÷"äg&öÔ&v"ƒ#CRÂ#CRÂ#CR“°Ğ Ğ¢6—¦RÒæWr6—¦RƒcÂSC“°Ğ¢Ö–æ–×VÕ6—¦RÒæWr6—¦RƒcÂSC“°Ğ Ğ¢f"Ö–âÒæWrF&ÆTÆ–÷WEæVÀĞ¢°Ğ¢Fö6²ÒFö6µ7G–ÆRäf–ÆÂÀĞ¢FF–ærÒæWrFF–ær„G•WF–Ç2å‚ƒb’’ÀĞ¢&÷t6÷VçBÒ2ÀĞ¢6öÇVÖä6÷VçBÒĞ¢Ó°Ğ¢Ö–âå&÷u7G–ÆW2äFB†æWr&÷u7G–ÆR…6—¦UG—Rä'6öÇWFRÂG•WF–Ç2å‚ƒCB’’“°Ğ¢Ö–âå&÷u7G–ÆW2äFB†æWr&÷u7G–ÆR…6—¦UG—RåW&6VçBÂ’“°Ğ¢Ö–âå&÷u7G–ÆW2äFB†æWr&÷u7G–ÆR…6—¦UG—Rä'6öÇWFRÂG•WF–Ç2å‚ƒCB’’“°Ğ Ğ¢6öçG&öÇ2äFB†Ö–â“°Ğ Ğ¢òòÒÒÒšn˜:jfŠc–2ë¼šå›¾æ ‡ + æ †h¦
+È9âb9§+9cíÈ9. :(cKKCBˆ˜\ˆXY\ˆH™]ÈX›S^[İ][™[BˆÃBˆØÚÈHØÚÔİ[K‘š[Bˆ›İĞÛİ[HKBˆÛÛ[[Ûİ[HÃBˆNÃBˆXY\‹ÛÛ[[”İ[\ËY
+™]ÈÛÛ[[”İ[JÚ^™U\KXœÛÛ]KU][Ë”
+ÍŠJJNÃBˆXY\‹ÛÛ[[”İ[\ËY
+™]ÈÛÛ[[”İ[JÚ^™U\K”\˜Ù[L
+JNÃBˆXY\‹ÛÛ[[”İ[\ËY
+™]ÈÛÛ[[”İ[JÚ^™U\K]]ÔÚ^™JJNÃBƒBˆ˜\ˆXÈH™]ÈXİ\™P›ŞBˆÃBˆØÚÈHØÚÔİ[K‘š[BˆÚ^™S[ÙHHXİ\™P›ŞÚ^™S[ÙK–›ÛÛKBˆ[XYÙHHÛÜ™U][Ë‘Ù]\XÛÛŠ
+OË•Ğš]X\
 
-namespace VirtualizationOpsTool.UI
-{
-    public class UpdateDialog : Form
-    {
-        private readonly UpdateUtils.UpdateInfo _info;
-        private readonly string _currentVersion;
-
-        private Button? _btnAutoUpdate;
-        private Button? _btnViewDownload;
-        private Button? _btnClose;
-        private ProgressBar? _progressBar;
-        private Label? _lblProgress;
-        private Panel? _panelProgress;
-
-        private bool _isDownloading;
-        private bool _updateLaunched;
-
-        public UpdateDialog(UpdateUtils.UpdateInfo info, string currentVersion)
-        {
-            AutoScaleMode = AutoScaleMode.Dpi;
-            AutoScaleDimensions = new SizeF(96F, 96F);
-            _info = info;
-            _currentVersion = currentVersion;
-            BuildUI();
-        }
-
-        private void BuildUI()
-        {
-            Text = "ç‰ˆæœ¬æ›´æ–°";
-            Font = new Font("Microsoft YaHei", 9f, FontStyle.Regular);
-            StartPosition = FormStartPosition.CenterParent;
-            FormBorderStyle = FormBorderStyle.FixedDialog;
-            MaximizeBox = false;
-            MinimizeBox = false;
-            ShowInTaskbar = false;
-            Icon = SystemIcons.Application;
-
-            Size = new Size(620, 600);
-            MinimumSize = new Size(620, 600);
-
-            var main = new TableLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                Padding = new Padding(16),
-                RowCount = 5,
-                ColumnCount = 1
-            };
-            main.RowStyles.Add(new RowStyle(SizeType.Absolute, DpiUtils.Px(50)));
-            main.RowStyles.Add(new RowStyle(SizeType.Absolute, DpiUtils.Px(36)));
-            main.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-            main.RowStyles.Add(new RowStyle(SizeType.Absolute, DpiUtils.Px(48)));
-            main.RowStyles.Add(new RowStyle(SizeType.Absolute, DpiUtils.Px(56)));
-
-            Controls.Add(main);
-
-            // --- é¡¶éƒ¨æ ‡é¢˜åŒº ---
-            var header = new TableLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                RowCount = 1,
-                ColumnCount = 2
-            };
-            header.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, DpiUtils.Px(48)));
-            header.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-
-            var pic = new PictureBox
-            {
-                Dock = DockStyle.Fill,
-                SizeMode = PictureBoxSizeMode.Zoom,
-                Image = SystemIcons.Information.ToBitmap(),
-                Margin = new Padding(0, 8, 6, 0)
-            };
-            header.Controls.Add(pic, 0, 0);
-
-            var lblTitle = new Label
-            {
-                Dock = DockStyle.Fill,
-                AutoSize = false,
-                TextAlign = ContentAlignment.MiddleLeft,
-                Font = new Font("Microsoft YaHei", 13f, FontStyle.Bold),
-                ForeColor = ColorTranslator.FromHtml("#1a73e8"),
-                Text = "å‘ç°æ–°ç‰ˆæœ¬"
-            };
-            header.Controls.Add(lblTitle, 1, 0);
-            main.Controls.Add(header, 0, 0);
-
-            // --- ç‰ˆæœ¬å·å¯¹æ¯” ---
-            var lblVersion = new Label
-            {
-                Dock = DockStyle.Fill,
-                AutoSize = false,
-                TextAlign = ContentAlignment.MiddleLeft,
-                Font = new Font("Microsoft YaHei", 10f, FontStyle.Regular),
-                ForeColor = ColorTranslator.FromHtml("#555555"),
-                Text = $"å½“å‰ç‰ˆæœ¬ï¼š{_currentVersion}     æ–°ç‰ˆæœ¬ï¼š{_info.Version}"
-            };
-            main.Controls.Add(lblVersion, 0, 1);
-
-            // --- æ›´æ–°æ—¥å¿—åŒºåŸŸ ---
+KBˆX\™Ú[ˆH™]ÈY[™ÊU][Ë”
+ŠK
+CBˆNÃBˆXY\‹ÛÛ›ÛËY
+XË
+NÃBƒBˆ˜\ˆ›]HH™]ÈX™[BˆÃBˆØÚÈHØÚÔİ[K‘š[Bˆ]]ÔÚ^™HH˜[ÙKBˆ^[YÛˆHÛÛ[[YÛ›Y[“ZYSYBˆ›ÛH™]È›Û
+“ZXÜ›ÜÛÙXRZH‹L™‹›Ûİ[K›Û
+KBˆ›Ü™PÛÛÜˆHÛÛÜ•˜[œÛ]Ü‹‘œ›ÛR[
+ˆÌXMÌÙNŠKBˆ^H¹cäyã¬9¥¬9âb9§+ƒBˆNÃBˆXY\‹ÛÛ›ÛËY
+›]KK
+NÃBƒBˆ˜\ˆ›™\œÚ[ÛˆH™]ÈX™[BˆÃBˆ]]ÔÚ^™HHYKBˆ^[YÛˆHÛÛ[[YÛ›Y[“ZYTšYÚBˆ›ÛH™]È›Û
+“ZXÜ›ÜÛÙXRZH‹Y‹›Ûİ[K”™Yİ[\ŠKBˆ›Ü™PÛÛÜˆHÛÛÜ•˜[œÛ]Ü‹‘œ›ÛR[
+ˆÍˆŠKBˆ^H	¹odX˜Òµö7W'&VçEfW'6–öçÒ(i"ikx˜‚µö–æfòåfW'6–öçÒ"ÀĞ¢Ö&v–âÒæWrFF–ærƒ‚ÂÂÂĞ¢Ó°Ğ¢†VFW"ä6öçG&öÇ2äFB†Æ&ÅfW'6–öâÂ"Â“°Ğ¢Ö–âä6öçG&öÇ2äFB††VFW"ÂÂ“°Ğ Ğ¢òòÒÒÒi»Nikiz^[_¾ò!]•‰	É½İÍ•Ë¼‰ ---
             var browser = new WebBrowser
             {
                 Dock = DockStyle.Fill,
                 ScriptErrorsSuppressed = true,
-                ScrollBarsEnabled = true
+                ScrollBarsEnabled = true,
+                Margin = new Padding(0, 8, 0, 0)
             };
             browser.DocumentText = BuildHtml(MarkdownToHtml(_info.Changelog));
-            main.Controls.Add(browser, 0, 2);
+            main.Controls.Add(browser, 0, 1);
 
-            // --- è¿›åº¦æ¡é¢æ¿ï¼ˆåˆå§‹éšè—ï¼‰ ---
-            _panelProgress = new Panel
-            {
-                Dock = DockStyle.Fill,
-                Height = 40,
-                Visible = false,
-                Margin = new Padding(0, 0, 0, 0)
-            };
-
-            _progressBar = new ProgressBar
-            {
-                Location = new Point(0, 4),
-                Size = new Size(588, 22),
-                Style = ProgressBarStyle.Continuous,
-                Margin = Padding.Empty
-            };
-
-            _lblProgress = new Label
-            {
-                Location = new Point(0, 26),
-                Size = new Size(588, 18),
-                AutoSize = false,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Font = new Font("Microsoft YaHei", 8.5f)
-            };
-
-            _panelProgress.Controls.Add(_progressBar);
-            _panelProgress.Controls.Add(_lblProgress);
-            main.Controls.Add(_panelProgress, 0, 3);
-
-            // --- åº•éƒ¨æŒ‰é’® ---
-            var btnBar = new TableLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                RowCount = 1,
-                ColumnCount = 4
-            };
-            btnBar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-            btnBar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, DpiUtils.Px(140)));
-            btnBar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, DpiUtils.Px(120)));
-            btnBar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, DpiUtils.Px(90)));
-
-            // ç«‹å³ä¸‹è½½å¹¶æ›´æ–°ï¼ˆä»…å½“ package_url å­˜åœ¨æ—¶æ˜¾ç¤ºï¼‰
-            _btnAutoUpdate = new Button
-            {
-                Text = "ç«‹å³ä¸‹è½½å¹¶æ›´æ–°",
-                Height = 32,
-                FlatStyle = FlatStyle.Standard,
-                Cursor = Cursors.Hand,
-                Anchor = AnchorStyles.Right,
-                Margin = new Padding(0, 12, 8, 12),
-                Enabled = !string.IsNullOrEmpty(_info.PackageUrl)
-            };
-            _btnAutoUpdate.Click += BtnAutoUpdate_Click;
-            if (string.IsNullOrEmpty(_info.PackageUrl))
-                _btnAutoUpdate.Text = "è‡ªåŠ¨æ›´æ–°æš‚ä¸å¯ç”¨";
-
-            _btnViewDownload = new Button
-            {
-                Text = "æŸ¥çœ‹ä¸‹è½½é¡µ",
-                Height = 32,
-                FlatStyle = FlatStyle.Standard,
-                Cursor = Cursors.Hand,
-                Anchor = AnchorStyles.Right,
-                Margin = new Padding(0, 12, 8, 12)
-            };
-            _btnViewDownload.Click += BtnViewDownload_Click;
-
-            _btnClose = new Button
-            {
-                Text = "å…³é—­",
-                Height = 32,
-                FlatStyle = FlatStyle.Standard,
-                Cursor = Cursors.Hand,
-                Anchor = AnchorStyles.Right,
-                DialogResult = DialogResult.OK,
-                Margin = new Padding(0, 12, 0, 12)
-            };
-
-            btnBar.Controls.Add(new Panel { Dock = DockStyle.Fill }, 0, 0);
-            btnBar.Controls.Add(_btnAutoUpdate, 1, 0);
-            btnBar.Controls.Add(_btnViewDownload, 2, 0);
-            btnBar.Controls.Add(_btnClose, 3, 0);
-            main.Controls.Add(btnBar, 0, 4);
-        }
-
-        private async void BtnAutoUpdate_Click(object? sender, EventArgs e)
-        {
-            if (_isDownloading || _btnAutoUpdate == null || _panelProgress == null) return;
-
-            string newExePath = Path.Combine(Path.GetTempPath(), $"vmops_update_{Guid.NewGuid():N}.exe");
-
-            _isDownloading = true;
-            _btnAutoUpdate.Enabled = false;
-            _btnAutoUpdate.Text = "ä¸‹è½½ä¸­...";
-            _btnViewDownload!.Enabled = false;
-            _btnClose.Enabled = false;
-            _panelProgress.Visible = true;
-            _progressBar!.Value = 0;
-            _lblProgress!.Text = "å‡†å¤‡ä¸‹è½½...";
-
-            var progress = new Progress<double>(pct =>
+            // --- è¿™n©¹§hzgh¹§oò#–Ö3–”]•‰	É½İÍ•Èƒ–êW¦£¼Œä¸Š/oy¥í¹¢cy¦/¹é.»È’ÒÒĞĞ¢÷æVÅ&öw&W72ÒæWræVÀĞ¢°Ğ¢Fö6²ÒFö6µ7G–ÆRä&÷GFöÒÀĞ¢†V–v‡BÒG•WF–Ç2å‚ƒC‚’ÀĞ¢f—6–&ÆRÒfÇ6RÀĞ¢&6´6öÆ÷"Ò6öÆ÷"äg&öÔ&v"ƒ#CRÂ#CRÂ#CRĞ¢Ó°Ğ Ğ¢÷&öw&W74&"ÒæWr&öw&W74& Ğ¢°Ğ¢Æö6F–öâÒæWrö–çBƒÂG•WF–Ç2å‚ƒB’’ÀĞ¢6—¦RÒæWr6—¦R„G•WF–Ç2å‚ƒSc’ÂG•WF–Ç2å‚ƒ#"’’ÀĞ¢7G–ÆRÒ&öw&W74&%7G–ÆRä6öçF–çV÷W2ÀĞ¢Ö&v–âÒFF–æräV×GĞ¢Ó°Ğ Ğ¢öÆ&Å&öw&W72ÒæWrÆ&VÀĞ¢°Ğ¢Æö6F–öâÒæWrö–çBƒÂG•WF–Ç2å‚ƒ#b’’ÀĞ¢6—¦RÒæWr6—¦R„G•WF–Ç2å‚ƒSc’ÂG•WF–Ç2å‚ƒ‚’’ÀĞ¢WFõ6—¦RÒfÇ6RÀĞ¢FW‡DÆ–vâÒ6öçFVçDÆ–væÖVçBäÖ–FFÆT6VçFW"ÀĞ¢föçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â‚ãVbĞ¢Ó°Ğ Ğ¢÷æVÅ&öw&W72ä6öçG&öÇ2äFB…÷&öw&W74&"“°Ğ¢÷æVÅ&öw&W72ä6öçG&öÇ2äFB…öÆ&Å&öw&W72“°Ğ¢'&÷w6W"ä6öçG&öÇ2äFB…÷æVÅ&öw&W72“°Ğ Ğ¢òòÒÒÒ[©^˜:hÈ™*îXË¢ÒÒĞĞ¢f"'Fä&"ÒæWrF&ÆTÆ–÷WEæVÀĞ¢°Ğ¢Fö6²ÒFö6µ7G–ÆRäf–ÆÂÀĞ¢&÷t6÷VçBÒÀĞ¢6öÇVÖä6÷VçBÒ2ÀĞ¢Ö&v–âÒæWrFF–ærƒÂÂÂĞ¢Ó°Ğ¢'Fä&"ä6öÇVÖå7G–ÆW2äFB†æWr6öÇVÖå7G–ÆR…6—¦UG—RåW&6VçBÂ’“°Ğ¢'Fä&"ä6öÇVÖå7G–ÆW2äFB†æWr6öÇVÖå7G–ÆR…6—¦UG—Rä'6öÇWFRÂG•WF–Ç2å‚ƒ’’“°Ğ¢'Fä&"ä6öÇVÖå7G–ÆW2äFB†æWr6öÇVÖå7G–ÆR…6—¦UG—Rä'6öÇWFRÂG•WF–Ç2å‚ƒ’’“°Ğ Ğ¢ö'FäWFõWFFRÒæWr'WGFöàĞ¢°Ğ¢FW‡BÒ.zîŠêNi»Nik"ÀĞ¢6—¦RÒæWr6—¦R„G•WF–Ç2å‚ƒ’ÂG•WF–Ç2å‚ƒ3"’’ÀĞ¢fÆE7G–ÆRÒfÆE7G–ÆRå7FæF&BÀĞ¢&6´6öÆ÷"Ò6öÆ÷%G&ç6ÆF÷"äg&öÔ‡FÖÂ‚"3s6S‚"’ÀĞ¢f÷&T6öÆ÷"Ò6öÆ÷"åv†—FRÀĞ¢7W'6÷"Ò7W'6÷'2ä†æBÀĞ¢æ6†÷"Òæ6†÷%7G–ÆW2åF÷Âæ6†÷%7G–ÆW2å&–v‡BÀĞ¢Ö&v–âÒæWrFF–ærƒÂÂG•WF–Ç2å‚ƒ‚’Â’ÀĞ¢Væ&ÆVBÒ7G&–ærä—4çVÆÄ÷$V×G’…ö–æfòå6¶vUW&ÂĞ¢Ó°Ğ¢ö'FäWFõWFFRä6Æ–6²³Ò'FäWFõWFFUô6Æ–6³°Ğ¢–b‡7G&–ærä—4çVÆÄ÷$V×G’…ö–æfòå6¶vUW&Â’Ğ¢ö'FäWFõWFFRåFW‡BÒ.ˆz®Xªi»Niki¨.KˆŞXúŞR ˆì4(4(€€€€€€€€€€€}‰Ñ¹±½Í”€ô¹•Ü	ÕÑÑ½¸4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Q•áĞ€ô€‹–>[šÚ#šnÓšZÀˆ°4(€€€€€€€€€€€€€€€M¥é”€ô¹•ÜM¥é”¡Á¥UÑ¥±Ì¹Aà ÄÄÀ¤°Á¥UÑ¥±Ì¹Aà ÌÈ¤¤°4(€€€€€€€€€€€€€€€±…ÑMÑå±”€ô±…ÑMÑå±”¹MÑ…¹‘…É°4(€€€€€€€€€€€€€€€ÕÉÍ½È€ôÕÉÍ½ÉÌ¹!…¹°4(€€€€€€€€€€€€€€€¹¡½È€ô¹¡½ÉMÑå±•Ì¹Q½Àğ¹¡½ÉMÑå±•Ì¹I¥¡Ğ°4(€€€€€€€€€€€€€€€¥…±½I•ÍÕ±Ğ€ô¥…±½I•ÍÕ±Ğ¹=,°4(€€€€€€€€€€€€€€€5…É¥¸€ôA…‘‘¥¹œ¹µÁÑä4(€€€€€€€€€€€ôì4(4(€€€€€€€€€€€‰Ñ¹	…È¹½¹ÑÉ½±Ì¹‘¡¹•ÜA…¹•°ì½¬€ô½­MÑå±”¹¥±°ô°€À°€À¤ì4(€€€€€€€€€€€‰Ñ¹	…È¹½¹ÑÉ½±Ì¹‘¡}‰Ñ¹ÕÑ½UÁ‘…Ñ”°€Ä°€À¤ì4(€€€€€€€€€€€‰Ñ¹	…È¹½¹ÑÉ½±Ì¹‘¡}‰Ñ¹±½Í”°€È°€À¤ì4(€€€€€€€€€€€µ…¥¸¹½¹ÑÉ½±Ì¹‘¡‰Ñ¹	…È°€À°€È¤ì4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”…Íå¹ŒÙ½¥	Ñ¹ÕÑ½UÁ‘…Ñ•}±¥¬¡½‰©•ĞüÍ•¹‘•È°Ù•¹ÑÉÌ”¤4(€€€€€€€ì4(€€€€€€€€€€€¥˜€¡}¥Í½İ¹±½…‘¥¹œñğ}‰Ñ¹ÕÑ½UÁ‘…Ñ”€ôô¹Õ±°ñğ}Á…¹•±AÉ½É•ÍÌ€ôô¹Õ±°¤É•ÑÕÉ¸ì4(4(€€€€€€€€€€€ÍÑÉ¥¹œ¹•İá•A…Ñ €ôA…Ñ ¹½µ‰¥¹”¡A…Ñ ¹•ÑQ•µÁA…Ñ  ¤°€‰Ùµ½ÁÍ}ÕÁ‘…Ñ•}íÕ¥¹9•İÕ¥ ¤é9ô¹•á”ˆ¤ì4(4(€€€€€€€€€€€}¥Í½İ¹±½…‘¥¹œ€ôÑÉÕ”ì4(€€€€€€€€€€€}‰Ñ¹ÕÑ½UÁ‘…Ñ”¹¹…‰±•€ô™…±Í”ì4(€€€€€€€€€€€}‰Ñ¹ÕÑ½UÁ‘…Ñ”¹Q•áĞ€ô€‹’â/¢ö÷’â´¸¸¸ˆì4(€€€€€€€€€€€}‰Ñ¹±½Í”¹¹…‰±•€ô™…±Í”ì4(€€€€€€€€€€€}Á…¹•±AÉ½É•ÍÌ¹Y¥Í¥‰±”€ôÑÉÕ”ì4(€€€€€€€€€€€}ÁÉ½É•ÍÍ	…È„¹Y…±Õ”€ô€Àì4(€€€€€€€€€€€}±‰±AÉ½É•ÍÌ„¹Q•áĞ€ô€‹––’’â/¢öô¸¸¸ˆì4(4(€€€€€€€€€€€Ù…ÈÁÉ½É•ÍÌ€ô¹•ÜAÉ½É•ÍÌñ‘½Õ‰±”ø¡ÁĞ€ô
             {
                 if (_progressBar != null && _lblProgress != null)
                 {
-                    if (pct >= 0)
-                    {
-                        _progressBar.Value = (int)pct;
-                        _lblProgress.Text = $"ä¸‹è½½ä¸­... {(int)pct}%";
-                    }
-                    else
-                    {
-                        _lblProgress.Text = "ä¸‹è½½ä¸­...";
-                    }
-                }
-            });
-
-            bool ok = await UpdateUtils.DownloadPackageAsync(_info, newExePath, progress);
-
-            if (!ok || !File.Exists(newExePath))
-            {
-                MessageBox.Show("ä¸‹è½½å¤±è´¥ï¼Œè¯·æ£€æŸ¥ç½‘ç»œè¿æ¥æˆ–æ‰‹åŠ¨å‰å¾€ä¸‹è½½é¡µä¸‹è½½ã€‚",
-                    "æ›´æ–°å¤±è´¥", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                try { if (File.Exists(newExePath)) File.Delete(newExePath); } catch { }
-                _isDownloading = false;
-                _btnAutoUpdate.Enabled = true;
-                _btnAutoUpdate.Text = "ç«‹å³ä¸‹è½½å¹¶æ›´æ–°";
-                _btnViewDownload.Enabled = true;
-                _btnClose.Enabled = true;
-                _panelProgress.Visible = false;
-                return;
-            }
-
-            _progressBar.Value = 100;
-            _lblProgress.Text = "ä¸‹è½½å®Œæˆï¼Œæ­£åœ¨å¯åŠ¨æ›´æ–°ç¨‹åº...";
-
-            bool launched = UpdateUtils.RunUpdateHelper(newExePath);
-
-            if (!launched)
-            {
-                MessageBox.Show(
-                    "ä¸‹è½½å®Œæˆä½†æ— æ³•å¯åŠ¨æ›´æ–°ç¨‹åºã€‚\n" +
-                    "å¯èƒ½æ˜¯ update_helper.exe ç¼ºå¤±æˆ–è¢«æ€æ¯’è½¯ä»¶æ‹¦æˆªã€‚\n\n" +
-                    "è¯·æ‰‹åŠ¨å‰å¾€ä¸‹è½½é¡µä¸‹è½½æ–°ç‰ˆæœ¬ exeï¼Œè¦†ç›–æ—§ exe åé‡å¯ç¨‹åºã€‚",
+                    if (pct H
+CBˆÃBˆÜ›ÙÜ™\ÜĞ˜\‹•˜[YHH
+[
+\İÃBˆÛ››ÙÜ™\ÜË•^H	¹."ú/oy.+K‹‹ˆÊ[
+\İIHÃBˆCBˆ[ÙCBˆÃBˆÛ››ÙÜ™\ÜË•^H¹."ú/oy.+K‹‹ˆÃBˆCBˆCBˆJNÃBƒBˆ›ÛÛÚÈH]ØZ]\]U][Ë‘İÛ›ØYXÚØYÙP\Ş[˜ÊÚ[™›Ë™]Ñ^T]›ÙÜ™\ÜÊNÃBƒBˆYˆ
+[ÚÈQš[K‘^\İÊ™]Ñ^T]
+JCBˆÃBˆY\ÜØYÙP›Ş”ÚİÊ¹."ú/oyi,z-){ï#:+íù¨à9§éyïdyîç:/ç¹£©y¢%¹¢bùbª9bcyo 9."ú/ozhmy."ú/oxà ˆ‹Bˆ¹¦í9¥¬9i,z-)H‹Y\ÜØYÙP›Ş]ÛœË“ÒËY\ÜØYÙP›ŞXÛÛ‹‘\œ›ÜŠNÃBˆHÈYˆ
+š[K‘^\İÊ™]Ñ^T]
+JHš[K‘[]J™]Ñ^T]
+NÈHØ]ÚÈCBˆÚ\ÑİÛ›ØY[™ÈH˜[ÙNÃBˆØ]]Õ\]K‘[˜X›YHYNÃBˆØ]]Õ\]K•^H¹èkº+©9¦í9¥¬ÃBˆØÛÜÙK‘[˜X›YHYNÃBˆÜ[™[›ÙÜ™\ÜË•š\ÚX›HH˜[ÙNÃBˆ™]\›ÃBˆCBƒBˆÜ›ÙÜ™\ÜĞ˜\‹•˜[YHHLÃBˆÛ››ÙÜ™\ÜË•^H¹."ú/oyk£9¢$;ï#9«hùg*9d+ùbª9¦í9¥¬9ê"ùn£Ë‹‹ˆÃBƒBˆ›ÛÛ][˜ÚYH\]U][Ë”[•\]R[\Š™]Ñ^T]
+NÃBƒBˆYˆ
+[][˜ÚY
+CBˆÃBˆY\ÜØYÙP›Ş”ÚİÊBˆ¹."‹ÛŞZèÎh‰KØnizk9^Y
+Ö*£šnÓšZÃ¢%ºŒà —ˆˆ
+ÃBˆ¹cëú ïy¦+È\]WÚ[\‹™^H9ï.¹i,y¢%º(ªù§`9©.‹ÚşK»nhºnhŠ®8%ÆåÆâ"°Ğ¢.Šßš&/–*£–&7–ú’â/¢ö÷¦†×’â/¢ö÷šZÃ&#šr°•á—¼Œè¦†ç›–æ—§ exe åé‡å¯ç¨‹åºã€‚",
                     "è‡ªåŠ¨æ›´æ–°å¤±è´¥", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 _isDownloading = false;
                 _btnAutoUpdate.Enabled = true;
-                _btnAutoUpdate.Text = "ç«‹å³ä¸‹è½½å¹¶æ›´æ–°";
-                _btnViewDownload.Enabled = true;
+                _btnAutoUpdate.Text = "ç¡®è®¤æ›´æ–°";
                 _btnClose.Enabled = true;
                 _panelProgress.Visible = false;
                 return;
             }
-
-            _updateLaunched = true;
 
             DialogResult = DialogResult.OK;
             Close();
         }
 
-        private void BtnViewDownload_Click(object? sender, EventArgs e)
-        {
-            try
-            {
-                string url = !string.IsNullOrEmpty(_info.DownloadUrl) ? _info.DownloadUrl : _info.PackageUrl;
-                if (!string.IsNullOrEmpty(url))
-                {
-                    Process.Start(new ProcessStartInfo
-                    {
-                        FileName = url,
-                        UseShellExecute = true
-                    });
-                }
-            }
-            catch { }
-        }
-
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            base.OnFormClosing(e);
-
-            if (_updateLaunched && !_isDownloading)
-            {
-                try
-                {
-                    Process.GetCurrentProcess().Kill();
-                }
-                catch { }
-            }
-        }
-
         private static string MarkdownToHtml(string md)
         {
             if (string.IsNullOrWhiteSpace(md))
-                return "<p style='color:#888'>æ— æ›´æ–°è¯´æ˜</p>";
+                return "<p style='color:#888'>æ— æ›´æ–°è¯´æ˜</pÃBƒBˆ˜\ˆ[™\ÈHY”™\XÙJ——ˆ‹—ˆŠK”Ü]
+	×‰ÊNÃBˆ˜\ˆ[H™]ÈŞ\İ[K•^”İš[™ĞZ[\Š
+NÃBˆ›ÛÛ[“\İH˜[ÙNÃBƒBˆ›Ü™XXÚ
+˜\ˆ˜]È[ˆ[™\ÊCBˆÃBˆ˜\ˆ[™HH˜]Ë•š[Q[™
 
-            var lines = md.Replace("\r\n", "\n").Split('\n');
-            var html = new System.Text.StringBuilder();
-            bool inList = false;
-
-            foreach (var raw in lines)
-            {
-                var line = raw.TrimEnd();
-
-                if (line.StartsWith("### "))
-                {
-                    if (inList) { html.Append("</ul>"); inList = false; }
-                    html.Append("<h4 style='color:#1a73e8;margin:14px 0 8px 0;font-size:14px;font-weight:bold;border-left:3px solid #1a73e8;padding-left:8px;'>");
-                    html.Append(System.Security.SecurityElement.Escape(line.Substring(4).Trim()));
-                    html.Append("</h4>");
-                    continue;
-                }
-
-                if (line.StartsWith("## "))
-                {
-                    if (inList) { html.Append("</ul>"); inList = false; }
-                    html.Append("<h3 style='color:#1a73e8;margin:16px 0 8px 0;font-size:16px;font-weight:bold;'>");
-                    html.Append(System.Security.SecurityElement.Escape(line.Substring(3).Trim()));
-                    html.Append("</h3>");
-                    continue;
-                }
-
-                if (line.StartsWith("- ") || line.StartsWith("* "))
-                {
-                    if (!inList) { html.Append("<ul style='margin:6px 0 6px 18px;padding:0;'>"); inList = true; }
-                    html.Append("<li style='margin:3px 0;line-height:1.6;'>");
-                    html.Append(InlineFormat(System.Security.SecurityElement.Escape(line.Substring(2).Trim())));
-                    html.Append("</li>");
+NÃBƒBˆYˆ
+[™K”İ\ÕÚ]
+ˆÈÈÈŠJCBˆÃBˆYˆ
+[“\İ
+HÈ[\[™
+İ[ˆŠNÈ[“\İH˜[ÙNÈCBˆ[\[™
+İ[OIØÛÛÜˆÌXMÌÙNÛX\™Ú[ŒMÙ›Û\Ú^™NŒMÙ›Û]ÙZYÚ˜›ÛØ›Ü™\‹[YŒÜÛÛYÌXMÌÙNÜY[™Ë[YÉÂ"“°Ğ¢‡FÖÂäVæB…7—7FVÒå6V7W&—G’å6V7W&—G”VÆVÖVçBäW66R†Æ–æRå7V'7G&–ærƒB’åG&–Ò‚’’“°Ğ¢‡FÖÂäVæB‚#ÂöƒCâ"“°Ğ¢6öçF–çVS°Ğ¢ĞĞ Ğ¢–b†Æ–æRå7F'G5v—F‚‚"22"’Ğ¢°Ğ¢–b†–äÆ—7B’²‡FÖÂäVæB‚#Â÷VÃâ"“²–äÆ—7BÒfÇ6S²ĞĞ¢‡FÖÂäVæB‚#Æƒ27G–ÆSÒv6öÆ÷#¢3s6Sƒ¶Ö&v–ã£g‚‡‚¶föçB×6—¦S£gƒ¶föçB×vV–v‡C¦&öÆC²sâ"“°Ğ¢‡FÖÂäVæB…7—7FVÒå6V7W&—G’å6V7W&—G”VÆVÖVçBäW66R†Æ–æRå7V'7G&–ærƒ2’åG&–Ò‚’’“°Ğ¢‡FÖÂäVæB‚#Âöƒ0ˆ¤ì4(€€€€€€€€€€€€€€€€€€€½¹Ñ¥¹Õ”ì4(€€€€€€€€€€€€€€€ô4(4(€€€€€€€€€€€€€€€¥˜€¡±¥¹”¹MÑ…ÉÑÍ]¥Ñ  ˆ´€ˆ¤ñğ±¥¹”¹MÑ…ÉÑÍ]¥Ñ  ˆ¨€ˆ¤¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€¥˜€ …¥¹1¥ÍĞ¤ì¡Ñµ°¹ÁÁ•¹ ˆñÕ°ÍÑå±”ôµ…É¥¸èÙÁà€À€ÙÁà€ÄáÁàíÁ…‘‘¥¹œèÀìœøˆ¤ì¥¹1¥ÍĞ€ôÑÉÕ”ìô4(€€€€€€€€€€€€€€€€€€€¡Ñµ°¹ÁÁ•¹ ˆñ±¤ÍÑå±”ôµ…É¥¸èÍÁà€Àí±¥¹”µ¡•¥¡ĞèÄ¸Øìœøˆ¤ì4(€€€€€€€€€€€€€€€€€€€¡Ñµ°¹ÁÁ•¹¡%¹±¥¹•½Éµ…Ğ¡MåÍÑ•´¹M•ÕÉ¥Ñä¹M•ÕÉ¥Ñå±•µ•¹Ğ¹Í…Á”¡±¥¹”¹MÕ‰ÍÑÉ¥¹œ È¤¹QÉ¥´ ¤¤¤¤ì4(€€€€€€€€€€€€€€€€€€€¡Ñµ°¹ÁÁ•¹ ˆğ½±¤");
                     continue;
                 }
 
@@ -361,30 +95,22 @@ namespace VirtualizationOpsTool.UI
                 if (inList) { html.Append("</ul>"); inList = false; }
                 html.Append("<p style='margin:6px 0;line-height:1.7;'>");
                 html.Append(InlineFormat(System.Security.SecurityElement.Escape(line)));
-                html.Append("</p>");
-            }
-
-            if (inList) html.Append("</ul>");
-            return html.ToString();
-        }
-
-        private static string InlineFormat(string text)
-        {
-            text = System.Text.RegularExpressions.Regex.Replace(
-                text, @"\*\*(.+?)\*\*", "<strong>$1</strong>");
-            text = System.Text.RegularExpressions.Regex.Replace(
-                text, @"`([^`]+)`",
-                "<span style='background:#f0f0f0;color:#d63384;padding:1px 6px;border-radius:3px;font-family:Consolas,monospace;font-size:13px'>$1</span>");
-            return text;
-        }
-
-        private static string BuildHtml(string bodyHtml)
-        {
-            return
-                "<!DOCTYPE html><html><head><meta charset='UTF-8'>" +
-                "<style>" +
-                "body{font-family:'Microsoft YaHei','Segoe UI',sans-serif;background:#fff;color:#333;padding:12px 16px;margin:0;font-size:14px;line-height:1.8;}" +
-                "</style></head><body>" + bodyHtml + "</body></html>";
-        }
-    }
-}
+                html.Append("</pŠNÃBˆCBƒBˆYˆ
+[“\İ
+H[\[™
+İ[ˆŠNÃBˆ™]\›ˆ[•Ôİš[™Ê
+NÃBˆCBƒBˆš]˜]Hİ]XÈİš[™È[›[™Q›Ü›X]
+İš[™È^
+CBˆÃBˆ^HŞ\İ[K•^”™Yİ[\‘^™\ÜÚ[ÛœË”™YÙ^”™\XÙJBˆ^—
+—
+ŠŠÏÊW
+—
+ˆ‹İ›Û™Ï‰OÜİ›Û™ÏˆŠNÃBˆ^HŞ\İ[K•^”™Yİ[\‘^™\ÜÚ[ÛœË”™YÙ^”™\XÙJBˆ^˜
+×˜JÊX‹BˆÜ[ˆİ[OIØ˜XÚÙÜ›İ[™ˆÙŒŒŒØÛÛÜˆÙŒÌÎÜY[™ÎŒ\œØ›Ü™\‹\˜Y]\ÎŒÜÙ›ÛY˜[Z[NÛÛœÛÛ\Ë[Û›ÜÜXÙNÙ›Û\Ú^™NŒLÜ	Ï‰OÜÜ[ˆŠNÃBˆ™]\›ˆ^ÃBˆCBƒBˆš]˜]Hİ]XÈİš[™ÈZ[[
+İš[™È›ÙR[
+CBˆÃBˆ™]\›ƒBˆQĞÕTH[[XYY]HÚ\œÙ]IÕU‹N	Ïˆˆ
+ÃBˆİ[Oˆˆ
+ÃBˆ˜›Ù^Ù›ÛY˜[Z[N‰ÓZXÜ›ÜÛÙXRZIË	ÔÙYÛÙHRIËØ[œË\Ù\šYØ˜XÚÙÜ›İ[™ˆÙ™™ØÛÛÜˆÌÌÌÎÜY[™ÎŒLœMœÛX\™Ú[ŒÙ›Û\Ú^™NŒMÛ[™KZZYÚŒKßHˆ
+ÃBˆÜİ[OÚXY›ÙOˆˆ
+È›ÙR[
+ÈØ›ÙOÚ[ˆÃBˆCBˆCBŸ
