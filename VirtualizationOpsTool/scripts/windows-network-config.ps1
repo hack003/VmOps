@@ -121,29 +121,14 @@ try {
 
 if ([string]::IsNullOrEmpty($verifyIp)) {
     try {
-        netsh interface ip show config name=$ifaceAlias 2>$null | ForEach-Object { Write-Host $_ }
-        $ipconfig = ipconfig 2>$null
-        Write-Host 'ipconfig output:'
-        Write-Host $ipconfig
-    } catch { }
-}
-
-$verifyDns = ''
-try {
-    $verifyDns = (Get-DnsClientServerAddress -InterfaceIndex $Idx -AddressFamily IPv4 -ErrorAction SilentlyContinue).ServerAddresses -join ', '
-} catch { }
-
-Write-Host '========== Config Complete =========='
-Write-Host ('IP: ' + $verifyIp)
-Write-Host ('DNS: ' + $verifyDns)
-
-if ($applied -and -not [string]::IsNullOrEmpty($verifyIp)) {
-    Write-Host 'Network config succeeded'
-    exit 0
-} elseif ($applied) {
-    Write-Host 'WARNING: Config commands succeeded but verified IP is empty, may need more time'
-    exit 0
-} else {
-    Write-Host 'ERROR: Network config did not take effect'
-    exit 1
-}
+        netsh interface ip show config name=$ifaceAlias 2	[›Ü‘XXÚSØš™XİÈÜš]KRÜİ	ÈCBˆ	\ÛÛ™šYÈH\ÛÛ™šYÈ‰[BˆÜš]KRÜİ	Ú\ÛÛ™šYÈİ]]‰ÃBˆÜš]KRÜİ	\ÛÛ™šYÃBˆHØ]ÚÈCBŸCBƒB‰™\šYQœÈH	ÉÃBHÃBˆ	™\šYQœÈH
+Ù]QœĞÛY[Ù\™\Y™\ÜÈR[\™˜XÙR[™^	YPY™\ÜÑ˜[Z[HTQ\œ›ÜXİ[ÛˆÚ[[PÛÛ[YJK”Ù\™\Y™\ÜÙ\ÈZ›Ú[ˆ	Ë	ÃBŸHØ]ÚÈCBƒB•Üš]KRÜİ	ÏOOOOOOOOOHÛÛ™šYÈÛÛ\]HOOOOOOOOOIÃB•Üš]KRÜİ
+	ÒTˆ	È
+È	™\šYR\
+CB•Üš]KRÜİ
+	Ñ”Îˆ	È
+È	™\šYQœÊCBƒBšYˆ
+	\YYX[™[›İÜİš[™×N’\Ó[Ü‘[\J	™\šYR\
+JHÃBˆÜš]KRÜİ	Ó™]ÛÜšÈÛÛ™šYÈİXØÙYYY	ÃBˆ^]BŸH[ÙZYˆ
+	\YY
+HÃBˆÜš]KRÜİ	ÕĞT“’S‘ÎˆÛÛ™šYÈÛÛ[X[™ÈİXØÙYYY]™\šYšYYT\È[\KX^H™YY[Ü™H[YIÃBˆ^]BŸH[ÙHÃBˆÜš]KRÜİ	ÑT”“Ôˆ™]ÛÜšÈÛÛ™šYÈY›İZÙHY™™Xİ	ÃBˆ^]CBŸ
