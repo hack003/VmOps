@@ -1,100 +1,16 @@
 // ============================================================================
-// èµ„æºæŸ¥è¯¢æ ‡ç­¾é¡µ - ä¸»æ–‡ä»¶ï¼ˆå­—æ®µå®šä¹‰ã€æ„é€ å‡½æ•°ã€UIæ„å»ºã€å­ç±»å‹åˆ‡æ¢ï¼‰
-// ============================================================================
-
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using VirtualizationOpsTool.Core;
-using VirtualizationOpsTool.Utils;
-
-namespace VirtualizationOpsTool.UI
-{
-    public partial class ResourceQueryTab
-    {
-        private readonly TabPage _parent;
-        private readonly Form _root;
-        private readonly Control _app;
-        private readonly string _queryType;
-        private readonly string _title;
-
-        private ListView? _listView;
-        private Button? _refreshBtn;
-        private Label? _statusLabel;
-        private TextBox? _searchBox;
-
-        private Dictionary<string, Button> _subtypeButtons = new Dictionary<string, Button>();
+// èµ„æºæ™z*.j~zÛ¦†Ô€´ƒ’âïšZ’îÛ¾ò#–¶_šº×–ºk’æ'šz¦ƒ–÷šVÃU'šz–îë–¶CÆï–z/–"š6‹¾ò$4(¼¼€ôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôô4(4)ÕÍ¥¹œMåÍÑ•´ì4)ÕÍ¥¹œMåÍÑ•´¹½±±•Ñ¥½¹Ì¹•¹•É¥Œì4)ÕÍ¥¹œMåÍÑ•´¹É…İ¥¹œì4)ÕÍ¥¹œMåÍÑ•´¹%<ì4)ÕÍ¥¹œMåÍÑ•´¹1¥¹Äì4)ÕÍ¥¹œMåÍÑ•´¹Q•áĞì4)ÕÍ¥¹œMåÍÑ•´¹Q¡É•…‘¥¹œ¹Q…Í­Ìì4)ÕÍ¥¹œMåÍÑ•´¹]¥¹‘½İÌ¹½ÉµÌì4)ÕÍ¥¹œY¥ÉÑÕ…±¥é…Ñ¥½¹=ÁÍQ½½°¹½É”ì4)ÕÍ¥¹œY¥ÉÑÕ…±¥é…Ñ¥½¹=ÁÍQ½½°¹UÑ¥±Ìì4(4)¹…µ•ÍÁ…”Y¥ÉÑÕ…±¥é…Ñ¥½¹=ÁÍQ½½°¹U$4)ì4(€€€ÁÕ‰±¥ŒÁ…ÉÑ¥…°±…ÍÌI•Í½ÕÉ•EÕ•ÉåQ…ˆ4(€€€ì4(€€€€€€€ÁÉ¥Ù…Ñ”É•…‘½¹±äQ…‰A…”}Á…É•¹Ğì4(€€€€€€€ÁÉ¥Ù…Ñ”É•…‘½¹±ä½É´}É½½Ğì4(€€€€€€€ÁÉ¥Ù…Ñ”É•…‘½¹±ä½¹ÑÉ½°}…ÁÀì4(€€€€€€€ÁÉ¥Ù…Ñ”É•…‘½¹±äÍÑÉ¥¹œ}ÅÕ•ÉåQåÁ”ì4(€€€€€€€ÁÉ¥Ù…Ñ”É•…‘½¹±äÍÑÉ¥¹œ}Ñ¥Ñ±”ì4(4(€€€€€€€ÁÉ¥Ù…Ñ”1¥ÍÑY¥•Üü}±¥ÍÑY¥•Üì4(€€€€€€€ÁÉ¥Ù…Ñ”	ÕÑÑ½¸ü}É•™É•Í¡	Ñ¸ì4(€€€€€€€ÁÉ¥Ù…Ñ”1…‰•°ü}ÍÑ…ÑÕÍ1…‰•°ì4(€€€€€€€ÁÉ¥Ù…Ñ”Q•áÑ	½àü}Í•…É¡	½àì4(4(€€€€€€€ÁÉ¥Ù…Ñ”¥Ñ¥½¹…ÉäñÍÑÉ¥¹œ°	ÕÑÑ½¸ø}ÍÕ‰ÑåÁ•	ÕÑÑ½¹Ì€ô¹•Ü¥Ñ¥½¹…ÉäñÍÑÉ¥¹œ°	ÕÑÑ½¸();
         private string _currentSubtype = "";
 
-        private List<string> _columns = new List<string>();
-        private List<List<string>> _rows = new List<List<string>>();
-        private List<List<string>> _allRowValues = new List<List<string>>();
-        private Dictionary<string, SubtypeCacheItem> _subtypeCache = new Dictionary<string, SubtypeCacheItem>();
-        private HashSet<string> _subtypeQueried = new HashSet<string>();
-
-        private string _sortColumn = "";
-        private bool _sortAsc = true;
-        private bool _columnsAutoResized = false; // æ ‡è®°åˆ—å®½æ˜¯å¦å·²è®¡ç®—è¿‡
-
-        private DateTime _queryStartTime;
-        private int _timeoutSec = 90;
-
-        private ContextMenuStrip? _contextMenu;
-
-        private static readonly List<(string key, string label)> VmSubtypes = new List<(string, string)>
-        {
-            ("vm", "è™šæ‹Ÿæœº"),
+        private List<stringØÛÛ[[œÈH™]È\İİš[™ÏŠ
+NÃBˆš]˜]H\İ\İİš[™Ãâ÷&÷w2ÒæWrÆ—7CÄÆ—7CÇ7G&–æsãâ‚“°Ğ¢&—fFRÆ—7CÄÆ—7CÇ7G&–æsãâöÆÅ&÷ufÇVW2ÒæWrÆ—7CÄÆ—7CÇ7G&–æsãâ‚“°Ğ¢&—fFRF–7F–öæ'“Ç7G&–ærÂ7V'G—T66†T—FVÓâ÷7V'G—T66†RÒæWrF–7F–öæ'“Ç7G&–ærÂ7V'G—T66†T—FVÓâ‚“°Ğ¢&—fFR†6…6WCÇ7G&–æsâ÷7V'G—UVW&–VBÒæWr†6…6WCÇ7G&–æsâ‚“°Ğ Ğ¢&—fFR7G&–ær÷6÷'D6öÇVÖâÒ"#°Ğ¢&—fFR&ööÂ÷6÷'D62ÒG'VS°Ğ¢&—fFR&ööÂö6öÇVÖç4WFõ&W6—¦VBÒfÇ6S²òòjbºÃ–"U®½æ˜­d)¹mìº+¨yë¥‹øpĞ Ğ¢&—fFRFFUF–ÖR÷VW'•7F'EF–ÖS°Ğ¢&—fFR–çB÷F–ÖV÷WE6V2Ò“°Ğ Ğ¢&—fFR6öçFW‡DÖVçU7G&—òö6öçFW‡DÖVçS°Ğ Ğ¢&—fFR7FF–2&VFöæÇ’Æ—7CÂ‡7G&–ær¶W’Â7G&–ærÆ&VÂYµMÕ‰ÑåÁ•Ì€ô¹•Ü1¥ÍĞğ¡ÍÑÉ¥¹œ°ÍÑÉ¥¹œ¤ø4(€€€€€€€ì4(€€€€€€€€€€€€ ‰Ù´ˆ°€‹¢fkš.vœº"),
             ("template", "æ¨¡æ¿"),
         };
 
-        private static readonly Dictionary<string, List<string>> PresetColumns = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase)
-        {
-            { "vm_vm",       new List<string> { "Id","Name","PowerState","NumCpu","MemoryGB","IPAddress","VMHost","ResourcePool","Datastore","GuestOS" } },
-            { "vm_template", new List<string> { "Id","Name","MemoryGB","NumCpu" } },
-            { "host",        new List<string> { "Id","Name","ConnectionState","NumCpu","CpuUsagePercent","MemoryGB","MemoryUsagePercent","ProductVersion" } },
-            { "datastore",   new List<string> { "Id","Name","CapacityGB","FreeSpaceGB","UsedPercent","Type" } },
-            { "network",     new List<string> { "Id","Name","PortGroupType","VDSwitch","VLAN","NumPorts","NumPortsAvailable" } },
-            { "template",    new List<string> { "Id","Name","MemoryGB","NumCpu" } },
-        };
-
-        private static readonly Dictionary<string, string> TitleMap = new Dictionary<string, string>
-        {
-            { "vm", "è™šæ‹Ÿæœºåˆ—è¡¨" },
-            { "host", "ä¸»æœºåˆ—è¡¨" },
-            { "datastore", "å­˜å‚¨åˆ—è¡¨" },
-            { "network", "ç½‘ç»œåˆ—è¡¨" },
-            { "template", "æ¨¡æ¿åˆ—è¡¨" },
-        };
-
-        private const string PsWaitTaskFunc = @"function Wait-Task($task, $label) {
-    $InformationPreference = 'Continue'
-    $lastProgress = -1
-    while ($true) {
-        Start-Sleep -Seconds 1
-        $t = Get-View -Id $task -Property Info.State,Info.Progress,Info.Error,Info.Result -ErrorAction SilentlyContinue
-        if (-not $t) { continue }
-        $p = $t.Info.Progress
-        if ($p -ne $null -and $p -ne $lastProgress) { Write-Information ('PROGRESS:' + $label + ':' + $p); $lastProgress = $p }
-        if ($t.Info.State -eq 'success') {
-            $result = $t.Info.Result
-            if ($result -and $result.Value) { Write-Information ('RESULT:' + $label + ':' + $result.Value) }
-            if ($lastProgress -lt 100) { Write-Information ('PROGRESS:' + $label + ':100') }
-            Write-Information ('DONE:' + $label); return $true
-        }
-        if ($t.Info.State -eq 'error') { $err = $t.Info.Error; Write-Information ('ERROR:' + $label + ':' + $err.LocalizedMessage); throw ($err.LocalizedMessage + ' | ' + $err.Message) }
-    }
-}
-";
-
-        private class SubtypeCacheItem
-        {
-            public List<string> Columns { get; set; } = new List<string>();
-            public List<List<string>> Rows { get; set; } = new List<List<string>>();
+        private static readonly Dictionary<string, List<stringˆ™\Ù]ÛÛ[[œÈH™]ÈXİ[Û˜\Oİš[™Ë\İİš[™Ï‚…7G&–æt6ö×&W"ä÷&F–æÄ–væ÷&T66RĞ¢°Ğ¢²'fÕ÷fÒ"ÂæWrÆ—7CÇ7G&–æsâ²$–B"Â$æÖR"Â%÷vW%7FFR"Â$çVÔ7R"Â$ÖVÖ÷'”t""Â$•FG&W72"Â%dÔ†÷7B"Â%&W6÷W&6UööÂ"Â$FF7F÷&R"Â$wVW7Dõ2"ÒÒÀĞ¢²'fÕ÷FV×ÆFR"ÂæWrÆ—7CÇ7G&–æpì€‰%ˆ°‰9…µ”ˆ°‰5•µ½Éåˆ°‰9ÕµÁÔˆôô°4(€€€€€€€€€€€ì€‰¡½ÍĞˆ°€€€€€€€¹•Ü1¥ÍĞñÍÑÉ¥¹œøì€‰%ˆ°‰9…µ”ˆ°‰½¹¹•Ñ¥½¹MÑ…Ñ”ˆ°‰9ÕµÁÔˆ°‰ÁÕUÍ…•A•É•¹Ğˆ°‰5•µ½Éåˆ°‰5•µ½ÉåUÍ…•A•É•¹Ğˆ°‰AÉ½‘ÕÑY•ÉÍ¥½¸ˆôô°4(€€€€€€€€€€€ì€‰‘…Ñ…ÍÑ½É”ˆ°€€¹•Ü1¥ÍĞñÍÑÉ¥¹œ { "Id","Name","CapacityGB","FreeSpaceGB","UsedPercent","Type" } },
+            { "network",     new List<stringÈ’Y‹“˜[YH‹”ÜÜ›İ\\H‹•‘İÚ]Ú‹•“Sˆ‹“[TÜÈ‹“[TÜĞ]˜Z[X›HˆHKBˆÈ[\]H‹™]È\İİš[™ÏˆÈ’Y‹“˜[YH‹“Y[[ÜQĞˆ‹“[PÜHˆHKBˆNÃBƒBˆš]˜]Hİ]XÈ™XYÛ›HXİ[Û˜\Oİš[™Ëİš[™Ïˆ]SX\H™]ÈXİ[Û˜\Oİš[™Ëİš[™ÏƒBˆÃBˆÈ›H‹º&f¹¢çù§.¹b%ú(jˆKBˆÈšÜİ‹¹..iË®X‰b† ˆô°4(€€€€€€€€€€€ì€‰‘…Ñ…ÍÑ½É”ˆ°€‹–¶c–
+£–"_¢† ˆô°4(€€€€€€€€€€€ì€‰¹•Ñİ½É¬ˆ°€‹öGîs–"X¡¨" },
+            { "template", "æ¨¡æ½b%Š‚"ÒÀĞ¢Ó°Ğ Ğ¢&—fFR6öç7B7G&–ær5v—EF6´gVæ2Ò&gVæ7F–öâv—BÕF6²‚GF6²ÂFÆ&VÂ’°Ğ¢D–æf÷&ÖF–öå&VfW&Væ6RÒt6öçF–çVRpĞ¢FÆ7E&öw&W72ÒÓĞ¢v†–ÆR‚GG'VR’°Ğ¢7F'BÕ6ÆVWÕ6V6öæG2Ğ¢GBÒvWBÕf–WrÔ–BGF6²Õ&÷W'G’–æfòå7FFRÄ–æfòå&öw&W72Ä–æfòäW'&÷"Ä–æfòå&W7VÇBÔW'&÷$7F–öâ6–ÆVçFÇ”6öçF–çVPĞ¢–b‚Öæ÷BGB’²6öçF–çVRĞĞ¢GÒGBä–æfòå&öw&W70Ğ¢–b‚GÖæRFçVÆÂÖæBGÖæRFÆ7E&öw&W72’²w&—FRÔ–æf÷&ÖF–öâ‚u$ôu$U53¢r²FÆ&VÂ²s¢r²G“²FÆ7E&öw&W72ÒGĞĞ¢–b‚GBä–æfòå7FFRÖWw7V66W72r’°Ğ¢G&W7VÇBÒGBä–æfòå&W7VÇ@Ğ¢–b‚G&W7VÇBÖæBG&W7VÇBåfÇVR’²w&—FRÔ–æf÷&ÖF–öâ‚u$U5TÅC¢r²FÆ&VÂ²s¢r²G&W7VÇBåfÇVR’ĞĞ¢–b‚FÆ7E&öw&W72ÖÇB’²w&—FRÔ–æf÷&ÖF–öâ‚u$ôu$U53¢r²FÆ&VÂ²s£r’ĞĞ¢w&—FRÔ–æf÷&ÖF–öâ‚tDôäS¢r²FÆ&VÂ“²&WGW&âGG'VPĞ¢ĞĞ¢–b‚GBä–æfòå7FFRÖWvW'&÷"r’²FW'"ÒGBä–æfòäW'&÷#²w&—FRÔ–æf÷&ÖF–öâ‚tU%$õ#¢r²FÆ&VÂ²s¢r²FW'"äÆö6Æ—¦VDÖW76vR“²F‡&÷r‚FW'"äÆö6Æ—¦VDÖW76vR²rÂr²FW'"äÖW76vR’ĞĞ¢ĞĞ§ĞĞ¢#°Ğ Ğ¢&—fFR6Æ727V'G—T66†T—FVĞĞ¢°Ğ¢V&Æ–2Æ—7CÇ7G&–æsâ6öÇVÖç2²vWC²6WC²ÒÒæWrÆ—7CÇ7G&–æsâ‚“°Ğ¢V&Æ–2Æ—7CÄÆ—7CÇ7G&–æpøI½İÌì•ĞìÍ•Ğìô€ô¹•Ü1¥ÍĞñ1¥ÍĞñÍÑÉ¥¹œø();
             public string DispName { get; set; } = "";
             public int ElapsedMs { get; set; }
         }
@@ -201,51 +117,15 @@ namespace VirtualizationOpsTool.UI
 
             var lblSearchHint = new Label
             {
-                Text = "æŒ‰å›è½¦è¿‡æ»¤", AutoSize = true,
-                ForeColor = ColorTranslator.FromHtml("#888888"),
-                Font = new Font("Microsoft YaHei", 8),
-                Margin = new Padding(2, 6, 2, 2)
-            };
-            searchPanel.Controls.Add(lblSearchHint);
-            toolbar.Controls.Add(searchPanel);
-
-            var btnExport = new Button
-            {
-                Text = "å¯¼å‡º", Font = new Font("Microsoft YaHei", 10), FlatStyle = FlatStyle.Standard,
-                AutoSize = true,
-                MinimumSize = new Size(90, 0),
-                Margin = new Padding(2)
-            };
-            btnExport.Click += (s, e) => ExportCsv();
-            toolbar.Controls.Add(btnExport);
-
-            _statusLabel = new Label
-            {
-                Text = "ç‚¹å‡»ã€Œåˆ·æ–°ã€æŒ‰é’®åŠ è½½æ•°æ®", ForeColor = ColorTranslator.FromHtml("#888888"), Font = new Font("Microsoft YaHei", 9), AutoSize = true,
-                Dock = DockStyle.Top,
-                Padding = new Padding(0, 4, 0, 4)
-            };
-
-            var treeContainer = new Panel
-            {
-                Dock = DockStyle.Fill, BorderStyle = BorderStyle.FixedSingle
-            };
-
-            _listView = new NonEditableListView
-            {
-                Dock = DockStyle.Fill, Font = new Font("Microsoft YaHei", 9), FullRowSelect = true,
-                GridLines = true,
-                View = View.Details,
-                MultiSelect = true,
-                HeaderStyle = ColumnHeaderStyle.Clickable,
-                LabelEdit = false
-            };
-
-            _listView.ColumnClick += ListView_ColumnClick;
-            _listView.BeforeLabelEdit += ListView_BeforeLabelEdit;
-            _listView.MouseDoubleClick += ListView_MouseDoubleClick;
-            _listView.SizeChanged += ListView_SizeChanged;
-            _listView.SelectedIndexChanged += (s, e) => RefreshStatusBar();
+                Text = "æŒ‰å›è½¦è¿…®é‹]]ÔÚ^™HHYKBˆ›Ü™PÛÛÜˆHÛÛÜ•˜[œÛ]Ü‹‘œ›ÛR[
+ˆÎŠKBˆ›ÛH™]È›Û
+“ZXÜ›ÜÛÙXRZH‹
+KBˆX\™Ú[ˆH™]ÈY[™Ê‹‹‹ŠCBˆNÃBˆÙX\˜Ú[™[ÛÛ›ÛËY
+›ÙX\˜Ú[
+NÃBˆÛÛ˜\‹ÛÛ›ÛËY
+ÙX\˜Ú[™[
+NÃBƒBˆ˜\ˆ‘^ÜH™]È]ÛƒBˆÃBˆ^H¹kÎX{¢"ÂföçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â’ÂfÆE7G–ÆRÒfÆE7G–ÆRå7FæF&BÀĞ¢WFõ6—¦RÒG'VRÀĞ¢Ö–æ–×VÕ6—¦RÒæWr6—¦Rƒ“Â’ÀĞ¢Ö&v–âÒæWrFF–ærƒ"Ğ¢Ó°Ğ¢'FäW‡÷'Bä6Æ–6²³Ò‡2ÂR’ĞáÁ½ÉÑÍØ ¤ì4(€€€€€€€€€€€Ñ½½±‰…È¹½¹ÑÉ½±Ì¹‘¡‰Ñ¹áÁ½ÉĞ¤ì4(4(€€€€€€€€€€€}ÍÑ…ÑÕÍ1…‰•°€ô¹•Ü1…‰•°4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Q•áĞ€ô€‹
+ç–ï3–"ßšZÃ7š2'¦J»–*ƒ¢ö÷šVÃš6¸ˆ°½É•½±½È€ô½±½ÉQÉ…¹Í±…Ñ½È¹É½µ!Ñµ° ˆŒààààààˆ¤°½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ä¤°ÕÑ½M¥é”€ôÑÉÕ”°4(€€€€€€€€€€€€€€€½¬€ô½­MÑå±”¹Q½À°4(€€€€€€€€€€€€€€€A…‘‘¥¹œ€ô¹•ÜA…‘‘¥¹œ À°€Ğ°€À°€Ğ¤4(€€€€€€€€€€€ôì4(4(€€€€€€€€€€€Ù…ÈÑÉ••½¹Ñ…¥¹•È€ô¹•ÜA…¹•°4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€½¬€ô½­MÑå±”¹¥±°°	½É‘•ÉMÑå±”€ô	½É‘•ÉMÑå±”¹¥á•‘M¥¹±”4(€€€€€€€€€€€ôì4(4(€€€€€€€€€€€}±¥ÍÑY¥•Ü€ô¹•Ü9½¹‘¥Ñ…‰±•1¥ÍÑY¥•Ü4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€½¬€ô½­MÑå±”¹¥±°°½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ä¤°Õ±±I½İM•±•Ğ€ôÑÉÕ”°4(€€€€€€€€€€€€€€€É¥‘1¥¹•Ì€ôÑÉÕ”°4(€€€€€€€€€€€€€€€Y¥•Ü€ôY¥•Ü¹•Ñ…¥±Ì°4(€€€€€€€€€€€€€€€5Õ±Ñ¥M•±•Ğ€ôÑÉÕ”°4(€€€€€€€€€€€€€€€!•…‘•ÉMÑå±”€ô½±Õµ¹!•…‘•ÉMÑå±”¹±¥­…‰±”°4(€€€€€€€€€€€€€€€1…‰•±‘¥Ğ€ô™…±Í”4(€€€€€€€€€€€ôì4(4(€€€€€€€€€€€}±¥ÍÑY¥•Ü¹½±Õµ¹±¥¬€¬ô1¥ÍÑY¥•İ}½±Õµ¹±¥¬ì4(€€€€€€€€€€€}±¥ÍÑY¥•Ü¹	•™½É•1…‰•±‘¥Ğ€¬ô1¥ÍÑY¥•İ}	•™½É•1…‰•±‘¥Ğì4(€€€€€€€€€€€}±¥ÍÑY¥•Ü¹5½ÕÍ•½Õ‰±•±¥¬€¬ô1¥ÍÑY¥•İ}5½ÕÍ•½Õ‰±•±¥¬ì4(€€€€€€€€€€€}±¥ÍÑY¥•Ü¹M¥é•¡…¹•€¬ô1¥ÍÑY¥•İ}M¥é•¡…¹•ì4(€€€€€€€€€€€}±¥ÍÑY¥•Ü¹M•±•Ñ•‘%¹‘•á¡…¹•€¬ô€¡Ì°”¤€ô RefreshStatusBar();
 
             treeContainer.Controls.Add(_listView);
 
@@ -360,56 +240,8 @@ namespace VirtualizationOpsTool.UI
                 if (SessionManager.Instance.IsConnected)
                 {
                     _subtypeQueried.Add(key);
-                    LogMessage("ä¿¡æ¯", $"åˆ‡æ¢åˆ°ã€{_title}ã€‘ï¼Œè‡ªåŠ¨å¼€å§‹æŸ¥è¯¢â€¦");
-                    DoQuery();
-                }
-            }
-            catch { }
-        }
-
-        private void SetupContextMenu()
-        {
-            _contextMenu = new ContextMenuStrip();
-
-            if (_listView != null)
-            {
-                _listView.MouseDown += (s, e) =>
-                {
-                    if (e.Button == MouseButtons.Right)
-                    {
-                        ShowContextMenu(e.Location);
-                    }
-                };
-            }
-        }
-
-        private void ShowContextMenu(Point location)
-        {
-            if (_contextMenu == null || _listView == null) return;
-
-            _contextMenu.Items.Clear();
-
-            ListViewItem? item = null;
-            try
-            {
-                var hitTest = _listView.HitTest(location);
-                item = hitTest.Item;
-            }
-            catch { }
-
-            if (item != null)
-            {
-                // å¦‚æœå³é”®ç‚¹å‡»çš„é¡¹æœªè¢«é€‰ä¸­ï¼Œåˆ™åªé€‰ä¸­è¯¥é¡¹ï¼›å¦åˆ™ä¿æŒå½“å‰å¤šé€‰çŠ¶æ€
-                if (!item.Selected)
-                {
-                    _listView.SelectedItems.Clear();
-                    item.Selected = true;
-                }
-            }
-
-            var selectedRow = item != null ? GetItemRowValues(item) : null;
-            
-            var selectedRows = new List<List<string>>();
+                    LogMessage("ä¸y kÈ‹	¹b!ù£h¹b,8à$×İ]_xà${ÈÎˆz®Xª[ÈZxš~—¢¾‹Š˜ˆ¤ì4(€€€€€€€€€€€€€€€€€€€½EÕ•Éä ¤ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€ô4(€€€€€€€€€€€…Ñ ìô4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥M•ÑÕÁ½¹Ñ•áÑ5•¹Ô ¤4(€€€€€€€ì4(€€€€€€€€€€€}½¹Ñ•áÑ5•¹Ô€ô¹•Ü½¹Ñ•áÑ5•¹ÕMÑÉ¥À ¤ì4(4(€€€€€€€€€€€¥˜€¡}±¥ÍÑY¥•Ü€„ô¹Õ±°¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€}±¥ÍÑY¥•Ü¹5½ÕÍ•½İ¸€¬ô€¡Ì°”¤€ôø4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€¥˜€¡”¹	ÕÑÑ½¸€ôô5½ÕÍ•	ÕÑÑ½¹Ì¹I¥¡Ğ¤4(€€€€€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€€€€€M¡½İ½¹Ñ•áÑ5•¹Ô¡”¹1½…Ñ¥½¸¤ì4(€€€€€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€ôì4(€€€€€€€€€€€ô4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥M¡½İ½¹Ñ•áÑ5•¹Ô¡A½¥¹Ğ±½…Ñ¥½¸¤4(€€€€€€€ì4(€€€€€€€€€€€¥˜€¡}½¹Ñ•áÑ5•¹Ô€ôô¹Õ±°ñğ}±¥ÍÑY¥•Ü€ôô¹Õ±°¤É•ÑÕÉ¸ì4(4(€€€€€€€€€€€}½¹Ñ•áÑ5•¹Ô¹%Ñ•µÌ¹±•…È ¤ì4(4(€€€€€€€€€€€1¥ÍÑY¥•İ%Ñ•´ü¥Ñ•´€ô¹Õ±°ì4(€€€€€€€€€€€ÑÉä4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Ù…È¡¥ÑQ•ÍĞ€ô}±¥ÍÑY¥•Ü¹!¥ÑQ•ÍĞ¡±½…Ñ¥½¸¤ì4(€€€€€€€€€€€€€€€¥Ñ•´€ô¡¥ÑQ•ÍĞ¹%Ñ•´ì4(€€€€€€€€€€€ô4(€€€€€€€€€€€…Ñ ìô4(4(€€€€€€€€€€€¥˜€¡¥Ñ•´€„ô¹Õ±°¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€¼¼ƒ–ššzs–>Ï¦R»
+ç–ïj¦†çšr«¢Š¯¦'’â·¾ò3–"g–>«¦'’â·¢¾—¦†ç¾òo–B›–"g’şwš2–öO–&7–’k¦'*Ûš4(€€€€€€€€€€€€€€€¥˜€ …¥Ñ•´¹M•±•Ñ•¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€}±¥ÍÑY¥•Ü¹M•±•Ñ•‘%Ñ•µÌ¹±•…È ¤ì4(€€€€€€€€€€€€€€€€€€€¥Ñ•´¹M•±•Ñ•€ôÑÉÕ”ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€Ù…ÈÍ•±•Ñ•‘I½Ü€ô¥Ñ•´€„ô¹Õ±°€ü•Ñ%Ñ•µI½İY…±Õ•Ì¡¥Ñ•´¤€è¹Õ±°ì4(€€€€€€€€€€€€4(€€€€€€€€€€€Ù…ÈÍ•±•Ñ•‘I½İÌ€ô¹•Ü1¥ÍĞñ1¥ÍĞñÍÑÉ¥¹œ>();
             foreach (ListViewItem selItem in _listView.SelectedItems)
             {
                 var rowVals = GetItemRowValues(selItem);
@@ -420,121 +252,70 @@ namespace VirtualizationOpsTool.UI
             var supportedTypes = new[] { "vm", "host", "datastore", "network", "template" };
             if (supportedTypes.Contains(_queryType) && item != null && _currentSubtype != "spec")
             {
-                _contextMenu.Items.Add(new ToolStripMenuItem("ğŸ“‹ è¯¦ç»†ä¿¡æ¯", null, (s, e) => ShowDetailFromItem(item)));
-                _contextMenu.Items.Add(new ToolStripSeparator());
-            }
-
-            if (_queryType == "vm" && _currentSubtype == "template" && selectedRow != null)
-            {
-                _contextMenu.Items.Add(new ToolStripMenuItem("âœ é‡å‘½åæ¨¡æ¿", null, (s, e) => RenameTemplate(selectedRow)));
-                _contextMenu.Items.Add(new ToolStripMenuItem("ğŸ“ ç¼–è¾‘å¤‡æ³¨", null, (s, e) => EditVmNotes(selectedRow)));
-                _contextMenu.Items.Add(new ToolStripMenuItem("ğŸ—‘ åˆ é™¤æ¨¡æ¿", null, (s, e) => DeleteTemplate(selectedRow)));
-                _contextMenu.Items.Add(new ToolStripMenuItem("ğŸ”„ è½¬ä¸ºè™šæ‹Ÿæœº", null, (s, e) => ConvertTemplateToVm(selectedRow)));
+                _contextMenu.Items.Add(new ToolStripMenuItem("ğŸ“‹ è©¹îá¹.hò"ÂçVÆÂÂ‡2ÂR’ĞM¡½İ•Ñ…¥±É½µ%Ñ•´¡¥Ñ•´¤¤¤ì4(€€€€€€€€€€€€€€€}½¹Ñ•áÑ5•¹Ô¹%Ñ•µÌ¹‘¡¹•ÜQ½½±MÑÉ¥ÁM•Á…É…Ñ½È ¤¤ì4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€¥˜€¡}ÅÕ•ÉåQåÁ”€ôô€‰Ù´ˆ€˜˜}ÕÉÉ•¹ÑMÕ‰ÑåÁ”€ôô€‰Ñ•µÁ±…Ñ”ˆ€˜˜Í•±•Ñ•‘I½Ü€„ô¹Õ±°¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€}½¹Ñ•áÑ5•¹Ô¹%Ñ•µÌ¹‘¡¹•ÜQ½½±MÑÉ¥Á5•¹Õ%Ñ•´ ‹Šr<ƒ¦7–F÷–B7š¢‡švüˆ°¹Õ±°°€¡Ì°”¤€ô RenameTemplate(selectedRow)));
+                _contextMenu.Items.Add(new ToolStripMenuItem("ğŸ“ ç¼–è¤yi!k:‚"ÂçVÆÂÂ‡2ÂR’ÓâVF—EfÔæ÷FW2‡6VÆV7FVE&÷r’’“°Ğ¢ö6öçFW‡DÖVçRä—FV×2äFB†æWrFööÅ7G&—ÖVçT—FVÒ‚/	^Dƒ–"ƒ¦f“š¢‡švüˆ°¹Õ±°°€¡Ì°”¤€ôø•±•Ñ•Q•µÁ±…Ñ”¡Í•±•Ñ•‘I½Ü¤¤¤ì4(€€€€€€€€€€€€€€€}½¹Ñ•áÑ5•¹Ô¹%Ñ•µÌ¹‘¡¹•ÜQ½½±MÑÉ¥Á5•¹Õ%Ñ•´ ‹Â~Rƒ¢ö³’âë¢fkš.šrèˆ°¹Õ±°°€¡Ì°”¤€ô ConvertTemplateToVm(selectedRow)));
                 _contextMenu.Items.Add(new ToolStripSeparator());
             }
 
             if (_queryType == "vm" && _currentSubtype != "spec" && _currentSubtype != "template" && selectedRow != null)
             {
-                var remoteMenu = new ToolStripMenuItem("ğŸŒ è¿œç¨‹è¿æ¥");
-                remoteMenu.DropDownItems.Add("ğŸ–¥ VMRC è¿æ¥", null, (s, e) => VmrcConnect(selectedRow));
-                remoteMenu.DropDownItems.Add("ğŸ–¥ RDP è¿æ¥", null, (s, e) => RdpConnect(selectedRow));
-                remoteMenu.DropDownItems.Add("ğŸ”§ SSH è¿æ¥ (MobaXterm)", null, (s, e) => SshConnectToVm(selectedRow));
-                _contextMenu.Items.Add(remoteMenu);
-                _contextMenu.Items.Add(new ToolStripSeparator());
-            }
-
-            if (_queryType == "host" && selectedRow != null)
-            {
-                _contextMenu.Items.Add(new ToolStripMenuItem("ğŸ”§ SSH è¿æ¥ (MobaXterm)", null, (s, e) => SshConnectToHost(selectedRow)));
-                _contextMenu.Items.Add(new ToolStripMenuItem("ğŸŒ ä½¿ç”¨ Web æ‰“å¼€ç®¡ç†åœ°å€", null, (s, e) => OpenHostWebConsole(selectedRow)));
+                var remoteMenu = new ToolStripMenuItem("ğ“$:/ç9ê"ú/ç¹£©HŠNÃBˆ™[[İSY[K‘›ÜİÛ’][\ËY
+¼'å©H“TÈ:-îhêR"ÂçVÆÂÂ‡2ÂR’ĞYµÉ½¹¹•Ğ¡Í•±•Ñ•‘I½Ü¤¤ì4(€€€€€€€€€€€€€€€É•µ½Ñ•5•¹Ô¹É½Á½İ¹%Ñ•µÌ¹‘ ‹ÂV¥ RDP è·¹£©H‹[
+ËJHB&G6öææV7B‡6VÆV7FVE&÷r’“°Ğ¢&VÖ÷FTÖVçRäG&÷F÷vä—FV×2äFB‚/	ùJr54‚‹ùîhêR„Öö&‡FW&Ò’"ÂçVÆÂÂ‡2ÂR’Óâ76„6öææV7EFõfÒ‡6VÆV7FVE&÷r’“°Ğ¢ö6öçFW‡DÖVçRä—FV×2äFB‡&VÖ÷FTÖVçR“°Ğ¢ö6öçFW‡DÖVçRä—FV×2äFB†æWrFööÅ7G&—6W&F÷"‚’“°Ğ¢ĞĞ Ğ¢–b…÷VW'•G—RÓÒ&†÷7B"bb6VÆV7FVE&÷rÒçVÆÂĞ¢°Ğ¢ö6öçFW‡DÖVçRä—FV×2äFB†æWrFööÅ7G&—ÖVçT—FVÒ‚/	ùJr54‚‹ùîhêR„Öö&‡FW&Ò’"ÂçVÆÂÂ‡2ÂR’Óâ76„6öææV7EFô†÷7B‡6VÆV7FVE&÷r’’“°Ğ¢ö6öçFW‡DÖVçRä—FV×2äFB†æWrFööÅ7G&—ÖVçT—FVÒ‚/	øÉKÛŞR ]•ˆƒš&O–òº‡B–rÃ–v ˆ°¹Õ±°°€¡Ì°”¤€ô OpenHostWebConsole(selectedRow)));
                 _contextMenu.Items.Add(new ToolStripSeparator());
             }
 
             if (_queryType == "vm" && _currentSubtype != "spec" && _currentSubtype != "template" && selectedRow != null)
             {
                 var powerMenu = new ToolStripMenuItem("ğŸŸ¢ ç”µæºç®¡ç†");
-                powerMenu.DropDownItems.Add("â–¶ æ‰“å¼€ç”µæº", null, (s, e) => PowerOnVm(selectedRow));
-                powerMenu.DropDownItems.Add("â–  å…³é—­å®¢æˆ·æœº", null, (s, e) => PowerOffVm(selectedRow));
-                powerMenu.DropDownItems.Add("âœ– å…³é—­ç”µæº", null, (s, e) => PowerOffVmForce(selectedRow));
+                powerMenu.DropDownItems.Add("â–¶ æ‰“å¼€ç”µæº", null, (s, e) =İÙ\“Û•›JÙ[XİY›İÊJNÃBˆİÙ\“Y[K‘›ÜİÛ’][\ËY
+¸¥¨9al™zŞZê.h‹Zrèˆ°¹Õ±°°€¡Ì°”¤€ôøA½İ•É=™™Y´¡Í•±•Ñ•‘I½Ü¤¤ì4(€€€€€€€€€€€€€€€Á½İ•É5•¹Ô¹É½Á½İ¹%Ñ•µÌ¹‘ ‹ŠrXƒ–Ï¦^·R×šê@ˆ°¹Õ±°°€¡Ì°”¤€ô PowerOffVmForce(selectedRow));
                 powerMenu.DropDownItems.Add("â†» é‡ç½®ç”µæº", null, (s, e) => RestartVm(selectedRow));
                 _contextMenu.Items.Add(powerMenu);
                 _contextMenu.Items.Add(new ToolStripSeparator());
 
                 var configMenu = new ToolStripMenuItem("âš™ ç¼–è¾‘é…ç½®");
-                configMenu.DropDownItems.Add("ğŸ”² ä¿®æ”¹ vCPU", null, (s, e) => EditCpuOnly(selectedRow));
-                configMenu.DropDownItems.Add("ğŸ“Š ä¿®æ”¹å†…å­˜", null, (s, e) => EditMemoryOnly(selectedRow));
-                configMenu.DropDownItems.Add("ğŸŒ ç½‘å¡é…ç½®", null, (s, e) => EditPortgroupOnly(selectedRow));
-                configMenu.DropDownItems.Add("ğŸŒ é…ç½®å®¢æˆ·æœºç½‘ç»œ", null, (s, e) => GuestOpsNetworkConfig(selectedRow));
-                configMenu.DropDownItems.Add("ğŸ”‘ å¯†ç é…ç½®", null, (s, e) => GuestOpsPasswordConfig(selectedRow));
-                configMenu.DropDownItems.Add(new ToolStripSeparator());
-                configMenu.DropDownItems.Add("âœ é‡å‘½åè™šæ‹Ÿæœº", null, (s, e) => RenameVm(selectedRow));
-                configMenu.DropDownItems.Add("ğŸ“ ç¼–è¾‘å¤‡æ³¨", null, (s, e) => EditVmNotes(selectedRow));
-                _contextMenu.Items.Add(configMenu);
+                configMenu.DropDownItems.Add("ğŸ”² ä¿®æ”¹ vCPU", null, (s, e) =Y]ÜSÛ›JÙ[XİY›İÊJNÃBˆÛÛ™šYÓY[K‘›ÜİÛ’][\ËY
+¼%8¢KúîiKXh^ZÙ‚"ÂçVÆÂÂ‡2ÂR’ÓâVF—DÖVÖ÷'”öæÇ’‡6VÆV7FVE&÷r’“°Ğ¢6öæf–tÖVçRäG&÷F÷vä—FV×2äFB‚/	øÉ{ÙXÚ˜XŞ{Úâ"ÂçVÆÂÂ‡2ÂR’ÓâVF—E÷'Fw&÷WöæÇ’‡6VÆV7FVE&÷r’“°Ğ¢6öæf–tÖVçRäG&÷F÷vä—FV×2äFB‚/	øÉ˜XŞ{ÚîZê.h‹~iË®{Ù{¹Â"ÂçVÆÂÂ‡2ÂR’ĞÕ•ÍÑ=ÁÍ9•Ñİ½É­½¹™¥œ¡Í•±•Ñ•‘I½Ü¤¤ì4(€€€€€€€€€€€€€€€½¹™¥5•¹Ô¹É½Á½İ¹%Ñ•µÌ¹‘ ‹Â~RDƒ–†ç é…ç½®", null, (s, e) =İY\İÜÔ\ÜİÛÜ™ÛÛ™šYÊÙ[XİY›İÊJNÃBˆÛÛ™šYÓY[K‘›ÜİÛ’][\ËY
+™]ÈÛÛİš\Ù\\˜]ÜŠ
+JNÃBˆÛÛ™šYÓY[K‘›ÜİÛ’][\ËY
+¸§#È:aãydoyd#z&f¹¢çiË¢"ÂçVÆÂÂ‡2ÂR’Óâ&VæÖUfÒ‡6VÆV7FVE&÷r’“°Ğ¢6öæf–tÖVçRäG&÷F÷vä—FV×2äFB‚/	ù9Ò{Én‹éZH~k:‚"ÂçVÆÂÂ‡2ÂR’Ğ‘¥ÑYµ9½Ñ•Ì¡Í•±•Ñ•‘I½Ü¤¤ì4(€€€€€€€€€€€€€€€}½¹Ñ•áÑ5•¹Ô¹%Ñ•µÌ¹‘¡½¹™¥5•¹Ô¤ì4(€€€€€€€€€€€€€€€}½¹Ñ•áÑ5•¹Ô¹%Ñ•µÌ¹‘¡¹•ÜQ½½±MÑÉ¥ÁM•Á…É…Ñ½È ¤¤ì4(4(€€€€€€€€€€€€€€€}½¹Ñ•áÑ5•¹Ô¹%Ñ•µÌ¹‘¡¹•ÜQ½½±MÑÉ¥Á5•¹Õ%Ñ•´ ‹ÂR¾ ç£ç›˜ç®¡ç†", null, (s, e) => EditHardDisk(selectedRow)));
                 _contextMenu.Items.Add(new ToolStripSeparator());
 
-                _contextMenu.Items.Add(new ToolStripMenuItem("ğŸ’¾ ç£ç›˜ç®¡ç†", null, (s, e) => EditHardDisk(selectedRow)));
-                _contextMenu.Items.Add(new ToolStripSeparator());
-
-                var migrateCloneMenu = new ToolStripMenuItem("ğŸ”„ è¿ç§»å…‹éš†");
-                migrateCloneMenu.DropDownItems.Add("â†” è¿ç§»åˆ°ä¸»æœº (vMotion)", null, (s, e) => MigrateVmToHost(selectedRow));
-                migrateCloneMenu.DropDownItems.Add("ğŸ“¦ è¿ç§»åˆ°èµ„æºæ± ", null, (s, e) => MigrateVmToResourcePool(selectedRow));
-                migrateCloneMenu.DropDownItems.Add("ğŸ’¾ è¿ç§»åˆ°å­˜å‚¨ (Storage vMotion)", null, (s, e) => MigrateVmToDatastore(selectedRow));
-                migrateCloneMenu.DropDownItems.Add(new ToolStripSeparator());
-                migrateCloneMenu.DropDownItems.Add("ğŸ†• å…‹éš†è™šæ‹Ÿæœº", null, (s, e) => CloneVm(selectedRow));
-                _contextMenu.Items.Add(migrateCloneMenu);
-                _contextMenu.Items.Add(new ToolStripSeparator());
-
-                var advancedMenu = new ToolStripMenuItem("ğŸŸ¡ é«˜çº§æ“ä½œ");
-                advancedMenu.DropDownItems.Add("â æ–­å¼€å…‰é©±ï¼ˆå¸è½½ ISOï¼‰", null, (s, e) => DisconnectCdDrive(selectedRow));
-                advancedMenu.DropDownItems.Add("âš™ ä¼˜åŒ–é…ç½® (VMX)", null, (s, e) => OptimizeVmConfig(selectedRow));
-                advancedMenu.DropDownItems.Add(new ToolStripSeparator());
-                advancedMenu.DropDownItems.Add("ğŸ”„ è½¬ä¸ºæ¨¡æ¿", null, (s, e) => ConvertVmToTemplate(selectedRow));
-                advancedMenu.DropDownItems.Add("ğŸ—‘ åˆ é™¤è™šæ‹Ÿæœº", null, (s, e) => DeleteVm(selectedRow));
+                var migrateCloneMenu = new ToolStripMenuItem("ğŸ”„ è¿ç§¹ab™¨b"“°Ğ¢Ö–w&FT6ÆöæTÖVçRäG&÷F÷vä—FV×2äFB‚.(iB‹øz{¾X‹K‹¾iË¢‡dÖ÷F–öâ’"ÂçVÆÂÂ‡2ÂR’Ğ5¥É…Ñ•YµQ½!½ÍĞ¡Í•±•Ñ•‘I½Ü¤¤ì4(€€€€€€€€€€€€€€€µ¥É…Ñ•±½¹•5•¹Ô¹É½Á½İ¹%Ñ•µÌ¹‘ ‹Â~N˜ƒ¢Áç§»åˆ°èµ„æºæ± ", null, (s, e) =ZYÜ˜]U›UÔ™\Ûİ\˜ÙTÛÛ
+Ù[XİY›İÊJNÃBˆZYÜ˜]PÛÛ™SY[K‘›ÜİÛ’][\ËY
+¼%+â‹øz{¾X‹ZÙX*‚…7F÷&vRdÖ÷F–öâ’"ÂçVÆÂÂ‡2ÂR’ÓâÖ–w&FUfÕFôFF7F÷&R‡6VÆV7FVE&÷r’“°Ğ¢Ö–w&FT6ÆöæTÖVçRäG&÷F÷vä—FV×2äFB†æWrFööÅ7G&—6W&F÷"‚’“°Ğ¢Ö–w&FT6ÆöæTÖVçRäG&÷F÷vä—FV×2äFB‚/	Tƒ–/¦j¢fkš.šrèˆ°¹Õ±°°€¡Ì°”¤€ôø±½¹•Y´¡Í•±•Ñ•‘I½Ü¤¤ì4(€€€€€€€€€€€€€€€}½¹Ñ•áÑ5•¹Ô¹%Ñ•µÌ¹‘¡µ¥É…Ñ•±½¹•5•¹Ô¤ì4(€€€€€€€€€€€€€€€}½¹Ñ•áÑ5•¹Ô¹%Ñ•µÌ¹‘¡¹•ÜQ½½±MÑÉ¥ÁM•Á…É…Ñ½È ¤¤ì4(4(€€€€€€€€€€€€€€€Ù…È…‘Ù…¹•‘5•¹Ô€ô¹•ÜQ½½±MÑÉ¥Á5•¹Õ%Ñ•´ ‹Â_¡ é«˜çº§æ“ä½œ");
+                advancedMenu.DropDownItems.Add("â æ–­å¼€å…‰é©±ï¼ˆå¸è½½ ISOï¼‰", null, (s, e) =\ØÛÛ›™XİÙš]™JÙ[XİY›İÊJNÃBˆY˜[˜ÙYY[K‘›ÜİÛ’][\ËY
+¸¦¦H9/&9c%ºacyïkˆ
+“V
+H‹[
+ËJHB÷F–Ö—¦UfÔ6öæf–r‡6VÆV7FVE&÷r’“°Ğ¢Gfæ6VDÖVçRäG&÷F÷vä—FV×2äFB†æWrFööÅ7G&—6W&F÷"‚’“°Ğ¢Gfæ6VDÖVçRäG&÷F÷vä—FV×2äFB‚/	ùHB‹ÚÎK‹®jŠiÛò"ÂçVÆÂÂ‡2ÂR’Ğ½¹Ù•ÉÑYµQ½Q•µÁ±…Ñ”¡Í•±•Ñ•‘I½Ü¤¤ì4(€€€€€€€€€€€€€€€…‘Ù…¹•‘5•¹Ô¹É½Á½İ¹%Ñ•µÌ¹‘ ‹Â~^Dƒ–"ƒ¦f“¢fkš.šrèˆ°¹Õ±°°€¡Ì°”¤€ô DeleteVm(selectedRow));
                 _contextMenu.Items.Add(advancedMenu);
                 _contextMenu.Items.Add(new ToolStripSeparator());
 
-                var snapshotMenu = new ToolStripMenuItem("ğŸ“· å¿«ç…§ç®¡ç†");
-                snapshotMenu.DropDownItems.Add("ğŸ“· æŸ¥çœ‹å¿«ç…§åˆ—è¡¨", null, (s, e) => ListSnapshots(selectedRow));
-                snapshotMenu.DropDownItems.Add("ğŸ“¸ åˆ›å»ºæ–°å¿«ç…§", null, (s, e) => CreateSnapshot(selectedRow));
-                snapshotMenu.DropDownItems.Add("â†© å›æ»šåˆ°æœ€æ–°å¿«ç…§", null, (s, e) => RevertToLatestSnapshot(selectedRow));
-                snapshotMenu.DropDownItems.Add("ğŸ—‘ åˆ é™¤æ‰€æœ‰å¿«ç…§", null, (s, e) => RemoveAllSnapshots(selectedRow));
-                _contextMenu.Items.Add(snapshotMenu);
-                _contextMenu.Items.Add(new ToolStripSeparator());
-            }
-
-            if (_queryType == "vm" && _currentSubtype != "spec" && _currentSubtype != "template" && selectedRows.Count > 0)
-            {
-                var batchMenu = new ToolStripMenuItem($"âš¡ æ‰¹é‡æ“ä½œï¼ˆå·²é€‰ {selectedRows.Count} å°ï¼‰");
-                batchMenu.DropDownItems.Add("â–¶ æ‰¹é‡æ‰“å¼€ç”µæº", null, (s, e) => BatchPowerOn(selectedRows));
-                batchMenu.DropDownItems.Add("â–  æ‰¹é‡å…³é—­å®¢æˆ·æœº", null, (s, e) => BatchPowerOff(selectedRows));
-                batchMenu.DropDownItems.Add("âœ– æ‰¹é‡å…³é—­ç”µæº", null, (s, e) => BatchPowerOffForce(selectedRows));
-                batchMenu.DropDownItems.Add("â†» æ‰¹é‡é‡ç½®ç”µæº", null, (s, e) => BatchRestart(selectedRows));
-                batchMenu.DropDownItems.Add(new ToolStripSeparator());
-                batchMenu.DropDownItems.Add("ğŸ—‘ æ‰¹é‡åˆ é™¤è™šæ‹Ÿæœºï¼ˆä»ç£ç›˜ï¼‰", null, (s, e) => BatchDeleteVm(selectedRows));
-                batchMenu.DropDownItems.Add(new ToolStripSeparator());
-                batchMenu.DropDownItems.Add("ğŸ“· æ‰¹é‡åˆ›å»ºå¿«ç…§", null, (s, e) => BatchCreateSnapshot(selectedRows));
-                batchMenu.DropDownItems.Add("ğŸ—‘ æ‰¹é‡åˆ é™¤æ‰€æœ‰å¿«ç…§", null, (s, e) => BatchRemoveAllSnapshots(selectedRows));
-                batchMenu.DropDownItems.Add(new ToolStripSeparator());
-                var batchMigrateMenu = new ToolStripMenuItem("ğŸ”„ æ‰¹é‡è¿ç§»");
-                batchMigrateMenu.DropDownItems.Add("â†” æ‰¹é‡è¿ç§»åˆ°ä¸»æœº (vMotion)", null, (s, e) => BatchMigrateToHost(selectedRows));
-                batchMigrateMenu.DropDownItems.Add("ğŸ“¦ æ‰¹é‡è¿ç§»åˆ°èµ„æºæ± ", null, (s, e) => BatchMigrateToResourcePool(selectedRows));
-                batchMigrateMenu.DropDownItems.Add("ğŸ’¾ æ‰¹é‡è¿ç§»åˆ°å­˜å‚¨ (Storage vMotion)", null, (s, e) => BatchMigrateToDatastore(selectedRows));
-                batchMenu.DropDownItems.Add(batchMigrateMenu);
-                _contextMenu.Items.Add(batchMenu);
-                _contextMenu.Items.Add(new ToolStripSeparator());
-            }
-
-            int selCount = _listView.SelectedItems.Count;
-
-            var copyShareMenu = new ToolStripMenuItem("ğŸ“‹ å¤åˆ¶åˆ†äº«");
-
-            if (_queryType == "vm" && _currentSubtype == "vm" && item != null)
-            {
-                copyShareMenu.DropDownItems.Add(new ToolStripMenuItem("ğŸ“¤ åˆ†äº«ä¿¡æ¯", null, (s, e) => CopyVmShareInfo(item)));
-                copyShareMenu.DropDownItems.Add(new ToolStripSeparator());
-            }
-
-            if (selCount > 0)
+                var snapshotMenu = new ToolStripMenuItem("ğŸ“· åºùáiùë¨yä!ˆŠNÃBˆÛ˜\ÚİY[K‘›ÜİÛ’][\ËY
+¼'äíÈ9§éyç"[ú•ˆ–(j‹[
+ËJHOˆ\İÛ˜\ÚİÊÙ[XİY›İÊJNÃBˆÛ˜\ÚİY[K‘›ÜİÛ’][\ËY
+¼'äî9b&[»®ik[úœˆ°¹Õ±°°€¡Ì°”¤€ôøÉ•…Ñ•M¹…ÁÍ¡½Ğ¡Í•±•Ñ•‘I½Ü¤¤ì4(€€€€€€€€€€€€€€€Í¹…ÁÍ¡½Ñ5•¹Ô¹É½Á½İ¹%Ñ•µÌ¹‘ ‹Š¤ƒ–n{šîk–"ÃšršZÃ–ş§…§", null, (s, e) => RevertToLatestSnapshot(selectedRow));
+                snapshotMenu.DropDownItems.Add("ğŸ—‘ åˆ é™¤æ‰€æœ‰å¿©áiÈ‹[
+ËJHOˆ™[[İ™P[Û˜\ÚİÊÙ[XİY›İÊJNÃBˆØÛÛ^Y[K’][\ËY
+Û˜\ÚİY[JNÃBˆØÛÛ^Y[K’][\ËY
+™]ÈÛÛİš\Ù\\˜]ÜŠ
+JNÃBˆCBƒBˆYˆ
+Ü]Y\U\HOH›Hˆ	‰ˆØİ\œ™[İX\HOHœÜXÈˆ	‰ˆØİ\œ™[İX\HOH[\]Hˆ	‰ˆÙ[XİY›İÜËÛİ[ˆ
+CBˆÃBˆ˜\ˆ˜]ÚY[HH™]ÈÛÛİš\Y[R][J	¸¦¨H9¢nzaãi8ŞKÙÎò#–ŞË¦$íÍ•±•Ñ•‘I½İÌ¹½Õ¹Ñôƒ–>Ã¾ò$ˆ¤ì4(€€€€€€€€€€€€€€€‰…Ñ¡5•¹Ô¹É½Á½İ¹%Ñ•µÌ¹‘ ‹ŠZØƒš&ç¦?š&O–òR×šê@ˆ°¹Õ±°°€¡Ì°”¤€ôø	…Ñ¡A½İ•É=¸¡Í•±•Ñ•‘I½İÌ¤¤ì4(€€€€€€€€€€€€€€€‰…Ñ¡5•¹Ô¹É½Á½İ¹%Ñ•µÌ¹‘ ‹ŠZ€ƒš&ç¦5…²eëyk¨¹¢-iË¢"ÂçVÆÂÂ‡2ÂR’Óâ&F6…÷vW$öfb‡6VÆV7FVE&÷w2’“°Ğ¢&F6„ÖVçRäG&÷F÷vä—FV×2äFB‚.)Ébh›˜xÖÉ—­ç”µæº", null, (s, e) => BatchPowerOffForce(selectedRows));
+                batchMenu.DropDownItems.Add("â†» æ‰¹é‡é‡ç½®ç”µæº", null, (s, e) =˜]Ú™\İ\
+Ù[XİY›İÜÊJNÃBˆ˜]ÚY[K‘›ÜİÛ’][\ËY
+™]ÈÛÛİš\Ù\\˜]ÜŠ
+JNÃBˆ˜]ÚY[K‘›ÜİÛ’][\ËY
+¼'åäH9¢nzaãùb(:fi:&f¹¢çù§.»ï"9.ã¹èàyææ;ï"H‹[
+ËJHB&F6„FVÆWFUfÒ‡6VÆV7FVE&÷w2’“°Ğ¢&F6„ÖVçRäG&÷F÷vä—FV×2äFB†æWrFööÅ7G&—6W&F÷"‚’“°Ğ¢&F6„ÖVçRäG&÷F÷vä—FV×2äFB‚/	ù;rh›˜xÖ"e»ºå¿©áiÈ‹[
+ËJHOˆ˜]ÚÜ™X]TÛ˜\Úİ
+Ù[XİY›İÜÊJNÃBˆ˜]ÚY[K‘›ÜİÛ’][\ËY
+¼%yh›˜xşXŠ™šNh˜iÈ[ú¾xZr"ÂçVÆÂÂ‡2ÂR’Óâ&F6…&VÖ÷fTÆÅ6æ6†÷G2‡6VÆV7FVE&÷w2’“°Ğ¢&F6„ÖVçRäG&÷F÷vä—FV×2äFB†æWrFööÅ7G&—6W&F÷"‚’“°Ğ¢f"&F6„Ö–w&FTÖVçRÒæWrFööÅ7G&—ÖVçT—FVÒ‚/	ùHBh›˜xş‹ìˆ¤ì4(€€€€€€€€€€€€€€€‰…Ñ¡5¥É…Ñ•5•¹Ô¹É½Á½İ¹%Ñ•µÌ¹‘ ‹ŠPƒš&ç¦8¿ç§¹b,9..iË¢‡dÖ÷F–öâ’"ÂçVÆÂÂ‡2ÂR’Óâ&F6„Ö–w&FUFô†÷7B‡6VÆV7FVE&÷w2’“°Ğ¢&F6„Ö–w&FTÖVçRäG&÷F÷vä—FV×2äFB‚/	ù:bh›˜xş‹ï–"Ã¢ÖšêCšÆ€ˆ°¹Õ±°°€¡Ì°”¤€ô BatchMigrateToResourcePool(selectedRows));
+                batchMigrateMenu.DropDownItems.Add("ğŸ’¾ æ‰¹é‡è°yéîùb,9kf9`ª
+İÜ˜YÙH“[İ[ÛŠH‹[
+ËJHB&F6„Ö–w&FUFôFF7F÷&R‡6VÆV7FVE&÷w2’“°Ğ¢&F6„ÖVçRäG&÷F÷vä—FV×2äFB†&F6„Ö–w&FTÖVçR“°Ğ¢ö6öçFW‡DÖVçRä—FV×2äFB†&F6„ÖVçR“°Ğ¢ö6öçFW‡DÖVçRä—FV×2äFB†æWrFööÅ7G&—6W&F÷"‚’“°Ğ¢ĞĞ Ğ¢–çB6VÄ6÷VçBÒöÆ—7Ef–Wrå6VÆV7FVD—FV×2ä6÷VçC°Ğ Ğ¢f"6÷•6†&TÖVçRÒæWrFööÅ7G&—ÖVçT—FVÒ‚/	ù8²ZHŞX‹nXˆnKª²"“°Ğ Ğ¢–b…÷VW'•G—RÓÒ'fÒ"bbö7W'&VçE7V'G—RÓÒ'fÒ"bb—FVÒÒçVÆÂĞ¢°Ğ¢6÷•6†&TÖVçRäG&÷F÷vä—FV×2äFB†æWrFööÅ7G&—ÖVçT—FVÒ‚/	ù:BXˆnKª’ş‡š¼ˆ°¹Õ±°°€¡Ì°”¤€ôø½ÁåYµM¡…É•%¹™¼¡¥Ñ•´¤¤¤ì4(€€€€€€€€€€€€€€€½ÁåM¡…É•5•¹Ô¹É½Á½İ¹%Ñ•µÌ¹‘¡¹•ÜQ½½±MÑÉ¥ÁM•Á…É…Ñ½È ¤¤ì4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€¥˜€¡Í•±½Õ¹Ğ€ 0)
             {
                 copyShareMenu.DropDownItems.Add(new ToolStripMenuItem($"å¤åˆ¶é€‰ä¸­è¡Œ (å…± {selCount} è¡Œ)", null, (s, e) => CopySelectedRows()));
             }
@@ -546,80 +327,19 @@ namespace VirtualizationOpsTool.UI
             }
 
             copyShareMenu.DropDownItems.Add(new ToolStripMenuItem($"å¤åˆ¶å…¨éƒ¨ (å…± {_allRowValues.Count} è¡Œ)", null, (s, e) => CopyAll()));
-            copyShareMenu.DropDownItems.Add(new ToolStripMenuItem("å¤åˆ¶åˆ—æ ‡é¢˜", null, (s, e) => CopyColumnHeaders()));
+            copyShareMenu.DropDownItems.Add(new ToolStripMenuItem("å¤åˆ¶åˆ—æ ‡é¢˜", null, (s, e) =ÛÜPÛÛ[[’XY\œÊ
+JJNÃBƒBˆØÛÛ^Y[K’][\ËY
+ÛÜTÚ\™SY[JNÃBƒBˆØÛÛ^Y[K”ÚİÊÛ\İšY]ËØØ][ÛŠNÃBˆCBƒBˆš]˜]H\İİš[™ÏÈÙ]][T›İÕ˜[Y\Ê\İšY]Ò][H][JCBˆÃBˆYˆ
+][K•YÈ\È\İİš[™Ïˆ˜[Y\ÊCBˆ™]\›ˆ˜[Y\ÎÃBˆ™]\›ˆ[ÃBˆCBƒBˆš]˜]Hİš[™ÈÙ]]Y\TØÜš\
 
-            _contextMenu.Items.Add(copyShareMenu);
-
-            _contextMenu.Show(_listView, location);
-        }
-
-        private List<string>? GetItemRowValues(ListViewItem item)
-        {
-            if (item.Tag is List<string> values)
-                return values;
-            return null;
-        }
-
-        private string GetQueryScript()
-        {
-            if (_queryType == "vm")
-                return QueryBuilder.GetJsonQueryScript(_currentSubtype);
-            if (_queryType == "network")
-                return QueryBuilder.GetJsonQueryScript(_currentSubtype);
-            return QueryBuilder.GetJsonQueryScript(_queryType);
-        }
-
-        private static string GetColumnDisplayName(string columnName)
-        {
-            var map = new Dictionary<string, string>
-            {
-                { "Name", "åç§°" }, { "PowerState", "ç”µæºçŠ¶æ€" }, { "NumCpu", "CPU" },
-                { "MemoryGB", "å†…å­˜" }, { "MemoryUsagePercent", "å†…å­˜ä½¿ç”¨ç‡(%)" },
-                { "VMHost", "æ‰€åœ¨ä¸»æœº" }, { "ResourcePool", "èµ„æºæ± " }, { "Datastore", "å­˜å‚¨" },
-                { "IPAddress", "IP åœ°å€" },
-                { "CpuUsagePercent", "CPUä½¿ç”¨ç‡(%)" },
-                { "GuestOS", "æ¥å®¾ç³»ç»Ÿ" }, { "Id", "ID" }, { "ConnectionState", "è¿æ¥çŠ¶æ€" },
-                { "CapacityGB", "å®¹é‡(GB)" }, { "FreeSpaceGB", "ç©ºé—²(GB)" }, { "UsedPercent", "ä½¿ç”¨ç‡(%)" },
-                { "PortGroupType", "ç±»å‹" }, { "VDSwitch", "åˆ†å¸ƒå¼äº¤æ¢æœº" }, { "VLAN", "VLAN" },
-                { "NumPorts", "ç«¯å£æ•°" }, { "NumPortsAvailable", "å¯ç”¨ç«¯å£" },
-                { "ProductVersion", "ESXi ç‰ˆæœ¬" }, { "Description", "æè¿°" }, { "Type", "ç±»å‹" }, { "LastUpdated", "æœ€åæ›´æ–°" }
-            };
-            return map.TryGetValue(columnName, out var displayName) ? displayName : columnName;
-        }
-
-        private static int GetColumnWidth(string columnName)
-        {
-            // åˆå§‹å ä½å€¼ï¼Œåˆ›å»ºåˆ—åç«‹å³è¢« AutoResizeColumns æŒ‰å›ºå®šå€¼ + å†…å®¹è‡ªé€‚åº”è¦†ç›–ï¼Œæ­¤å¤„æ— å®é™…ä¸šåŠ¡æ„ä¹‰
-            return 100;
-        }
-
-        public void SetBusinessButtonsState(bool enabled)
-        {
-            if (_refreshBtn != null)
-                _refreshBtn.Enabled = enabled;
-        }
-
-        public void ClearAllCache()
-        {
-            _allRowValues.Clear();
-            _rows.Clear();
-            _columns.Clear();
-            _subtypeCache.Clear();
-            _subtypeQueried.Clear();
-            _columnsAutoResized = false;
-
-            if (_searchBox != null) _searchBox.Text = "";
-            if (_listView != null)
-            {
-                _listView.Items.Clear();
-                _listView.Columns.Clear();
-            }
-
-            ApplyInitialColumns();
-            UpdateStatus("æœªè¿æ¥ vCenter", ColorTranslator.FromHtml("#757575"));
-        }
-
-        private string GetVmIdFromRow(List<string> row)
+CBˆÃBˆYˆ
+Ü]Y\U\HOH›HŠCBˆ™]\›ˆ]Y\PZ[\‹‘Ù]œÛÛ”]Y\TØÜš\
+Øİ\œ™[İX\JNÃBˆYˆ
+Ü]Y\U\HOH›™]ÛÜšÈŠCBˆ™]\›ˆ]Y\PZ[\‹‘Ù]œÛÛ”]Y\TØÜš\
+Øİ\œ™[İX\JNÃBˆ™]\›ˆ]Y\PZ[\‹‘Ù]œÛÛ”]Y\TØÜš\
+Ü]Y\U\JNÃBˆCBƒBˆš]˜]Hİ]XÈİš[™ÈÙ]ÛÛ[[‘\Ü^S˜[YJİš[™ÈÛÛ[[“˜[YJCBˆÃBˆ˜\ˆX\H™]ÈXİ[Û˜\Oİš[™Ëİš[™ÀĞ¢°Ğ¢²$æÖR"Â.YŞz{"ÒÂ²%÷vW%7FFR"Â.yK^k©x«nh"ÒÂ²$çVÔ7R"Â$5R"ÒÀĞ¢²$ÖVÖ÷'”t""Â.Xh^ZÙ‚"ÒÂ²$ÖVÖ÷'•W6vUW&6VçB"Â.Xh^ZÙKÛŞR£: ”¤ˆô°4(€€€€€€€€€€€€€€€ì€‰Y5!½ÍĞˆ°€‹š&–r£’âïšrèˆô°ì€‰I•Í½ÕÉ•A½½°ˆ°€‹¢ÖšêCšÆ€ˆô°ì€‰…Ñ…ÍÑ½É”ˆ°€‹–¶c–
+ ˆô°4(€€€€€€€€€€€€€€€ì€‰%A‘‘É•ÍÌˆ°€‰%@ƒ–rÃ–v ˆô°4(€€€€€€€€€€€€€€€ì€‰ÁÕUÍ…•A•É•¹Ğˆ°€‰AW’ö÷”¨ç‡(%)" },
+                { "GuestOS", "æ¥å®¾ç³¹îçÈˆKÈ’Y‹’QˆKÈÛÛ›™Xİ[Û”İ]H‹º/ç¹£©yâ­¹  HˆKBˆÈØ\XÚ]QĞˆ‹¹k®zaãÊĞŠHˆKÈ‘œ™YTÜXÙQĞˆ‹¹ênºeìŠĞŠHˆKÈ•\ÙY\˜Ù[‹¹/oùå*9ã¡Ê	JHˆKBˆÈ”ÜÜ›İ\\H‹¹ìnùg¢ÈˆKÈ•‘İÚ]Ú‹¹b!¹n [ÈÒê“š6‹šrèˆô°ì€‰Y18ˆ°€‰Y18ˆô°4(€€€€€€€€€€€€€€€ì€‰9ÕµA½ÉÑÌˆ°€‹®µ¡¥lˆKÈ“[TÜĞ]˜Z[X›H‹¹bşyJzºşXŒˆô°4(€€€€€€€€€€€€€€€ì€‰AÉ½‘ÕÑY•ÉÍ¥½¸ˆ°€‰Ma¤ƒ&#šr°ˆô°ì€‰•ÍÉ¥ÁÑ¥½¸ˆ°€‹š>?¢şÀˆô°ì€‰QåÁ”ˆ°€‹Æï–z,ˆô°ì€‰1…ÍÑUÁ‘…Ñ•ˆ°€‹šr–B;šnÓšZÀˆô4(€€€€€€€€€€€ôì4(€€€€€€€€€€€É•ÑÕÉ¸µ…À¹QÉå•ÑY…±Õ”¡½±Õµ¹9…µ”°½ÕĞÙ…È‘¥ÍÁ±…å9…µ”¤€ü‘¥ÍÁ±…å9…µ”€è½±Õµ¹9…µ”ì4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”ÍÑ…Ñ¥Œ¥¹Ğ•Ñ½±Õµ¹]¥‘Ñ ¡ÍÑÉ¥¹œ½±Õµ¹9…µ”¤4(€€€€€€€ì4(€€€€€€€€€€€€¼¼ƒ–"w–/–6ƒ’ö7–ó¾ò3–"o–îë–"_–B;®/–6Ï¢Š¬ÕÑ½I•Í¥é•½±Õµ¹Ìƒš2'–në–ºk–ğ€¬ƒ––ºç¢«¦–êS¢šn[¾ò3š¶“–’š^ƒ–º{¦f’âk–*‡š?’æ$4(€€€€€€€€€€€É•ÑÕÉ¸€ÄÀÀì4(€€€€€€€ô4(4(€€€€€€€ÁÕ‰±¥ŒÙ½¥M•Ñ	ÕÍ¥¹•ÍÍ	ÕÑÑ½¹ÍMÑ…Ñ”¡‰½½°•¹…‰±•¤4(€€€€€€€ì4(€€€€€€€€€€€¥˜€¡}É•™É•Í¡	Ñ¸€„ô¹Õ±°¤4(€€€€€€€€€€€€€€€}É•™É•Í¡	Ñ¸¹¹…‰±•€ô•¹…‰±•ì4(€€€€€€€ô4(4(€€€€€€€ÁÕ‰±¥ŒÙ½¥±•…É±±…¡” ¤4(€€€€€€€ì4(€€€€€€€€€€€}…±±I½İY…±Õ•Ì¹±•…È ¤ì4(€€€€€€€€€€€}É½İÌ¹±•…È ¤ì4(€€€€€€€€€€€}½±Õµ¹Ì¹±•…È ¤ì4(€€€€€€€€€€€}ÍÕ‰ÑåÁ•…¡”¹±•…È ¤ì4(€€€€€€€€€€€}ÍÕ‰ÑåÁ•EÕ•É¥•¹±•…È ¤ì4(€€€€€€€€€€€}½±Õµ¹ÍÕÑ½I•Í¥é•€ô™…±Í”ì4(4(€€€€€€€€€€€¥˜€¡}Í•…É¡	½à€„ô¹Õ±°¤}Í•…É¡	½à¹Q•áĞ€ô€ˆˆì4(€€€€€€€€€€€¥˜€¡}±¥ÍÑY¥•Ü€„ô¹Õ±°¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€}±¥ÍÑY¥•Ü¹%Ñ•µÌ¹±•…È ¤ì4(€€€€€€€€€€€€€€€}±¥ÍÑY¥•Ü¹½±Õµ¹Ì¹±•…È ¤ì4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€ÁÁ±å%¹¥Ñ¥…±½±Õµ¹Ì ¤ì4(€€€€€€€€€€€UÁ‘…Ñ•MÑ…ÑÕÌ ‹šr«¢ş{š:”Ù•¹Ñ•Èˆ°½±½ÉQÉ…¹Í±…Ñ½È¹É½µ!Ñµ° ˆŒÜÔÜÔÜÔˆ¤¤ì4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”ÍÑÉ¥¹œ•ÑYµ%‘É½µI½Ü¡1¥ÍĞñÍÑÉ¥¹œ row)
         {
             int idIdx = -1;
             for (int i = 0; i < _columns.Count; i++)
@@ -630,59 +350,56 @@ namespace VirtualizationOpsTool.UI
                     break;
                 }
             }
-            if (idIdx < 0 || idIdx >= row.Count) return "";
-            return row[idIdx];
-        }
+            if (idIdx < 0 || idIdx H›İËÛİ[
+H™]\›ˆˆÃBˆ™]\›ˆ›İÖÚYYNÃBˆCBƒBˆ[\›˜[İ]XÈİš[™È[›T™YŠİš[™ÈÚÜY
+CBˆÃBˆ™]\›ˆ[[Ô™YŠÚÜY
+NÃBˆCBƒBˆ[\›˜[İ]XÈİš[™È[[Ô™YŠİš[™ÈÚÜY
+CBˆÃBˆYˆ
+İš[™Ë’\Ó[Ü‘[\JÚÜY
+JH™]\›ˆˆÃBˆYˆ
+ÚÜYÛÛZ[œÊ‹HŠH	‰ˆ\ÚÜY”İ\ÕÚ]
+›KHŠH	‰ˆ\ÚÜY”İ\ÕÚ]
+šÜİHŠH	‰ˆ\ÚÜY”İ\ÕÚ]
+™]\İÜ™KHŠH	‰ˆ\ÚÜY”İ\ÕÚ]
+™œÜÜ›İ\HŠH	‰ˆ\ÚÜY”İ\ÕÚ]
+™œËHŠH	‰ˆ\ÚÜY”İ\ÕÚ]
+›™]ÛÜšËHŠH	‰ˆ\ÚÜY”İ\ÕÚ]
+™œİÚ]ÚHŠH	‰ˆ\ÚÜY”İ\ÕÚ]
+™œËHŠH	‰ˆ\ÚÜY”İ\ÕÚ]
+œ™\Ûİ\˜Ù\ÛÛHŠH	‰ˆ\ÚÜY”İ\ÕÚ]
+™›Û\‹HŠH	‰ˆ\ÚÜY”İ\ÕÚ]
+™]XÙ[\‹HŠJCBˆ™]\›ˆÚÜYÃBˆİš[™ÈİÙ\ˆHÚÜY•ÓİÙ\’[˜\šX[
 
-        internal static string FullVmRef(string shortId)
-        {
-            return FullMoRef(shortId);
-        }
-
-        internal static string FullMoRef(string shortId)
-        {
-            if (string.IsNullOrEmpty(shortId)) return "";
-            if (shortId.Contains("-") && !shortId.StartsWith("vm-") && !shortId.StartsWith("host-") && !shortId.StartsWith("datastore-") && !shortId.StartsWith("dvportgroup-") && !shortId.StartsWith("dvpg-") && !shortId.StartsWith("network-") && !shortId.StartsWith("dvswitch-") && !shortId.StartsWith("dvs-") && !shortId.StartsWith("resourcepool-") && !shortId.StartsWith("folder-") && !shortId.StartsWith("datacenter-"))
-                return shortId;
-            string lower = shortId.ToLowerInvariant();
-            if (lower.StartsWith("vm-")) return "VirtualMachine-" + shortId;
-            if (lower.StartsWith("host-")) return "HostSystem-" + shortId;
-            if (lower.StartsWith("datastore-")) return "Datastore-" + shortId;
-            if (lower.StartsWith("dvportgroup-") || lower.StartsWith("dvpg-")) return "DistributedVirtualPortgroup-" + shortId;
-            if (lower.StartsWith("network-")) return "Network-" + shortId;
-            if (lower.StartsWith("dvswitch-") || lower.StartsWith("dvs-")) return "DistributedVirtualSwitch-" + shortId;
-            if (lower.StartsWith("resourcepool-")) return "ResourcePool-" + shortId;
-            if (lower.StartsWith("folder-")) return "Folder-" + shortId;
-            if (lower.StartsWith("datacenter-")) return "Datacenter-" + shortId;
-            return shortId;
-        }
-
-        private string EscapePsString(string s)
-        {
-            return s.Replace("'", "''");
-        }
-
-        private int GetIntFromRow(List<string> row, string fieldName)
-        {
-            int idx = _columns.FindIndex(c => c.Equals(fieldName, StringComparison.OrdinalIgnoreCase));
-            if (idx < 0 || idx >= row.Count) return 0;
-            int.TryParse(row[idx].Trim(), out int val);
-            return val;
-        }
-
-        private string GetVmNameFromRow(List<string> row)
-        {
-            int idx = _columns.FindIndex(c => c.Equals("Name", StringComparison.OrdinalIgnoreCase));
-            if (idx < 0) idx = 0;
-            if (idx < row.Count) return row[idx].Trim();
-            return "";
-        }
-
-        private string GetVmIpFromRow(List<string> row)
-        {
-            int idx = _columns.FindIndex(c => c.IndexOf("IP", StringComparison.OrdinalIgnoreCase) >= 0);
-            if (idx < 0 && _columns.Count > 4) idx = 4;
-            if (idx >= 0 && idx < row.Count)
+NÃBˆYˆ
+İÙ\‹”İ\ÕÚ]
+›KHŠJH™]\›ˆ•š\X[XXÚ[™KHˆ
+ÈÚÜYÃBˆYˆ
+İÙ\‹”İ\ÕÚ]
+šÜİHŠJH™]\›ˆ’ÜİŞ\İ[KHˆ
+ÈÚÜYÃBˆYˆ
+İÙ\‹”İ\ÕÚ]
+™]\İÜ™KHŠJH™]\›ˆ‘]\İÜ™KHˆ
+ÈÚÜYÃBˆYˆ
+İÙ\‹”İ\ÕÚ]
+™œÜÜ›İ\HŠHİÙ\‹”İ\ÕÚ]
+™œËHŠJH™]\›ˆ‘\İšX]Yš\X[ÜÜ›İ\Hˆ
+ÈÚÜYÃBˆYˆ
+İÙ\‹”İ\ÕÚ]
+›™]ÛÜšËHŠJH™]\›ˆ“™]ÛÜšËHˆ
+ÈÚÜYÃBˆYˆ
+İÙ\‹”İ\ÕÚ]
+™œİÚ]ÚHŠHİÙ\‹”İ\ÕÚ]
+™œËHŠJH™]\›ˆ‘\İšX]Yš\X[İÚ]ÚHˆ
+ÈÚÜYÃBˆYˆ
+İÙ\‹”İ\ÕÚ]
+œ™\Ûİ\˜Ù\ÛÛHŠJH™]\›ˆ”™\Ûİ\˜ÙTÛÛHˆ
+ÈÚÜYÃBˆYˆ
+İÙ\‹”İ\ÕÚ]
+™›Û\‹HŠJH™]\›ˆ‘›Û\‹Hˆ
+ÈÚÜYÃBˆYˆ
+İÙ\‹”İ\ÕÚ]
+™]XÙ[\‹HŠJH™]\›ˆ‘]XÙ[\‹Hˆ
+ÈÚÜYÃBˆ™]\›ˆÚÜYÃBˆCBƒBˆš]˜]Hİš[™È\ØØ\TÔİš[™Êİš[™ÈÊCBˆÃBˆ™]\›ˆË”™\XÙJ‰È‹‰ÉÈŠNÃBˆCBƒBˆš]˜]H[Ù][œ›ÛT›İÊ\İİš[™Â&÷rÂ7G&–ærf–VÆDæÖRĞ¢°Ğ¢–çB–G‚Òö6öÇVÖç2äf–æD–æFW‚†2ĞŒ¹ÅÕ…±Ì¡™¥•±‘9…µ”°MÑÉ¥¹½µÁ…É¥Í½¸¹=É‘¥¹…±%¹½É•…Í”¤¤ì4(€€€€€€€€€€€¥˜€¡¥‘à€ğ€Àñğ¥‘à€øôÉ½Ü¹½Õ¹Ğ¤É•ÑÕÉ¸€Àì4(€€€€€€€€€€€¥¹Ğ¹QÉåA…ÉÍ”¡É½İm¥‘át¹QÉ¥´ ¤°½ÕĞ¥¹ĞÙ…°¤ì4(€€€€€€€€€€€É•ÑÕÉ¸Ù…°ì4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”ÍÑÉ¥¹œ•ÑYµ9…µ•É½µI½Ü¡1¥ÍĞñÍÑÉ¥¹œøÉ½Ü¤4(€€€€€€€ì4(€€€€€€€€€€€¥¹Ğ¥‘à€ô}½±Õµ¹Ì¹¥¹‘%¹‘•à¡Œ€ôøŒ¹ÅÕ…±Ì ‰9…µ”ˆ°MÑÉ¥¹½µÁ…É¥Í½¸¹=É‘¥¹…±%¹½É•…Í”¤¤ì4(€€€€€€€€€€€¥˜€¡¥‘à€ğ€À¤¥‘à€ô€Àì4(€€€€€€€€€€€¥˜€¡¥‘à€ğÉ½Ü¹½Õ¹Ğ¤É•ÑÕÉ¸É½İm¥‘át¹QÉ¥´ ¤ì4(€€€€€€€€€€€É•ÑÕÉ¸€ˆˆì4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”ÍÑÉ¥¹œ•ÑYµ%ÁÉ½µI½Ü¡1¥ÍĞñÍÑÉ¥¹œøÉ½Ü¤4(€€€€€€€ì4(€€€€€€€€€€€¥¹Ğ¥‘à€ô}½±Õµ¹Ì¹¥¹‘%¹‘•à¡Œ€ôøŒ¹%¹‘•á=˜ ‰%@ˆ°MÑÉ¥¹½µÁ…É¥Í½¸¹=É‘¥¹…±%¹½É•…Í”¤€øô€À¤ì4(€€€€€€€€€€€¥˜€¡¥‘à€ğ€À€˜˜}½±Õµ¹Ì¹½Õ¹Ğ€ø€Ğ¤¥‘à€ô€Ğì4(€€€€€€€€€€€¥˜€¡¥‘à€= 0 && idx < row.Count)
             {
                 string ip = row[idx].Trim();
                 if (System.Text.RegularExpressions.Regex.IsMatch(ip, @"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$"))
@@ -691,61 +408,8 @@ namespace VirtualizationOpsTool.UI
             return "";
         }
 
-        private string GetHostNameFromRow(List<string> row)
-        {
-            int idx = _columns.FindIndex(c => c.Equals("Name", StringComparison.OrdinalIgnoreCase));
-            if (idx < 0) idx = 0;
-            if (idx < row.Count) return row[idx].Trim();
-            return "";
-        }
-
-        private string FindMobaXterm()
-        {
-            string[] paths = {
-                @"C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe",
-                @"C:\Program Files\Mobatek\MobaXterm\MobaXterm.exe"
-            };
-            foreach (var p in paths)
-            {
-                if (File.Exists(p)) return p;
-            }
-            return "";
-        }
-
-        private void CopySelectedRows()
-        {
-            if (_listView?.SelectedItems.Count == 0) return;
-            var lines = new List<string>();
-            lines.Add(string.Join("\t", _columns));
-            foreach (ListViewItem item in _listView.SelectedItems)
-            {
-                var values = new List<string>();
-                for (int i = 0; i < item.SubItems.Count; i++)
-                    values.Add(item.SubItems[i].Text);
-                lines.Add(string.Join("\t", values));
-            }
-            CopyText(string.Join("\n", lines));
-            ShowCopyHint("é€‰ä¸­è¡Œ");
-        }
-
-        private void CopyVmShareInfo(ListViewItem item)
-        {
-            if (_listView == null || item == null) return;
-
-            string name = "", cpu = "", mem = "", os = "", ip = "";
-            string vmhost = "", datastore = "";
-            for (int i = 0; i < _listView.Columns.Count && i < item.SubItems.Count; i++)
-            {
-                string colName = _listView.Columns[i].Text?.Trim() ?? "";
-                string val = item.SubItems[i].Text?.Trim() ?? "";
-                switch (colName)
-                {
-                    case "åç§°": name = val; break;
-                    case "CPU": cpu = val; break;
-                    case "å†…å­˜": mem = val; break;
-                    case "æ¥å®¾ç³»ç»Ÿ": os = val; break;
-                    case "IP åœ°å€": ip = val; break;
-                    case "æ‰€åœ¨ä¸»æœº": vmhost = val; break;
+        private string GetHostNameFromRow(List<string›İÊCBˆÃBˆ[YHØÛÛ[[œË‘š[™[™^
+ÈB2äWVÇ2‚$æÖR"Â7G&–æt6ö×&—6öâä÷&F–æÄ–væ÷&T66R’“°Ğ¢–b†–G‚Â’–G‚Ò°Ğ¢–b†–G‚Â&÷rä6÷VçB’&WGW&â&÷u¶–G…ÒåG&–Ò‚“°Ğ¢&WGW&â"#°Ğ¢ĞĞ Ğ¢&—fFR7G&–ærf–æDÖö&‡FW&Ò‚Ğ¢°Ğ¢7G&–æuµÒF‡2Ò°Ğ¢$3¥Å&öw&Òf–ÆW2‡ƒƒb•ÄÖö&FVµÄÖö&‡FW&ÕÄÖö&‡FW&ÒæW†R"ÀĞ¢$3¥Å&öw&Òf–ÆW5ÄÖö&FVµÄÖö&‡FW&ÕÄÖö&‡FW&ÒæW†R Ğ¢Ó°Ğ¢f÷&V6‚‡f"–âF‡2Ğ¢°Ğ¢–b„f–ÆRäW†—7G2‡’’&WGW&â°Ğ¢ĞĞ¢&WGW&â"#°Ğ¢ĞĞ Ğ¢&—fFRfö–B6÷•6VÆV7FVE&÷w2‚Ğ¢°Ğ¢–b…öÆ—7Ef–Wsòå6VÆV7FVD—FV×2ä6÷VçBÓÒ’&WGW&ã°Ğ¢f"Æ–æW2ÒæWrÆ—7CÇ7G&–æsâ‚“°Ğ¢Æ–æW2äFB‡7G&–ærä¦ö–â‚%ÇB"Âö6öÇVÖç2’“°Ğ¢f÷&V6‚„Æ—7Ef–Wt—FVÒ—FVÒ–âöÆ—7Ef–Wrå6VÆV7FVD—FV×2Ğ¢°Ğ¢f"fÇVW2ÒæWrÆ—7CÇ7G&–æsâ‚“°Ğ¢f÷"†–çB’Ò²’Â—FVÒå7V$—FV×2ä6÷VçC²’²²Ğ¢fÇVW2äFB†—FVÒå7V$—FV×5¶•ÒåFW‡B“°Ğ¢Æ–æW2äFB‡7G&–ærä¦ö–â‚%ÇB"ÂfÇVW2’“°Ğ¢ĞĞ¢6÷•FW‡B‡7G&–ærä¦ö–â‚%Æâ"ÂÆ–æW2’“°Ğ¢6†÷t6÷”†–çB‚.˜KŠŞŠÂ"“°Ğ¢ĞĞ Ğ¢&—fFRfö–B6÷•fÕ6†&T–æfò„Æ—7Ef–Wt—FVÒ—FVÒĞ¢°Ğ¢–b…öÆ—7Ef–WrÓÒçVÆÂÇÂ—FVÒÓÒçVÆÂ’&WGW&ã°Ğ Ğ¢7G&–æræÖRÒ""Â7RÒ""ÂÖVÒÒ""Â÷2Ò""Â—Ò"#°Ğ¢7G&–ærfÖ†÷7BÒ""ÂFF7F÷&RÒ"#°Ğ¢f÷"†–çB’Ò²’ÂöÆ—7Ef–Wrä6öÇVÖç2ä6÷VçBbb’Â—FVÒå7V$—FV×2ä6÷VçC²’²²Ğ¢°Ğ¢7G&–ær6öÄæÖRÒöÆ—7Ef–Wrä6öÇVÖç5¶•ÒåFW‡CòåG&–Ò‚’óò"#°Ğ¢7G&–ærfÂÒ—FVÒå7V$—FV×5¶•ÒåFW‡CòåG&–Ò‚’óò"#°Ğ¢7v—F6‚†6öÄæÖRĞ¢°Ğ¢66R.YŞz{#¢æÖRÒfÃ²'&V³°Ğ¢66R$5R#¢7RÒfÃ²'&V³°Ğ¢66R.Xh^ZÙ‚#¢ÖVÒÒfÃ²'&V³°Ğ¢66R.iÚ^ZëÎïî|ˆè½Ì€ôÙ…°ì‰É•…¬ì4(€€€€€€€€€€€€€€€€€€€…Í”€‰%@ƒ–rÃ–v ˆè¥À€ôÙ…°ì‰É•…¬ì4(€€€€€€€€€€€€€€€€€€€…Í”€‹š&–r£’âæœº": vmhost = val; break;
                     case "å­˜å‚¨": datastore = val; break;
                 }
             }
@@ -753,97 +417,68 @@ namespace VirtualizationOpsTool.UI
             string vmName = name;
             if (string.IsNullOrEmpty(vmName)) return;
 
-            Task.Run(async () =>
-            {
-                string disk = "", notes = "";
-                try
-                {
-                    string esc = EscapePsString(vmName);
-                    string escIp = EscapePsString(ip);
-                    string script =
-                        "$ErrorActionPreference = 'Stop'; " +
-                        $"$ip = '{escIp}'; " +
-                        $"$vm = Get-View -ViewType VirtualMachine -Filter @{{Name='{esc}'; 'Config.Template'='False'}} -Property Config.Hardware.Device,Config.Annotation,Guest,Runtime.Host,Datastore -ErrorAction Stop; " +
-                        "if (-not $vm) { throw 'VM not found' }; " +
-                        "$disks = @($vm.Config.Hardware.Device | Where-Object { $_ -is [VMware.Vim.VirtualDisk] } | Sort-Object ControllerKey, UnitNumber); " +
-                        "$sysGB = $null; $dataGBs = @(); $idx = 0; " +
-                        "foreach ($d in $disks) { " +
-                        "  $gb = [math]::Round($d.CapacityInBytes / 1GB, 1); " +
-                        "  if ($idx -eq 0) { $sysGB = $gb } else { $dataGBs += $gb }; $idx++ " +
-                        "}; " +
-                        "$notesB64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($vm.Config.Annotation)); " +
-                        "if (-not $ip) { " +
-                        "  if ($vm.Guest -and $vm.Guest.IpAddress) { " +
-                        "    $ips = $vm.Guest.IpAddress | Where-Object { $_ -match '^\\d{1,3}(\\.\\d{1,3}){3}$' }; " +
-                        "    $ip = ($ips -join ','); " +
-                        "  }; " +
-                        "}; " +
-                        "[PSCustomObject]@{'SysDiskGB'=$sysGB; 'DataDisksGB'=($dataGBs -join ','); 'NotesB64'=$notesB64; 'IP'=$ip}; ";
-                    var results = await SessionManager.Instance.ExecuteQueryAsync(script);
-                    if (results != null && results.Count > 0)
-                    {
-                        results[0].TryGetValue("SysDiskGB", out var sysDiskObj);
-                        results[0].TryGetValue("DataDisksGB", out var dataDisksObj);
-                        results[0].TryGetValue("NotesB64", out var notesB64Obj);
-                        decimal? sysDisk = null;
-                        if (decimal.TryParse(sysDiskObj?.ToString(), out var sd)) sysDisk = sd;
-                        string dataDisksStr = dataDisksObj?.ToString() ?? "";
-                        var dataDisks = new List<decimal>();
-                        foreach (var s in dataDisksStr.Split(','))
-                        {
-                            if (decimal.TryParse(s.Trim(), out var dd)) dataDisks.Add(dd);
-                        }
-                        string notesB64 = notesB64Obj?.ToString() ?? "";
-                        try { notes = string.IsNullOrEmpty(notesB64) ? "" : Encoding.UTF8.GetString(Convert.FromBase64String(notesB64)); }
-                        catch { notes = ""; }
-                        results[0].TryGetValue("IP", out var ipObj);
-                        string ipFromQuery = ipObj?.ToString() ?? "";
-                        if (!string.IsNullOrEmpty(ipFromQuery)) ip = ipFromQuery;
+            Task.Run(async () =BˆÃBˆİš[™È\ÚÈHˆ‹›İ\ÈHˆÃBˆCBˆÃBˆİš[™È\ØÈH\ØØ\TÔİš[™Ê›S˜[YJNÃBˆİš[™È\ØÒ\H\ØØ\TÔİš[™Ê\
+NÃBˆİš[™ÈØÜš\CBˆ‰\œ›ÜXİ[Û”™Y™\™[˜ÙHH	ÔİÜ	ÎÈˆ
+ÃBˆ	‰\H	ŞÙ\ØÒ\IÎÈˆ
+ÃBˆ	‰›HHÙ]UšY]ÈUšY]Õ\Hš\X[XXÚ[™HQš[\ˆŞÓ˜[YOIŞÙ\ØßIÎÈ	ĞÛÛ™šYË•[\]IÏIÑ˜[ÙIß_HT›Ü\HÛÛ™šYË’\™Ø\™K‘]šXÙKÛÛ™šYË[››İ][Û‹İY\İ[[YK’Üİ]\İÜ™HQ\œ›ÜXİ[ÛˆİÜÈˆ
+ÃBˆšYˆ
+[›İ	›JHÈ›İÈ	Õ“H›İ›İ[™	ÈNÈˆ
+ÃBˆ‰\ÚÜÈH
+	›KÛÛ™šYË’\™Ø\™K‘]šXÙHÚ\™KSØš™XİÈ	ÈZ\ÈÕ“]Ø\™K•š[K•š\X[\Ú×HHÛÜSØš™XİÛÛ›Û\’Ù^K[š][X™\ŠNÈˆ
+ÃBˆ‰Ş\ÑĞˆH	[È	]QĞœÈH
 
-                        var diskParts = new List<string>();
-                        if (sysDisk.HasValue) diskParts.Add($"ç³»ç»Ÿç›˜ {sysDisk.Value:0.##}G");
-                        for (int i = 0; i < dataDisks.Count; i++) diskParts.Add($"æ•°æ®ç›˜{(dataDisks.Count > 1 ? (i + 1).ToString() : "")} {dataDisks[i]:0.##}G");
-                        disk = string.Join("ï¼Œ", diskParts);
-                    }
-                }
-                catch { }
+NÈ	YHÈˆ
+ÃBˆ™›Ü™XXÚ
+	[ˆ	\ÚÜÊHÈˆ
+ÃBˆˆ	ØˆHÛX]N”›İ[™
+	Ø\XÚ]R[]\ÈÈQĞ‹JNÈˆ
+ÃBˆˆYˆ
+	YY\H
+HÈ	Ş\ÑĞˆH	ØˆH[ÙHÈ	]QĞœÈ
+ÏH	ØˆNÈ	Y
+ÊÈˆ
+ÃBˆŸNÈˆ
+ÃBˆ‰›İ\ĞHĞÛÛ™\N•Ğ˜\ÙMİš[™ÊÔŞ\İ[K•^‘[˜ÛÙ[™×N•U‘Ù]]\Ê	›KÛÛ™šYË[››İ][ÛŠJNÈˆ
+ÃBˆšYˆ
+[›İ	\
+HÈˆ
+ÃBˆˆYˆ
+	›K‘İY\İX[™	›K‘İY\İ’\Y™\ÜÊHÈˆ
+ÃBˆˆ	\ÈH	›K‘İY\İ’\Y™\ÜÈÚ\™KSØš™XİÈ	È[X]Ú	×—ÌKßJ—ÌKßJ^ÌßI	ÈNÈˆ
+ÃBˆˆ	\H
+	\ÈZ›Ú[ˆ	Ë	ÊNÈˆ
+ÃBˆˆNÈˆ
+ÃBˆŸNÈˆ
+ÃBˆ–ÔĞİ\İÛSØš™XİPÉÔŞ\Ñ\ÚÑĞ‰ÏIŞ\ÑĞÈ	Ñ]Q\ÚÜÑĞ‰ÏJ	]QĞœÈZ›Ú[ˆ	Ë	ÊNÈ	Ó›İ\Ğ	ÏI›İ\ĞÈ	ÒT	ÏI\NÈÃBˆ˜\ˆ™\İ[ÈH]ØZ]Ù\ÜÚ[Û“X[˜YÙ\‹’[œİ[˜ÙK‘^Xİ]T]Y\P\Ş[˜ÊØÜš\
+NÃBˆYˆ
+™\İ[ÈOH[	‰ˆ™\İ[ËÛİ[ˆ
+CBˆÃBˆ™\İ[ÖÌK•QÙ]˜[YJ”Ş\Ñ\ÚÑĞˆ‹İ]˜\ˆŞ\Ñ\ÚÓØšŠNÃBˆ™\İ[ÖÌK•QÙ]˜[YJ‘]Q\ÚÜÑĞˆ‹İ]˜\ˆ]Q\ÚÜÓØšŠNÃBˆ™\İ[ÖÌK•QÙ]˜[YJ“›İ\Ğ‹İ]˜\ˆ›İ\ĞØšŠNÃBˆXÚ[X[ÈŞ\Ñ\ÚÈH[ÃBˆYˆ
+XÚ[X[•T\œÙJŞ\Ñ\ÚÓØšË•Ôİš[™Ê
+Kİ]˜\ˆÙ
+JHŞ\Ñ\ÚÈHÙÃBˆİš[™È]Q\ÚÜÔİˆH]Q\ÚÜÓØšË•Ôİš[™Ê
+HÏÈˆÃBˆ˜\ˆ]Q\ÚÜÈH™]È\İXÚ[X[Š
+NÃBˆ›Ü™XXÚ
+˜\ˆÈ[ˆ]Q\ÚÜÔİ‹”Ü]
+	Ë	ÊJCBˆÃBˆYˆ
+XÚ[X[•T\œÙJË•š[J
+Kİ]˜\ˆ
+JH]Q\ÚÜËY
+
+NÃBˆCBˆİš[™È›İ\ĞH›İ\ĞØšË•Ôİš[™Ê
+HÏÈˆÃBˆHÈ›İ\ÈHİš[™Ë’\Ó[Ü‘[\J›İ\Ğ
+HÈˆˆˆ[˜ÛÙ[™Ë•U‘Ù]İš[™ÊÛÛ™\‘œ›ÛP˜\ÙMİš[™Ê›İ\Ğ
+JNÈCBˆØ]ÚÈ›İ\ÈHˆÈCBˆ™\İ[ÖÌK•QÙ]˜[YJ’T‹İ]˜\ˆ\ØšŠNÃBˆİš[™È\œ›ÛT]Y\HH\ØšË•Ôİš[™Ê
+HÏÈˆÃBˆYˆ
+\İš[™Ë’\Ó[Ü‘[\J\œ›ÛT]Y\JJH\H\œ›ÛT]Y\NÃBƒBˆ˜\ˆ\ÚÔ\ÈH™]È\İİš[™ÏŠ
+NÃBˆYˆ
+Ş\Ñ\ÚË’\Õ˜[YJH\ÚÔ\ËY
+	¹ìîùîçùææÜŞ\Ñ\ÚË•˜[YNŒˆÈßQÈŠNÃBˆ›Üˆ
+[HHÈH]Q\ÚÜËÛİ[ÈJÊÊH\ÚÔ\ËY
+	¹¥l9£k¹ææÊ]Q\ÚÜËÛİ[ˆHÈ
+H
+ÈJK•Ôİš[™Ê
+HˆˆŠ_HÙ]Q\ÚÜÖÚWNŒˆÈßQÈŠNÃBˆ\ÚÈHİš[™Ë’›Ú[Š»ï#‹\ÚÔ\ÊNÃBˆCBˆCBˆØ]ÚÈCBƒBˆÜ›ÛİË™YÚ[’[›ÚÙJ™]ÈXİ[ÛŠ
 
-                _root?.BeginInvoke(new Action(() =>
-                {
-                    var sb = new StringBuilder();
-                    sb.AppendLine("ã€Œè™šæ‹ŸæœåŠ¡å™¨ä¿¡æ¯åˆ†äº«ã€");
-                    sb.AppendLine($"åç§°ï¼š{vmName}");
-                    sb.AppendLine($"IPåœ°å€ï¼š{ip}");
-                    sb.AppendLine($"CPUï¼š{(cpu.Length > 0 ? cpu + " vCPU" : "")}");
-                    sb.AppendLine($"å†…å­˜ï¼š{(mem.Length > 0 ? mem + " GB" : "")}");
-                    sb.AppendLine($"ç£ç›˜ï¼š{(disk.Length > 0 ? disk : "")}");
-                    sb.AppendLine($"æ“ä½œç³»ç»Ÿï¼š{os}");
-                    sb.AppendLine("åˆå§‹å¯†ç ï¼š");
-                    string notesDisplay = notes?.Replace("\r\n", " ")?.Replace("\n", " ")?.Replace("\r", " ") ?? "";
-                    sb.AppendLine($"å¤‡æ³¨ï¼š{notesDisplay}");
-
-                    CopyText(sb.ToString().TrimEnd());
-                    ToastUtils.ShowToast(_root, "è™šæ‹ŸæœåŠ¡å™¨åˆ†äº«ä¿¡æ¯å·²å¤åˆ¶åˆ°å‰ªè´´æ¿");
-                }));
-            });
-        }
-    }
-
-    /// <summary>
-    /// è‡ªå®šä¹‰ ListViewï¼Œå®Œå…¨ç¦æ­¢æ ‡ç­¾ç¼–è¾‘è¡Œä¸º
-    /// é€šè¿‡æ‹¦æˆª Windows æ¶ˆæ¯é˜²æ­¢åŒå‡»ç¬¬ä¸€åˆ—æ—¶è¿›å…¥ç¼–è¾‘æ¨¡å¼
-    /// </summary>
-    public class NonEditableListView : ListView
-    {
-        protected override void WndProc(ref Message m)
-        {
-            const int LVM_GETEDITCONTROL = 0x1048;
-            if (m.Msg == LVM_GETEDITCONTROL)
-            {
-                m.Result = IntPtr.Zero;
-                return;
-            }
-            base.WndProc(ref m);
-        }
-    }
-}
+H@Ğ¢°Ğ¢f"6"ÒæWr7G&–æt'V–ÆFW"‚“°Ğ¢6"äVæDÆ–æR‚.8Î‰™®h¹şiÈŞXªYšKúhşXˆnKª¾8Ò"“°Ğ¢6"äVæDÆ–æR‚B.YŞz{òiíÙµ9…µ•ôˆ¤ì4(€€€€€€€€€€€€€€€€€€€Íˆ¹ÁÁ•¹‘1¥¹” ‰%C–rÃ–v¼š{ip}");
+                    sb.AppendLine($"CPUï&ÊÜK“[™İò7R²"d5R"¢""—Ò"“°Ğ¢6"äVæDÆ–æR‚B.Xh^ZÙûÉ§²†ÖVÒäÆVæwF‚âòÖVÒ²"t""¢""—Ò"“°Ğ¢6"äVæDÆ–æR‚B.z8y¹ûÉ§²†F—6²äÆVæwF‚ €À€ü‘¥Í¬€è€ˆˆ¥ôˆ¤ì4(€€€€€€€€€€€€€€€€€€€Íˆ¹ÁÁ•¹‘1¥¹” ‹šN7’ösÎïî¾òií½Íôˆ¤ì4(€€€€€€€€€€€€€€€€€€€Íˆ¹ÁÁ•¹‘1¥¹” ‹–"w–/–¾‚¾òhˆ¤ì4(€€€€€€€€€€€€€€€€€€€ÍÑÉ¥¹œ¹½Ñ•Í¥ÍÁ±…ä€ô¹½Ñ•Ìü¹I•Á±…” ‰qÉq¸ˆ°€ˆ€ˆ¤ü¹I•Á±…” ‰q¸ˆ°€ˆ€ˆ¤ü¹I•Á±…” ‰qÈˆ°€ˆ€ˆ¤€üü€ˆˆì4(€€€€€€€€€€€€€€€€€€€Íˆ¹ÁÁ•¹‘1¥¹” ‹–’šÎ£¾òií¹½Ñ•Í¥ÍÁ±…åôˆ¤ì4(4(€€€€€€€€€€€€€€€€€€€½ÁåQ•áĞ¡Íˆ¹Q½MÑÉ¥¹œ ¤¹QÉ¥µ¹ ¤¤ì4(€€€€€€€€€€€€€€€€€€€Q½…ÍÑUÑ¥±Ì¹M¡½İQ½…ÍĞ¡}É½½Ğ°€‹¢fkš.šr7–*‡–f£–"’ê¯’ş‡š¿–ŞË–’7–"Û–"Ã–&«¢ÒÓšvüˆ¤ì4(€€€€€€€€€€€€€€€ô¤¤ì4(€€€€€€€€€€€ô¤ì4(€€€€€€€ô4(€€€ô4(4(€€€€¼¼¼€ñÍÕµµ…Éäø4(€€€€¼¼¼ƒ¢«–ºk’æ$1¥ÍÑY¥•ß¾ò3–º3–£šš¶‹š‚¶ç¼–è¾‘è¡Œä¸º
+    /// é€šè¿…¢é¹¢*ˆÚ[™İÜÈ9­¢9 k™‹.jÚ.XøÎX{²³’â–"V—¶è¿™aiyï%º)jŠ[ÈğĞ¢òòòÂ÷7VÖÖ'4(€€€ÁÕ‰±¥Œ±…ÍÌ9½¹‘¥Ñ…‰±•1¥ÍÑY¥•Ü€è1¥ÍÑY¥•Ü4(€€€ì4(€€€€€€€ÁÉ½Ñ•Ñ•½Ù•ÉÉ¥‘”Ù½¥]¹‘AÉ½Œ¡É•˜5•ÍÍ…”´¤4(€€€€€€€ì4(€€€€€€€€€€€½¹ÍĞ¥¹Ğ1Y5}Q%Q=9QI=0€ô€ÁàÄÀĞàì4(€€€€€€€€€€€¥˜€¡´¹5Íœ€ôô1Y5}Q%Q=9QI=0¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€´¹I•ÍÕ±Ğ€ô%¹ÑAÑÈ¹i•É¼ì4(€€€€€€€€€€€€€€€É•ÑÕÉ¸ì4(€€€€€€€€€€€ô4(€€€€€€€€€€€‰…Í”¹]¹‘AÉ½Œ¡É•˜´¤ì4(€€€€€€€ô4(€€€ô4)
