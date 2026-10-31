@@ -12,8 +12,8 @@ $csprojFile = Join-Path $ProjectRoot "VirtualizationOpsTool.csproj"
 
 Write-Host "æ›´æ–° csproj æ–‡ä»¶..."
 $content = Get-Content $csprojFile -Raw -Encoding UTF8
-$content = $content -replace '<Version>[^<]+</Version>', ('<Version>' + $NewVersion + '</Version>')
-[System.IO.File]::WriteAllText($csprojFile, $content, [System.Text.Encoding]::UTF8)
-Write-Host "  csproj ç‰ˆæœ¬å·å·²æ›´æ–°ä¸º $NewVersion"
-
-Write-Host "AppVersion.cs ä½¿ç”¨ç¨‹åºé›†åå°„è¯»å–ï¼Œæ— éœ€æ›´æ–°"
+$content = $content -replace '<Version>[^<]*</Version>', ('<Version	È
+È	™]Õ™\œÚ[Ûˆ
+È	ÏÕ™\œÚ[Û‰ÊCB–ÔŞ\İ[K’SË‘š[WN•Üš]P[^
+	ÜÜ›Ú‘š[K	ÛÛ[ÔŞ\İ[K•^‘[˜ÛÙ[™×N•U
+CB•Üš]KRÜİˆÜÜ›Úˆ9âb9§+9cí[{.i»NikK‹¢DæWufW'6–öâ Ğ Ğ¥w&—FRÔ†÷7B$fW'6–öâæ72KÛşyJzˆ¾[¨ş™¸nXøŞ[NŠû¾XùnûÈÎiz™Èi»Nik
