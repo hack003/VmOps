@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VmOps ä½¿ç”¨å¸®åŠ©</title>
-    <link rel="icon" href="vmware.ico">
+<!DOCTYPE htmlB[[™ÏHžšPÓˆ€Ð£Æ†VCàÐ¢ÆÖWF6†'6WCÒ%UDbÓ‚ 4(€€€€ñµ•Ñ„¹…µ”ô‰Ù¥•ÝÁ½ÉÐˆ½¹Ñ•¹Ðô‰Ý¥‘Ñ õ‘•Ù¥”µÝ¥‘Ñ °¥¹¥Ñ¥…°µÍ…±”ôÄ¸Àˆø4(€€€€ñÑ¥Ñ±”ùYµ=ÁÌƒ’öÿžR£–â»–*¤ð½Ñ¥Ñ±”ø4(€€€€ñ±¥¹¬É•°ô‰¥½¸ˆ¡É•˜ô‰ÙµÝ…É”¹¥¼ˆ
     <base target="_blank">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -189,233 +183,38 @@
             line-height: 1.5;
         }
         .toc-sidebar a:hover { background: rgba(255,255,255,0.2); color: #fff; }
-        .toc-sidebar .has-children > a::after {
-            content: ' â–¾';
-            font-size: 12px;
-            opacity: 0.7;
-        }
-        .toc-sidebar .has-children.open > a::after {
-            content: ' â–´';
-        }
-        .toc-sidebar .children {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.25s ease;
-        }
-        .toc-sidebar .has-children.open > .children {
-            max-height: 500px;
-        }
-        .toc-sidebar .children li.sub { padding-left: 18px; }
-        .toc-sidebar .children li.sub a { font-size: 14px; color: rgba(255,255,255,0.7); }
-        .toc-sidebar .children li.sub a:hover { color: #fff; }
-        .toc-sidebar .children li.sub.active a { color: #fff; background: rgba(255,255,255,0.25); }
-        .toc-sidebar .sub { padding-left: 0; }
-        .container { margin-left: 240px; max-width: calc(100% - 240px); }
-        @media (max-width: 900px) {
-            .toc-sidebar { position: static; transform: none; border-radius: 8px; margin-bottom: 20px; max-height: none; }
-            .container { margin-left: 0; max-width: 100%; }
-        }
-        hr { border: none; border-top: 2px solid #e0e0e0; margin: 25px 0; }
-        .risk-low { color: #28a745; font-weight: bold; }
-        .risk-mid { color: #fd7e14; font-weight: bold; }
-        .risk-high { color: #dc3545; font-weight: bold; }
-        .badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        .badge-green { background: #d4edda; color: #155724; }
-        .badge-orange { background: #fff3cd; color: #856404; }
-        .badge-red { background: #f8d7da; color: #721c24; }
-        .script-wrapper {
-            position: relative;
-            margin: 10px 0;
-        }
-        .code-block { position: relative; }
-        .code-block .copy-btn {
-            position: absolute;
-            top: 6px;
-            right: 6px;
-            padding: 3px 10px;
-            font-size: 12px;
-            border: 1px solid #1a73e8;
-            border-radius: 4px;
-            background: #fff;
-            color: #1a73e8;
-            cursor: pointer;
-            font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
-            transition: all 0.15s;
-        }
-        .code-block .copy-btn:hover {
-            background: #1a73e8;
-            color: #fff;
-        }
-        .code-block .copy-btn.copied {
-            background: #28a745;
-            border-color: #28a745;
-            color: #fff;
-        }
-        .script-wrapper .code-block {
-            margin-top: 0;
-        }
-        .script-actions {
-            position: absolute;
-            top: 6px;
-            right: 6px;
-            display: flex;
-            gap: 6px;
-            z-index: 5;
-        }
-        .script-actions button {
-            padding: 3px 10px;
-            font-size: 12px;
-            border: 1px solid #1a73e8;
-            border-radius: 4px;
-            background: #fff;
-            color: #1a73e8;
-            cursor: pointer;
-            font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
-            transition: all 0.15s;
-        }
-        .script-actions button:hover {
-            background: #1a73e8;
-            color: #fff;
-        }
-        .script-actions button.copied {
-            background: #28a745;
-            border-color: #28a745;
-            color: #fff;
-        }
-    </style>
-</head>
-<body>
-<nav class="toc-sidebar">
-    <h4>ç›®å½•å¯¼èˆª</h4>
-    <ul>
-        <li><a data-href="#intro">ç¨‹åºç®€ä»‹</a></li>
+        .toc-sidebar .has-children NŽ˜Y\ˆÃBˆÛÛ[ˆ	È8¥¢s°Ð¢föçB×6—¦S¢'ƒ°Ð¢÷6—G“¢ãs°Ð¢ÐÐ¢çFö2×6–FV&"æ†2Ö6†–ÆG&Vâæ÷Vââ£¦gFW"°Ð¢6öçFVçC¢r)kBs°Ð¢ÐÐ¢çFö2×6–FV&"æ6†–ÆG&Vâ°Ð¢Æ—7B×7G–ÆS¢æöæS°Ð¢FF–æs¢°Ð¢Ö&v–ã¢°Ð¢Ö‚Ö†V–v‡C¢°Ð¢÷fW&fÆ÷s¢†–FFVã°Ð¢G&ç6—F–öã¢Ö‚Ö†V–v‡Bã#W2V6S°Ð¢ÐÐ¢çFö2×6–FV&"æ†2Ö6†–ÆG&Vâæ÷Vââæ6†–ÆG&Vâ°Ð¢Ö‚Ö†V–v‡C¢Sƒ°Ð¢ÐÐ¢çFö2×6–FV&"æ6†–ÆG&VâÆ’ç7V"²FF–ærÖÆVgC¢‡ƒ²ÐÐ¢çFö2×6–FV&"æ6†–ÆG&VâÆ’ç7V"²föçB×6—¦S¢Gƒ²6öÆ÷#¢&v&ƒ#SRÃ#SRÃ#SRÃãr“²ÐÐ¢çFö2×6–FV&"æ6†–ÆG&VâÆ’ç7V"¦†÷fW"²6öÆ÷#¢6ffc²ÐÐ¢çFö2×6–FV&"æ6†–ÆG&VâÆ’ç7V"æ7F—fR²6öÆ÷#¢6ffc²&6¶w&÷VæC¢&v&ƒ#SRÃ#SRÃ#SRÃã#R“²ÐÐ¢çFö2×6–FV&"ç7V"²FF–ærÖÆVgC¢²ÐÐ¢æ6öçF–æW"²Ö&v–âÖÆVgC¢#Cƒ²Ö‚×v–GFƒ¢6Æ2ƒRÒ#C‚“²ÐÐ¢ÖVF–†Ö‚×v–GFƒ¢“‚’°Ð¢çFö2×6–FV&"²÷6—F–öã¢7FF–3²G&ç6f÷&Ó¢æöæS²&÷&FW"×&F—W3¢‡ƒ²Ö&v–âÖ&÷GFöÓ¢#ƒ²Ö‚Ö†V–v‡C¢æöæS²ÐÐ¢æ6öçF–æW"²Ö&v–âÖÆVgC¢²Ö‚×v–GFƒ¢S²ÐÐ¢ÐÐ¢‡"²&÷&FW#¢æöæS²&÷&FW"×F÷¢'‚6öÆ–B6SSS²Ö&v–ã¢#W‚²ÐÐ¢ç&—6²ÖÆ÷r²6öÆ÷#¢3#†sCS²föçB×vV–v‡C¢&öÆC²ÐÐ¢ç&—6²ÖÖ–B²6öÆ÷#¢6fCvSC²föçB×vV–v‡C¢&öÆC²ÐÐ¢ç&—6²Ö†–v‚²6öÆ÷#¢6F33SCS²föçB×vV–v‡C¢&öÆC²ÐÐ¢æ&FvR°Ð¢F—7Æ“¢–æÆ–æRÖ&Æö6³°Ð¢FF–æs¢'‚‡ƒ°Ð¢&÷&FW"×&F—W3¢Gƒ°Ð¢föçB×6—¦S¢'ƒ°Ð¢föçB×vV–v‡C¢&öÆC°Ð¢ÐÐ¢æ&FvRÖw&VVâ²&6¶w&÷VæC¢6CFVFF²6öÆ÷#¢3SSs#C²ÐÐ¢æ&FvRÖ÷&ævR²&6¶w&÷VæC¢6ffc66C²6öÆ÷#¢3ƒScCC²ÐÐ¢æ&FvR×&VB²&6¶w&÷VæC¢6c†CvF²6öÆ÷#¢3s#3#C²ÐÐ¢ç67&—B×w&W"°Ð¢÷6—F–öã¢&VÆF—fS°Ð¢Ö&v–ã¢‚°Ð¢ÐÐ¢æ6öFRÖ&Æö6²²÷6—F–öã¢&VÆF—fS²ÐÐ¢æ6öFRÖ&Æö6²æ6÷’Ö'Fâ°Ð¢÷6—F–öã¢'6öÇWFS°Ð¢F÷¢gƒ°Ð¢&–v‡C¢gƒ°Ð¢FF–æs¢7‚ƒ°Ð¢föçB×6—¦S¢'ƒ°Ð¢&÷&FW#¢‚6öÆ–B3s6Sƒ°Ð¢&÷&FW"×&F—W3¢Gƒ°Ð¢&6¶w&÷VæC¢6ffc°Ð¢6öÆ÷#¢3s6Sƒ°Ð¢7W'6÷#¢ö–çFW#°Ð¢föçBÖfÖ–Ç“¢$Ö–7&÷6ögB–†V’"Â%6VvöRT’"Â6ç2×6W&–c°Ð¢G&ç6—F–öã¢ÆÂãW3°Ð¢ÐÐ¢æ6öFRÖ&Æö6²æ6÷’Ö'Fã¦†÷fW"°Ð¢&6¶w&÷VæC¢3s6Sƒ°Ð¢6öÆ÷#¢6ffc°Ð¢ÐÐ¢æ6öFRÖ&Æö6²æ6÷’Ö'Fâæ6÷–VB°Ð¢&6¶w&÷VæC¢3#†sCS°Ð¢&÷&FW"Ö6öÆ÷#¢3#†sCS°Ð¢6öÆ÷#¢6ffc°Ð¢ÐÐ¢ç67&—B×w&W"æ6öFRÖ&Æö6²°Ð¢Ö&v–â×F÷¢°Ð¢ÐÐ¢ç67&—BÖ7F–öç2°Ð¢÷6—F–öã¢'6öÇWFS°Ð¢F÷¢gƒ°Ð¢&–v‡C¢gƒ°Ð¢F—7Æ“¢fÆWƒ°Ð¢v¢gƒ°Ð¢¢Ö–æFWƒ¢S°Ð¢ÐÐ¢ç67&—BÖ7F–öç2'WGFöâ°Ð¢FF–æs¢7‚ƒ°Ð¢föçB×6—¦S¢'ƒ°Ð¢&÷&FW#¢‚6öÆ–B3s6Sƒ°Ð¢&÷&FW"×&F—W3¢Gƒ°Ð¢&6¶w&÷VæC¢6ffc°Ð¢6öÆ÷#¢3s6Sƒ°Ð¢7W'6÷#¢ö–çFW#°Ð¢föçBÖfÖ–Ç“¢$Ö–7&÷6ögB–†V’"Â%6VvöRT’"Â6ç2×6W&–c°Ð¢G&ç6—F–öã¢ÆÂãW3°Ð¢ÐÐ¢ç67&—BÖ7F–öç2'WGFöã¦†÷fW"°Ð¢&6¶w&÷VæC¢3s6Sƒ°Ð¢6öÆ÷#¢6ffc°Ð¢ÐÐ¢ç67&—BÖ7F–öç2'WGFöâæ6÷–VB°Ð¢&6¶w&÷VæC¢3#†sCS°Ð¢&÷&FW"Ö6öÆ÷#¢3#†sCS°Ð¢6öÆ÷#¢6ffc°Ð¢ÐÐ¢Â÷7G–ÆSàÐ£Âö†VCàÐ£Æ&öG4(ñ¹…Ø±…ÍÌô‰Ñ½ŒµÍ¥‘•‰…Èˆ
+    <h4>ç›®å½•å¯¼èˆª</h4Bˆ[ƒBˆCÆFFÖ‡&VcÒ"6–çG&ò#îzˆ–ê7®€ä»‹</a></li>
 
         <li class="has-children open">
-            <a data-href="#env">ä¸€ã€çŽ¯å¢ƒå‡†å¤‡</a>
-            <ul class="children">
-                <li class="sub"><a data-href="#install-online">åœ¨çº¿å®‰è£…</a></li>
-                <li class="sub"><a data-href="#install-offline">è„±æœºå®‰è£…</a></li>
-                <li class="sub"><a data-href="#config">PowerCLI é…ç½®</a></li>
-            </ul>
-        </li>
-
-        <li class="has-children">
-            <a data-href="#interface">äºŒã€ç•Œé¢æ€»è§ˆ</a>
-            <ul class="children">
-                <li class="sub"><a data-href="#tabs">Tab é¡µç­¾</a></li>
-                <li class="sub"><a data-href="#statusbar">çŠ¶æ€æ ä¸Žè¿è¡Œæ—¥å¿—</a></li>
-            </ul>
-        </li>
-
-        <li class="has-children">
-            <a data-href="#flow">ä¸‰ã€æ“ä½œæµç¨‹</a>
-            <ul class="children">
-                <li class="sub"><a data-href="#step-connect">è¿žæŽ¥èµ„æº</a></li>
-                <li class="sub"><a data-href="#step-deploy">æ‰§è¡Œéƒ¨ç½²</a></li>
-            </ul>
-        </li>
-
-        <li class="has-children">
-            <a data-href="#resource-tabs">å››ã€èµ„æºæŸ¥è¯¢ Tab</a>
-            <ul class="children">
-                <li class="sub"><a data-href="#vm-list">è™šæ‹Ÿæœºåˆ—è¡¨</a></li>
-                <li class="sub"><a data-href="#host-list">ä¸»æœº/å­˜å‚¨/ç½‘ç»œåˆ—è¡¨</a></li>
-                <li class="sub"><a data-href="#vm-right-click">å•å° VM å³é”®æ“ä½œ</a></li>
-                <li class="sub"><a data-href="#batch-ops">æ‰¹é‡ VM å³é”®æ“ä½œ</a></li>
-                <li class="sub"><a data-href="#other-menus">é€šç”¨èœå•</a></li>
-            </ul>
-        </li>
-
-        <li class="has-children">
-            <a data-href="#csv-editor">äº”ã€ç¼–è¾‘åˆ—è¡¨ Tab</a>
-            <ul class="children">
-                <li class="sub"><a data-href="#csv-fields">å­—æ®µè¯´æ˜Ž</a></li>
-                <li class="sub"><a data-href="#csv-naming">å‘½åè§„åˆ™</a></li>
-            </ul>
-        </li>
-
-        <li><a data-href="#ovftool">å…­ã€OvfTool Tab</a></li>
-
-        <li class="has-children">
-            <a data-href="#practical-cmds">ä¸ƒã€å¸¸ç”¨å‘½ä»¤å®žæˆ˜è®°å½•</a>
-            <ul class="children">
-                <li class="sub"><a data-href="#practical-vmware-unlun">VMware å¸è½½ LUN</a></li>
-                <li class="sub"><a data-href="#practical-nfs41">NFSè®¿é—®æ•…éšœå¤„ç†</a></li>
-                <li class="sub"><a data-href="#practical-vmware-cmds">VMware å¸¸ç”¨å‘½ä»¤</a></li>
-                <li class="sub"><a data-href="#practical-vmfs-expand">æ‰©å±• VMFS æ•°æ®å­˜å‚¨</a></li>
-                <li class="sub"><a data-href="#practical-vmware-cert">VMware è¯ä¹¦é—®é¢˜</a></li>
-                <li class="sub"><a data-href="#practical-vmware-snapshot">VMware å¿«ç…§ç®¡ç†</a></li>
-                <li class="sub"><a data-href="#practical-vmware-password">VMware å¯†ç é—®é¢˜å¤„ç†</a></li>
-                <li class="sub"><a data-href="#practical-vmware-upgrade">VMware ç‰ˆæœ¬å‡çº§</a></li>
-            </ul>
-        </li>
-
-        <li><a data-href="#faq">å…«ã€å¸¸è§é—®é¢˜ä¸Žé”™è¯¯å¤„ç†</a></li>
-    </ul>
-</nav>
-
-<div class="container">
-    <h1 id="intro">VmOps ä½¿ç”¨å¸®åŠ©</h1>
-    <p><strong>VmOps</strong> æ˜¯ä¸€æ¬¾ä¸“ä¸ºä¼ä¸šè™šæ‹ŸåŒ–ç»´æŠ¤äººå‘˜è®¾è®¡çš„æ‰¹é‡è™šæ‹Ÿæœºéƒ¨ç½²ä¸Žè‡ªåŠ¨åŒ–é…ç½®å·¥å…·ã€‚æœ¬å·¥å…·é€šè¿‡ CSV æ–‡ä»¶é…ç½®è™šæ‹Ÿæœºå‚æ•°ï¼Œåˆ©ç”¨ PowerShell + VMware PowerCLI ä¸Ž <strong>vCenter Server æˆ– ESXi ä¸»æœº</strong> äº¤äº’ï¼Œå®žçŽ°è™šæ‹Ÿæœºçš„æ‰¹é‡åˆ›å»ºã€è‡ªåŠ¨é…ç½® IP åœ°å€ç­‰ç½‘ç»œå‚æ•°ï¼Œå¤§å¹…å‡å°‘é‡å¤æ€§æ‰‹å·¥æ“ä½œï¼Œé™ä½Žå·¥ä½œè´Ÿè½½ï¼Œæå‡è¿ç»´æ•ˆçŽ‡ã€‚</p>
-
-    <h3>æ ¸å¿ƒåŠŸèƒ½</h3>
-    <ul>
-        <li><strong>æ‰¹é‡éƒ¨ç½²è™šæ‹Ÿæœº</strong>ï¼šé€šè¿‡ CSV æ¨¡æ¿æ–‡ä»¶æ‰¹é‡å®šä¹‰è™šæ‹Ÿæœºé…ç½®ï¼ˆCPUã€å†…å­˜ã€å­˜å‚¨ã€ç½‘ç»œã€ç½‘å…³ã€æŽ©ç ç­‰ï¼‰ï¼Œä¸€é”®å®Œæˆå¤šå°è™šæ‹Ÿæœºçš„åˆ›å»ºä¸Žéƒ¨ç½²</li>
-        <li><strong>èµ„æºæŸ¥è¯¢ä¸Žç®¡ç†</strong>ï¼šå®žæ—¶æŸ¥è¯¢è™šæ‹Ÿæœºã€ä¸»æœºã€å­˜å‚¨ã€ç½‘ç»œç­‰èµ„æºåˆ—è¡¨ï¼Œæ”¯æŒæœç´¢è¿‡æ»¤ã€å¯¼å‡º CSVã€åŒå‡»æŸ¥çœ‹è¯¦ç»†ä¿¡æ¯</li>
-        <li><strong>VM æ—¥å¸¸è¿ç»´</strong>ï¼šåˆ†ç»„ä¸‹æ‹‰å³é”®èœå•ï¼Œæ¶µç›–è¿œç¨‹è¿žæŽ¥ã€ç”µæºç®¡ç†ã€ç¼–è¾‘é…ç½®ï¼ˆvCPU/å†…å­˜æ™ºèƒ½å‡é™ã€ç«¯å£ç»„ã€GuestOS ç½‘ç»œä¸Žå¯†ç ï¼‰ã€ç£ç›˜ç®¡ç†ã€è¿ç§»å…‹éš†ã€å¿«ç…§ç®¡ç†ã€åˆ é™¤ç­‰å…¨æ ˆæ“ä½œ</li>
-        <li><strong>æ‰¹é‡æ“ä½œ</strong>ï¼šå¤šé€‰ VM åŽæ‰¹é‡æ‰§è¡Œç”µæºæ“ä½œã€å¿«ç…§æ“ä½œã€åˆ é™¤è™šæ‹Ÿæœºã€æ‰¹é‡è¿ç§»ï¼ˆä¸»æœº vMotion / èµ„æºæ±  / Storage vMotionï¼‰</li>
-        <li><strong>VMRC è¿œç¨‹æŽ§åˆ¶å°</strong>ï¼šåœ¨è™šæ‹Ÿæœºè¯¦æƒ…é¡µä¸€é”®æ‰“å¼€ VMware Remote Console è¿œç¨‹æŽ§åˆ¶å°</li>
-        <li><strong>åœ¨çº¿ç¼–è¾‘åˆ—è¡¨</strong>ï¼šå†…ç½®è¡¨æ ¼ç¼–è¾‘å™¨ï¼Œå¯¼å…¥ / ç¼–è¾‘ / ä¿å­˜ CSV éƒ¨ç½²æ¨¡æ¿æ–‡ä»¶ï¼Œæ— éœ€å¤–éƒ¨å·¥å…·</li>
-        <li><strong>OVF Tool é›†æˆ</strong>ï¼šæ”¯æŒå¯¼å‡º/å¯¼å…¥/è½¬æ¢ OVF/OVA/VMX æ ¼å¼</li>
-        <li><strong>è¿žæŽ¥å‡­æ®è®°å¿†</strong>ï¼šè‡ªåŠ¨ä¿å­˜ vCenter / ESXi è¿žæŽ¥é…ç½®ä¸Žå¯†ç ï¼Œæ”¯æŒè¿žæŽ¥åˆ«åï¼Œå‡å°‘é‡å¤è¾“å…¥</li>
-    </ul>
-
-    <h3>å…³äºŽæœ¬å·¥å…·</h3>
-    <p>æœ¬å·¥å…·æœ€åˆä¸ºä¼ä¸šå†…éƒ¨è™šæ‹ŸåŒ–ç»´æŠ¤å›¢é˜Ÿæ—¥å¸¸è¿ç»´è€Œå¼€å‘ï¼Œç»è¿‡é•¿æœŸç”Ÿäº§çŽ¯å¢ƒçš„å®žé™…ä½¿ç”¨ä¸ŽæŒç»­ä¼˜åŒ–ï¼Œå·²å…·å¤‡ç¨³å®šå¯é çš„æ‰¹é‡éƒ¨ç½²èƒ½åŠ›ã€‚</p>
-    <div class="success">æœ¬å·¥å…·å·²åœ¨å®žé™…ç”Ÿäº§çŽ¯å¢ƒä¸­é•¿æœŸç¨³å®šè¿è¡Œï¼Œé€‚ç”¨äºŽéœ€è¦é¢‘ç¹æ‰¹é‡éƒ¨ç½²è™šæ‹ŸæœºåŠæ—¥å¸¸è¿ç»´çš„ä¼ä¸šåœºæ™¯ã€‚<br><strong>æœ¬å·¥å…·æ°¸ä¹…å…è´¹ï¼Œä¸ºä¸ªäººå…´è¶£å¼€å‘ï¼Œè¯·å‹¿å•†ç”¨æˆ–å”®å–ã€‚</strong></div>
-
-    <h3>ç¨‹åºæ•°æ®æ–‡ä»¶</h3>
-    <p>ç¨‹åºæ•°æ®æ–‡ä»¶ç»Ÿä¸€å­˜å‚¨åœ¨ <code>%APPDATA%\VMTool\</code> ç›®å½•ä¸‹ï¼š</p>
-    <table>
-        <tr><th>æ–‡ä»¶</th><th>è¯´æ˜Ž</th></tr>
-        <tr><td>credentials.json</td><td>è¿žæŽ¥å‡­æ®ï¼ˆæ”¯æŒ vCenter / ESXi ä¸¤ç§ç±»åž‹ï¼ŒåŒ…å«åœ°å€ã€ç”¨æˆ·åŸŸã€ç”¨æˆ·åã€å¯†ç ç» Base64 ç¼–ç ä¿å­˜ï¼Œå¯é…ç½®è¿žæŽ¥åˆ«åï¼‰</td></tr>
-        <tr><td>deploy_vm_list.csv</td><td>éƒ¨ç½²ç”¨çš„ CSV æ¨¡æ¿æ–‡ä»¶ï¼ˆUTF-8 BOM ç¼–ç ï¼‰</td></tr>
-        <tr><td>vm_cache.json</td><td>èµ„æºç¼“å­˜ï¼ˆæŒ‰æœåŠ¡å™¨ IP åˆ†æ®µå­˜å‚¨ï¼Œåˆ·æ–°ç¼“å­˜åŽæ›´æ–°ï¼‰</td></tr>
-    </table>
-
-    <h2 id="env">ä¸€ã€çŽ¯å¢ƒå‡†å¤‡</h2>
-    <p>VmOps ä¾èµ– <strong>VMware PowerCLI</strong> æ¨¡å—ä¸Ž VMware vCenter Server æˆ– ESXi ä¸»æœºè¿›è¡Œäº¤äº’ã€‚ä½¿ç”¨å‰è¯·ç¡®ä¿å·²å®‰è£… PowerCLIã€‚</p>
+            <a data-href="#env">ä¸€ã€çŽ¯å¢ƒå‡†å¤‡</aBˆ[Û\ÜÏH˜Ú[™[ˆƒBˆHÛ\ÜÏHœÝXˆƒÆFFÖ‡&VcÒ"6–ç7FÆÂÖöæÆ–æR#îYÊŽ{«Öº'¢Žð½„øð½±¤ø4(€€€€€€€€€€€€€€€€ñ±¤±…ÍÌô‰ÍÕˆˆøñ„‘…Ñ„µ¡É•˜ôˆ¥¹ÍÑ…±°µ½™™±¥¹”ˆû¢Çšrë–º'¢Žð½„øð½±¤ø4(€€€€€€€€€€€€€€€€ñ±¤±…ÍÌô‰ÍÕˆˆøñ„‘…Ñ„µ¡É•˜ôˆ½¹™¥œˆùA½Ý•É1$ƒ¦7žö¸ð½„øð½±¤ø4(€€€€€€€€€€€€ð½Õ°ø4(€€€€€€€€ð½±¤ø4(4(€€€€€€€€ñ±¤±…ÍÌô‰¡…Ìµ¡¥±‘É•¸ˆ
+            <a data-href="#interface">äºŒã€ç•Œé¢æ€º)âØOƒBˆ[Û\ÜÏH˜Ú[™[ˆƒBˆHÛ\ÜÏHœÝXˆH]KZ™YHˆÝXœÈ•Xˆ:hmyëcÂöãÂöÆ4(€€€€€€€€€€€€€€€€ñ±¤±…ÍÌô‰ÍÕˆˆøñ„‘…Ñ„µ¡É•˜ôˆÍÑ…ÑÕÍ‰…ÈˆçŠ¶æ€æ ä¸Žè´:(c9¥éymsÂöãÂöÆ4(€€€€€€€€€€€€ð½Õ°ø4(€€€€€€€€ð½±¤ø4(4(€€€€€€€€ñ±¤±…ÍÌô‰¡…Ìµ¡¥±‘É•¸ˆø4(€€€€€€€€€€€€ñ„‘…Ñ„µ¡É•˜ôˆ™±½Üˆû’â'ŽšN7’ösšÖž¢,ð½„ø4(€€€€€€€€€€€€ñÕ°±…ÍÌô‰¡¥±‘É•¸ˆø4(€€€€€€€€€€€€€€€€ñ±¤±…ÍÌô‰ÍÕˆˆøñ„‘…Ñ„µ¡É•˜ôˆÍÑ•Àµ½¹¹•Ðˆû¢þ{š:—¢Öšê@ð½„øð½±¤ø4(€€€€€€€€€€€€€€€€ñ±¤±…ÍÌô‰ÍÕˆˆøñ„‘…Ñ„µ¡É•˜ôˆÍÑ•Àµ‘•Á±½äˆæ‰§è¡Œéƒ¨ç½²</a></liBˆÝ[ƒBˆÛOƒBƒBˆHÛ\ÜÏHš\ËXÚ[™[ˆƒBˆH]KZ™YHˆÜ™\ÛÝ\˜ÙK]XœÈ¹fæ8‹XNk©iú^Šú"F#Âö4(€€€€€€€€€€€€ñÕ°±…ÍÌô‰¡¥±‘É•¸ˆø4(€€€€€€€€€€€€€€€€ñ±¤±…ÍÌô‰ÍÕˆˆ<a data-href="#vm-list":&f¹¢çù§.¹b%ú(jØOÛ@Ð¢ÆÆ’6Æ73Ò'7V"#ãÆFFÖ‡&VcÒ"6†÷7BÖÆ—7B#’âïšrèµ­˜å‚¨/ç½‘ç»œåˆ—è¡¨</aÛOƒBˆHÛ\ÜÏHœÝXˆƒÆFFÖ‡&VcÒ"7fÒ×&–v‡BÖ6Æ–6²#îXÙ^XûdÒXû>™Jîi8ÞKÙÃÂöð½±¤ø4(€€€€€€€€€€€€€€€€ñ±¤±…ÍÌô‰ÍÕˆˆ<a data-href="#batch-ops">æ‰¹é‡ VM åŒúe+¹¤ãy/gØOÛ@Ð¢ÆÆ’6Æ73Ò'7V"#ãÆFFÖ‡&VcÒ"6÷F†W"ÖÖVçW2#î˜	®yJŽˆùÎXÙSÂöð½±¤ø4(€€€€€€€€€€€€ð½Õ°
+        </liBƒBˆHÛ\ÜÏHš\ËXÚ[™[ˆƒBˆH]KZ™YHˆØÜÝ‹YY]ÜˆŽK©N8{Én‹éX‰~Š‚F#ÂöàÐ¢ÇVÂ6Æ73Ò&6†–ÆG&Vâ#àÐ¢ÆÆ’6Æ73Ò'7V"#ãÆFFÖ‡&VcÒ"677bÖf–VÆG2#îZÙ~jë^ŠûNiˆãÂöð½±¤ø4(€€€€€€€€€€€€€€€€ñ±¤±…ÍÌô‰ÍÕˆˆ<a data-href="#csv-naming"9doyd#z)á9b&OØOÛ@Ð¢Â÷VÃàÐ¢ÂöÆ“àÐ Ð¢ÆÆ“ãÆFFÖ‡&VcÒ"6÷fgFööÂ#îXZÞ8÷feFööÂF#ÂöãÂöÆ“àÐ Ð¢ÆÆ’6Æ73Ò&†2Ö6†–ÆG&Vâ#àÐ¢ÆFFÖ‡&VcÒ"7&7F–6ÂÖ6ÖG2#îKˆ>8[‹ŽyJŽYÞKºNZéîh‰ŽŠë[ÙSÂö4(€€€€€€€€€€€€ñÕ°±…ÍÌô‰¡¥±‘É•¸ˆø4(€€€€€€€€€€€€€€€€ñ±¤±…ÍÌô‰ÍÕˆˆ<a data-href="#practical-vmware-unlun"“]Ø\™H9cn:/oHSØCÂöÆ“àÐ¢ÆÆ’6Æ73Ò'7V" ñ„‘…Ñ„µ¡É•˜ôˆÁÉ…Ñ¥…°µ¹™ÌÐÄˆù9O¢ºÿ¦^»šV¦js–’žBð½„</li>
+                <li class="sub"H]KZ™YHˆÜ˜XÝXØ[]›]Ø\™KXÛYÈ•“]Ø\™H9n.9å*9doy.éØOÛ@Ð¢ÆÆ’6Æ73Ò'7V"#ãÆFFÖ‡&VcÒ"7&7F–6Â×fÖg2ÖW‡æB#š&§–ÆTY5LƒšVÃš6»–¶c–
+ ð½„øð½±¤
+                <li class="sub"><a data-href="#practical-vmware-cert"“]Ø\™H:+ày.iºeëºh¦ØOÛOƒBˆHÛ\ÜÏHœÝXˆH]KZ™YHˆÜ˜XÝXØ[]›]Ø\™K\Û˜\ÚÝ•“]Ø\™H9n¾xZ~zêycÂöãÂöÆ4(€€€€€€€€€€€€€€€€ñ±¤±…ÍÌô‰ÍÕˆˆøñ„‘…Ñ„µ¡É•˜ôˆÁÉ…Ñ¥…°µÙµÝ…É”µÁ…ÍÍÝ½ÉˆùY5Ý…É”ƒ–¾ž‚¦^»¦Šc–’žBð½„</li>
+                <li class="sub"H]KZ™YHˆÜ˜XÝXØ[]›]Ø\™K]\Ü˜YH•“]Ø\™H9âb9§+9caùî©ÏØOÛ@Ð¢Â÷VÃàÐ¢ÂöÆ“àÐ Ð¢ÆÆ“ãÆFFÖ‡&VcÒ"6f#îXZŽ–âã¢ž¦^»¦Šc’â;¦Rg¢¾µ¤„ç†</a></li>
+    </ulBÛ˜]ƒBƒB]ˆÛ\ÜÏH˜ÛÛZ[™\ˆƒBˆHYHš[›È•›SÜÈ9/oùå*9n+¹bªOÚOƒBˆÝ›Û™ÅfÔ÷3Â÷7G&öæsâiŠþKˆjË’âO’âë’ò’âk¢fkš.–2[žîÓš*“’êë–Fc¢ºè®¡çš„æ‰¹é‡è™šæ‹Ÿæœºéƒ¨ç½²ä¸Žè‡ªåŠ¨åŒ–é…ç½®å·¥å…·ã€‚æœ¬å·¥å…·é€šè±ÈÔÕˆ9¥¡ù.íºacyïkº&f¹¢çù§.¹cà¹¥l;ï#9b*yå*ÝÙ\”Ú[
+È“]Ø\™HÝÙ\ÓH9.#ˆÝ›Û™ÏÙ[\ˆÙ\™\ˆ9¢%ˆTÖH9..ù§.ÜÝ›Û™Ïˆ9.©9.¤»ï#9k§¹ã¬:&f¹¢çù§.¹æ¡9¢nzaãùb&ùnî¸à z!ê¹bª:acyïkˆT9g,9g`9ëbyïdyîç9cà¹¥l;ÈÎZJVæ–5°‘é‡å¤æ€¥¢b[z^i8ÞKÙÎò3¦f7’ö;–Þ—’ös¢Òx½½ï#9£ä9ca‹ù{»NiXŽxèNð½Àø4(4(€€€€ñ Ìûš‚ã–þ–*¢ôð½ Ìø4(€€€€ñÕ°ø4(€€€€€€€€ñ±¤øñÍÑÉ½¹œæ‰¹é‡éƒ¨ç½²è™šæ‹Ÿæœº</strong;ï&º`&º,r55bjŠiÛþih~K»nh›ž˜xþZé®K˜ž‰™®h¹þiË®˜XÞ{ÚîûÈ„5^8Xh^ZÙŽ8ZÙŽX*Ž8{Ù{¹Î8{ÙX[>8hêžzzØžûÈžûÈÎKˆ™JîZèÎh‰ZI®Xû‰™®h¹þiË®y¨NX‰¾[»®Kˆî˜:Ž{Û#ÂöÆ“àÐ¢ÆÆñÍÑÉ½¹œû¢ÖšêCš~—¢¾‹’â;žº‡žBð½ÍÑÉ½¹œû¾òk–º{š^Ûš~—¢¾‹¢fkš.šrëŽ’âïšrëŽ–¶c–
+£ŽžöGžîsž¶'¢ÖšêC–"_¢†£¾ò3šR¿š2šBsžÒ‹¢þšî“Ž–¾ó–èM[Ž–å‡»æ™yç"ú*n{¸nK‡š¼ð½±¤ø4(€€€€€€€€ñ±¤øñÍÑÉ½¹œVM æ—¥å¸¸è´9îíÜÝ›Û™ÎûÉ®Xˆn{¸NKˆ¾h¸žXÏ¦R»¢å•ï¼Œæ¶µç›–è·9ê"ú-îhê^8yK^k©zêyn8{Én‹é˜XÞ{ÚîûÈ‡d5RþXh^ZÙŽi›®ˆ;ÞXØ~™˜Þ8zºþXú>{¸N8wVW7Dõ2{Ù{¹ÎKˆîZønzò'ŽžŽžncžº‡žBŽ¢þžžå…Šf¡¸à yoêxZ^º‡žBŽ–"ƒ¦f“ž¶'–£š‚#šN7’öpð½±¤
+        <li><strong>æ‰¹é‡¤ãy/gÜÝ›Û™Ï»É®ZI®˜’dÒYîh›ž˜xþhš~ŠÎyK^k©i8ÞKÙÎ8[ú¾xZ~i8ÞKÙÎ8XŠ™šN‰™®h¹þiË®8h›ž˜xþ‹øz{¾ûÈŽK‹¾iË¢dÖ÷F–öâò‹XNk©kò7F÷&vRdÖ÷F–öîò$ð½±¤
+        <li><strong>VMRC è·9ê"ù£©ùb-¹cÂ÷7G&öæs¾òk–r£¢fkš.šrë¢¦æƒ…é¡µä¸€é”®æ‰“å¼€ VMware Remote Console è¿œç¨‹æŽ§åˆ¶å°</li>
+        <liÝ›Û™Ï¹g*9î¯ùï%º/¤yb%ú(jÜÝ›Û™Ï»ï&¹a¡yïkº(j9¨/9ï%º/¤yfj;ï#9kï9aiHÈ9ï%º/¤HÈ9/çykfÔÕˆ:`ê9ïl¹ª(y§oihRîÛ¼Œæ— éœ€å¤–éƒ¨å·¥å…·</liBˆOÝ›Û™Ï“Õ‘ˆÛÛ:fá¹¢$ÜÝ›Û™Ï»É®iJÚ2–¾ó–è¿–¾ó–”¿¢ö³š6ˆ=Y½=Y½Y5`ƒš‚ó–ò<ð½±¤
+        <li><strong>è¿žæŽ¥å‡­æ®è®°å¿†</strong>ï&º!ê¹bª9/çykfÙ[\ˆÈTÖH:/ç¹£©zacyïk¹.#¹ká¹è {ï#9¥+ù£ z/ç¹£©yb*ùd#{ï#9aãùl$zaãyi#z/¤ùaiOÛOƒBˆÝ[ Ð Ð¢Æƒ3–Ï’ê;šr³–Þ—–Üð½ Ìø4(€€€€ñÀûšr³–Þ—–ßšr–"w’âë’ò’âk–¦£¢fkš.–2[žîÓš*“–n‹¦bš^—–âã¢þCžîÓ¢3–ò–>G¾ò3žî?¢þ¦VÿšržR’êŸž:¿–Šžj–º{¦f’öÿžR£’â;š2žî·’òc–2[¾ò3–ÞË–ß–’ž¢Ï–ºk–>¿¦vƒžjš&ç¦?¦£žöË¢÷–*oŽð½À
+    <div class="success"9§+9méyamùmì¹g*9k§ºfayå'ù.©ùã«ùh ù.+zeoù§'ùê,ùk¦º-ŠÎûÈÎ˜.yJŽK¨î™ÈŠhš){˜h›ž˜xþ˜:Ž{Û.‰™®h¹þiË®X+š^—–âã¢Ðç»´çš„ä¼ä¸šåœºæ™¯ã€‚<br><strong9§+9méyamù¬.9.ayacz-.{ï#9..¹.*¹.®¹am:-¨ùo 9aûÈÎŠß–.ÿ–VžR£š"[–R»–6[Žð½ÍÑÉ½¹œ</divBƒBˆÎzˆ¾[¨þi[hÚîih~K»cÂöƒ3àÐ¢Çîzˆ¾[¨þi[hÚîih~K»n{¹þKˆZÙŽX*ŽYÊ‚Æ6öFP•AAQ•qY5Q½½±pð½½‘” ç›®å½•ä¸‹É£Â÷àÐ¢ÇF&ÆP4(€€€€€€€€ñÑÈøñÑ æ–‡ä»¶</th><th:+NiˆãÂ÷FƒãÂ÷G#àÐ¢ÇG ñÑùÉ•‘•¹Ñ¥…±Ì¹©Í½¸ð½ÑøñÑû¢þ{š:—–·š6»¾ò#šR¿š2Ù•¹Ñ•È€¼Ma¤ƒ’â“žž7žÆï–z/¾ò3–2–B¯–rÃ–vŽžR£š"ß–_ã€ç”¨æˆ·åã€å¡¹è yîãÈ˜\ÙM9ï%¹è y/çykf;ï#9cëúacyïkº/ç¹£©yb*ùd#{ï"OÝÝ€Ð¢ÇG#ãÇFA‘•Á±½å}Ùµ}±¥ÍÐ¹ÍØð½ÑøñÑéƒ¨ç½²ç”¨çš„ CSV æ¨¡æ¿æ–‡ä»¶ï¼ˆUTF-8 BOM ç¼–ç ï¼‰</td></tr>
+        <tr›WØØXÚKšœÛÛÝº-a9®¤9ï$ùkf;ï"9£"y§#yb¨yfjT9b!¹«­ykf9`ª;ï#9b-ù¥¬9ï$ùkf9d#¹¦í9¥¬;ï"OÝÝƒBˆÝX›@Ð Ð¢Æƒ"–CÒ&Vçb#’âŽž:¿–Š––’ð½ Èø4(€€€€ñÀùYµ=ÁÌƒ’úw¢ÖX€ñÍÑÉ½¹œùY5Ý…É”A½Ý•É1$ð½ÍÑÉ½¹œøƒš¢‡–v_’â8Y5Ý…É”Ù•¹Ñ•ÈM•ÉÙ•Èƒš"XMa¤ƒ’âïšrë¢þo¢†3’ê“’êKŽ’öÿžR£–&7¢¾ßž†»’þw–ÞË–º'¢ŽA½Ý•É1'Žð½À
 
     <h3 id="install-online">1. åœ¨çº¿å®‰è£…</h3>
-    <div class="step"><span class="step-number">1</span><strong>ä»¥ç®¡ç†å‘˜èº«ä»½æ‰“å¼€ PowerShell</strong><p>æŒ‰ <code>Win + X</code>ï¼Œé€‰æ‹©"Windows PowerShell (ç®¡ç†å‘˜)"ã€‚</p></div>
-    <div class="step"><span class="step-number">2</span><strong>è®¾ç½®æ‰§è¡Œç­–ç•¥</strong><div class="code-block"><span class="cmd">Set-ExecutionPolicy</span> RemoteSigned</div></div>
-    <div class="step"><span class="step-number">3</span><strong>è®¾ç½®ä¿¡ä»» PSGallery å®‰è£…æºå¹¶å®‰è£…</strong>
-        <div class="code-block">
-            <span class="cmd">Set-PSRepository</span> <span class="var">-Name</span> PSGallery <span class="var">-InstallationPolicy</span> Trusted<br>
-            <span class="cmd">Install-Module</span> <span class="var">-Name</span> VMware.PowerCLI
-        </div>
-    </div>
-
-    <h3 id="install-offline">2. è„±æœºå®‰è£…ï¼ˆæŽ¨èï¼‰</h3>
-    <p>æ— æ³•è”ç½‘çš„çŽ¯å¢ƒè¯·ä½¿ç”¨ä»¥ä¸‹ä¸¤ç§æ–¹å¼ä¹‹ä¸€ï¼Œä¼˜å…ˆé€‰æ‹©<strong>ä¸€é”®è„šæœ¬è‡ªåŠ¨å®‰è£…</strong>ã€‚</p>
-
-    <h4>æ–¹å¼ä¸€ï¼šä¸€é”®è„šæœ¬è‡ªåŠ¨å®‰è£…ï¼ˆæŽ¨èï¼‰</h4>
-    <div class="step"><span class="step-number">1</span><strong>ä»¥ç®¡ç†å‘˜èº«ä»½æ‰“å¼€ PowerShell</strong><p>æŒ‰ <code>Win + X</code>ï¼Œé€‰æ‹©"Windows PowerShell (ç®¡ç†å‘˜)"ã€‚</p></div>
-    <div class="step"><span class="step-number">2</span><strong>å¤åˆ¶å¹¶æ‰§è¡Œä»¥ä¸‹è„šæœ¬</strong>
-        <p>è„šæœ¬ä¼šè‡ªåŠ¨ä»Žä¸‹è½½æœåŠ¡å™¨èŽ·å– PowerCLI ZIPï¼Œè§£åŽ‹ã€è§£é™¤é˜»æ­¢ã€å®Œæˆå…¨éƒ¨é…ç½®ï¼š</p>
+    <div class="step"><span class="step-number"OÜÜ[Ý›Û™Ï¹.éyë¨yä!¹df:.ªK»Þh™ò A½Ý•ÉM¡•±°ð½ÍÑÉ½¹œ<p9£"HÛÙO•Ú[ˆ
+ÈØÛÙNûÈÎ˜žhº’%v–æF÷w2÷vW%6†VÆÂŽzêynY‚’.8#Â÷ ð½‘¥Ø
+    <div class="step"Ü[ˆÛ\ÜÏHœÝ\[[X™\ˆŒÜÜ[Ý›Û™ÎŠëžö»š&Ÿ¢†3ž¶[žV”ð½ÍÑÉ½¹œ<div class="code-block"Ü[ˆÛ\ÜÏH˜ÛY…6WBÔW†V7WF–öåöÆ–7“Â÷7ãâ&VÖ÷FU6–væVCÂöF—`ð½‘¥Ø
+    <div class="step"Ü[ˆÛ\ÜÏHœÝ\[[X™\ˆŒÏÜÜ[Ý›Û™ÎŠëžö»’áä»» PSGallery å®‰è£…æºå¹¶å®‰è£…</strong>
+        <div class="code-block"BˆÜ[ˆÛ\ÜÏH˜ÛY”Ù]TÔ™\ÜÚ]ÜžOÜÜ[ˆÜ[ˆÛ\ÜÏH˜\ˆ‹S˜[YOÜÜ[ˆÑØ[\žHÜ[ˆÛ\ÜÏH˜\ˆ‹R[œÝ[][Û”ÛXÞOÜÜ[‚G'W7FVCÆ' 4(€€€€€€€€€€€€ñÍÁ…¸±…ÍÌô‰µˆù%¹ÍÑ…±°µ5½‘Õ±”ð½ÍÁ…¸ø€ñÍÁ…¸±…ÍÌô‰Ù…Èˆ-Name</span“]Ø\™K”ÝÙ\ÓCBˆÙ]ƒBˆÙ]ƒBƒBˆÈYHš[œÝ[[Ù™›[™HŒ‹ˆ:!,y§.¹k¢z(á{ï"9£ª:#d;ï"OÚÏƒBˆ¹¥è9¬åz e9ïdyæ¡9ã«Z("¾Ô½½å*9.éy."KŠNzxÞikž[ÈÒæ$¸€ï#9/&9ab:`"y¢êOÝ›Û™ÎKˆ™JîˆI®iÊÎˆz®XªŽZèžŠ8SÂ÷7G&öæsŽð½Àø4(4(€€€€ñ ÐûšZç–ò4¸€ï&¹. :e+º!&¹§+:!ê¹bª9k¢z(á{ÈŽhêŽˆÙò$ð½ Ð
+    <div class="step"Ü[ˆÛ\ÜÏHœÝ\[[X™\ˆŒOÜÜ[Ý›Û™ÎKº^zêynYŽ‹ª¾K»Þh™>[È÷vW%6†VÆÃÂ÷7G&öæsãÇîhÈ’Æ6öFQ]¥¸€¬`ð½½‘”û¾ò3¦'š.¤‰]¥¹‘½ÝÌA½Ý•ÉM¡•±°€£žº‡žB–F`¤‹Žð½Àøð½‘¥Øø4(€€€€ñ‘¥Ø±…ÍÌô‰ÍÑ•ÀˆøñÍÁ…¸±…ÍÌô‰ÍÑ•Àµ¹Õµ‰•ÈˆøÈð½ÍÁ…¸<strong>å¤åˆ¶å¹¶æ‰§è¡Œä»¥ä¸‹è„šæœ¬</strong>
+        <p:!&¹§+9/&º!ê¹bª9.ã¹."ú/oy§#yb¨yfj:#­ùab÷vW$4Ä’¤•ò3¢ž…Žˆà z)è™šN™‹š¶‹Ž–º3š"C–£¦£¦7žö»¼š</p>
         <div class="script-wrapper">
             <div class="script-actions">
-                <button onclick="copyScript(this)">ðŸ“‹ å¤åˆ¶ä»£ç </button>
-                <button onclick="saveScript(this, 'PowerCLI_Offline_Install.ps1')">ðŸ’¾ ä¸‹è½½è„šæœ¬</button>
+                <button onclick="copyScript(this)"<%8²ZHÞX‹nKº>zÂö'WGFöãàÐ¢Æ'WGFöâöæ6Æ–6³Ò'6fU67&—B‡F†—2Âu÷vW$4Ä•ôöffÆ–æUô–ç7FÆÂç3r’#ÂR¾ ä¸‹è½½è„šæœ¬</button>
             </div>
             <script type="text/plain" id="ps1-install-script">$zipUrl = 'http://file.trasen.cn/?download&weblink=e1b38afda665dad9272af8dfe67183fa&realfilename=VMware-PowerCLI-13.2.1-22851661.zip'
 $zipPath = "$env:TEMP\powercli.zip"
@@ -423,795 +222,250 @@ $zipPath = "$env:TEMP\powercli.zip"
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if ($isAdmin) {
     $destDir = "$env:ProgramFiles\WindowsPowerShell\Modules"
-    Write-Host "[ç®¡ç†å‘˜] å®‰è£…åˆ°å…¨å±€æ¨¡å—ç›®å½•: $destDir"
-} else {
-    $destDir = "$env:USERPROFILE\Documents\WindowsPowerShell\Modules"
-    Write-Host "[éžç®¡ç†å‘˜] å®‰è£…åˆ°å½“å‰ç”¨æˆ·æ¨¡å—ç›®å½•: $destDir" -ForegroundColor Yellow
-}
+    Write-Host "[ç®¡ç†å‘˜] å®‰è£…åˆ°å…¨å±€æ¨¡å•æë¹oeNˆ	\Ý\ˆƒBŸH[ÙHÃBˆ	\Ý\ˆH‰[Ž•TÑT”“Ñ’SWØÝ[Y[×Ú[™ÝÜÔÝÙ\”Ú[[Ù[\ÈƒBˆÜš]KRÜÝ–™ÙîzêynY…ÒZèžŠ8^X‹[Ù>X˜ÞyJŽh‹~jŠYÙ~yºî[ÙS¢FFW7DF—""Ôf÷&Vw&÷VæD6öÆ÷"–VÆÆ÷pÐ§ÐÐ Ð§G'’²6WBÔW†V7WF–öåöÆ–7’&VÖ÷FU6–væVBÕ66÷R7W'&VçEW6W"Ôf÷&6RÔW'&÷$7F–öâ7F÷Ò6F6‚²ÐÐ Ð¥w&—FRÔ†÷7B%³óEÒKˆ¾‹ÛÒ÷vW$4Ä’¤•âââ Ð¦7W&ÂæW†RÔÂÖò"G¦—F‚""G¦—W&Â Ð¦–b‚DÄ5DU„•D4ôDRÖæR’²w&—FRÔW'&÷".Kˆ¾‹ÛÞZK‹J^ûÈÆ7W&Â‹ùNY¹îzDÄ5DU„•D4ôDR#²W†—BÐÐ¦–b‚Öæ÷B…FW7BÕF‚G¦—F‚’’²w&—FRÔW'&÷".Kˆ¾‹ÛÞZK‹J^ûÈÎŠû~j8iú^{Ù{¹Îh‰nh˜¾XªŽKˆ¾‹ÛÒ#²W†—BÐÐ Ð¥w&—FRÔ†÷7B%³"óEÒŠz>Xè¾X‹FFW7DF—"âââ Ð¤æWrÔ—FVÒÔ—FVÕG—RF—&V7F÷'’ÕF‚FFW7DF—"Ôf÷&6RÂ÷WBÔçVÆÀÐ¤W‡æBÔ&6†—fRÕF‚G¦—F‚ÔFW7F–æF–öåF‚FFW7DF—"Ôf÷&6PÐ Ð¥w&—FRÔ†÷7B%³2óEÒŠz>™šNih~K»n™‹¾jÚ"âââ Ð¤vWBÔ6†–ÆD—FVÒFFW7DF—%Åd×v&R¢Õ&V7W'6RÔf–ÆRÂVæ&Æö6²Ôf–ÆPÐ Ð¥w&—FRÔ†÷7B%³BóEÒ˜XÞ{Úâ÷vW$4Ä’[›nš¨ÎŠøâââ Ð¥6WBÕ÷vW$4Ä”6öæf–wW&F–öâÔ–çfÆ–D6W'F–f–6FT7F–öâ–væ÷&RÔ6öæf—&Ó¢FfÇ6PÐ¤vWBÔÖöGVÆRÔÆ—7Df–Æ&ÆRd×v&Rå÷vW$4Ä’Â6VÆV7BæÖRÂfW'6–öàÐ Ð¥w&—FRÔ†÷7B.)É2ˆKiË®ZèžŠ8^ZèÎh‰ûÈÎX¿–Ï¦^·š¶“žª_–#åŽæ‰“å¼€ VmOps ä½½å*8à ˆƒBÜØÜš\ƒBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈƒÇ7â6Æ73Ò&6ÖB ‘é¥ÁUÉ°ð½ÍÁ…¸ø€ñÍÁ…¸±…ÍÌô‰ÍÑÈˆ=</span> <span class="str"	ÚÎ‹ËÙ]™[Ü\‹˜œ›ØYÛÛK˜ÛÛKÝÛÛËÝ›]Ø\™K\ÝÙ\˜ÛKÛ]\ÝÉÏÜÜ[ƒÆ'#àÐ£Ç7â6Æ73Ò&6ÖB ‘é¥ÁA…Ñ ð½ÍÁ…¸ <span class="str">=</spanÜ[ˆÛ\ÜÏHœÝˆˆ‰[Ž•STÝÙ\˜ÛKžš\ÜÜ[œƒÆ'#àÐ£Ç7â6Æ73Ò&6ÖB ‘¥Í‘µ¥¸ð½ÍÁ…¸ <span class="str">=</span
+ÔÙXÝ\š]K”š[˜Ú\[•Ú[™ÝÜÔš[˜Ú\[HÔÙXÝ\š]K”š[˜Ú\[•Ú[™ÝÜÒY[]WNŽ‘Ù]Ý\œ™[
 
-try { Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force -ErrorAction Stop } catch { }
-
-Write-Host "[1/4] ä¸‹è½½ PowerCLI ZIP..."
-curl.exe -L -o "$zipPath" "$zipUrl"
-if ($LASTEXITCODE -ne 0) { Write-Error "ä¸‹è½½å¤±è´¥ï¼Œcurl è¿”å›žç  $LASTEXITCODE"; exit 1 }
-if (-not (Test-Path $zipPath)) { Write-Error "ä¸‹è½½å¤±è´¥ï¼Œè¯·æ£€æŸ¥ç½‘ç»œæˆ–æ‰‹åŠ¨ä¸‹è½½"; exit 1 }
-
-Write-Host "[2/4] è§£åŽ‹åˆ° $destDir ..."
-New-Item -ItemType Directory -Path $destDir -Force | Out-Null
-Expand-Archive -Path $zipPath -DestinationPath $destDir -Force
-
-Write-Host "[3/4] è§£é™¤æ–‡ä»¶é˜»æ­¢..."
-Get-ChildItem $destDir\VMware* -Recurse -File | Unblock-File
-
-Write-Host "[4/4] é…ç½® PowerCLI å¹¶éªŒè¯..."
-Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false
-Get-Module -ListAvailable VMware.PowerCLI | Select Name, Version
-
-Write-Host "âœ“ è„±æœºå®‰è£…å®Œæˆï¼Œå¯å…³é—­æ­¤çª—å£åŽæ‰“å¼€ VmOps ä½¿ç”¨ã€‚"
-</script>
-            <div class="code-block"><span class="cmd">$zipUrl</span> <span class="str">=</span> <span class="str">'https://developer.broadcom.com/tools/vmware-powercli/latest/'</span><br>
-<span class="cmd">$zipPath</span> <span class="str">=</span> <span class="str">"$env:TEMP\powercli.zip"</span><br><br>
-<span class="cmd">$isAdmin</span> <span class="str">=</span> ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)<br>
-<span class="cmd">if</span> (<span class="var">$isAdmin</span>) {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="cmd">$destDir</span> <span class="str">=</span> <span class="str">"$env:ProgramFiles\WindowsPowerShell\Modules"</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="cmd">Write-Host</span> <span class="str">"[ç®¡ç†å‘˜] å®‰è£…åˆ°å…¨å±€æ¨¡å—ç›®å½•: $destDir"</span><br>
-} <span class="cmd">else</span> {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="cmd">$destDir</span> <span class="str">=</span> <span class="str">"$env:USERPROFILE\Documents\WindowsPowerShell\Modules"</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="cmd">Write-Host</span> <span class="str">"[éžç®¡ç†å‘˜] å®‰è£…åˆ°å½“å‰ç”¨æˆ·æ¨¡å—ç›®å½•: $destDir"</span> -ForegroundColor Yellow<br>
-}<br><br>
-<span class="cmd">try</span> { Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force -ErrorAction Stop } <span class="cmd">catch</span> { }<br><br>
-<span class="cmd">Write-Host</span> <span class="str">"[1/4] ä¸‹è½½ PowerCLI ZIP..."</span><br>
-<span class="cmd">curl.exe</span> -L -o <span class="str">"$zipPath"</span> <span class="str">"$zipUrl"</span><br>
-<span class="cmd">if</span> (<span class="var">$LASTEXITCODE</span> -ne 0) { Write-Error <span class="str">"ä¸‹è½½å¤±è´¥ï¼Œcurl è¿”å›žç  $LASTEXITCODE"</span>; exit 1 }<br>
-<span class="cmd">if</span> (-not (Test-Path <span class="cmd">$zipPath</span>)) { Write-Error <span class="str">"ä¸‹è½½å¤±è´¥ï¼Œè¯·æ£€æŸ¥ç½‘ç»œæˆ–æ‰‹åŠ¨ä¸‹è½½"</span>; exit 1 }<br><br>
-<span class="cmd">Write-Host</span> <span class="str">"[2/4] è§£åŽ‹åˆ° <span class="var">$destDir</span> ..."</span><br>
-New-Item -ItemType Directory -Path <span class="cmd">$destDir</span> -Force | Out-Null<br>
-Expand-Archive -Path <span class="cmd">$zipPath</span> -DestinationPath <span class="cmd">$destDir</span> -Force<br><br>
-<span class="cmd">Write-Host</span> <span class="str">"[3/4] è§£é™¤æ–‡ä»¶é˜»æ­¢..."</span><br>
-Get-ChildItem <span class="cmd">$destDir</span>\VMware* -Recurse -File | Unblock-File<br><br>
-<span class="cmd">Write-Host</span> <span class="str">"[4/4] é…ç½® PowerCLI å¹¶éªŒè¯..."</span><br>
+JK’\Ò[”›ÛJÔÙXÝ\š]K”š[˜Ú\[•Ú[™ÝÜÐZ[[”›ÛWNŽYZ[š\Ý˜]ÜŠOœƒBÜ[ˆÛ\ÜÏH˜ÛY†–cÂ÷7à€ ñÍÁ…¸±…ÍÌô‰Ù…Èˆø‘¥Í‘µ¥¸ð½ÍÁ…¸ø¤ìñ‰È
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cmd">$destDir</span> <span class="str"OÜÜ[ˆÜ[ˆÛ\ÜÏHœÝˆ‚"FVçc¥&öw&Ôf–ÆW5Åv–æF÷w5÷vW%6†VÆÅÄÖöGVÆW2#Â÷7ããÆ'#àÐ¢fæ'7²fæ'7²fæ'7²fæ'7³Ç7â6Æ73Ò&6ÖB#åw&—FRÔ†÷7CÂ÷7à€ñÍÁ…¸±…ÍÌô‰ÍÑÈˆø‰ožº‡žB–Fatƒ–º'¢Ž–"Ã–£–Æš¢‡–v_žn»–öTè€‘‘•ÍÑ¥Èˆð½ÍÁ…¸øñ‰È
+} <span class="cmd">else</spanÏœ€Ð¢fæ'7²fæ'7²fæ'7²fæ'7³Ç7â6Æ73Ò&6ÖB#âFFW7DF—#Â÷7ãâÇ7â6Æ73Ò'7G" ôð½ÍÁ…¸ø€ñÍÁ…¸±…ÍÌô‰ÍÑÈˆ"$env:USERPROFILE\Documents\WindowsPowerShell\Modules"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cmd">Write-Host</spanÜ[ˆÛ\ÜÏHœÝˆˆ–úgg¹ë¨yä!¹dfH9k¢z(áyb,9odùbcyå*9¢-ùª(ygeùæë¹oeNˆ	\Ý\ˆÜÜ[ˆQ›Ü™YÜ›Ý[™ÛÛÜˆY[ÝÏœ€Ð§ÓÆ'#ãÆ'#àÐ£Ç7â6Æ73Ò&6ÖB#çG'“Â÷7ãâ²6WBÔW†V7WF–öåöÆ–7’&VÖ÷FU6–væVBÕ66÷R7W'&VçEW6W"Ôf÷&6RÔW'&÷$7F–öâ7F÷ÒÇ7â6Æ73Ò&6ÖB!…Ñ ð½ÍÁ…¸ { }<br><brBÜ[ˆÛ\ÜÏH˜ÛY•Üš]KRÜÝÜÜ[ˆÜ[ˆÛ\ÜÏHœÝˆˆ–ÌKÍH9."ú/oHÝÙ\ÓH’T‹‹ˆÜÜ[ƒÆ'#àÐ£Ç7â6Æ73Ò&6ÖB!ÕÉ°¹•á”ð½ÍÁ…¸ -L -o <span class="str">"$zipPath"</spanÜ[ˆÛ\ÜÏHœÝˆˆ‰š\\›ÜÜ[œ€Ð£Ç7â6Æ73Ò&6ÖB#æ–cÂ÷7ãâƒÇ7â6Æ73Ò'f"#âDÄ5DU„•D4ôDSÂ÷7à€µ¹”€À¤ì]É¥Ñ”µÉÉ½È€ñÍÁ…¸±…ÍÌô‰ÍÑÈˆø‹’â/¢ö÷–’Ç¢Ò—¾ò1ÕÉ°ƒ¢þS–n{ž‚€‘1MQa%Q=ˆð½ÍÁ…¸øì•á¥Ð€Äôñ‰Èø4(ñÍÁ…¸±…ÍÌô‰µˆif</span
+[›Ý
+\ÝT]Ü[ˆÛ\ÜÏH˜ÛY‚G¦—FƒÂ÷7à¤¤ì]É¥Ñ”µÉÉ½È€ñÍÁ…¸±…ÍÌô‰ÍÑÈˆø‹’â/¢ö÷–’Ç¢Ò—¾ò3¢·æ£€æ™yïdyîç9¢%¹¢bùbª9."ú/oHÜÜ[ŽÈ^]HOœœƒBÜ[ˆÛ\ÜÏH˜ÛY•Üš]KRÜÝÜÜ[‚Ç7â6Æ73Ò'7G"#â%³"óEÒŠz>Xè¾X‹Ç7â6Æ73Ò'f" ‘‘•ÍÑ¥Èð½ÍÁ…¸ ..."</spanœƒB“™]ËR][HR][U\H\™XÝÜžHT]Ü[ˆÛ\ÜÏH˜ÛY‰\Ý\ÜÜ[ˆQ›Ü˜ÙHÝ]S[œ€Ð¤W‡æBÔ&6†—fRÕF‚Ç7â6Æ73Ò&6ÖB#âG¦—FƒÂ÷7ãâÔFW7F–æF–öåF‚Ç7â6Æ73Ò&6ÖB#âFFW7DF—#Â÷7ãâÔf÷&6SÆ'#ãÆ'#àÐ£Ç7â6Æ73Ò&6ÖB#åw&—FRÔ†÷7CÂ÷7à€ñÍÁ…¸±…ÍÌô‰ÍÑÈˆø‰lÌ¼Ñtƒ¢ž¦f“šZ’îÛ¦bïš¶ˆ¸¸¸ˆð½ÍÁ…¸øñ‰Èø4)•Ðµ¡¥±‘%Ñ•´€ñÍÁ…¸±…ÍÌô‰µˆ$destDir</span“]Ø\™JˆT™XÝ\œÙHQš[H[˜›ØÚËQš[OœƒÆ'#àÐ£Ç7â6Æ73Ò&6ÖB!]É¥Ñ”µ!½ÍÐð½ÍÁ…¸ø€ñÍÁ…¸±…ÍÌô‰ÍÑÈˆ"[4/4] é…ç½® PowerCLI å¹¶éªŒè¯..."</span><br>
 Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false<br>
-Get-Module -ListAvailable VMware.PowerCLI | Select Name, Version<br><br>
-<span class="cmd">Write-Host</span> <span class="str">"âœ“ è„±æœºå®‰è£…å®Œæˆï¼Œå¯å…³é—­æ­¤çª—å£åŽæ‰“å¼€ VmOps ä½¿ç”¨ã€‚"</span></div>
-        </div>
-        <div class="note">
-            <strong>è¯´æ˜Ž</strong>ï¼š<code>curl.exe</code> æ˜¯ Windows 10/11 / Server 2019+ è‡ªå¸¦çš„å‘½ä»¤è¡Œå·¥å…·ï¼ˆä¸æ˜¯ PowerShell çš„ Invoke-WebRequestï¼‰ï¼Œå¯ç›´æŽ¥ä½¿ç”¨ã€‚<br>
-            ä¸‹è½½åœ°å€æ¥è‡ª Broadcom å®˜æ–¹ä»“åº“ï¼Œå¦‚é‡ç½‘ç»œä¸å¯è¾¾ï¼Œè¯·ä½¿ç”¨<strong>æ–¹å¼äºŒ</strong>æ‰‹åŠ¨ä¸‹è½½ã€‚
-        </div>
-    </div>
+Get-Module -ListAvailable VMware.PowerCLI | Select Name, Version<br><brBÜ[ˆÛ\ÜÏH˜ÛY•Üš]KRÜÝÜÜ[ˆÜ[ˆÛ\ÜÏHœÝˆˆ¸§$È:!,y§.¹k¢z(áyk£9¢$;ÈÎXúÖÉ—­æ­¤çª•cèYîh™ò Yµ=ÁÌƒ’öÿžR£Žˆð½ÍÁ…¸øð½‘¥Øø4(€€€€€€€€ð½‘¥Øø4(€€€€€€€€ñ‘¥Ø±…ÍÌô‰¹½Ñ”ˆ
+            <strong>è¯´æ˜Ž</strong>ï&ÛÙO˜Ý\›™^OØÛÙOˆ9¦+ÈÚ[™ÝÜÈLÌLHÈÙ\™\ˆŒNJÈ:!ê¹n)¹æ¡9doy.é:(c9méyamûï"9.#y¦+ÈÝÙ\”Ú[9æ¡[›ÚÙKUÙX”™\]Y\Ý;ï"{ï#9cëùæí9£©y/oùå*8à œ€Ð¢Kˆ¾‹ÛÞYËYØiÚ^ˆz¢'&öF6öÒZéŽikžK¹>[©>ûÈÎZh.˜~{Ù{¹ÎKˆÞX¿¢úï¼Œè­ù/oùå*Ý›Û™Ï¹¥®yo#ù.£ÜÝ›Û™Ï¹¢bùbª9."ú/oxà ƒBˆÙ]€Ð¢ÂöF—`4(4(€€€€ñ Ðæ–¹å¼äºŒï¼šæ‰‹åŠ¨å®‰è£…ï¼ˆå¤‡ç”¨ï¼‰</h4>
+    <olBˆO¹i ¹§§:g :) z!,y§.¹k¢z(áHÝÙ\Ó{ï#:+íù.ãˆH\™Ù]H—Ø›[šÈˆ™YHšÎ‹ËÙ]™[Ü\‹˜œ›ØYÛÛK˜ÛÛKÝÛÛËÝ›]Ø\™K\ÝÙ\˜ÛKÛ]\ÝÈˆ]OHœ›ØYÛÛH9."‹ÛÞz¹’!A½Ý•É1$ƒ’â/¢ö÷¦†Ôð½„øƒ¢:ß–>Xi%@ƒšZ»¶ï#9¢%¹.ã¹a¡z`ê9¥¡K»niÈÞXªYšŽKˆ¢öô€ñ½‘”ùY5Ý…É”µA½Ý•É1$¹é¥Àð½½‘”û¼Œä¼ è¤X‹yºîjbº‡žºVœºã€‚</liBˆO¹/oùå*ÛÙBFVçc¥4ÖöGVÆUFƒÂö6öFPƒš~—žr,A½Ý•ÉM¡•±°ƒš¢‡–vX·­hCÂöÆ4(€€€€€€€€ñ±¤û–Âi%@ƒšZ»¶å†…å®¹è§¡c¢X‹X[nKŠÞKˆKŠ®X‰VëžjšZ»¶å¤¹ä¸­ï"9£ª:#dÛÙO‰[Ž”›ÙÜ˜[Qš[\×Ú[™ÝÜÔÝÙ\”Ú[[Ù[\ÏØÛÙO»È“ÂöÆ4(€€€€€€€€ñ±¤û¢þo–—š¢‡–v_žn»–öW¾ò3š&Ÿ¢†0€ñ½‘”Get-ChildItem * -Recurse | Unblock-File</code> å–æ¶ˆæ–‡ä»¶é˜»æ­¢</li>
+        <li9/oùå*ÛÙO‘Ù]S[Ù[HS˜[YH“]Ø\™K”ÝÙ\ÓHS\Ý]˜Z[X›OØÛÙOˆ:j£:+àyk¢z(áOÛOƒBˆN[÷žV—¢ä¹¦éªŒè {ï&ÛÙE6WBÕ÷vW$4Ä”6öæf–wW&F–öâÔ–çfÆ–D6W'F–f–6FT7F–öâ–væ÷&SÂö6öFSãÂöÆ“àÐ¢ÂööÀ4(4(4(€€€€ñ Ì¥ô‰½¹™¥œˆøÌ¸A½Ý•É1$ƒ¦7žö¸ð½ Ìø4(€€€€ñ‘¥Ø±…ÍÌô‰ÍÑ•ÀˆøñÍÁ…¸±…ÍÌô‰ÍÑ•Àµ¹Õµ‰•Èˆ1</span><strong>æŸ¥çœ‰mì¹k¢z(áyæ¡9ª(ygeÏÜÝ›Û™Ï]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈÜ[ˆÛ\ÜÏH˜ÛY‘Ù]S[Ù[HS\Ý]˜Z[X›H“]Ø\™JÜÜ[Ù]Ù]ƒBˆ]ˆÛ\ÜÏHœÝ\Ü[ˆÛ\ÜÏHœÝ\[[X™\ˆŒÜÜ[ƒÇ7G&öæsî[ûÞyZ^ŠøKšnš¨ÎŠøÂ÷7G&öæsãÆF—b6Æ73Ò&6öFRÖ&Æö6²#ãÇ7â6Æ73Ò&6ÖB#å6WBÕ÷vW$4Ä”6öæf–wW&F–öâÔ–çfÆ–D6W'F–f–6FT7F–öâ–væ÷&SÂ÷7ããÂöF—cãÂöF—càÐ¢ÆF—b6Æ73Ò'7FW#ãÇ7â6Æ73Ò'7FWÖçVÖ&W" Ìð½ÍÁ…¸øñÍÑÉ½¹œû–*ƒ¢öôAMM¹…Á¥»¼ˆæ—¥âb9§+:g :) {È“Â÷7G&öæsãÆF—b6Æ73Ò&6öFRÖ&Æö6²#ãÇ7â6Æ73Ò&6ÖB#äFBÕ56æ–ãÂ÷7ãâf×v&Rçf–ÖWFöÖF–öâæ6÷&SÂöF—cãÂöF—càÐ Ð¢Æƒ"–CÒ&–çFW&f6R#îK¨Î8yXÎ™Ú.h¢ž ð½ È
+    <p9ê"ùn£ùd+ùbª9d#¹..ùåc:gh¹c!yd*úhmº`êXˆ:hmyëo¹c.¹gçùd£9n¥z`ê9â­¹  y¨#øà ”ÝÙ\ÓH9¨à9­bùg*9d+ùbª9¥íº!ê¹bª9¢iú(c;ï#9¥è:g 9¢bùbª9¤ãy/g8à Ü Ð Ð¢Æƒ2–CÒ'F'2#ãâF"š^zÛãÂöƒ3àÐ¢Çîzˆ–ê5…±åŒ…å« <strong>7 ä¸ª Tab é¡µç­¾</strong>ï¼š</pBˆX›OƒBˆƒÇFƒåF#Â÷F€ñÑ û–B7žžÀð½Ñ <th>ç”¨é€”</thÝƒBˆŒOÝK‹¾šSÂ÷FCãÇFAÙ•¹Ñ•È€¼Ma¤ƒ¢ÞæŽ¥é…ç½®ã€éƒ¨ç½²ç®¡ç†ã€åŠŸèƒ½åºù£mùkÎˆŠ®8KÛþyJŽhCž’èð½Ñøð½ÑÈø4(€€€€€€€€ñÑÈ<td>2</td><td>è™šæ‹Ÿæœºåˆ—è¡¨</td><td>æŸ¥è¯¢è™šæ‹Ÿæœº/æ¨¡æ¿åˆ—è¡¨ï¼ŒåŒúe+¹¢iú(c:-{»Ni8ÞKÙÃÂ÷FCãÂ÷G#àÐ¢ÇG ñÑøÌð½ÑøñÑû’âïšrë–"_¢† ð½ÑøñÑûš~—¢¾ˆMa¤ƒ’âïšrë–"_¢†£¾ò3š~—žr/’âïšrë¢¾›žî’þ‡š¿¾ò3šR¿š2MM ƒ¢þ{š:”ð½Ñ</tr>
+        <tr><td>4</td><td9kf9`ª9b%ú(jÝi—¢¢ Datastore åˆ—è¡¨ï¼ŒæŸ¥çœ‹å­˜å‚¨è¯¦ç»†ä¿¡æ¯</td></trBˆSÂ÷F@ñÑûžöGžîs–"X¡¨</td¹§éz+è¹ïdyîçùêëùcèùîáùb!¹n ùo#ù.©9£h¹§.¹b%ú(jÝÝƒBˆƒÇFCãcÂ÷FCãÇFCî{Én‹éX‰~ŠƒÂ÷FCãÇFCîYÊŽ{«þ{Én‹é55b˜:Ž{Û.jŠiÛÚZ»¶</tdÝƒBˆÏÝ‰™®h¹þiË®jŠiÛóÂ÷FCãÇFA=YQ½½°ƒ–F÷’î“žRš"C–f£¾ò#–¼å‡º-kï9aiKú/k9£h»ï"OÝÝ€Ð¢Â÷F&ÆSàÐ Ð¢Æƒ2–CÒ'7FGW6&"#ã"âx«nhjþKˆî‹ùŠÎiz^[ùsÂöƒ3àÐ¢ÇVÃàÐ¢ÆÆ“ãÇ7G&öæs¢ÞæŽ¥çŠ¶æ€</strong;ï&¹n¥z`ê9â­¹  y¨#ùmé¹/©ù¦.zK®[Ù>X˜Òd6VçFW"òU5†’‹ùîhê^x«nhò#–â›¦Šs¢&Ë–nûš‚"OÛ@Ð¢ÆÆ“ãÇ7G&öæsî‹ùŠÎx«nhÂ÷7G&öæsîòk’â·¦^Óšbûž’ë–öE‰æ“ä½œæ–…§+;ÈÎx+žX{–>µ±•å¼€/æ”¶èµ·å®Œæ•´è¿è¡Œæ—¥å¿—é¢æ¿</li>
+        <liÝ›Û™Ï¹¥éyoåúgh¹§oÏÜÝ›Û™Ï»ï&ƒBˆ[ƒBˆN[z^X[~jþûÉ£Æ6öFSšâž¦ëš^—–×</code>ã€<code>å¯¼å‡ºæ—¥å¿—</code>ã€<code>è‡ªåŠ¨æ»šåŠ¨</code9o 9alÏÛOƒBˆNš)Îˆ›.Y»’ú/¾òkžÃ¢&È÷’þ‡š³€ç»¾"ly¢$9b§øà yªfz"lz+i¹db¸à yî¨º"lze&z+ëÏÛ@Ð¢ÆÆ“îiz^[ùV2ë–>É”®èœå•ï&¹i#yb-º`"y.+ya¡yk®xà yi#yb-¹aj:`ê9¥éyoå8XZŽ˜ž8kˆ^z›£ÂöÆ4(€€€€€€€€€€€€ð½Õ°ø4(€€€€€€€€ð½±¤ø4(€€€€ð½Õ°
 
-    <h4>æ–¹å¼äºŒï¼šæ‰‹åŠ¨å®‰è£…ï¼ˆå¤‡ç”¨ï¼‰</h4>
-    <ol>
-        <li>å¦‚æžœéœ€è¦è„±æœºå®‰è£… PowerCLIï¼Œè¯·ä»Ž <a target="_blank" href="https://developer.broadcom.com/tools/vmware-powercli/latest/" title="Broadcom ä¸‹è½½ç«™">PowerCLI ä¸‹è½½é¡µ</a> èŽ·å– ZIP æ–‡ä»¶ï¼Œæˆ–ä»Žå†…éƒ¨æ–‡ä»¶æœåŠ¡å™¨ä¸‹è½½ <code>VMware-PowerCLI.zip</code>ï¼Œä¼ è¾“åˆ°ç›®æ ‡è®¡ç®—æœºã€‚</li>
-        <li>ä½¿ç”¨ <code>$env:PSModulePath</code> æŸ¥çœ‹ PowerShell æ¨¡å—è·¯å¾„</li>
-        <li>å°† ZIP æ–‡ä»¶å†…å®¹è§£åŽ‹åˆ°å…¶ä¸­ä¸€ä¸ªåˆ—å‡ºçš„æ–‡ä»¶å¤¹ä¸­ï¼ˆæŽ¨è <code>$env:ProgramFiles\WindowsPowerShell\Modules</code>ï¼‰</li>
-        <li>è¿›å…¥æ¨¡å—ç›®å½•ï¼Œæ‰§è¡Œ <code>Get-ChildItem * -Recurse | Unblock-File</code> å–æ¶ˆæ–‡ä»¶é˜»æ­¢</li>
-        <li>ä½¿ç”¨ <code>Get-Module -Name VMware.PowerCLI -ListAvailable</code> éªŒè¯å®‰è£…</li>
-        <li>å¿½ç•¥è¯ä¹¦éªŒè¯ï¼š<code>Set-PowerCLIConfiguration -InvalidCertificateAction Ignore</code></li>
-    </ol>
-
-
-    <h3 id="config">3. PowerCLI é…ç½®</h3>
-    <div class="step"><span class="step-number">1</span><strong>æŸ¥çœ‹å·²å®‰è£…çš„æ¨¡å—</strong><div class="code-block"><span class="cmd">Get-Module -ListAvailable VMware*</span></div></div>
-    <div class="step"><span class="step-number">2</span><strong>å¿½ç•¥è¯ä¹¦éªŒè¯</strong><div class="code-block"><span class="cmd">Set-PowerCLIConfiguration -InvalidCertificateAction Ignore</span></div></div>
-    <div class="step"><span class="step-number">3</span><strong>åŠ è½½ PSSnapinï¼ˆæ—§ç‰ˆæœ¬éœ€è¦ï¼‰</strong><div class="code-block"><span class="cmd">Add-PSSnapin</span> vmware.vimautomation.core</div></div>
-
-    <h2 id="interface">äºŒã€ç•Œé¢æ€»è§ˆ</h2>
-    <p>ç¨‹åºå¯åŠ¨åŽä¸»ç•Œé¢åŒ…å«é¡¶éƒ¨ Tab é¡µç­¾åŒºåŸŸå’Œåº•éƒ¨çŠ¶æ€æ ã€‚PowerCLI æ£€æµ‹åœ¨å¯åŠ¨æ—¶è‡ªåŠ¨æ‰§è¡Œï¼Œæ— éœ€æ‰‹åŠ¨æ“ä½œã€‚</p>
-
-    <h3 id="tabs">1. Tab é¡µç­¾</h3>
-    <p>ç¨‹åºå…±åŒ…å« <strong>7 ä¸ª Tab é¡µç­¾</strong>ï¼š</p>
-    <table>
-        <tr><th>Tab</th><th>åç§°</th><th>ç”¨é€”</th></tr>
-        <tr><td>1</td><td>ä¸»é¡µ</td><td>vCenter / ESXi è¿žæŽ¥é…ç½®ã€éƒ¨ç½²ç®¡ç†ã€åŠŸèƒ½å¿«æ·å¯¼èˆªã€ä½¿ç”¨æç¤º</td></tr>
-        <tr><td>2</td><td>è™šæ‹Ÿæœºåˆ—è¡¨</td><td>æŸ¥è¯¢è™šæ‹Ÿæœº/æ¨¡æ¿åˆ—è¡¨ï¼Œå³é”®æ‰§è¡Œè¿ç»´æ“ä½œ</td></tr>
-        <tr><td>3</td><td>ä¸»æœºåˆ—è¡¨</td><td>æŸ¥è¯¢ ESXi ä¸»æœºåˆ—è¡¨ï¼ŒæŸ¥çœ‹ä¸»æœºè¯¦ç»†ä¿¡æ¯ï¼Œæ”¯æŒ SSH è¿žæŽ¥</td></tr>
-        <tr><td>4</td><td>å­˜å‚¨åˆ—è¡¨</td><td>æŸ¥è¯¢ Datastore åˆ—è¡¨ï¼ŒæŸ¥çœ‹å­˜å‚¨è¯¦ç»†ä¿¡æ¯</td></tr>
-        <tr><td>5</td><td>ç½‘ç»œåˆ—è¡¨</td><td>æŸ¥è¯¢ç½‘ç»œ/ç«¯å£ç»„/åˆ†å¸ƒå¼äº¤æ¢æœºåˆ—è¡¨</td></tr>
-        <tr><td>6</td><td>ç¼–è¾‘åˆ—è¡¨</td><td>åœ¨çº¿ç¼–è¾‘ CSV éƒ¨ç½²æ¨¡æ¿æ–‡ä»¶</td></tr>
-        <tr><td>7</td><td>è™šæ‹Ÿæœºæ¨¡æ¿</td><td>OVF Tool å‘½ä»¤ç”Ÿæˆå™¨ï¼ˆå¯¼å‡º/å¯¼å…¥/è½¬æ¢ï¼‰</td></tr>
-    </table>
-
-    <h3 id="statusbar">2. çŠ¶æ€æ ä¸Žè¿è¡Œæ—¥å¿—</h3>
-    <ul>
-        <li><strong>è¿žæŽ¥çŠ¶æ€</strong>ï¼šåº•éƒ¨çŠ¶æ€æ å·¦ä¾§æ˜¾ç¤ºå½“å‰ vCenter / ESXi è¿žæŽ¥çŠ¶æ€ï¼ˆå¸¦é¢œè‰²å›¾æ ‡ï¼‰</li>
-        <li><strong>è¿è¡ŒçŠ¶æ€</strong>ï¼šä¸­é—´æ˜¾ç¤ºå½“å‰æ“ä½œæ–‡æœ¬ï¼Œç‚¹å‡»å¯å±•å¼€/æ”¶èµ·å®Œæ•´è¿è¡Œæ—¥å¿—é¢æ¿</li>
-        <li><strong>æ—¥å¿—é¢æ¿</strong>ï¼š
-            <ul>
-                <li>å·¥å…·æ ï¼š<code>æ¸…ç©ºæ—¥å¿—</code>ã€<code>å¯¼å‡ºæ—¥å¿—</code>ã€<code>è‡ªåŠ¨æ»šåŠ¨</code>å¼€å…³</li>
-                <li>é¢œè‰²å›¾ä¾‹ï¼šç°è‰²=ä¿¡æ¯ã€ç»¿è‰²=æˆåŠŸã€æ©™è‰²=è­¦å‘Šã€çº¢è‰²=é”™è¯¯</li>
-                <li>æ—¥å¿—åŒºå³é”®èœå•ï¼šå¤åˆ¶é€‰ä¸­å†…å®¹ã€å¤åˆ¶å…¨éƒ¨æ—¥å¿—ã€å…¨é€‰ã€æ¸…ç©º</li>
-            </ul>
-        </li>
-    </ul>
-
-    <h2 id="flow">ä¸‰ã€æ“ä½œæµç¨‹</h2>
-    <h3 id="step-connect">1. è¿žæŽ¥èµ„æº</h3>
-    <p>æœ¬å·¥å…·æ”¯æŒä¸¤ç§è¿žæŽ¥ç›®æ ‡ï¼Œç¨‹åºä¼šæ ¹æ®ç”¨æˆ·åè‡ªåŠ¨è¯†åˆ«è¿žæŽ¥æ¨¡å¼å¹¶é‡‡ç”¨ç›¸åº”çš„è¿žæŽ¥å‚æ•°ï¼š</p>
+    <h2 id="flow">ä¸‰ã€æ“ä½œæµç¨‹</h2BˆÈYHœÝ\XÛÛ›™XÝŒKˆ:/ç¹£©z-a9®¤ÚÀÐ¢Çšr³–Þ—–ßšR¿š2’â“žž7¢ÞæŽ¥ç›®æ ‡ï¼Œç¨‹åºä¼šæ ¹æ®ç”¨æˆ·åè‡ªåŠ¨è¡¹b*ú-îhê^jŠ[Èþ[›n˜x~yJŽy»Ž[©Ny¨N‹{š:—–æ•°ï¼š</p>
     <div class="info-box">
         <strong>æ¨¡å¼è‡ªåŠ¨è¯†åˆ«è§„åˆ™</strong>ï¼š
         <ul>
-            <li><strong>ESXi ç›´è¿žæ¨¡å¼</strong>ï¼šå½“ç”¨æˆ·åä¸º <code>root</code> æ—¶ï¼Œè‡ªåŠ¨ä½¿ç”¨ <code>-Force</code> å‚æ•°è¿žæŽ¥å•ä¸ª ESXi ä¸»æœºï¼Œæ— éœ€å¡«å†™ç”¨æˆ·åŸŸ</li>
-            <li><strong>vCenter æ¨¡å¼</strong>ï¼šå½“ç”¨æˆ·åä¸º <code>administrator</code> æˆ–å…¶ä»–åŸŸç”¨æˆ·æ—¶ï¼Œä½¿ç”¨å®Œæ•´åŸŸç”¨æˆ·æ ¼å¼ï¼ˆ<code>åŸŸ\ç”¨æˆ·å</code>ï¼‰è¿žæŽ¥ vCenter Server</li>
-        </ul>
+            <li><strongTÖH9æí:/ç¹ª(yo#ÏÜÝ›Û™Ï»ï&¹odùå*9¢-ùd#y..ˆÛÙG&ö÷CÂö6öFSâi{nûÈÎˆz®XªŽKÛþyJ‚Æ6öFSâÔf÷&6SÂö6öFSâXšVÃ¢ÞæŽ¥å•ä¸ª ESXi ä¸»æœºï¼Œæ— éœ€å¡«å†™ç”¨æˆ·å—ÏÛOƒBˆOÝ›Û™ÏÙ[\ˆ9ª(yo#ÏÜÝ›Û™ÎûÉ®[Ù>yJŽh‹~YÞK‹¢Æ6öFSæFÖ–æ—7G&F÷#Âö6öFPƒš"[–Û’î[–~w”¨æˆµ¥í»ÈÎKÛÞR£–º3šVÓ–~w”¨æˆµ¨/9o#ò ñ½‘”û–~}sžR£š"ß–B4ð½½‘”ï¼‰è·¹£©HÙ[\ˆÙ\™\ÛOƒBˆÝ[ƒBˆÙ]ƒBˆ]ˆÛ\ÜÏHœÝ\Ü[ˆÛ\ÜÏHœÝ\[[X™\ˆŒOÜÜ[ƒÇ7G&öæsîZ¾Xiž‹ùîhê^KúhóÂ÷7G&öæsàÐ¢ÇF&ÆSãÇG#ãÇFƒ–¶_šºÔð½Ñ øñÑ è­9¦#Ýd6VçFW"zK®Kè³Â÷FƒãÇFƒäU5†’zK®J,ð½Ñ </tr>
+        <tr><td>è¿žæŽ¥åˆ«å</td><td>å¯é€‰ï¼Œä¸ºå½“å‰è¿žæŽ¥èµ·ä¸€ä¸ªæ˜“è®°çš„åå­—ï¼ˆå¦‚"ç”Ÿäº§é›†ç¾¤VC"ã€"æµŠ+åy..iË¤U5†“.ûÈžûÈÎikžKëþ[ú¾˜	þXˆ~hÚ#Â÷FCãÇFCîyIþKªud3Â÷F@ñÑùMa¤µ9½‘”ÀÄð½Ñøð½ÑÈø4(€€€€€€€€ñÑÈ<td>è¿žæŽ¥åœ°å€</tdÙ[\ˆÙ\™\ˆ9¢%ˆTÖH9..iË®y¨B•òYùÖB7¼ˆä¸‰¢ây¨aº!ê¹bª:+¬9oá¹i&¹.*¹g,9g`;È“Â÷F@ñÑøÄäÈ¸ÄØà¸ÈÀÀ¸ààð½ÑøñÑ192.168.1.200</tdÝƒBˆ¹å*9¢-ùgçÏÝÙ[\ˆ:/ç¹£©zg 9hjXižò#¦Š¢ºøÙÍÁ¡•É”¹±½…°€¼±½…°¹¹•Ðƒž¶'¼‰ï&ÏÝ›Û™ÄU5†’y»N‹ùîyYžz›£Â÷7G&öæsîXÛ>XúóÂ÷FCãÇFCçg7†W&RæÆö6ÃÂ÷FCãÇF@ñ•´û¼ˆç•™ç©ºï"OÙ[CÂ÷FCãÂ÷G#àÐ¢ÇG ñÑûžR£š"Õ</tdº`"y¢êy¢%º)—žR£š"Õï":h¡:+¯ˆÛÙOœ›ÛÝØÛÙOˆÈÛÙO˜YZ[š\Ý˜]ÜØÛÙNûÈžûÈÃÇ7G&öæsîZ²&ö÷BXÛ>K‹¢U5†’jŠ[ÈóÂ÷7G&öæsãÂ÷FCãÇFCæFÖ–æ—7G&F÷#Â÷FCãÇFAÉ½½Ðð½Ñ</tr></table>
     </div>
-    <div class="step"><span class="step-number">1</span><strong>å¡«å†™è¿žæŽ¥ä¿¡æ¯</strong>
-        <table><tr><th>å­—æ®µ</th><th>è¯´æ˜Ž</th><th>vCenter ç¤ºä¾‹</th><th>ESXi ç¤ºä¾‹</th></tr>
-        <tr><td>è¿žæŽ¥åˆ«å</td><td>å¯é€‰ï¼Œä¸ºå½“å‰è¿žæŽ¥èµ·ä¸€ä¸ªæ˜“è®°çš„åå­—ï¼ˆå¦‚"ç”Ÿäº§é›†ç¾¤VC"ã€"æµ‹è¯•ä¸»æœºESXi01"ï¼‰ï¼Œæ–¹ä¾¿å¿«é€Ÿåˆ‡æ¢</td><td>ç”Ÿäº§VC</td><td>ESXi-Node01</td></tr>
-        <tr><td>è¿žæŽ¥åœ°å€</td><td>vCenter Server æˆ– ESXi ä¸»æœºçš„ IP / åŸŸåï¼ˆä¸‹æ‹‰æ¡†è‡ªåŠ¨è®°å¿†å¤šä¸ªåœ°å€ï¼‰</td><td>192.168.200.88</td><td>192.168.1.200</td></tr>
-        <tr><td>ç”¨æˆ·åŸŸ</td><td>vCenter è¿žæŽ¥éœ€å¡«å†™ï¼ˆé¢„è®¾ vsphere.local / local.net ç­‰ï¼‰ï¼›<strong>ESXi ç›´è¿žç•™ç©º</strong>å³å¯</td><td>vsphere.local</td><td><em>ï¼ˆç•™ç©ºï¼‰</em></td></tr>
-        <tr><td>ç”¨æˆ·å</td><td>é€‰æ‹©æˆ–è¾“å…¥ç”¨æˆ·åï¼ˆé¢„è®¾ <code>root</code> / <code>administrator</code>ï¼‰ï¼Œ<strong>å¡« root å³ä¸º ESXi æ¨¡å¼</strong></td><td>administrator</td><td>root</td></tr></table>
-    </div>
-    <div class="step"><span class="step-number">2</span><strong>å¼€å§‹è¿žæŽ¥</strong><p>ç‚¹å‡»"å¼€å§‹è¿žæŽ¥"æŒ‰é’®ï¼Œé¦–æ¬¡è¿žæŽ¥ä¼šå¼¹å‡ºå¯†ç è¾“å…¥æ¡†ã€‚è¿žæŽ¥æˆåŠŸåŽå‡­æ®è‡ªåŠ¨ä¿å­˜ï¼ˆå«åˆ«åã€åœ°å€ã€åŸŸã€ç”¨æˆ·åã€å¯†ç ï¼‰ï¼Œä¸‹æ¬¡å¯é€šè¿‡åˆ«åä¸‹æ‹‰å¿«é€Ÿé€‰æ‹©åŽ†å²è¿žæŽ¥ï¼Œæ— éœ€é‡æ–°è¾“å…¥ã€‚</p></div>
-    <div class="step"><span class="step-number">3</span><strong>åˆ·æ–°ç¼“å­˜ï¼ˆå¯é€‰ï¼‰</strong><p>è¿žæŽ¥æˆåŠŸåŽç‚¹å‡»åŠŸèƒ½èœå•è·³è½¬åˆ°å„èµ„æºæŸ¥è¯¢ Tabï¼Œç¨‹åºä¼šè‡ªåŠ¨é‡‡é›†è™šæ‹Ÿæœºã€ä¸»æœºã€å­˜å‚¨ã€ç½‘ç»œèµ„æºä¿¡æ¯åˆ°æœ¬åœ°ç¼“å­˜ï¼ŒåŽç»­åˆ‡æ¢ Tab é¡µæ—¶åŠ è½½æ›´å¿«ã€‚</p></div>
-    <div class="step"><span class="step-number">4</span><strong>æ–­å¼€è¿žæŽ¥</strong><p>ç‚¹å‡»"æ–­å¼€è¿žæŽ¥"æŒ‰é’®æ–­å¼€å½“å‰ä¼šè¯ï¼ˆvCenter æˆ– ESXiï¼‰ã€‚</p></div>
-    <div class="step"><span class="step-number">5</span><strong>é‡ç½®è®°å¿†</strong><p>åœ¨è¾“å…¥æ¡†ä¸­é€‰æ‹©è¦æ¸…é™¤çš„åœ°å€åŽï¼Œç‚¹å‡»"é‡ç½®è®°å¿†"æŒ‰é’®æ¸…é™¤è¯¥æœåŠ¡å™¨çš„å·²ä¿å­˜å¯†ç å’Œè¿žæŽ¥é…ç½®ã€‚</p></div>
-
-    <h4>vCenter ä¸Ž ESXi æ¨¡å¼çš„åŠŸèƒ½å·®å¼‚</h4>
-    <table>
-        <tr><th>åŠŸèƒ½</th><th>vCenter æ¨¡å¼</th><th>ESXi ç›´è¿žæ¨¡å¼</th></tr>
-        <tr><td>è™šæ‹ŸæœºæŸ¥è¯¢ / ç®¡ç†</td><td>âœ“ å®Œæ•´æ”¯æŒ</td><td>âœ“ æ”¯æŒï¼ˆä»…è¯¥ä¸»æœºä¸Šçš„ VMï¼‰</td></tr>
-        <tr><td>æ‰¹é‡éƒ¨ç½²è™šæ‹Ÿæœº</td><td>âœ“ å®Œæ•´æ”¯æŒ</td><td>âœ“ æ”¯æŒï¼ˆå•ä¸»æœºèŒƒå›´ï¼‰</td></tr>
-        <tr><td>vMotion / Storage vMotion</td><td>âœ“ å®Œæ•´æ”¯æŒ</td><td>âœ— æ—  vCenter æ— æ³•è·¨ä¸»æœºè¿ç§»</td></tr>
-        <tr><td>èµ„æºæ±  / é›†ç¾¤ç®¡ç†</td><td>âœ“ å®Œæ•´æ”¯æŒ</td><td>âœ— ä¸æ¶‰åŠ</td></tr>
-        <tr><td>OVF Tool å¯¼å…¥ / å¯¼å‡º</td><td>âœ“ å®Œæ•´æ”¯æŒ</td><td>âœ“ æ”¯æŒï¼ˆå•ä¸»æœºèŒƒå›´ï¼‰</td></tr>
-        <tr><td>å¿«ç…§ç®¡ç†</td><td>âœ“ å®Œæ•´æ”¯æŒ</td><td>âœ“ æ”¯æŒ</td></tr>
-        <tr><td>GuestOpsï¼ˆç½‘ç»œ/å¯†ç é…ç½®ï¼‰</td><td>âœ“ å®Œæ•´æ”¯æŒ</td><td>âœ“ æ”¯æŒ</td></tr>
-    </table>
-
-    <h3 id="step-deploy">2. æ‰§è¡Œéƒ¨ç½²</h3>
-    <div class="step"><span class="step-number">2</span><strong>ç¼–è¾‘éƒ¨ç½²åˆ—è¡¨</strong><p>ç‚¹å‡»"ç¼–è¾‘åˆ—è¡¨"æŒ‰é’®æ‰“å¼€å†…ç½®è¡¨æ ¼ç¼–è¾‘å™¨ï¼Œä¸ºæ¯å°è™šæ‹Ÿæœºé…ç½® IP åœ°å€ã€å­ç½‘æŽ©ç å’Œç½‘å…³ç­‰å‚æ•°ï¼›ä¹Ÿå¯ä»¥ç›´æŽ¥ç”¨ Excel / æ–‡æœ¬ç¼–è¾‘å™¨ç¼–è¾‘ CSV æ–‡ä»¶ã€‚</p></div>
-    <div class="step"><span class="step-number">3</span><strong>æ‰§è¡Œéƒ¨ç½²</strong><p>ç‚¹å‡»"æ‰§è¡Œéƒ¨ç½²"æŒ‰é’®ï¼Œç¨‹åºä¼šæŒ‰ CSV é…ç½®é€ä¸ªå¤„ç†è™šæ‹Ÿæœºï¼šä¸å­˜åœ¨åˆ™æ–°å»ºï¼Œå·²å­˜åœ¨åˆ™å…ˆå…³æœºå†é‡æ–°é…ç½®åŽå¼€æœºã€‚</p></div>
-
-    <h2 id="resource-tabs">å››ã€èµ„æºæŸ¥è¯¢ Tab</h2>
-    <h3 id="vm-list">1. è™šæ‹Ÿæœºåˆ—è¡¨</h3>
-    <p>åˆ‡æ¢åˆ°"è™šæ‹Ÿæœºåˆ—è¡¨"Tab é¡µåŽè‡ªåŠ¨æŸ¥è¯¢èµ„æºåˆ—è¡¨ã€‚</p>
-    <h4>å­ç±»åž‹åˆ‡æ¢</h4>
-    <p>Tab é¡¶éƒ¨æœ‰ <code>è™šæ‹Ÿæœº</code> / <code>æ¨¡æ¿</code> ä¸¤ä¸ªå­ Tab æŒ‰é’®ï¼Œå¯åˆ‡æ¢æŸ¥çœ‹è™šæ‹Ÿæœºæˆ–æ¨¡æ¿åˆ—è¡¨ï¼ˆç»¿è‰²é«˜äº®å½“å‰é€‰ä¸­é¡¹ï¼‰ã€‚</p>
-    <h4>å·¥å…·æ åŠŸèƒ½</h4>
-    <ul>
-        <li><strong>åˆ·æ–°åˆ—è¡¨</strong>ï¼šé‡æ–°ä»Ž vCenter / ESXi æŸ¥è¯¢æœ€æ–°æ•°æ®ï¼ˆæ”¯æŒç»ˆæ­¢æŸ¥è¯¢ï¼‰</li>
-        <li><strong>æœç´¢æ¡†</strong>ï¼šå®žæ—¶è¿‡æ»¤è¡¨æ ¼è¡Œï¼Œæ˜¾ç¤ºåŒ¹é…æ•° / æ€»æ•°</li>
-        <li><strong>å¤åˆ¶/å¯¼å‡º</strong>ï¼šå¤åˆ¶é€‰ä¸­è¡Œã€å¤åˆ¶å…¨éƒ¨ã€å¯¼å‡ºä¸º CSV æ–‡ä»¶</li>
-    </ul>
-    <h4>è¡¨æ ¼æ“ä½œ</h4>
-    <ul>
-        <li><strong>åŒå‡»è¡Œ</strong>ï¼šå¼¹å‡ºè¯¥èµ„æºçš„è¯¦ç»†ä¿¡æ¯çª—å£ï¼ˆåˆ†èŠ‚å¼å±•ç¤ºåŸºæœ¬ä¿¡æ¯ã€ç½‘ç»œã€ç£ç›˜ã€å¿«ç…§ç­‰ï¼Œæ”¯æŒé”®å€¼åˆ—è¡¨ / è¡¨æ ¼ / çº¯æ–‡æœ¬ä¸‰ç§æ¸²æŸ“æ¨¡å¼ï¼›çª—å£å†…å¯å°±åœ°åˆ·æ–°ã€å¤åˆ¶æ•´é¡µï¼ŒæŒ‰ <code>ESC</code> å…³é—­ï¼‰</li>
-        <li><strong>æ‰“å¼€ VMRC</strong>ï¼š<strong>ä»…è™šæ‹Ÿæœºè¯¦æƒ…é¡µ</strong>æ˜¾ç¤ºè¯¥æŒ‰é’®ï¼Œç‚¹å‡»åŽè‡ªåŠ¨èŽ·å–å…å¯†ç¥¨æ®å¹¶å¯åŠ¨ VMware Remote Console å›¾å½¢æŽ§åˆ¶å°ï¼ˆéœ€æå‰å®‰è£… VMRC å®¢æˆ·ç«¯ï¼‰</li>
-        <li><strong>å³é”®èœå•</strong>ï¼šè¯¦ç»†ä¿¡æ¯ + VM æ“ä½œèœå•ï¼ˆæŒ‰é£Žé™©çº§åˆ«åˆ†ç»„ï¼‰ + å¤åˆ¶å•å…ƒæ ¼/é€‰ä¸­è¡Œ/å…¨éƒ¨/åˆ—æ ‡é¢˜</li>
-        <li><strong>å¤šé€‰æ“ä½œ</strong>ï¼šæŒ‰ä½ Ctrl å¤šé€‰ï¼Œå³é”®æ˜¾ç¤ºæ‰¹é‡æ“ä½œèœå•ï¼ˆæ‰¹é‡å¼€æœº/å…³æœº/é‡å¯/å¿«ç…§/NTP åŒæ­¥ç­‰ï¼‰</li>
-        <li><strong>åˆ—å¤´æŽ’åº</strong>ï¼šç‚¹å‡»åˆ—å¤´å¯æŒ‰è¯¥åˆ—æŽ’åºï¼ˆå†æ¬¡ç‚¹å‡»åˆ‡æ¢å‡åº/é™åºï¼‰ï¼ŒæŽ’åºæ—¶ä¼šä¿ç•™å½“å‰æœç´¢è¿‡æ»¤æ¡ä»¶ï¼Œä¸ä¼šæ¸…ç©ºè¿‡æ»¤æ¡†å†…å®¹</li>
-    </ul>
-
-    <h3 id="host-list">2. ä¸»æœº / å­˜å‚¨ / ç½‘ç»œåˆ—è¡¨</h3>
-    <p>ä¸»æœºåˆ—è¡¨ã€å­˜å‚¨åˆ—è¡¨ã€ç½‘ç»œåˆ—è¡¨çš„ç•Œé¢å’Œæ“ä½œä¸Žè™šæ‹Ÿæœºåˆ—è¡¨ä¸€è‡´ã€‚</p>
-    <div class="info-box">ä¸»æœºåˆ—è¡¨å³é”®èœå•æ”¯æŒ <strong>SSH è¿žæŽ¥ (MobaXterm)</strong> åŠŸèƒ½ï¼Œå¯ä¸€é”®æ‰“å¼€ MobaXterm å¹¶ SSH è¿žæŽ¥åˆ°ç›®æ ‡ä¸»æœºã€‚</div>
-
-    <h3 id="vm-right-click">3. å•å° VM å³é”®æ“ä½œ</h3>
-    <p>åœ¨è™šæ‹Ÿæœºåˆ—è¡¨ä¸­<strong>å³é”®å•å° VM</strong>ï¼Œèœå•é‡‡ç”¨<strong>åˆ†ç»„ä¸‹æ‹‰</strong>ç»“æž„ï¼ŒåŠŸèƒ½æŒ‰ç±»åˆ«èšåˆåœ¨å­èœå•å†…ï¼Œé¿å…ä¸»èœå•è¿‡é•¿ã€‚</p>
-
-    <h4><span class="badge badge-green">ðŸŸ¢ è¿œç¨‹è¿žæŽ¥</span> <em>å­èœå•</em></h4>
-    <table>
-        <tr><th>æ“ä½œ</th><th>è¯´æ˜Ž</th></tr>
-        <tr><td>ðŸ–¥ VMRC è¿žæŽ¥</td><td>è°ƒç”¨ VMware Remote Console æ‰“å¼€å›¾å½¢æŽ§åˆ¶å°</td></tr>
-        <tr><td>ðŸ–¥ RDP è¿žæŽ¥</td><td>æ‰“å¼€ Windows RDP è¿œç¨‹æ¡Œé¢ï¼ˆéœ€ VM æœ‰å…¬ç½‘å¯è¾¾ IPï¼‰</td></tr>
+    <div class="step"><span class="step-number"ÜÜ[Ý›Û™Ï¹o 9iâ‹ùîhêSÂ÷7G&öæsãÇîx+žX{².[ÈZx¾‹ùîhêR.hÈž™*îûÈÎšinjÊ‹{š:—’òk–òç–ë–†ç è¾“å…¥æ¡†ã€‚è·¹£©y¢$9b§ùd#¹aëy£kº!ê¹bª9-ÞZÙŽûÈŽY
+¾XŠ¾YÞ8YËYØ8YŽžR£š"ß–B7Ž–†ç ï¼‰ï¼Œä¸‹æ¬¡å‹ú`&º,~XŠ¾YÞKˆ¾h¸ž[¯¦¦'š.§–:–2è·¹£©{ï#9¥è:g :aãy¥¬:/¤ùaixà ÜÙ]ƒBˆ]ˆÛ\ÜÏHœÝ\Ü[ˆÛ\ÜÏHœÝ\[[X™\ˆƒ3Â÷7ããÇ7G&öæsîX‹ZZÃžòE­˜ï"9cë˜žò$ð½ÍÑÉ½¹œøñÀû¢þ{š:—š"C–*uŽç‚¹å‡¹b§ˆ;ÞˆùÎXÙ^‹{"ö³–"Ã–B¢ÖšêCš~—¢¾ˆQ…‹¾ò3ž¢/–ê?’òk¢«–*£¦¦n¢fkš.šrëŽ’âïšrëŽ–¶c–
+£ŽžöGžîs¢ÖšêC’þ‡š¿–"Ãšr³–rÃžòO–¶c¾ò3–B;žî·–"š6ˆQ…ˆƒ¦†×š^Û–*ƒ¢ö÷šnÓ–þ£€‚</p></div>
+    <div class="step"><span class="step-number">4</spanÝ›Û™Ï¹¥«yo :/ç¹£©OÜÝ›Û™Ï¹à®yaîÈ¹¥«yo :-îhêR.hÈž™*îijÞ[È[Ù&7’òk¢¾w¼ˆvCenter æˆ– ESXiï¼‰ã€‚</pÙ]€Ð¢ÆF—b6Æ73Ò'7FW ñÍÁ…¸±…ÍÌô‰ÍÑ•Àµ¹Õµ‰•ÈˆøÔð½ÍÁ…¸øñÍÑÉ½¹œé‡ç½®è®°å±ÜÝ›Û™ÃÇ–r£¢úO–—š†’â·¦'š.§¢ššâ¦f“žj–rÃ–v–B;¾ò3ž
+ç–ì‹¦7žö»¢ºÃ–þ‹š2'¦J»šâ¦f“¢¾—šr7–*‡–f£žj–ÞË’þw–¶c–¾ž‚–J3¢þ{š:—¦7žö»Žð½À</divBƒBˆd6VçFW"KˆâU5†’jŠ[Èþy¨NX©þˆ;Þ[zî[È#ÂöƒCàÐ¢ÇF&ÆSàÐ¢ÇG#ãÇFƒîX©þˆ;ÓÂ÷FƒãÇFƒçd6VçFW"jŠ[ÈóÂ÷F€ñÑ ùMa¤ƒžnÓ¢Þæ¨¡å¼</th></tr>
+        <trº&f¹¢çiË®iú^Šú"òzêycÂ÷F@ñÑûŠrLƒ–º3šVÓšR¿š2ð½ÑøñÑûŠrLƒšR¿š2¾ò#’î¢¥ä¸»æœºä¸Šçš„ VMï¼‰</td></tr>
+        <tr¹¢nzaã˜:Ž{Û.‰™®h¹Úrèð½Ñ<td>âœ“ å®Œæ•´æ”¯æŒ</td><td>âœ“ æ”¯æŒï¼ˆå•ä¸»æœºèŒƒå›´ï¼‰</td></tr>
+        <tr“[Ý[ÛˆÈÝÜ˜YÙH“[Ý[ÛÝ¸§$È9k£9¥m9¥+ù£ OÝ)Érizd6VçFW"izk9^‹zŽK‹šrë¢þžžìð½Ñ</tr>
+        <tr><td>èµ„æºæ±  / é›†ç¾¤ç®¡ç†</td><td>âœ“ å®Œæ•´æ”¯æŒ</td><td8§%È9.#y­¢ycâÝÂ÷G#àÐ¢ÇG#ãÇFCäõdbFööÂZûÎXZRòZûÎX{£Â÷FCãÇFCî)É2ZèÎi[NiJþhÈÂ÷FCãÇFCŠrLƒšR¶Œï"9cey..iË®ˆÈnÓ¼‰</tdÝƒBˆ¹oêùáiùë¨yä!Ý¸§$È9k£9¥m9¥+ù£ OÝ)É2iJÚ2ð½Ñ</tr>
+        <tr><td>GuestOpsÈŽ{Ù{¹ÂþZønz˜XÞ{ÚîûÈ“Â÷FCãÇFCî)É2ZèÎi[NiJþhÈÂ÷FCãÇFCŠrLƒšR¶Œ</tdÝƒBˆÝX›OƒBƒBˆÈYHœÝ\Y\ÞHƒ"âhš~ŠÎ˜:Ž{Û#Âöƒ3àÐ¢ÆF—b6Æ73Ò'7FW#ãÇ7â6Æ73Ò'7FWÖçVÖ&W"#ã#Â÷7àñÍÑÉ½¹œûžò[¢úG¦£žöË–"_¢† ð½ÍÑÉ½¹œøñÀûž
+ç–ì‹žò[¢úG–"_¢† ‹š2'¦J»š&E¼€å†…ç½®è¡¨æ ¼ç¼–è¤yfj;ÈÎK‹®jøÖ>Ã¢fkš.vœºé…ç½® IP åœ°å€ã€å­ç½‘æŽ©ç å’Œç½‘å…³ç­‰å‚æ•°ï¼›ä¹Ÿå¯ä»¥ç›´æŽ¥ç”¨ Excel / æ–‡æœ¬ç¼–è¾‘å™¨ç¼–è¾‘ CSV æ–….í¸à ÜÙ]ƒBˆ]ˆÛ\ÜÏHœÝ\Ü[ˆÛ\ÜÏHœÝ\[[X™\ˆŒÏÜÜ[ƒÇ7G&öæsîhš~ŠÎ˜:Ž{Û#Â÷7G&öæsãÇîx+žX{².hš~ŠÎ˜:Ž{Û".hÈž™*îò3ž¢%º/&¹£"HÔÕˆ:acyïkº`$9.*¹i!9ä!º&f¹¢çù§.»ï&¹.#ykf9g*9b&y¥¬9nî»ï#9mì¹kf9g*9b&yab9alù§.¹a£zaãy¥¬:acyïk¹d#¹o 9§.¸à ÜÙ]ƒBƒBˆˆYHœ™\ÛÝ\˜ÙK]XœÈ¹fæøà z-a9®¤9§éz+èˆXÚƒBˆÈYH›K[\ÝŒKˆ:&f¹¢çiË®X‰b† ð½ Ì
+    <p9b!ù£h¹b,º&f¹¢çiË®X‰b† ‰Q…ˆƒ¦†×–B;¢«–*£šeè¨º-a9®¤9b%ú(j8à ÜƒBˆ¹kd9ìnùg¢ùb!ù£hÚƒBˆ•Xˆ:hmº`ê9§"HÛÙN‰™®h¹þiË£Âö6öFSâòÆ6öFSîjŠiÛóÂö6öFSâKŠNKŠ®ZÙF"hÈž™*îûÈÎXúþXˆ~hÚ.iú^yÈ¾‰™®h¹þiË®h‰njŠiÛþX‰~ŠŽûÈŽ{»þˆ›.š¹ŽKªî[Ù>X˜Þ˜žKŠÞšžûÈž8#Â÷ 4(€€€€ñ Ðû–Þ—–Ö b§ˆ;ÓÂöƒ@4(€€€€ñÕ°ø4(€€€€€€€€ñ±¤<strong>åˆ·æ–°åˆ—è¡¨</strong>ï¼šé‡æ–°ä»Ž vCenter / ESXi æ™z*.iÈiki[hÚîûÈŽiJþhÈ{¸ŽjÚ.i—¢¢ï¼‰</li>
+        <li><strong9¤'9í(¹¨aÜÝ›Û™ÎûÉ®Zéîi{n‹šî“¢†£š‚ó¢†3¾ò3šbç¤ºåŒ¹é…æ•° / æ€»æ•°</li>
+        <li><strong9i#yb-‹ZûÎX{£Â÷7G&öæsîòk–’7–"Û¦'’â·¢†3Ž–’7–"Û–£¦£Ž–¾ó–ë’âèMXƒšZ’îØð½±¤ø4(€€€€ð½Õ°ø4(€€€€ñ Ðû¢†£š‚óšN7’öpð½ Ðø4(€€€€ñÕ°ø4(€€€€€€€€ñ±¤øñÍÑÉ½¹œåƒ9aîú(cÜÝ›Û™ÎûÉ®[ËžX{®Š—¢ÖšêCžj¢¦ç»†ä¸y kùê¥ùb>ûÈŽXˆnˆ¨.[Èþ[^zK®Yëšr³’áæ¯ã€ç½‘ç»œã€ç£ç›˜ã€åºùáiùëb{ï#9¥+ù£ ze+¹`/9b%ú(jÈ:(j9¨/È9î«ù¥¡ù§+9."yéãy®,¹¥>jŠ[ÈþûÉ¾z©~X––/å°±åœ°åˆ·æ–°ã€å¤åˆ¶æ•´é¡µï¼ŒæŒ‰ <code>ESC</code> å…³é—­ï¼‰</li>
+        <li><strong9¢dùo “TÏÜÝ›Û™Ï»ï&Ý›Û™Ï¹.áz&f¹¢çiË®Šúnh8^šSÂ÷7G&öæsîi‹îzK®Šú^hÈž™*îò3ž
+ç–åŽè‡ªåŠ¨èŽµcå¹acyká¹éj9£k¹nm¹d+Xª‚d×v&R&VÖ÷FR6öç6öÆRY»–ö‹š:Ÿ–"Û–0ï¼ˆéœ€æ„9bcyk¢z(áH“TÈ9k¨¹¢-ùêëûï"OÛOƒBˆOÝ›Û™ÎXÏ¦R»¢å•</strong;ï&º*n{¸nK‡š¼€¬Y4ƒšN7’ös¢å•ï¼ˆæŒ‰é£Žé™©çº§åˆ«åˆ†ç»„ï¼‰ + å¤åˆ¶å•å…ƒæ ¼.`"y.+z(cùaj:`êùb%ù¨!úh¦ÛOƒBˆOÝ›Û™ÎZI®˜ži8ÞKÙÃÂ÷7G&öæs¾òkš2'’ö<ÑÉ°ƒ–’k¦'¾ò3–3é”®æ˜¹é.¹¢nzaãù¤ãy/g:!ÎXÙ^ûÈŽh›ž˜xþ[ÈiË¢ÖÆœº/é‡å¯/åºùáiËÓ•9d#9«iyëb{ï"OÛOƒBˆCÇ7G&öæsîX‰~ZKNhé.[¨óÂ÷7G&öæsîûÉ®x+žX{¾X‰~ZKNXúþhÈžŠú^X‰~hé.[¨þûÈŽXhÞjÊx+žX{¾Xˆ~hÚ.XØ~[¨òþ™˜Þ[¨þûÈžûÈÎhé.[¨þi{nKÉ®KwžVg–öO–&7šBsžÒ‹¢Çæ»¤æ¡ä»¶ï¼Œä¸ä¼šæ¸…ç©ºè±ù®é9¨a¹a¡yk®OÛOƒBˆÝ[ƒBƒBˆÈYHšÜÝ[\ÝŒ‹ˆ9..iË¢òZÙŽX*‚ò{Ù{¹ÎX‰b† ð½ Ì
+    <p9..ù§.¹b%ú(j8à ykf9`ª9b%ú(j8à yïdyîç9b%ú(j9æ¡9åc:gh¹d£9¤ãy/g9.#º&f¹¢çù§.¹b%ú(j9. :!í8à ÜƒBˆ]ˆÛ\ÜÏHš[™›ËX›Þ¹..ù§.¹b%ú(j9cìúe+º#ç9cey¥+ù£ HÝ›Û™Ï”ÔÒ:-îhêR„Öö&‡FW&Ò“Â÷7G&öæpƒ–*xƒ½ï#9cëKˆ™Jîh™ò 5½‰…aÑ•É´ƒ–æØMM ƒ¢þ{š:—–"Ãžn»š‚’âïšrëŽð½‘¥Øø4(4(€€€€ñ Ì¥ô‰Ù´µÉ¥¡Ðµ±¥¬ˆøÌ¸ƒ–6W–>ÀY4ƒ–>Ï¦R»šN7’öpð½ Ìø4(€€€€ñÀû–r£¢fkš.vœºåˆ–(j9.+OÝ›Û™ÎXÏ¦R»–6W–0 VM</strong;ï#:!ÎXÙ^˜x~yJƒÇ7G&öæsîXˆn{¸NKˆ¾h¸“Â÷7G&öæsî{¹>ièNûÈÎX©þˆ;ÞhÈž{¾XŠ¾ˆ®YŽYÊŽZÙˆùÎXÙ^Xh^ûÈÎ˜þXXÞK‹¾ˆùÎXÙ^‹ø~™[þ8#Â÷ 4(4(€€€€ñ Ð<span class="badge badge-green">ðŸ˜ˆ:/ç9ê"‹ùîhêSÂ÷7ãâÆVÓîZÙˆùÎXÙSÂöVÐð½ Ðø4(€€€€ñÑ…‰±”
+        <tr><th9¤ãy/gÝŠÓšb8ð½Ñ øð½ÑÈø4(€€€€€€€€ñÑÈ<td>ðŸ–¥ VMRC è¿žæŽ¥</td><td>è°ƒç”¨ VMware Remote Console æ‰‘o 9fï¹oh¹£©X‹nXûÂ÷F@ð½ÑÈø4(€€€€€€€€ñÑÈøñÑûÂ~Z”I@ƒ¢þ{š:”ð½ÑøñÑûš&O–ò ]¥¹‘½ÝÌI@ƒ¢Üç¨‹æ¡Œé¢ï¼ˆéœ€ VM æœ‰å…¬ç½‘å®+â•ò$ð½Ñ</tr>
         <tr><td>ðŸ”§ SSH è¿žæŽ¥ (MobaXterm)</td><td>è°ƒç”¨ MobaXterm SSH ç™»å½•è™šæ‹Ÿæœº Guest OSï¼ˆéœ€å·²å®‰è£… MobaXterm å¹¶é…ç½®åœ¨ PATHï¼‰</td></tr>
+    </tableBƒBˆÇ7â6Æ73Ò&&FvR&FvRÖw&VVâ#ï	ùˆƒžR×šêCžº‡žBð½ÍÁ…¸ø€ñ•´û–¶C¢>s–6Tð½•´</h4>
+    <tableBˆi8ÞKÙÃÂ÷FƒãÇFƒ¢´æ˜Ž</th></tr>
+        <tr¸¥­ˆ9¢dùo 9å-y®¤Ý¹d+ùbª:&f¹¢çù§.»ï#9mì¹o 9§.¹b&z-ìú/áÏÝÝ€Ð¢ÇG#ãÇFCŠZ€ƒ–É—­å®¢æˆµ§.ÝÇFCîXù˜KÉŽ™¸^X[rëš2»¤ï":g “]Ø\™HÛÛÈ9«hùn.:-ŠÎûÈžûÉ³RXˆn™)þ‹h^i{nK¸ÞiÊ®X[>iË®XúþiKžyJ‚.X[>™zÞyK^k©#Â÷F@ð½ÑÈø4(€€€€€€€€ñÑÈøñÑûŠrXƒ–Ï¦^·žR×šê@ð½ÑøñÑå¼ºåˆ¶æ–­ç”µï¼ˆPowerOffVM_Taskï¼‰ï¼Œç­‰åŒç‰©ç†æœºæ‹”ç”µæºï¼Œ<strong>æœ‰æ•°æ®ä¸¢å¤±é£Žé™©</strong>ï¼ŒäºŒæ¬¡ç¡®è®¤</td></trBˆ(k²˜xÞ{ÚîyK^k©Â÷F@ñÑûž†³’îÛžêœI•Í•ÑY5}Q…Í¯¾ò3ž¶'–B3ž&§žBšrëš2$I•Í•Ðƒ¦R»¾ò0ñÍÑÉ½¹œûšr'šVÃš6»’â‹–’Ç¦Ž;¦f¤ð½ÍÑÉ½¹œû¾ò3’ê3š²‡ž†»¢ºð½Ñøð½ÑÈ
     </table>
 
-    <h4><span class="badge badge-green">ðŸŸ¢ ç”µæºç®¡ç†</span> <em>å­èœå•</em></h4>
-    <table>
-        <tr><th>æ“ä½œ</th><th>è¯´æ˜Ž</th></tr>
-        <tr><td>â–¶ æ‰“å¼€ç”µæº</td><td>å¯åŠ¨è™šæ‹Ÿæœºï¼Œå·²å¼€æœºåˆ™è·³è¿‡</td></tr>
-        <tr><td>â–  å…³é—­å®¢æˆ·æœº</td><td>å‘é€ä¼˜é›…å…³æœºæŒ‡ä»¤ï¼ˆéœ€ VMware Tools æ­£å¸¸è¿è¡Œï¼‰ï¼›5 åˆ†é’Ÿè¶…æ—¶ä»æœªå…³æœºå¯æ”¹ç”¨"å…³é—­ç”µæº"</td></tr>
-        <tr><td>âœ– å…³é—­ç”µæº</td><td>å¼ºåˆ¶æ–­ç”µï¼ˆPowerOffVM_Taskï¼‰ï¼Œç­‰åŒç‰©ç†æœºæ‹”ç”µæºï¼Œ<strong>æœ‰æ•°æ®ä¸¢å¤±é£Žé™©</strong>ï¼ŒäºŒæ¬¡ç¡®è®¤</td></tr>
-        <tr><td>â†» é‡ç½®ç”µæº</td><td>ç¡¬ä»¶çº§ ResetVM_Taskï¼Œç­‰åŒç‰©ç†æœºæŒ‰ Reset é”®ï¼Œ<strong>æœ‰æ•°æ®ä¸¢å¤±é£Žé™©</strong>ï¼ŒäºŒæ¬¡ç¡®è®¤</td></tr>
-    </table>
+    <h4><span class="badge badge-orange">ðŸ˜H9ï%º)˜XÞ{ÚãÂ÷7ãâÆVÓîZÙˆùÎXÙSÂöVÐð½ Ðø4(€€€€ñÑ…‰±”
+        <tr><th9¤ãy/gÝŠÓšb8ð½Ñ øð½ÑÈø4(€€€€€€€€ñÑÈ<td>ðŸ”² ä»¹¥.HÔOÝ¹¦nº ïycæ9¦í;ï&Ý›Û™Ï¹ca˜XÓÂ÷7G&öæsîò#š‚ãšVÃ–Š{–*ƒ¼‰å­g*9î¯È™XÛÛ™šYÕ“WÕ\Úûï&ÏÝ›Û™ÏºfczacOÜÝ›Û™Ï¹/&º!ê¹bª9aliË¢(i"iKž˜XÞ{Úâ(i"h.ZHÞXéþ[ÈiË®x«nhÂ÷FCãÂ÷G 4(€€€€€€€€ñÑÈøñÑð”âˆ9/ë¹¥.ya¡ykfÝ¹d#ÔH9¦nº ïycaúfcz`.ú/¤{ï#9cey/cHÐ»ï#:h¡:+¯ˆKÌ‹ÍÎÌM‹ÌÌ‹ÍÌLŽÌMÝÝƒBˆƒÇFCï	øÉK»šRçž®¿–#ç»„</td><td9o.yaî¹ïdychyï%º/¤ykžŠwš†¾ò3–"_–ëš&šr'žöG–6‡¾ò#–B¯š‚–ž®¿–#ç»„ / åˆ†å¸ƒå¼ç«¯åˆùîá;ï"{ï#9¥+ù£ z`$9ïdychy¦í9£hÝÝƒBˆƒÇFCï	øÉ˜XÞ{ÚîZê.h‹~iË®{Ù{¹ÂââãÂ÷FCãÇFC¦k¢Ç VMware Tools GuestOps åœ¨ Guest OS å†…ä»¹¥.HTÈ9£ªyè HÈ9ïdyalÈÈ”ûï#Ý›Û™Ïºg ÛÛÈ9«hùn.:-ŠÃÂ÷7G&öæs¾òm]¥¹‘½ÝÌ€¼1¥¹Õàƒ¢«–*£¦¦7–F÷’îð½Ñ</tr>
+        <tr><td>ðŸ”‘ å¯†ç é…ç½®...</tdº`&º/áÈÝY\ÝÜÈ:aãyïkˆÝY\ÝÔÈ9å*9¢-ùhnzûÈÃÇ7G&öæsî™ÈFööÇ2jÚ>[‹Ž‹C¢†0ð½ÍÑÉ½¹œ</td></tr>
+        <tr¸§#È:aãydoyd#z&f¹¢çù§.Ý¹/ë¹¥.y§#yb¨yfj9®!ycey.+yæ¡“H9¦.zK®YÞz{Â÷FCãÂ÷G#àÐ¢ÇG ñÑûÂ~Ntƒžò[¢úG–’šÎ ð½ÑøñÑè®¹ïkˆ“H9æ¡[››Ý][ÛˆÈ9i!ù¬ê9keù«­OÝÝƒBˆÝX›@Ð Ð¢Æƒ@ñÍÁ…¸±…ÍÌô‰‰…‘”‰…‘”µ½É…¹”ˆð—èH9èàyææ9ë¨yä!ÜÜ[‚ÆVÓîy»Nhê^[ËžX{®ZûžŠùÞjcÂöVÓãÂöƒ@4(€€€€ñÑ…‰±”ø4(€€€€€€€€ñÑÈ<th>åŠž ïOÝÇFƒîŠûNiˆãÂ÷F€ð½ÑÈø4(€€€€€€€€ñÑÈøñÑûžŽžnc–"_¢† ð½ÑøñÑû–"_–ëš&šr'¢fkš.žŽžnc¾ò3šbûž’ë–ºç¦?ŽžÊûžº ¿–:kžö»–’š‚ó–ò?ŽšZ’îÛ–B7Žšb¿–B›šr$	…­¥¹œð½Ñøð½ÑÈ
+        <tr><td9¥¬9h§¹èàyææÝhÈ~Zé®Zëž˜xþ8ZÙŽX*ŽjÎ[ÈþûÈ…F†–âòÆ§•¦W&öVEF†–6²òVvW%¦W&öVEF†–6¾ûÈž8yºîj~ZÙŽX*ƒÂ÷FCãÂ÷G 4(€€€€€€€€ñÑÈøñÑè°ƒæ•´å®¹é‡</td><td9¢jyk®yã¬9§"yèàyææ;ï"“]Ø\™H”Ü\™H9.áy¥+ù£ HÔ“Õûï#Ý›Û™Ï¹.#y¥+hÈ6‡&–æ³Â÷7G&öæsîûÈ“Â÷FCãÂ÷G 4(€€€€€€€€ñÑÈøñÑåˆ é™¤ç£ç›˜</td><td9.ãˆ“H9éî™šN[›nK¸îZÙŽX*Ži:n™šBdÔD¾ûÈÃÇ7G&öæsîi8ÞKÙÎX˜ÞKÉ®K¨ÎjÊzîŠêCÂ÷7G&öæsãÂ÷FCãÂ÷G 4(€€€€ð½Ñ…‰±”ø4(4(€€€€ñ ÐøñÍÁ…¸±…ÍÌô‰‰…‘”‰…‘”µ½É…¹”ˆûÂ~a è¿ç§¹ab™¨cÂ÷7ãâÆVÓîZÙˆùÎXÙSÂöVÐð½ Ðø4(€€€€ñÑ…‰±”
+        <tr><th9¤ãy/gÝŠÓšb8ð½Ñ øð½ÑÈø4(€€€€€€€€ñÑÈ<td>â†” è¿ç§»åˆ°ä¸»æœº (vMotion)</td><td9g*9î¯ú,z{¾Šêzé~‹XNk©ûÈ…&VÆö6FUdÕõF6²Xú®z{²†÷7NûÈžûÈÃÇ7G&öæsî™»nXÎiË£Â÷7G&öæsîûÈÎ˜žhºžyºîjrU5†’K‹¾iË®ZûžŠùÞjcÂ÷FCãÂ÷G 4(€€€€€€€€ñÑÈøñÑð”éˆ:/àyéîùb,:-a9®¤9¬hÝ”™[ØØ]U“WÕ\ÚÈ9£!ùk¦¹¥¬™\ÛÝ\˜ÙTÛÛ;ÈÎ˜žhºžyºîjbÖšêCšÆƒ–¾ç¢¾wš†ð½Ñ</tr>
+        <tr><td>ðŸ’ˆ:/àyéîX‹ZÙŽX*‚…7F÷&vRdÖ÷F–öâ“Â÷F@ñÑùI•±½…Ñ•Y5}Q…Í¬ƒ–>«žžì…Ñ…ÍÑ½É—¾ò0ñÍÑÉ½¹œû–òšrë’æ–>¿š&Ÿ¢†0ð½ÍÑÉ½¹œû¾ò3¦'š.§žn»š‚–¶c–
+£–¾ç¢¾wš†ð½Ñøð½ÑÈ
+        <tr><td<$iRXX¾™¨n‰™®h¹þiË£Â÷FCãÇFCîK¸îxëiÈ’dÒXX¾™¨nX{®KˆXÃšZÀY7¾ò3¦rš2–ºkšZÃ–B7žžÃŽžn»š‚’âïšrëŽžn»š‚–¶c–
+£Žšb¿–B›–ºk–"ØÕ•ÍÐ=Lð½Ñøð½ÑÈø4(€€€€ð½Ñ…‰±”
 
-    <h4><span class="badge badge-orange">ðŸŸ¡ ç¼–è¾‘é…ç½®</span> <em>å­èœå•</em></h4>
-    <table>
-        <tr><th>æ“ä½œ</th><th>è¯´æ˜Ž</th></tr>
-        <tr><td>ðŸ”² ä¿®æ”¹ vCPU</td><td>æ™ºèƒ½å˜æ›´ï¼š<strong>å‡é…</strong>ï¼ˆæ ¸æ•°å¢žåŠ ï¼‰å¯åœ¨çº¿ ReconfigVM_Taskï¼›<strong>é™é…</strong>ä¼šè‡ªåŠ¨å…³æœº â†’ æ”¹é…ç½® â†’ æ¢å¤åŽŸå¼€æœºçŠ¶æ€</td></tr>
-        <tr><td>ðŸ“Š ä¿®æ”¹å†…å­˜</td><td>åŒ vCPU æ™ºèƒ½å‡é™é€»è¾‘ï¼Œå•ä½ GBï¼Œé¢„è®¾ 1/2/4/8/16/32/64/128/256</td></tr>
-        <tr><td>ðŸŒ ä¿®æ”¹ç«¯å£ç»„</td><td>å¼¹å‡ºç½‘å¡ç¼–è¾‘å¯¹è¯æ¡†ï¼Œåˆ—å‡ºæ‰€æœ‰ç½‘å¡ï¼ˆå«æ ‡å‡†ç«¯å£ç»„ / åˆ†å¸ƒå¼ç«¯å£ç»„ï¼‰ï¼Œæ”¯æŒé€ç½‘å¡æ›´æ¢</td></tr>
-        <tr><td>ðŸŒ é…ç½®å®¢æˆ·æœºç½‘ç»œ...</td><td>é€šè¿‡ VMware Tools GuestOps åœ¨ Guest OS å†…ä¿®æ”¹ IP / æŽ©ç  / ç½‘å…³ / DNSï¼Œ<strong>éœ€ Tools æ­£å¸¸è¿è¡Œ</strong>ï¼›Windows / Linux è‡ªåŠ¨é€‚é…å‘½ä»¤</td></tr>
-        <tr><td>ðŸ”‘ å¯†ç é…ç½®...</td><td>é€šè¿‡ GuestOps é‡ç½® Guest OS ç”¨æˆ·å¯†ç ï¼Œ<strong>éœ€ Tools æ­£å¸¸è¿è¡Œ</strong></td></tr>
-        <tr><td>âœ é‡å‘½åè™šæ‹Ÿæœº</td><td>ä¿®æ”¹æœåŠ¡å™¨æ¸…å•ä¸­çš„ VM æ˜¾ç¤ºåç§°</td></tr>
-        <tr><td>ðŸ“ ç¼–è¾‘å¤‡æ³¨</td><td>è®¾ç½® VM çš„ annotation / å¤‡æ³¨å­—æ®µ</td></tr>
-    </table>
-
-    <h4><span class="badge badge-orange">ðŸŸ¡ ç£ç›˜ç®¡ç†</span> <em>ç›´æŽ¥å¼¹å‡ºå¯¹è¯æ¡†</em></h4>
-    <table>
-        <tr><th>åŠŸèƒ½</th><th>è¯´æ˜Ž</th></tr>
-        <tr><td>ç£ç›˜åˆ—è¡¨</td><td>åˆ—å‡ºæ‰€æœ‰è™šæ‹Ÿç£ç›˜ï¼Œæ˜¾ç¤ºå®¹é‡ã€ç²¾ç®€/åŽšç½®å¤‡æ ¼å¼ã€æ–‡ä»¶åã€æ˜¯å¦æœ‰ Backing</td></tr>
-        <tr><td>æ–°å¢žç£ç›˜</td><td>æŒ‡å®šå®¹é‡ã€å­˜å‚¨æ ¼å¼ï¼ˆThin / LazyZeroedThick / EagerZeroedThickï¼‰ã€ç›®æ ‡å­˜å‚¨</td></tr>
-        <tr><td>è°ƒæ•´å®¹é‡</td><td>æ‰©å®¹çŽ°æœ‰ç£ç›˜ï¼ˆVMware vSphere ä»…æ”¯æŒ GROWï¼Œ<strong>ä¸æ”¯æŒ shrink</strong>ï¼‰</td></tr>
-        <tr><td>åˆ é™¤ç£ç›˜</td><td>ä»Ž VM ç§»é™¤å¹¶ä»Žå­˜å‚¨æ“¦é™¤ VMDKï¼Œ<strong>æ“ä½œå‰ä¼šäºŒæ¬¡ç¡®è®¤</strong></td></tr>
-    </table>
-
-    <h4><span class="badge badge-orange">ðŸŸ¡ è¿ç§»å…‹éš†</span> <em>å­èœå•</em></h4>
-    <table>
-        <tr><th>æ“ä½œ</th><th>è¯´æ˜Ž</th></tr>
-        <tr><td>â†” è¿ç§»åˆ°ä¸»æœº (vMotion)</td><td>åœ¨çº¿è¿ç§»è®¡ç®—èµ„æºï¼ˆRelocateVM_Task åªç§» Hostï¼‰ï¼Œ<strong>é›¶åœæœº</strong>ï¼Œé€‰æ‹©ç›®æ ‡ ESXi ä¸»æœºå¯¹è¯æ¡†</td></tr>
-        <tr><td>ðŸ“¦ è¿ç§»åˆ°èµ„æºæ± </td><td>RelocateVM_Task æŒ‡å®šæ–° ResourcePoolï¼Œé€‰æ‹©ç›®æ ‡èµ„æºæ± å¯¹è¯æ¡†</td></tr>
-        <tr><td>ðŸ’¾ è¿ç§»åˆ°å­˜å‚¨ (Storage vMotion)</td><td>RelocateVM_Task åªç§» Datastoreï¼Œ<strong>å¼€æœºä¹Ÿå¯æ‰§è¡Œ</strong>ï¼Œé€‰æ‹©ç›®æ ‡å­˜å‚¨å¯¹è¯æ¡†</td></tr>
-        <tr><td>ðŸ†• å…‹éš†è™šæ‹Ÿæœº</td><td>ä»ŽçŽ°æœ‰ VM å…‹éš†å‡ºä¸€å°æ–° VMï¼Œéœ€æŒ‡å®šæ–°åç§°ã€ç›®æ ‡ä¸»æœºã€ç›®æ ‡å­˜å‚¨ã€æ˜¯å¦å®šåˆ¶ Guest OS</td></tr>
-    </table>
-
-    <h4><span class="badge badge-orange">ðŸŸ¡ é«˜çº§æ“ä½œ</span> <em>å­èœå•</em></h4>
-    <table>
-        <tr><th>æ“ä½œ</th><th>è¯´æ˜Ž</th></tr>
-        <tr><td>â æ–­å¼€å…‰é©±ï¼ˆå¸è½½ ISOï¼‰</td><td>å°†å…‰é©± Connectable.Connected / StartConnected ç½® falseï¼Œç­‰æ•ˆå¸è½½ ISO</td></tr>
-        <tr><td>âš™ ä¼˜åŒ–é…ç½® (VMX)</td><td>æ‰¹é‡å†™å…¥ 6 æ¡ ExtraConfigï¼šå¯ç”¨ copy/paste/drag-dropã€å¯ç”¨ setGUIOptionsã€å¯ç”¨ tools.syncTimeã€ç¦ç”¨ sched.mem.pshare.enableï¼›<strong>éƒ¨åˆ†é€‰é¡¹éœ€å…³æœºç”Ÿæ•ˆ</strong></td></tr>
-        <tr><td>ðŸ”„ è½¬ä¸ºæ¨¡æ¿</td><td>ConvertToTemplate_Taskï¼Œå°†è™šæ‹Ÿæœºè½¬æˆæ¨¡æ¿ï¼ˆè™šæ‹Ÿæœºå°†ä»Žæ¸…å•ä¸­æ¶ˆå¤±ï¼‰</td></tr>
-        <tr><td>ðŸ—‘ åˆ é™¤è™šæ‹Ÿæœºï¼ˆä»Žç£ç›˜ï¼‰</td><td>Destroy_Taskï¼Œ<strong>ä»ŽæœåŠ¡å™¨ï¼ˆvCenter / ESXiï¼‰å’Œå­˜å‚¨æ°¸ä¹…åˆ é™¤ .vmx / .vmdk / .nvram</strong>ï¼Œä¸å¯æ¢å¤ï¼Œ<strong>å»ºè®®å…ˆå…³æœºæˆ–åˆ›å»ºå¿«ç…§</strong></td></tr>
-    </table>
-
-    <h4><span class="badge badge-orange">ðŸŸ¡ å¿«ç…§ç®¡ç†</span> <em>å­èœå•</em></h4>
-    <table>
-        <tr><th>æ“ä½œ</th><th>è¯´æ˜Ž</th></tr>
-        <tr><td>ðŸ“· æŸ¥çœ‹å¿«ç…§åˆ—è¡¨</td><td>å¼¹å‡ºå¿«ç…§åˆ—è¡¨å¯¹è¯æ¡†ï¼Œæ˜¾ç¤ºåç§°ã€æè¿°ã€å¤§å°ã€åˆ›å»ºæ—¶é—´ã€å½“å‰å¿«ç…§æ ‡è®°ï¼›æ”¯æŒ<strong>å›žæ»šåˆ°ä»»æ„é€‰ä¸­å¿«ç…§</strong></td></tr>
-        <tr><td>ðŸ“¸ åˆ›å»ºæ–°å¿«ç…§</td><td>å¡«å†™å¿«ç…§åç§°ã€æè¿°ï¼Œå¯é€‰ã€ŒåŒ…å«å†…å­˜çŠ¶æ€ã€ï¼ˆè¿˜åŽŸæ—¶æ¢å¤è¿è¡ŒçŠ¶æ€ï¼Œè¾ƒæ…¢ï¼›ä¸å‹¾é€‰åˆ™ä»…ç£ç›˜å¿«ç…§ï¼Œè¿˜åŽŸæ—¶å†·å¯åŠ¨ï¼‰</td></tr>
-        <tr><td>â†© å›žæ»šåˆ°æœ€æ–°å¿«ç…§</td><td>è‡ªåŠ¨æ‰¾åˆ°æœ€æ–°å¿«ç…§ï¼ˆæŒ‰ CreateTime DESCï¼‰ï¼ŒRevertToSnapshot_Taskï¼›<strong>ä¼šä¸¢å¤±æœ€æ–°å¿«ç…§ä¹‹åŽçš„æ‰€æœ‰ç£ç›˜å˜æ›´</strong>ï¼ŒäºŒæ¬¡ç¡®è®¤</td></tr>
-        <tr><td>ðŸ—‘ åˆ é™¤æ‰€æœ‰å¿«ç…§</td><td>RemoveAllSnapshots_Taskï¼Œ<strong>é‡Šæ”¾å­˜å‚¨å ç”¨ä½†ä¸å¯æ¢å¤</strong>ï¼ŒäºŒæ¬¡ç¡®è®¤</td></tr>
-    </table>
-
-    <h3 id="batch-ops">4. æ‰¹é‡ VM å³é”®æ“ä½œ</h3>
-    <p>åœ¨è™šæ‹Ÿæœºåˆ—è¡¨ä¸­æŒ‰ä½ <code>Ctrl</code>ï¼ˆæˆ– <code>Shift</code> è¿žç»­å¤šé€‰ï¼‰é€‰ä¸­å¤šå° VM åŽå³é”®ï¼Œä¸»èœå•å‡ºçŽ° <strong>âš¡ æ‰¹é‡æ“ä½œï¼ˆå·²é€‰ N å°ï¼‰</strong> å­èœå•ï¼š</p>
-
-    <p><span class="badge badge-green">ðŸŸ¢ æ‰¹é‡ç”µæºæ“ä½œ</span></p>
-    <table>
-        <tr><th>æ“ä½œ</th><th>è¯´æ˜Ž</th></tr>
-        <tr><td>â–¶ æ‰¹é‡æ‰“å¼€ç”µæº</td><td>é€å° PowerOnVM_Taskï¼Œå·²å¼€æœºè‡ªåŠ¨è·³è¿‡ï¼›è‡ªåŠ¨è¿‡æ»¤æ¨¡æ¿</td></tr>
-        <tr><td>â–  æ‰¹é‡å…³é—­å®¢æˆ·æœº</td><td>å¯¹ <strong>toolsOk / toolsOld</strong> çš„ VM å‘é€ ShutdownGuestï¼›Tools æœªè¿è¡Œçš„ VM ä¼šè¢«è·³è¿‡å¹¶åœ¨ç»“æžœä¸­æ ‡è®°</td></tr>
-        <tr><td>âœ– æ‰¹é‡å…³é—­ç”µæº</td><td>é€å° PowerOffVM_Taskï¼Œ<strong>å¼ºåˆ¶æ–­ç”µ</strong>ï¼Œéžå¼€æœºçŠ¶æ€è‡ªåŠ¨è·³è¿‡</td></tr>
-        <tr><td>â†» æ‰¹é‡é‡ç½®ç”µæº</td><td>é€å° ResetVM_Taskï¼Œéžå¼€æœºçŠ¶æ€è‡ªåŠ¨è·³è¿‡</td></tr>
-    </table>
-
-    <p><span class="badge badge-red">ðŸ”´ æ‰¹é‡åˆ é™¤</span></p>
-    <table>
-        <tr><th>æ“ä½œ</th><th>è¯´æ˜Ž</th></tr>
-        <tr><td>ðŸ—‘ æ‰¹é‡åˆ é™¤è™šæ‹Ÿæœºï¼ˆä»Žç£ç›˜ï¼‰</td><td>Destroy_Task æ‰¹é‡åˆ é™¤ï¼›<strong>è‡ªåŠ¨è·³è¿‡å¼€æœº VM</strong>ï¼ˆé¿å…è¯¯åˆ è¿è¡Œä¸­ä¸šåŠ¡ï¼‰ï¼Œä»…åˆ é™¤å·²å…³æœº VMï¼›åˆ é™¤å‰å¼¹å‡ºç¡®è®¤æ¡†åˆ—å‡ºå°†åˆ é™¤çš„ VM åç§°</td></tr>
-    </table>
-
-    <p><span class="badge badge-orange">ðŸŸ¡ æ‰¹é‡å¿«ç…§</span></p>
-    <table>
-        <tr><th>æ“ä½œ</th><th>è¯´æ˜Ž</th></tr>
-        <tr><td>ðŸ“· æ‰¹é‡åˆ›å»ºå¿«ç…§</td><td>ç»Ÿä¸€åç§°æ ¼å¼ <code>BatchSnapshot_yyyyMMdd_HHmmss</code>ï¼Œæè¿°"æ‰¹é‡åˆ›å»º"ï¼Œ<strong>ä¸åŒ…å«å†…å­˜</strong>ï¼ˆé€Ÿåº¦ä¼˜å…ˆï¼‰</td></tr>
-        <tr><td>ðŸ—‘ æ‰¹é‡åˆ é™¤æ‰€æœ‰å¿«ç…§</td><td>é€å° RemoveAllSnapshots_Taskï¼Œæ— å¿«ç…§çš„ VM ä¼šè·³è¿‡å¹¶æ ‡è®°</td></tr>
-    </table>
-
-    <p><span class="badge badge-orange">ðŸŸ¡ ðŸ”„ æ‰¹é‡è¿ç§»</span> <em>å­èœå•</em></p>
-    <table>
-        <tr><th>æ“ä½œ</th><th>è¯´æ˜Ž</th></tr>
-        <tr><td>â†” æ‰¹é‡è¿ç§»åˆ°ä¸»æœº (vMotion)</td><td>ä»Žä¸»æœºåˆ—è¡¨å¯¹è¯æ¡†é€‰ä¸€å°ç›®æ ‡ ESXiï¼Œé€å° RelocateVM_Taskï¼ˆæŒ‡å®š Hostï¼‰ï¼Œ<strong>é›¶åœæœº</strong></td></tr>
-        <tr><td>ðŸ“¦ æ‰¹é‡è¿ç§»åˆ°èµ„æºæ± </td><td>ä»Žèµ„æºæ± åˆ—è¡¨å¯¹è¯æ¡†é€‰ä¸€ä¸ªç›®æ ‡ ResourcePoolï¼Œé€å° RelocateVM_Taskï¼ˆæŒ‡å®š Poolï¼‰</td></tr>
-        <tr><td>ðŸ’¾ æ‰¹é‡è¿ç§»åˆ°å­˜å‚¨ (Storage vMotion)</td><td>ä»Žå­˜å‚¨åˆ—è¡¨å¯¹è¯æ¡†é€‰ä¸€ä¸ªç›®æ ‡ Datastoreï¼Œé€å° RelocateVM_Taskï¼ˆæŒ‡å®š Datastoreï¼‰ï¼Œ<strong>å¼€æœºä¹Ÿå¯æ‰§è¡Œ</strong></td></tr>
-    </table>
-
-    <div class="info-box">æ‰¹é‡èœå•ä¸­æ‰€æœ‰æ¶‰åŠ vMotion / Storage vMotion çš„æ“ä½œï¼Œç›®æ ‡åˆ—è¡¨å‡æ¥è‡ªå½“å‰è¿žæŽ¥çš„æœåŠ¡å™¨å®žæ—¶æŸ¥è¯¢ï¼ˆUnifiedCacheï¼‰ï¼Œä¸ä¼šå±•ç¤ºå¤±æ•ˆçš„ç¼“å­˜æ¡ç›®ï¼›æ‰¹é‡è¿ç§»è¿‡ç¨‹ä¸­å¯éšæ—¶åœ¨ PowerShell è¾“å‡ºåŒºæŸ¥çœ‹æ¯ä¸ª VM çš„ Task å®Œæˆè¿›åº¦ã€‚<br><strong>æ³¨æ„</strong>ï¼šESXi ç›´è¿žæ¨¡å¼ä¸‹å› æ—  vCenter è°ƒåº¦å±‚ï¼ŒvMotion / Storage vMotion ä¸å¯ç”¨ã€‚</div>
-
-    <h3 id="other-menus">5. é€šç”¨èœå•</h3>
-
-    <h4>æ¨¡æ¿ä¸“ç”¨èœå•</h4>
-    <p>å½“æŸ¥è¯¢ç±»åž‹åˆ‡æ¢ä¸ºæ¨¡æ¿ï¼ˆ<code>subtype = template</code>ï¼‰æ—¶ï¼Œå³é”®èœå•è‡ªåŠ¨åˆ‡æ¢ä¸ºï¼š</p>
+    <h4Ü[ˆÛ\ÜÏH˜˜YÙH˜YÙK[Ü˜[™ÙH	~„ƒ¦®cžêŸšN7’öpð½ÍÁ…¸ <em>å­èœå•</em></h4BˆX›OƒBˆƒÇFƒîi8ÞKÙÃÂ÷F€ñÑ û¢¾Óšb8ð½Ñ </tr>
+        <tr><td>â æ–­å¼€å…‰é©±ï¼ˆå¸è½½ ISOÈ“Â÷F@ñÑû–Â–'¦¦Ä½¹¹•Ñ…‰±”¹½¹¹•Ñ•€¼MÑ…ÉÑ½¹¹•Ñ•ƒžö¸™…±Í—¾ò3ž¶'šV#–6ã¢öô%M<ð½Ñøð½ÑÈø4(€€€€€€€€ñÑÈ<td>âš™ ä¼˜åŒ–é…ç½® (VMX)</td><td>æ‰¹é‡å†™å…¥ 6 æ¡ ExtraConfigï¼šå¯ç”¨ copy/paste/drag-dropã€å¯ç”¨ setGUIOptionpà yd+yJ‚FööÇ2ç7–æ5F–Ö^8zhyJ‚66†VBæÖVÒç6†&RæVæ&Æ^òlñÍÑÉ½¹œéƒ¨åˆ†é€‰é¡¹éœ€å…³æœºç”Ÿæ•ˆ</strongÝÝƒBˆƒÇFCï	ùHB‹ÚÎK‹®jŠiÛóÂ÷FCãÇFA½¹Ù•ÉÑQ½Q•µÁ±…Ñ•}Q…Í¯#9l!º&f¹¢çiË®‹ÚÎh‰jŠiÛüˆè™šæ‹§.¹l!¹.ã¹®!ycey.+y­¢9i,{È“Â÷F@ð½ÑÈø4(€€€€€€€€ñÑÈøñÑûÂ~^Dƒ–"ƒ¦f“¢fkš.vœºï"9.ã¹èàyææ;È“Â÷F@ñÑù•ÍÑÉ½å}Q…Í¯#Ý›Û™ÎK¸îiÈÞXªYšŽûÈ‡d6VçFW"òU5†žûÈžY(ÎZÙŽX*ŽkŽK˜^XŠ™šBçf×‚òçfÖF²òæçg&ÓÂ÷7G&öæs¾ò3’â7–/æ¢å¤ï¼Œ<strong>å»ºè®®å…ˆå…³æœºæˆ–åˆ›å»ºå¿«ç…§</strong></td></trBˆÝX›OƒBƒBˆÜ[ˆÛ\ÜÏH˜˜YÙH˜YÙK[Ü˜[™ÙH¼'æ[úž—®¡ç†</span> <em>å­èœå•</emÚƒBˆX›@Ð¢ÇG#ãÇFƒšN7’öpð½Ñ øñÑ è­9¦#ÝÝƒBˆƒÇFCï	ù;ri—žr/–ëç…§åˆ—è¡¨</td><td9o.yaî¹n¾xZ~X‰~ŠŽZç¢æ¡†ï¼Œæ˜¹é.¹d#yéì8à y þ‹ÃŽ–’Ÿ–Â?Ž–"o–îëš^Û¦^ÓŽ–öO–&7–ëç…§æ ‡è®°ï¼›æ”¯æŒ<strong>å›žæ»šåˆ°ä»»æ„é€‰ä¸­å¿«ç…§</strong></td></trBˆ	Nàƒ–"o–îëšZÃ–þ¯žœð½ÑøñÑû–†¯–g–þ¯žŸ–B7žžÃŽš>?¢þÃ¾ò3–>¿¦'Ž3–2–B¯––¶cž*ÛšŽ7¾ò#¢þc–:š^Ûš‹–’7¢þC¢†3ž*Ûš¾ò3¢úš‹¾òo’â7–.û¦'–"g’îžŽžnc–þ¯žŸ¾ò3¢þc–:š^Û–ß–B¿–*£¾ò$ð½Ñøð½ÑÈ
+        <tr><td8¡ªH9fç¹®æ¹b,9§ 9¥¬9oêxZsÂ÷F@ñÑû¢«–*£š&û–"ÃšršZÃ–þ§…§ÈŽhÈ’7&VFUF–ÖRDU4>ûÈžûÈÅ&WfW'EFõ6æ6†÷EõF6¾ûÉ³Ç7G&öæsîKÉ®KŠ.ZKiÈik[úž”¹‰d#¹æ¡9¢`9§"yèàyææ9cæ9¦íÜÝ›Û™Ï»ÈÎK¨ÎjÊzîŠêCÂ÷F@ð½ÑÈø4(€€€€€€€€ñÑÈøñÑûÂ~^Dƒ–"ƒ¦f“š&šr'–þ§…§</td”™[[Ý™P[Û˜\ÚÝ×Õ\Úûï#Ý›Û™Ïºaâ¹¥/¹kf9`ª9ch9å*9/a¹.#ycëù h¹i#OÜÝ›Û™Ï»ï#9.£9«(yèkº+©ÝÝ€Ð¢Â÷F&ÆSàÐ Ð¢Æƒ2–CÒ&&F6‚Ö÷2#ãBâh›ž˜xòdÒXÏ¦R»šN7’öpð½ Ìø4(€€€€ñÀû–r£¢fkš.šrë–"_¢†£’â·š2'’ö<€ñ½‘”Ctrl</code>ï¼ˆæˆ– <codeÚYØÛÙB‹ùî{ºÞZI®˜žò'¦'’â·–’k–>ÀY4ƒ–B;–>Ï¦R»¾ò3’âï¢>s–6W–ëž:À€ñÍÑÉ½¹œûŠj„ƒš&ç¦?šN7’ös¾ò#–ÞË¦$8ƒ–0ï¼‰</strong9kd:#ç9ce{É£Â÷àÐ Ð¢ÇãÇ7â6Æ73Ò&&FvR&FvRÖw&VVâ#Â_¢ æ‰¹é‡ç”µæºæ“ä½œ</spanÜƒBˆX›OƒBˆ¹¤ãy/gÝº+í9¦#ÝÝ€Ð¢ÇG#ãÇFCŠZØƒš&ç¦6‰‘o 9å-y®¤ÝÇFCî˜	Xû÷vW$öådÕõF6¼Œå·²å¼€æœºè‡ªåŠ¨è·²/áòh‡ªåŠ¨è¿…®é9ª(y§oÏÝÂ÷G#àÐ¢ÇG#ãÇFCî)jh›ž˜xþX[>™zÞZê.h‹~iË£Â÷FCãÇFC–¹ <strongÛÛÓÚÈÈÛÛÓÛÜÝ›Û™Ây¨BdÒXù˜6‡WFF÷väwVW7NòmQ½½±Ìƒšr«¢þC¢†3žjY4ƒ’òk¢Š¯¢ÞÏ¢þ–æÛ–r£žîOšzs’â·š‚¢ºÀð½Ñøð½ÑÈ
+        <tr><td8§%ˆ9¢nzaãX[&^·žR×šê@ð½Ñ<td>é€å° PowerOffVM_Taskï¼Œ<strong>å¼ºåˆ¶æ–­ç”µ</strong>ï#:gg¹o 9§.¹â­¹  z!ê¹bª:-ì‹øsÂ÷F@ð½ÑÈø4(€€€€€€€€ñÑÈøñÑûŠìƒš&ç¦?¦7žö»žR×šê@ð½ÑøñÑé€åŒ™\Ù]“WÕ\Úò3¦v{–òšrëž*Ûš¢«–*£¢ÞÈ¿‡</tdÝƒBˆÝX›OƒBƒBˆÇ7â6Æ73Ò&&FvR&FvR×&VB#ÂT´ æ‰¹é‡åˆ é™¤</spanÜƒBˆX›OƒBˆ¹¤ãy/gÝº+í9¦#ÝÝ€Ð¢ÇG#ãÇFCÂW‘ æ‰¹é‡åˆ é™¤è™šæ‹Ÿæœºï¼ˆä»Žç£ç›˜ï¼‰</td><td>Destroy_Task æ‰¹é‡åˆ é™¤ï¼›<strong>è‡ªåŠ¨è·³è¿‡å¼€æœº VM</strong>ï¼ˆé¿å…è¯¯åˆ è¿è¡Œä¸­ä¸šåŠ¡ï¼‰ï¼Œä»…åˆ é™¤å·²å…³æœº VMï¼›åˆ é™¤å‰å¼¹å‡ºç¡®è®¤æ¡†åˆ—å‡ºå°†åˆ é™¤çš„ VM åç§°</td></tr>
+    </tableBƒBˆÜ[ˆÛ\ÜÏH˜˜YÙH˜YÙK[Ü˜[™ÙH¼'æh›ž˜xÖþ§…§</span></pBˆX›OƒBˆƒÇFƒîi8ÞKÙÃÂ÷F€ñÑ û¢¾Óšb8ð½Ñ </tr>
+        <tr><td>ðŸ“· æ‰¹é‡b&[»®[úžœð½Ñ<td>ç». 9d#yéì9¨/9o#ÈÛÙO˜]ÚÛ˜\ÚÝÞ^^^SSYÒ[\ÜÏØÛÙO»ï#9£ãú/ì¹¢nzaãùb&ùnîˆ»ÈÃÇ7G&öæs’â7–2–B¯––¶`ð½ÍÑÉ½¹œï¼ˆé€Ÿåº¦ä¼˜å…ˆï¼‰</td></tr>
+        <tr¼'åäH9¢nzaãùb(:fi9¢`9§"yn¾xZsÂ÷FCãÇFC¦C–0 RemoveAllSnapshots_Taskï¼Œæ— åºùáiùæ¡“H9/&º-ì‹øVæÛš‚®°</tdÝƒBˆÝX›OƒBƒBˆÇ7â6Æ73Ò&&FvR&FvRÖ÷&ævR#Â_¡ ðŸ”„ æ‰¹é‡Ž/àyéîÏÜÜ[ˆ[O¹kd:#ç9ceOÙ[CÂ÷àÐ¢ÇF&ÆSàÐ¢ÇG#ãÇFƒîi8ÞKÙÃÂ÷FƒãÇFƒîŠûNiˆãÂ÷FƒãÂ÷G 4(€€€€€€€€ñÑÈøñÑâ†” æ‰¹é‡Ž/àyéîX‹K‹šrè€¡Ù5½Ñ¥½¸¤ð½ÑøñÑû’î;’âïšrë–"_¢†£–¾ç¢¾wš†¦'’â–>Ãžn»š‚Ma§¼Œé€å° RelocateVM_Taskï¼ˆæŒ‡å®š Hostï"{ÈÃÇ7G&öæs¦nÛ–sšrèð½ÍÑÉ½¹œ</td></tr>
+        <tr¼'äéˆ9¢nzaãú,z{¾X‹‹XNk©kÂ÷FCãÇFC’î;¢ÖšêCšÆƒ–"_¢†£–¹è§y¨aº`"y. 9.*¹æë¹¨!È™\ÛÝ\˜ÙTÛÛ;ÈÎ˜	Xû&VÆö6FUdÕõF6¾ûÈŽhÈ~Zé¢ööÎò$ð½Ñ</tr>
+        <tr><td>ðŸ’ˆ9¢nzaã‹øz{–"Ã–¶c–
+ €¡MÑ½É…”Ù5½Ñ¥½¸¤ð½Ñ<td>ä»Žå­˜å‚¨åˆ–(j9kîz+çy¨aº`"y. 9.*¹æë¹¨!È]\ÝÜ™{ï#:`$9cì™[ØØ]U“WÕ\Úûï"9£!ùk¦ˆ]\ÝÜ™{Èžò0ñÍÑÉ½¹œå¼€æœºä¹Ÿå‹ù¢iú(cÜÝ›Û™ÃÂ÷FCãÂ÷G#àÐ¢Â÷F&ÆP4(4(€€€€ñ‘¥Ø±…ÍÌô‰¥¹™¼µ‰½àˆæ‰¹é‡è‡9cey.+y¢`9§"y­¢y`¢dÖ÷F–öâò7F÷&vRdÖ÷F–öây¨Ni8ÞKÙÎûÈÎyºîj~X‰~ŠŽYØ~iÚ^ˆz®[Ù>X˜Þ‹{š:—žjšr7–*‡–f£–º{š^Ûšeè¨»ï"[šYšYYØXÚ{ï"{ï#9.#y/&¹leyé.¹i,y¥b9æ¡9ï$ùkf9§hyæë»ï&ù¢nzaãú,z{¾‹ž¢/’â·–/éšæ—¶åœ¨ PowerShell è¾“å‡ºåŒºæ™yç"ù¨þKŠ¢dÒy¨BF6²ZèÎh‰‹ù–ê›Žñ‰ÈøñÍÑÉ½¹œûšÎ£š<ð½ÍÑÉ½¹œû¼šESXi ç›´è·¹ª(yo#ù."ùfè9¥èÙ[\ˆ:, ùn©¹l`»ï#“[Ý[ÛˆÈÝÜ˜YÙH“[Ý[Ûˆ9.#ycëùå*8à Ù]ƒBƒBˆÈYH›Ý\‹[Y[\ÈKˆ:`&¹å*:#ç9ceOÚÀÐ Ð¢ÆƒCš¢‡švÿ’âOžR£¢å•</h4>
+    <p>å½“æŸ¥è¯¢ç±»åž‹åˆ‡æ¢ä¸ºæ¨¡æ¿ï¼ˆ<code>subtype = template</code;ï"y¥í»ï#9c>™Jîˆs–6W¢«–*£–"š6‹’âë¾òhð½Àø4(€€€€ñÕ°ø4(€€€€€€€€ñ±¤ûŠr<ƒ¦7–F÷–B7š¢‡švüƒŠPƒ’þ»šRçšr7–*‡–f£šâ–6W’â·žjš¢‡švõç§°</liBˆO¼'äçH9ï%º)ZHZÎ ƒŠPƒ¢ºç½®æ¨¡æ¿ annotation</li>
+        <li<%yXŠ™šNjŠiÛò(	BK¸îiÈÞXªYšŽò!Ù•¹Ñ•È€¼Ma§¾ò'–J3–¶c–
+£šÂã’æ–"ƒ¦f€¹ÙµÑà€¼€¹Ùµ‘¬€¼€¹¹ÙÉ…´ð½±¤ø4(€€€€€€€€ñ±¤ð•!:/k9..º&f¹¢çù§.ˆ8 %ÛÛ™\Õ›WÕ\Úûï#9.ã¹ª(y§oú/æ9c§ù..¹¦kº`&ˆ“OÛOƒBˆÝ[ Ð Ð¢ÆƒC’âïšrë’âOžR£¢å•</h4>
+    <p>å½“æŸ¥è¯¢ç±»åž‹åˆ‡æ¢ä¸ºä¸»æœºï¼ˆ<code>queryType = host</code>ï"y¥í»ÈÎXû&R»¢>s–6W¢«–*£–"¢ä¸ºï&ÜƒBˆ[ Ð¢ÆÆ“ï	ùJr54‚‹ùîhêR„Öö&‡FW&Ò’(	BKÛÞR£’âæœº IP è°ƒç”¨ MobaXterm SSH è¿žæŽ¥</li>
+        <li<$ÉKÛþyJ‚vV"h™òžº‡žB–rÃ–v ƒŠPƒžR£¦îc¢º“šÖ?¢ž#–f£š&O–ò ¡ÑÑÁÌè¼¼™±Ðí¡½ÍÐµ¥À™Ðìƒ¢þe…¥ ESXi Web ç®¡ç†ç•Œé¢</li>
+    </ulBƒBˆ˜	®yJŽ8ÎZHÞX‹nXˆnKª¾8Þˆs–6Tð½ Ðø4(€€€€ñÀûš&šr'¢ÖšêCžÆï–z/¾ò!Y4€¼!½ÍÐ€¼…Ñ…ÍÑ½É”€¼9•ÑÝ½É¬€¼Q•µÁ±…Ñ—¾ò'–>Ï¦R»–všr'š¶“¢>s–6W¾òhð½À
     <ul>
-        <li>âœ é‡å‘½åæ¨¡æ¿ â€” ä¿®æ”¹æœåŠ¡å™¨æ¸…å•ä¸­çš„æ¨¡æ¿åç§°</li>
-        <li>ðŸ“ ç¼–è¾‘å¤‡æ³¨ â€” è®¾ç½®æ¨¡æ¿ annotation</li>
-        <li>ðŸ—‘ åˆ é™¤æ¨¡æ¿ â€” ä»ŽæœåŠ¡å™¨ï¼ˆvCenter / ESXiï¼‰å’Œå­˜å‚¨æ°¸ä¹…åˆ é™¤ .vmtx / .vmdk / .nvram</li>
-        <li>ðŸ”„ è½¬ä¸ºè™šæ‹Ÿæœº â€” ConvertToVm_Taskï¼Œä»Žæ¨¡æ¿è¿˜åŽŸä¸ºæ™®é€š VM</li>
-    </ul>
+        <li<%:BXˆnKª¾Kúhò(	BK¸RdÒXúþyJŽûÈÎKˆ™JîZHÞX‹bdÒYÞz{²•²K‹¾iË¢²x«nhzØžZèÎi[NKúhþX‹Xš®‹KNiÛþûÈÎikžKëò”ÒXˆnKª³ÂöÆ“àÐ¢ÆÆ“îZHÞX‹n˜žKŠÞŠÂ(	B[Ù>X˜ÞXÏ¦R»¦'’â·žj¦
+’â¢†3¾ò3–’k–"_–"Û¢†£ž²›–"¦jPð½±¤ø4(€€€€€€€€ñ±¤û–’7–"Û–£¦ ƒŠPƒšVÓ’â¨1¥ÍÑY¥•Üƒš&šr'¢†3¼Œå©b%jfŠ`ð½±¤
+        <li>å¤åˆ¶åˆ—æ ‡é¢˜ â€” ä»…åˆ•d#{ÈÎX‹nŠŽzÊnXˆn™©Nò3žR£’ê;žÊc¢ÒÓ–"Àá•°ƒ–k¢†£–’Ðð½±¤ø4(€€€€ð½Õ°
 
-    <h4>ä¸»æœºä¸“ç”¨èœå•</h4>
-    <p>å½“æŸ¥è¯¢ç±»åž‹åˆ‡æ¢ä¸ºä¸»æœºï¼ˆ<code>queryType = host</code>ï¼‰æ—¶ï¼Œå³é”®èœå•è‡ªåŠ¨åˆ‡æ¢ä¸ºï¼š</p>
-    <ul>
-        <li>ðŸ”§ SSH è¿žæŽ¥ (MobaXterm) â€” ä½¿ç”¨ä¸»æœº IP è°ƒç”¨ MobaXterm SSH è¿žæŽ¥</li>
-        <li>ðŸŒ ä½¿ç”¨ Web æ‰“å¼€ç®¡ç†åœ°å€ â€” ç”¨é»˜è®¤æµè§ˆå™¨æ‰“å¼€ https://&lt;host-ip&gt; è¿›å…¥ ESXi Web ç®¡ç†ç•Œé¢</li>
-    </ul>
-
-    <h4>é€šç”¨ã€Œå¤åˆ¶åˆ†äº«ã€èœå•</h4>
-    <p>æ‰€æœ‰èµ„æºç±»åž‹ï¼ˆVM / Host / Datastore / Network / Templateï¼‰å³é”®å‡æœ‰æ­¤èœå•ï¼š</p>
-    <ul>
-        <li>ðŸ“¤ åˆ†äº«ä¿¡æ¯ â€” ä»… VM å¯ç”¨ï¼Œä¸€é”®å¤åˆ¶ VM åç§° + IP + ä¸»æœº + çŠ¶æ€ç­‰å®Œæ•´ä¿¡æ¯åˆ°å‰ªè´´æ¿ï¼Œæ–¹ä¾¿ IM åˆ†äº«</li>
-        <li>å¤åˆ¶é€‰ä¸­è¡Œ â€” å½“å‰å³é”®é€‰ä¸­çš„é‚£ä¸€è¡Œï¼Œå¤šåˆ—åˆ¶è¡¨ç¬¦åˆ†éš”</li>
-        <li>å¤åˆ¶å…¨éƒ¨ â€” æ•´ä¸ª ListView æ‰€æœ‰è¡Œï¼Œå«åˆ—æ ‡é¢˜</li>
-        <li>å¤åˆ¶åˆ—æ ‡é¢˜ â€” ä»…åˆ—åï¼Œåˆ¶è¡¨ç¬¦åˆ†éš”ï¼Œç”¨äºŽç²˜è´´åˆ° Excel åšè¡¨å¤´</li>
-    </ul>
-
-    <h2 id="csv-editor">äº”ã€ç¼–è¾‘åˆ—è¡¨ Tab</h2>
-    <p>å†…ç½®è¡¨æ ¼ç¼–è¾‘å™¨ï¼ˆDataGridView æ¸²æŸ“ï¼‰ï¼Œå¯åŠ¨æ—¶è‡ªåŠ¨åŠ è½½é»˜è®¤éƒ¨ç½²æ–‡ä»¶ <code>%APPDATA%\VMTool\deploy_vm_list.csv</code>ã€‚æ”¯æŒå¯¼å…¥å¤–éƒ¨ CSVã€å†…åµŒç¼–è¾‘ã€å¤–éƒ¨ç¼–è¾‘å™¨è‡ªåŠ¨é‡è½½ã€åˆ—å®½è®°å¿†ã€ç¼–ç è‡ªåŠ¨è¯†åˆ«ï¼Œä¿å­˜ç»Ÿä¸€å†™å…¥ UTF-8 with BOM ç¼–ç ï¼Œç¡®ä¿ Excel æ­£ç¡®è¯†åˆ«ä¸­æ–‡ã€‚</p>
-
-    <h3>1. å·¥å…·æ æŒ‰é’®</h3>
-    <table>
-        <tr><th>æŒ‰é’®</th><th>åŠŸèƒ½</th></tr>
-        <tr><td>ðŸ“¥ å¯¼å…¥</td><td>å¼¹å‡ºæ–‡ä»¶å¯¹è¯æ¡†ï¼Œé€‰æ‹©ä»»æ„ CSV æ–‡ä»¶åŠ è½½åˆ°ç¼–è¾‘å™¨ï¼ˆä¸ä¼šè¦†ç›–é»˜è®¤æ–‡ä»¶ï¼Œä¿å­˜æ—¶ä»å†™å…¥é»˜è®¤è·¯å¾„ï¼‰</td></tr>
-        <tr><td>ðŸ’¾ ä¿å­˜</td><td>å°†å½“å‰è¡¨æ ¼æ•°æ®å†™å…¥ <code>deploy_vm_list.csv</code>ï¼ˆUTF-8 BOMï¼‰ï¼ŒToast æç¤º"ä¿å­˜æˆåŠŸ"</td></tr>
-        <tr><td>âœ ç¼–è¾‘</td><td>ç”¨ç³»ç»Ÿé»˜è®¤ç¨‹åºæ‰“å¼€å½“å‰ CSVï¼ˆå¦‚ Excel / VS Codeï¼‰ï¼›å¤–éƒ¨ç¼–è¾‘å™¨ä¿å­˜åŽï¼Œç¨‹åºåŽå°è‡ªåŠ¨æ£€æµ‹æ–‡ä»¶ä¿®æ”¹æ—¶é—´å¹¶é‡æ–°åŠ è½½æœ€æ–°å†…å®¹ï¼Œæ— éœ€æ‰‹åŠ¨åˆ·æ–°</td></tr>
-        <tr><td>âž• æ–°å¢žè¡Œ</td><td>åœ¨è¡¨æ ¼æœ«å°¾è¿½åŠ ä¸€ç©ºç™½è¡Œå¹¶é€‰ä¸­ï¼ŒåŽç»­æ‰‹åŠ¨å¡«å†™å„å­—æ®µ</td></tr>
-        <tr><td>ðŸ—‘ åˆ é™¤é€‰ä¸­è¡Œ</td><td>åˆ é™¤å½“å‰å‹¾é€‰çš„ä¸€è¡Œæˆ–å¤šè¡Œï¼ˆæŒ‰ <code>Delete</code> é”®ç­‰ä»·ï¼‰</td></tr>
-        <tr><td>ðŸ”„ é‡ç½®ä¸ºæ¨¡æ¿</td><td>æ¸…ç©ºæ‰€æœ‰æ•°æ®è¡Œï¼Œä¿ç•™åˆ—å¤´ç»“æž„ï¼ˆæœ‰äºŒæ¬¡ç¡®è®¤ï¼‰</td></tr>
-        <tr><td>ðŸ’¿ å¦å­˜ä¸º</td><td>å°†å½“å‰ç¼–è¾‘æ•°æ®å¯¼å‡ºä¸ºç‹¬ç«‹ CSV å¤‡ä»½æ–‡ä»¶ï¼Œé»˜è®¤æ–‡ä»¶å <code>VmOps-{VCåœ°å€}.csv</code>ï¼ˆå½“å‰ç¼–è¾‘çš„æ–‡ä»¶è·¯å¾„ä¸å˜ï¼‰</td></tr>
+    <h2 id="csv-editor">äº”ã€ç¼–è¤yb%Š‚F#Âöƒ#àÐ¢ÇîXh^{ÚîŠŽjÎ{ÉnŠG–f£¼ˆDataGridView æ¸²æŸ“ï¼‰ï¼Œå¯åŠ¨æ—¶è‡ªåŠ¨åŠ è½½é»˜è®¤éƒ¨ç½²æ–‡ä»¶ <code	PTUIW“UÛÛ\ÞWÝ›WÛ\Ý˜ÜÝØÛÙN8.iJþhÈZó–—–’[¦ M[Ž––Ö3žò[¢‘ã€å¤–éƒ¨ç¼–è¤yfj:!ê¹bª:aãz/oxà yb%ZëÞŠë[øn8{Énzˆz®XªŽŠønXŠ¼Œä¿å­˜ç». 9a¦yaiHU‹NÚ]“ÓH9ï%¹è {ï#9èk¹/çH^Ù[9«hùèkº(nXŠ¾KŠÞih~8#Â÷àÐ Ð¢Æƒ3ãâ[z^X[Z‚6Œ‰é’®</h3BˆX›OƒBˆƒÇFƒîhÈž™*ãÂ÷F€ñÑ û–*xƒ½</thÝƒBˆ¼'äéH9kï9aiOÝÇFCî[ËžX{®ihRîÛ–¾ç¢¾wš†¼Œé€‰æ‹©ä»¹¡#ÈÔÕˆ9¥¡ù.í¹b¨:/oyb,9ï%º/¤yfj;ï"9.#y/&º)¡¹æåºnæ:+©9¥¡ù.í»ï#9-ÞZÙŽi{nK¸ÞXižXZ^›¹ŽŠêN‹zþ[èNûÈ“Â÷FCãÂ÷G#àÐ¢ÇG ñÑûÂ~Jøƒ’Ýå­˜</td><td9l!¹odùbcz(j9¨/9¥l9£k¹a¦yaiHÛÙO™\ÞWÝ›WÛ\Ý˜ÜÝØÛÙO»ï"U‹N“Ó{ï"{ï#Ø\Ý9£ä9é.ˆ¹-ÞZÙŽh‰X©ò#Â÷F@ð½ÑÈø4(€€€€€€€€ñÑÈøñÑûŠr<ƒžò[¢úDð½ÑøñÑç”¨ç³»ç»Ÿé»˜è®¤ç¨‹åºæ‰“å¼€å½“å‰ CSVï"9i ˆ^Ù[È”ÈÛÙ{ï"{ï&ùi%º`ê9ï%º/¤yfj9/çykf9d#»ï#9ê"ùn£ùd#¹cì:!ê¹bª9¨à9­bù¥¡ù.í¹/ë¹¥.y¥íºeí9nmºaãy¥¬9b¨:/oy§ 9¥¬9a¡yk®{ï#9¥è:g 9¢bùbª9b-ù¥¬ÝÝ€Ð¢ÇG#ãÇFCŠzTƒšZÃ–Š{¢†0ð½Ñ<td>åœ¨è¡¨æ ¼æœ©l/º/ïyb¨9. 9ên¹æoz(c9nmº`"y.+{ÈÎYî{ºÞh˜–*£–†¥†™å„å­•«­OÝÂ÷G#àÐ¢ÇG#ãÇFCï	ùyXŠ™šN˜žKŠÞŠÃÂ÷F@ñÑû–"ƒ¦f“–öE‰å‹¾é€‰çš„ä¸€è¡Œæˆ–å¤šè¡Œï"9£"HÛÙO‘[]OØÛÙB™JîzØžK»|‰</tdÝƒBˆ¼'å!:aãyïk¹..¹ª(y§oÏÝÇFCîkˆ^z›®h˜iÈži[hÚîŠÎò3’þwžVg–"U¤´ç»‘§¡;ÈŽiÈžK¨ÎjÊzîŠêNò$ð½Ñ</tr>
+        <tr><td>ðŸ’¿ å¦å­˜ä¸º</td¹l!¹odX˜Þ{ÉnŠGšVÃš6»–¾ó–ë’âëž.³ž®,MXƒ–’’î÷šZ’îÛ¾ò3¦îc¢º“šZ’îÛ–B4€ñ½‘”ùYµ=ÁÌµíYœ°å€}.csv</code>ï"9odX˜Þ{ÉnŠGžjšZ»¶è·­hNKˆÞXùŽò$ð½Ñ</tr>
     </table>
 
-    <h3>2. ç¼–è¾‘æ“ä½œ</h3>
-    <ul>
-        <li><strong>å•å…ƒæ ¼ç¼–è¾‘</strong>ï¼šåŒå‡»ç›®æ ‡å•å…ƒæ ¼æˆ–é€‰ä¸­åŽæŒ‰ <code>F2</code> è¿›å…¥ç¼–è¾‘æ¨¡å¼ï¼Œ<code>Enter</code> ç¡®è®¤ã€<code>Esc</code> å–æ¶ˆ</li>
-        <li><strong>åˆ é™¤è¡Œ</strong>ï¼šé€‰ä¸­ä¸€è¡Œæˆ–å¤šè¡Œï¼ˆæ”¯æŒ <code>Ctrl</code> å¤šé€‰ï¼‰åŽæŒ‰ <code>Delete</code> é”®ï¼Œæˆ–ç‚¹å‡»"åˆ é™¤é€‰ä¸­è¡Œ"æŒ‰é’®</li>
-        <li><strong>è¡Œé€‰æ‹©</strong>ï¼šæ•´è¡Œç‚¹å‡»å³é€‰ä¸­ï¼Œæ”¯æŒ <code>Ctrl+A</code> å…¨é€‰</li>
-        <li><strong>åˆ—å®½æ‹–åŠ¨</strong>ï¼šé¼ æ ‡æ‹–åŠ¨åˆ—åˆ†éš”çº¿è°ƒæ•´å®½åº¦ï¼Œç¨‹åºè‡ªåŠ¨è®°å¿†æ¯åˆ—å®½åº¦ï¼Œä¸‹æ¬¡åŠ è½½æ—¶è‡ªåŠ¨æ¢å¤</li>
-        <li><strong>æœªä¿å­˜çŠ¶æ€æç¤º</strong>ï¼šå·¥å…·æ å³ä¾§å®žæ—¶æ˜¾ç¤º"âœ“ å·²ä¿å­˜"æˆ–"* æœªä¿å­˜"æ©™è‰²æ ‡è®°ï¼Œä»»æ„å•å…ƒæ ¼æ”¹åŠ¨åŽè‡ªåŠ¨åˆ‡æ¢ä¸ºæœªä¿å­˜çŠ¶æ€</li>
-    </ul>
-
-    <h3>3. æ–‡ä»¶ç¼–ç è¯´æ˜Ž</h3>
-    <p>ç¼–è¾‘å™¨åŠ è½½ CSV æ—¶æŒ‰ä»¥ä¸‹ä¼˜å…ˆçº§è‡ªåŠ¨è¯†åˆ«ç¼–ç ï¼Œé¿å…ä¹±ç ï¼š</p>
-    <ol>
-        <li>ä¼˜å…ˆæ£€æµ‹ <strong>UTF-8 BOM</strong>ï¼ˆ0xEF 0xBB 0xBFï¼‰</li>
+    <h3>2. ç¼–è¤y¤ãy/gÚÀÐ¢ÇVÃàÐ¢ÆÆñÍÑÉ½¹œû–6W–š‚óžò[¢úDð½ÍÑÉ½¹œû¾òk–>3–ïžn»š‚–6W–š‚óš"[¦'’â·–B;š2$€ñ½‘”F2</code:/æXZ^{ÉnŠGš¢‡–ò?#ÛÙO‘[\ØÛÙOˆ9èkº+©8à OÛÙO‘\ØÏØÛÙBXùnkhƒÂöÆ4(€€€€€€€€ñ±¤øñÍÑÉ½¹œû–"ƒ¦f“¢†0ð½ÍÑÉ½¹œû¼šé€‰ä¸­ä¸€è¡Œæˆ–å¤šè¡Œï"9¥+hÈÆ6öFSä7G&ÃÂö6öFSâZI®˜žûÈžYîhÈ’Æ6öFQ•±•Ñ”ð½½‘”øƒ¦R»¾ò3š"[ž
+ç–ì‹–"ƒ¦f“¦'’â·¢†0‹š2'¦J¸ð½±¤
+        <li><strong>è¡Œé€‰æ‹©</strong>ï&¹¥m:(c9à®yaîXÛ&'’â·¼Œæ”­£ HÛÙOÝ›
+ÐOØÛÙBXZŽ˜“ÂöÆ4(€€€€€€€€ñ±¤øñÍÑÉ½¹œû–"U®½æ‹–åŠ¨</strong>ï&ºo(9¨!h¹nXªŽX‰V"¦jSžêø°¥m9k¯yn©»ÈÎzˆ–ê8‡ªåŠ¨è®°å¿†æ¯b%ZëÞ[ªnò3’â&¬¡åŠ è½½æ—¶è‡ªåŠ¨æ¢å¤</liBˆOÝ›Û™Ï¹§*¹/çykf9â­¹  y£ä9é.ÜÝ›Û™Ï»É®[z^X[Z‚5±*Vº{š^Ûšbûž’è‹ŠrLƒ–ÞË’Ýå­˜"æˆ–"* æœªä¿å­˜"æ©™è‰²æ ‡è®°ï¼Œä»»æ„å•å…ƒæ ¼æ”¹åŠ¨åŽè‡ªåŠ¨åˆ‡æ¢ä¸ºæœªä¿å­˜çŠ¶æ€</li>
+    </ulBƒBˆÃ2âih~K»n{ÉnzŠÓšb8ð½ Ìø4(€€€€ñÀûžò[¢úG–f£–*ƒ¢öôMXƒš^Ûš2'’î—’â$¼˜å…ˆçº¦!ê¹bª:+á¹b*{Énzò3¦õ…ä¹±ç ï&ÜƒBˆÛ Ð¢ÆÆ“îKÉŽXXŽj8kX²Ç7G&öæsåUDbÓ‚$ôÓÂ÷7G&öæsîûÈƒ„Tb„$"„$nò$ð½±¤
         <li>å…¶æ¬¡æ£€æµ‹ <strong>UTF-16 LE / BE BOM</strong></li>
-        <li>æ—  BOM æ—¶ï¼Œé€šè¿‡å­—èŠ‚ç‰¹å¾åˆ¤æ–­æ˜¯å¦ä¸ºåˆæ³• UTF-8ï¼›ä¸æ˜¯åˆ™å›žé€€åˆ°ç³»ç»Ÿé»˜è®¤ç¼–ç ï¼ˆä¸­æ–‡ Windows å³ GBKï¼‰</li>
-    </ol>
-    <p>ä¿å­˜æ—¶<strong>ç»Ÿä¸€å†™å…¥ UTF-8 with BOM</strong>ï¼Œç¡®ä¿ Excel æ‰“å¼€æ—¶æ­£ç¡®è¯†åˆ«ä¸­æ–‡å†…å®¹ã€‚</p>
+        <li9¥è“ÓH9¥í»ï#:`&º/áùkeú" ¹ânyo yb)9¥«y¦+ùd)¹..¹d"9¬åHU‹N;ï&ù.#y¦+ùb&yfçº` 9b,9ìîùîçúnæ:+©9ï%¹è {ï"9.+y¥¡ÈÚ[™ÝÜÈ9clÈÐ’ûï"OÛOƒBˆÛÛƒBˆ¹/çykf9¥íÝ›Û™Î{¹þKˆXižXZRUDbÓ‚v—F‚$ôÓÂ÷7G&öæs¾ò3ž†»’Ý Excel æ‰‘o 9¥í¹«hzîŠønXŠ’â·šZ†…å®¹ã€‚</p>
 
     <h3>4. å¤–éƒ¨ç¼–è¾‘å™¨è”åŠ¨</h3>
-    <p>ç‚¹å‡»"ç¼–è¾‘"æŒ‰é’®åŽï¼Œç¨‹åºä¼šåœ¨åŽå°å¯åŠ¨ä¸€ä¸ªç›‘è§†çº¿ç¨‹ï¼ˆ500ms è½®è¯¢ï¼‰ï¼Œæ£€æµ‹ CSV æ–‡ä»¶çš„æœ€åŽä¿®æ”¹æ—¶é—´ã€‚å½“ä½ åœ¨ Excel / VS Code ä¸­ä¿å­˜æ–‡ä»¶æ—¶ï¼š</p>
-    <ul>
-        <li>ç¨‹åºè‡ªåŠ¨ä»Žç£ç›˜é‡æ–°åŠ è½½æœ€æ–°æ•°æ®åˆ°è¡¨æ ¼</li>
-        <li>åº•éƒ¨çŠ¶æ€æ æ˜¾ç¤ºç»¿è‰²"âœ… å·²ä»Žå¤–éƒ¨ç¼–è¾‘å™¨é‡æ–°åŠ è½½"æç¤º</li>
-        <li>è¡¨æ ¼çš„åˆ—å®½è®°å¿†ä¼šåœ¨æ¯æ¬¡åŠ è½½åŽè‡ªåŠ¨æ¢å¤</li>
-        <li>å¦‚æžœå½“å‰ç¼–è¾‘å™¨å†…æœ‰æœªä¿å­˜ä¿®æ”¹ï¼Œä¼šå¼¹çª—æç¤ºå…ˆä¿å­˜å†æ‰“å¼€å¤–éƒ¨ç¼–è¾‘å™¨</li>
-    </ul>
+    <p>ç‚¹å‡»"ç¼–è¾‘"æŒ‰é’®åŽï¼Œç¨‹åºä¼šåœ¨åŽåŒ9d+ùbª9. 9.*¹æäz)á¹î¯ùê"ûï"L\È:/kº*.ûÈžûÈÎj8kX²55bih~K»ny¨NiÈYîKúîiKži{n™{N8.[Ù>KÚYÊ‚W†6VÂòe26öFRKŠÞKùÞZÙŽihRîÛš^Û¼š</p>
+    <ulBˆO¹ê"ùn£ú!ê¹bª9.ã¹èàyææ:aãy¥¬9b¨:/oy§ 9¥¬9¥l9£k¹b,:(j9¨/ÛOƒBˆN[©^˜:Žx«nhjþi‹ž’ëžîÿ¢&È‹Šrƒ–ÞË’î;–’[¦£žò[¢úG–f£¦7šZÃ–*ƒ¢öô‹šç¤º</li>
+        <li>è¡¨æ ¼çš„åˆ•k¯z+¬9oá¹/&¹g*9«ãjÊXª‹ÛÞYîˆz®XªŽh.ZHÓÂöÆ4(€€€€€€€€ñ±¤û–ššzs–öO–&7žò[¢úG–f£–šr'šr«’þw–¶c’þ»šRç¾ò3’òk–òçžª_š>Cž’ë–#’þw–¶c–7š&O–ò–’[¦£žò[¢úG–f ð½±¤ø4(€€€€ð½Õ°
 
-    <h3 id="csv-fields">5. å­—æ®µè¯´æ˜Ž</h3>
-    <table>
-        <tr><th>åˆ—å</th><th>å¿…å¡«</th><th>è¯´æ˜Ž</th><th>ç¤ºä¾‹</th></tr>
-        <tr><td>Name</td><td>æ˜¯</td><td>è™šæ‹Ÿæœºåç§°å‰ç¼€</td><td>DEMO-NGINX1</td></tr>
-        <tr><td>IP</td><td>æ˜¯</td><td>è™šæ‹Ÿæœº IP åœ°å€</td><td>192.168.18.249</td></tr>
-        <tr><td>Mask</td><td>æ˜¯</td><td>å­ç½‘æŽ©ç ï¼ˆCIDR æˆ–ç‚¹åˆ†åè¿›åˆ¶ï¼‰</td><td>24 / 255.255.255.0</td></tr>
-        <tr><td>Gateway</td><td>æ˜¯</td><td>è™šæ‹Ÿæœºé»˜è®¤ç½‘å…³</td><td>192.168.18.254</td></tr>
-        <tr><td>CPU</td><td>æ˜¯</td><td>CPU æ ¸å¿ƒæ•°</td><td>32</td></tr>
-        <tr><td>Memory</td><td>æ˜¯</td><td>å†…å­˜å¤§å°ï¼ˆGBï¼‰</td><td>96</td></tr>
-        <tr><td>Template</td><td>æ˜¯</td><td>è™šæ‹Ÿæœºæ¨¡æ¿åç§°</td><td>openEuler2203LTS-SP4</td></tr>
-        <tr><td>Vlan</td><td>æ˜¯</td><td>ç½‘ç»œåç§°ï¼ˆç«¯å£ç»„ï¼‰</td><td>VM Network</td></tr>
-        <tr><td>Host</td><td>æ˜¯</td><td>ç›®æ ‡ ESXi ä¸»æœº IP</td><td>192.168.1.200</td></tr>
-        <tr><td>DiskCapacityGB</td><td>å¦</td><td>é¢å¤–æ•°æ®ç£ç›˜å®¹é‡ï¼ˆGBï¼‰ï¼Œ0 è¡¨ç¤ºä¸æ·»åŠ </td><td>1024</td></tr>
-        <tr><td>Datastore</td><td>æ˜¯</td><td>å­˜å‚¨åç§°</td><td>vsanDatastore</td></tr>
-    </table>
-
-    <h3 id="csv-naming">6. å‘½åè§„åˆ™</h3>
-    <p>ç¨‹åºä¼šæ ¹æ® CSV ä¸­çš„ <code>Name</code> å’Œ <code>IP</code> å­—æ®µè‡ªåŠ¨ç”Ÿæˆä¸¤ä¸ªåç§°ï¼š</p>
+    <h3 id="csv-fields">5. å­•«­z+í9¦#ÚÀÐ¢ÇF&ÆSàÐ¢ÇG ñÑ û–"U</th¹oáyhjÏÝÇFƒîŠûNiˆãÂ÷F€ñÑ ûž’ë’‹</thÝƒBˆ“˜[YOÝiŠóÂ÷FCãÇFC¢fkš.šrë–B7žžÃ–&7žò ð½ÑøñÑDEMO-NGINX1</td></trBˆ•Â÷FCãÇFCîiŠóÂ÷FCãÇFCî‰™®h¹þiË¢•YËYØÂ÷FCãÇF@ÄäÈ¸ÄØà¸Äà¸ÈÐäð½Ñøð½ÑÈ
+        <tr><tdX\ÚÏÝÇFCîiŠóÂ÷F@ñÑû–¶CžöGš:§ž‚¼ˆCIDR æˆ–ç‚¹åˆ†åè¶ùb-»ï"OÝ#Bò#SRã#SRã#SRãÂ÷FCãÂ÷G#àÐ¢ÇG ñÑù…Ñ•Ý…äð½ÑøñÑûšb¼ð½ÑøñÑû¢fkš.šrë¦îc¢º“žöG–Ìð½ÑøñÑøÄäÈ¸ÄØà¸Äà¸ÈÔÐð½Ñ</tr>
+        <tr><td>CPU</td><td>æ˜¯</td><td>CPU æ ¸å°ù¥lÝ3#Â÷FCãÂ÷G 4(€€€€€€€€ñÑÈøñÑMemory</td><td9¦+ÏÝXh^ZÙŽZJ~[þûÈ„t.ûÈ“Â÷FCãÇFCã“cÂ÷F@ð½ÑÈø4(€€€€€€€€ñÑÈøñÑùQ•µÁ±…Ñ”ð½Ñ<td>æ˜¯</tdº&f¹¢çiË®jŠiÛÖB7žžÀð½Ñ<td>openEuler2203LTS-SP4</td></tr>
+        <tr•›[Ý¹¦+ÏÝ¹ïdyîç9d#yéì;ï"9êëùcèùîá;ï"OÝ•“H™]ÛÜšÏÝÝƒBˆƒÇFCä†÷7CÂ÷FCãÇFCîiŠóÂ÷FCãÇFCîyºîjrU5†’K‹¾iË¢•Â÷FCãÇFCã“"ãc‚ãã#Â÷FCãÂ÷G#àÐ¢ÇG ñÑù¥Í­…Á…¥Ñåð½ÑøñÑå¦</td><td:h§yi%¹¥l9£k¹èàyææ9k®zaãûï"Ð»ï"{ï#:(j9é.¹.#y­îXªÂ÷F@ñÑøÄÀÈÐð½Ñøð½ÑÈ
+        <tr><td]\ÝÜ™OÝiŠóÂ÷FCãÇFC–¶c–
+£–B7žžÀð½ÑøñÑvsanDatastore</tdÝƒBˆÝX›OƒBƒBˆÈYH˜ÜÝ‹[˜[Z[™È‹ˆ9doyd#z)á9b&OÚÏƒBˆ¹ê"[¨Òòkš‚çš6¸MXƒ’â·žj€ñ½‘”ù9…µ”ð½½‘” å’Œ <code>IP</code> å­—æ®µè‡ªåŠ¨ç”Ÿæˆä¸¤ä¸ªåç§°ï¼š</p>
     <h4>è™šæ‹Ÿæœºåç§°ï¼ˆæœåŠ¡å™¨æ¸…å•ä¸­æ˜¾ç¤ºçš„åç§°ï¼‰</h4>
     <div class="code-block"><span class="var">{Name}</span>-IP<span class="var">{IP æœ€åŽä¸€æ®µ}</span></div>
-    <p>ä¾‹å¦‚ï¼šName = <code>DEMO-NGINX1</code>ï¼ŒIP = <code>192.168.18.249</code> â†’ è™šæ‹Ÿæœºåç§° = <code>DEMO-NGINX1-IP249</code></p>
-    <h4>è®¡ç®—æœºåç§°ï¼ˆGuest OS å†…éƒ¨çš„ä¸»æœºåï¼‰</h4>
-    <ul>
-        <li><strong>Windows ç³»ç»Ÿ</strong>ï¼šè®¡ç®—æœºåç§°æœ€é•¿ 15 ä¸ªå­—ç¬¦ï¼Œè¶…å‡ºéƒ¨åˆ†ä¼šè¢«æˆªæ–­ï¼Œç‰¹æ®Šå­—ç¬¦ä¼šè¢«æ›¿æ¢ä¸ºè¿žå­—ç¬¦</li>
-        <li><strong>Linux ç³»ç»Ÿ</strong>ï¼šè®¡ç®—æœºåç§°æœ€é•¿ 63 ä¸ªå­—ç¬¦ï¼Œç‰¹æ®Šå­—ç¬¦ä¼šè¢«æ›¿æ¢ä¸ºè¿žå­—ç¬¦</li>
-    </ul>
+    <p>ä¾‹å¦‚ï¼šName = <codeSSËS‘ÒS–OØÛÙNûÈÄ•ÒÆ6öFSã“"ãc‚ã‚ã#C“Âö6öFSâ(i"‰™®h¹Úrë–B7žžÀ€ô€ñ½‘”ù5<µ9%9`Äµ%@ÈÐäð½½‘”øð½Àø4(€€€€ñ Ðè®¡ç®—æœºåç§°ï¼ˆGuest OS å†…éƒ¨çš„ä¸»æœºåï¼‰</h4>
+    <ulBˆOÝ›Û™Ï•Ú[™ÝÜÈ9ìîùîçÏÜÝ›Û™ÎûÉ®Šêzé~iË®YÞz{iÈ™[òRKŠ®ZÙ^²›¼Œè¶…å‡ºéƒ¨åˆ†ä¼šè¢©¢*¹¥«{ÈÎx›žjè®ZÙ^²›’òk¢Š¦›½£h¹..º/ç¹kezÊcÂöÆ4(€€€€€€€€ñ±¤øñÍÑÉ½¹œù1¥¹ÕàƒžÎç»Ÿ</strong>ï&º+¨yë¥iË®YÞz{iÈ™[òc2KŠ®ZÙ~zÊnûÈÎx›žjè®ZÙ~zÊnKÉ®Š*¾i»þhÚ.K‹®‹ùîZÙ~zÊcÂöÆ“àÐ¢Â÷VÀ4(4(€€€€ñ È¥ô‰½Ù™Ñ½½°ˆû–·Ž=Ù™Q½½°Q…ˆð½ Èø4(€€€€ñÀû–Â¢ŽY5Ý…É”=YQ½½³¾ò ñ½‘”ovftool.exe</code;ï"yi%º`ê9doy.é:(c9méyamûï#9¡Ké¾Zó–ëŽ–¼å…¥ã€è½¬æ¢ä¸‰ç§æ“ä½œçš„å‹ú)á¹c%º(j9ceyd£9doy.é9¢iú(c9aiyb>8%F"Yè.y»NKˆžjë^[ÈÖâ±€ï&¹¤ãy/g9ìnYè²òyºîjbºûžö»¼ˆä¸Š 15%ï¼‰+ åŠ¨æ€å‚æ•°è¡¨å•ï"9.+HI{ï"JÈ9doy.é:h¡:)â	˜[\È9¢iú(c;ï"9."È	{ï"xà ¹¢`9§"z/¤ùaiy¨a»ï"ÛÛX›Ð›ÞÈ^›Þ;ï"z!ê¹bª9îäyk¦¹c>™Jîˆs–6W¾ò#–&«–"€¼ƒ–’7–"Ø€¼ƒžÊc¢ÒÐ€¼ƒ–£¦$€¼ƒšâž¦ë¾ò'Žð½Àø4(4(€€€€ñ ÌøÄ¸ƒšN7’ösžÆåž‰.#¹æë¹¨!{–z,ð½ Ì
+    <p:hmº`êÜ›Ý\›Þ9.+y.)9îá9cez`"y£"zd«»É£Â÷àÐ¢ÇF&ÆP4(€€€€€€€€ñÑÈøñÑ åˆ†ç»„</th><th:`"zhnOÝŠÓšb8ð½Ñ øð½ÑÈø4(€€€€€€€€ñÑÈ<td rowspan="3">æ“ä½œï"9mé»È“Â÷F@ñÑû–¾ó–ë¢fkš.vœº</td¹.ãˆÙ[\ˆÈTÖH9kï9aîˆ“H9..ˆÕH9¥¡ù.íÝÝ€Ð¢ÇG#ãÇFC–¼å…¥è™šæ‹Ÿæœº</td><td9.ã¹§+9g,Õ‘ˆÈÕH9¥¡ù.íº`ê9ïl¹b,Ù[\ˆÈTÖOÝÝ€Ð¢ÇG#ãÇFC¢fkš.šrë¢ö³š6ˆð½ÑøñÑOVF â†” OVA â†” VMX æ ¼å¼äº’è½¬ï¼ˆçº¯æœ¬åœ°ï¼Œæ— éœ€æœåŠ¡å™¨è¿žæŽ¥ï¼‰</td></trBˆ›ÝÜÜ[HŒˆŽyºîj~ûÈŽXÏ¾ò$ð½ÑøñÑVCSA</tdº`&º/áÈÙ[\ˆÙ\™\ˆ9¤ãy/g;ï"šN‹ËÝ\Ù\˜ËÙ]XÙ[\‹Ý›KÞ;ï"OÝÝ€Ð¢ÇG#ãÇFAMa§’âæœº</td¹æí:/çˆTÖH9..iË®i8ÞKÙÎò!Ù¤è¼½ÕÍ•É¡½ÍÐ½ááã¼‰</tdÝƒBˆÝX›OƒBˆÛ\ÜÏHš[™›ËX›ÞˆÝ[OH˜˜XÚÙÜ›Ý[™ˆÙNŒ™NØ›Ü™\‹XÛÛÜŽˆÌXMÌÙNØÛÛÜŽˆÌXMÌÙNÙ›Û\Ú^™NŒLÜÈŽ˜žhº’.‰™®h¹Úrë¢ö³š6ˆ‹š^Û¾ò3–>Ï’úŸžn»š‚žÆï–z/–6W¦'¢«–*£¦jC¢^?Žð½À
 
-    <h2 id="ovftool">å…­ã€OvfTool Tab</h2>
-    <p>å°è£… VMware OVF Toolï¼ˆ<code>ovftool.exe</code>ï¼‰å¤–éƒ¨å‘½ä»¤è¡Œå·¥å…·ï¼Œæä¾›å¯¼å‡ºã€å¯¼å…¥ã€è½¬æ¢ä¸‰ç§æ“ä½œçš„å¯è§†åŒ–è¡¨å•å’Œå‘½ä»¤æ‰§è¡Œå…¥å£ã€‚Tab åž‚ç›´ä¸‰æ®µå¼å¸ƒå±€ï¼šæ“ä½œç±»åž‹ / ç›®æ ‡è®¾ç½®ï¼ˆä¸Š 15%ï¼‰+ åŠ¨æ€å‚æ•°è¡¨å•ï¼ˆä¸­ 45%ï¼‰+ å‘½ä»¤é¢„è§ˆ &amp; æ‰§è¡Œï¼ˆä¸‹ 40%ï¼‰ã€‚æ‰€æœ‰è¾“å…¥æ¡†ï¼ˆComboBox / TextBoxï¼‰è‡ªåŠ¨ç»‘å®šå³é”®èœå•ï¼ˆå‰ªåˆ‡ / å¤åˆ¶ / ç²˜è´´ / å…¨é€‰ / æ¸…ç©ºï¼‰ã€‚</p>
-
-    <h3>1. æ“ä½œç±»åž‹ä¸Žç›®æ ‡ç±»åž‹</h3>
-    <p>é¡¶éƒ¨ GroupBox ä¸­ä¸¤ç»„å•é€‰æŒ‰é’®ï¼š</p>
-    <table>
-        <tr><th>åˆ†ç»„</th><th>é€‰é¡¹</th><th>è¯´æ˜Ž</th></tr>
-        <tr><td rowspan="3">æ“ä½œï¼ˆå·¦ï¼‰</td><td>å¯¼å‡ºè™šæ‹Ÿæœº</td><td>ä»Ž vCenter / ESXi å¯¼å‡º VM ä¸º OVA æ–‡ä»¶</td></tr>
-        <tr><td>å¯¼å…¥è™šæ‹Ÿæœº</td><td>ä»Žæœ¬åœ° OVF / OVA æ–‡ä»¶éƒ¨ç½²åˆ° vCenter / ESXi</td></tr>
-        <tr><td>è™šæ‹Ÿæœºè½¬æ¢</td><td>OVF â†” OVA â†” VMX æ ¼å¼äº’è½¬ï¼ˆçº¯æœ¬åœ°ï¼Œæ— éœ€æœåŠ¡å™¨è¿žæŽ¥ï¼‰</td></tr>
-        <tr><td rowspan="2">ç›®æ ‡ï¼ˆå³ï¼‰</td><td>VCSA</td><td>é€šè¿‡ vCenter Server æ“ä½œï¼ˆvi://user@vc/datacenter/vm/xxxï¼‰</td></tr>
-        <tr><td>ESXiä¸»æœº</td><td>ç›´è¿ž ESXi ä¸»æœºæ“ä½œï¼ˆvi://user@host/xxxï¼‰</td></tr>
-    </table>
-    <p class="info-box" style="background:#e8f0fe;border-color:#1a73e8;color:#1a73e8;font-size:13px;">é€‰æ‹©"è™šæ‹Ÿæœºè½¬æ¢"æ—¶ï¼Œå³ä¾§ç›®æ ‡ç±»åž‹å•é€‰è‡ªåŠ¨éšè—ã€‚</p>
-
-    <h3>2. å¯¼å‡ºè™šæ‹Ÿæœº</h3>
-    <div class="two-col">
-        <div>
-            <p><strong>VCSA æ¨¡å¼</strong>ï¼šåŒåˆ—å¸ƒå±€ï¼ˆå·¦ä¾§è¡¨å• 70% + å³ä¾§é€‰é¡¹ 30%ï¼‰</p>
-            <ul>
-                <li><strong>VCSA IP</strong> â€” æ¥è‡ª <code>UnifiedCache</code> çš„æœ€è¿‘ è¿žæŽ¥åœ°å€</li>
-                <li><strong>ç”¨æˆ·åŸŸ</strong> â€” é»˜è®¤å– <code>SessionManager.CurrentDomain</code>ï¼Œå›žé€€ <code>vsphere.local</code>ï¼›ç”Ÿæˆå‘½ä»¤æ—¶è‡ªåŠ¨æ‹¼æŽ¥ <code>administrator@domain</code></li>
-                <li><strong>è™šæ‹Ÿæœºåç§°</strong> â€” æ¥è‡ªç¼“å­˜çš„ VM åˆ—è¡¨ï¼ŒComboBox æ”¯æŒè¾“å…¥å³ç­›é€‰ï¼ˆContains æ¨¡ç³ŠåŒ¹é…ï¼‰</li>
-                <li><strong>ä¿å­˜è·¯å¾„</strong> â€” å¸¦"æµè§ˆ"æŒ‰é’®å¼¹å‡º <code>FolderBrowserDialog</code></li>
-                <li><strong>OVA åç§°</strong> â€” é»˜è®¤ç­‰äºŽè™šæ‹Ÿæœºåï¼Œå¯æ‰‹åŠ¨ä¿®æ”¹ï¼ˆå½±å“æœ€ç»ˆ <code>xxx.ova</code> æ–‡ä»¶åï¼‰</li>
+    <h3‹ˆ9kÎX{®‰™®h¹þiË£Âöƒ3àÐ¢ÆF—b6Æ73Ò'GvòÖ6öÂ#àÐ¢ÆF—càÐ¢ÇãÇ7G&öæqYMƒš¢‡–ò<ð½ÍÑÉ½¹œû¾òk–>3–"_–â–Æ¾ò#–Þ›’úŸ¢†£–6T€ÜÀ”€¬ƒ–3ä¾§é€‰é¡¹ 30%ï"OÜƒBˆ[ƒBˆCÇ7G&öæsåd54•Â÷7G&öæpƒŠPƒšv—¢¨€ñ½‘”UnifiedCache</code> çš„æœ€è¿‘ è·¹£©yg,9g`ÛOƒBˆCÇ7G&öæsîyJŽh‹~YùóÂ÷7G&öæsâ(	B›¹ŽŠêNXùbÆ6öFSå6W76–öäÖævW"ä7W'&VçDFöÖ–ãÂö6öFSîò3–n{¦ €ñ½‘”ùÙÍÁ¡•É”¹±½…°ð½½‘”û¼™å'h‰YÞKºNi{nˆz®XªŽh»ÎhêRÆ6öFSæFÖ–æ—7G&F÷$FöÖ–ãÂö6öFSãÂöÆ“àÐ¢ÆÆ“ãÇ7G&öæsî‰™®h¹Úrë–B7žžÀð½ÍÑÉ½¹œøƒŠPƒšv—¢«žòO–¶cžjY4ƒ–"X¡¨ï#ÛÛX›Ð›Þ9¥+hÈŠE…¥å±ëf˜žò!½¹Ñ…¥¹Ìƒš¢‡žÎ+–2ç¦7¼‰</liBˆOÝ›Û™ÎKw–¶c¢Þ¿–úð½ÍÑÉ½¹œ â€” å¸¦"æµè§ˆ"æŒ‰é’®å¼¹å‡º <code>FolderBrowserDialog</code></liBˆOÝ›Û™ÄõdYÞz{Â÷7G&öæsâ(	B›¹ŽŠêNzØžK¨î‰™®h¹þiË®YÞûÈÎX¿š&/–*£’îæ”¹ï¼ˆå½±å“æœ€ç»ˆ <code>xxx.ova</code9¥¡K»nYÞò$ð½±¤
             </ul>
         </div>
         <div>
-            <p><strong>ESXi æ¨¡å¼</strong>ï¼šå­—æ®µåŒ VCSAï¼Œä½†ç”¨ <strong>ESXi ä¸»æœº IP</strong> æ›¿ä»£ VCSA IPï¼Œç”Ÿæˆå‘½ä»¤æ—¶ç”¨æˆ·åå›ºå®šä¸º <code>root</code>ï¼Œè·¯å¾„æ ¼å¼ç®€åŒ–ä¸º <code>vi://root@host/vmname</code>ã€‚</p>
-            <p><strong>å³ä¾§å¯¼å‡ºé€‰é¡¹ï¼ˆé»˜è®¤å…¨å‹¾é€‰ï¼‰</strong>ï¼š</p>
+            <p><strongTÖH9ª(yo#ÏÜÝ›Û™Ï»ï&¹keù«­yd#ÔÐ{ÈÎKØnyJ‚Ç7G&öæsäU5†’K‹¾iË¢•Â÷7G&öæpƒšnô»£ VCSA IPï¼Œç”Ÿæˆå‘½ä»¤æ—¶ç”¨æˆ·åå›ºå®šä¸º <code>root</code;ï#:-ëùo¡9¨/9o#ùë 9c%¹..ˆÛÙOšN‹ËÜ›ÛÝÜÝÝ›[˜[YOØÛÙO¸à Ü Ð¢ÇãÇ7G&öæsîXû¥kï9aîº`"zhn{ÈŽ›¹ŽŠêNXZŽX»î˜žò$ð½ÍÑÉ½¹œû¼š</p>
             <ul>
-                <li>è¦†ç›–ï¼ˆ<code>-o</code>ï¼‰</li>
-                <li>å¿½ç•¥ NVRAMï¼ˆ<code>--noNvramFile</code>ï¼‰</li>
-                <li>å¿½ç•¥ SSL éªŒè¯ï¼ˆ<code>--noSSLVerify</code>ï¼‰</li>
-                <li>å¿½ç•¥é•œåƒæ–‡ä»¶ï¼ˆ<code>--noImageFiles</code>ï¼‰</li>
-            </ul>
-        </div>
-    </div>
-
-    <h3>3. å¯¼å…¥è™šæ‹Ÿæœº</h3>
-    <div class="two-col">
-        <div>
-            <p><strong>VCSA æ¨¡å¼</strong>ï¼šåŒåˆ—ç½‘æ ¼å¸ƒå±€ï¼ˆ4 è¡Œ Ã— 2 åˆ—ï¼Œå…± 8 å­—æ®µ + æ‰©å±•ç£ç›˜æ¨¡å¼è¡Œï¼‰</p>
-            <ul>
-                <li>è¡Œ0 å·¦ï¼š<strong>OVA è·¯å¾„</strong>ï¼ˆæµè§ˆæŒ‰é’®ï¼ŒFilter = <code>*.ova;*.ovf</code>ï¼‰ï¼›è¾“å…¥åŽè‡ªåŠ¨ä»¥æ–‡ä»¶åï¼ˆåŽ»æ‰©å±•åï¼‰å¡«å…… <strong>VM åç§°</strong></li>
-                <li>è¡Œ0 å³ï¼š<strong>VM åç§°</strong>ï¼ˆå¯è¦†ç›–è‡ªåŠ¨å€¼ï¼‰</li>
-                <li>è¡Œ1 å·¦ï¼š<strong>VCSA IP</strong>ï¼›è¡Œ1 å³ï¼š<strong>ESXi IP</strong>ï¼ˆç›®æ ‡ä¸»æœºï¼Œvi:// è·¯å¾„ä¸­ <code>?ip=</code> å‚æ•°ï¼‰</li>
-                <li>è¡Œ2 å·¦ï¼š<strong>å­˜å‚¨</strong>ï¼ˆåªè¯»ä¸‹æ‹‰ï¼Œé»˜è®¤ <code>vsanDatastore</code> å…œåº•ï¼‰ï¼›è¡Œ2 å³ï¼š<strong>ç”¨æˆ·åŸŸ</strong></li>
-                <li>è¡Œ3 å·¦ï¼š<strong>æºç½‘å¡</strong>ï¼ˆç¡¬ç¼–ç å€™é€‰ <code>bridged/nat/Host-Only/VMnet0/VMnet1/VMnet2</code>ï¼‰ï¼›è¡Œ3 å³ï¼š<strong>ç›®æ ‡ç½‘å¡</strong>ï¼ˆæ¥è‡ªç¼“å­˜çš„ PortGroupï¼Œé»˜è®¤ <code>VM Network</code>ï¼‰</li>
-                <li>è¡Œ4 å·¦ï¼š<strong>ç£ç›˜æ¨¡å¼</strong>ï¼ˆä¸‹æ‹‰ <code>thin/thick/eagerZeroedThick</code>ï¼Œé»˜è®¤ thinï¼‰</li>
+                <li:)¡¹æå»ï"ÛÙBÖóÂö6öFS¾ò$ð½±¤ø4(€€€€€€€€€€€€€€€€ñ±¤å¿yåiH•”S{ï"ÛÙBÒÖæôçg&Ôf–ÆSÂö6öFSîûÈ“ÂöÆ“àÐ¢ÆÆ“î[ûÞyZR54Âš¨ÎŠøò ñ½‘”ø´µ¹½MM1Y•É¥™äð½½‘”ï¼‰</li>
+                <li9oÞyZ^™YÎX8þih~K»nûÈƒÆ6öFP´µ¹½%µ…•¥±•Ìð½½‘”ï¼‰</li>
+            </ulBˆÙ]ƒBˆÙ]ƒBƒBˆÏŒËˆ9kï9aiz&f¹¢çiË£Âöƒ04(€€€€ñ‘¥Ø±…ÍÌô‰ÑÝ¼µ½°ˆ
+        <divBˆÝ›Û™Ï•ÔÐH9ª(yo#ÏÜÝ›Û™ÎûÉ®X3–"_žöGš‚ó–â–Æ¾ò Ðƒ¢†0ƒ\€Èƒ–"_¾ò3–Ä€àƒ–¶_šºÔ€¬ƒš&§–ÆWžŽžncš¢‡–ò?¢†3¾ò$ð½À
+            <ulBˆOº(c9mé»ï&Ý›Û™Ï“ÕH:-ëùo¡ÜÝ›Û™ÎûÈŽkXþŠxŽhÈž™*îûÈÄf–ÇFW"ÒÆ6öFP¨¹½Ù„ì¨¹½Ù˜ð½½‘”ï¼‰ï¼›è¾“å…¥åŽè‡ªåŠ¨ä»¥æ–‡ä»¶åï¼ˆåŽ»æ‰©å±•åï¼‰å¡«å…… <strong“H9d#yéìÜÝ›Û™ÃÂöÆ“àÐ¢ÆÆ“¢†0Àƒ–>Ï¾òhñÍÑÉ½¹œùY4ƒ–B7žžÀð½ÍÑÉ½¹œû¼ˆå®)¡¹æåº!ê¹bª9`/;È“ÂöÆ4(€€€€€€€€€€€€€€€€ñ±¤û¢†0Äƒ–Þ›¾òhñÍÑÉ½¹œùYM%@ð½ÍÑÉ½¹œï¼›è¡Œ1 å³ï¼š<strong>ESXi IP</strong>ï¼ˆç›®æ ‡ä¸»æœºï¼Œvi:// è·¯å¾„ä¸­ <codeÚ\OØÛÙOˆ9`.i[ûÈ“ÂöÆ“àÐ¢ÆÆ“¢†0Èƒ–Þ›¾òhñÍÑÉ½¹œû–¶c–
+ ð½ÍÑÉ½¹œû¼ˆåªè¯¹."h¸žò3¦îc¢º€ñ½‘”ùÙÍ…¹…Ñ…ÍÑ½É”ð½½‘”øƒ–s–êW¾ò'¾òo¢†0Èƒ–>Ï&Ý›Û™ÎyJŽh‹~Y|ð½ÍÑÉ½¹œ</li>
+                <li:(cÈ9mé»ï&Ý›Û™Ï¹®¤9ïdychOÜÝ›Û™Ï»ÈŽzÎ{ÉnzX	ž˜’Æ6öFSæ'&–FvVBöæBô†÷7BÔöæÇ’õdÖæWCõdÖæWCõdÖæWC#Âö6öFS¾ò'¾òo¢†0Ìƒ–>Ï¾òhñÍÑÉ½¹œûžn»š‚½‘å¡</strong>ï"9§iz!ê¹ï$ZÙŽy¨B÷'Dw&÷WûÈÎ›¹ŽŠêBÆ6öFQY49•ÑÝ½É¬ð½½‘”û¾ò$ð½±¤ø4(€€€€€€€€€€€€€€€€ñ±¤û¢†0Ðƒ–Þ›¼š<strong9èàyææ9ª(yo#ÏÜÝ›Û™ÎûÈŽKˆ¾h¸’Æ6öFSçF†–â÷F†–6²öVvW%¦W&öVEF†–6³Âö6öFSîûÈÎ›¹ŽŠêBF†–îò$ð½±¤
             </ul>
         </div>
         <div>
-            <p><strong>ESXi æ¨¡å¼</strong>ï¼šå•åˆ—ç®€åŒ–å¸ƒå±€ï¼Œå­—æ®µä¾æ¬¡ä¸º OVA è·¯å¾„ â†’ ESXi IP â†’ VM åç§° â†’ å­˜å‚¨ â†’ ç£ç›˜æ¨¡å¼ã€‚ç”Ÿæˆå‘½ä»¤æ—¶ç”¨æˆ·åå›ºå®š <code>root</code>ï¼Œæ—  VCSA IP å’Œç”¨æˆ·åŸŸå­—æ®µã€‚</p>
-            <p><strong>å¯¼å…¥é€‰é¡¹ï¼ˆå³ä¾§ GroupBoxï¼‰</strong>ï¼š</p>
-            <ul>
-                <li><strong>æŒ‡å®šç½‘å¡</strong> â€” å‹¾é€‰åŽæ‰å¯ç”¨æºç½‘å¡ / ç›®æ ‡ç½‘å¡ä¸‹æ‹‰ï¼›å‘½ä»¤ç”Ÿæˆ <code>--net:src="dst"</code> å‚æ•°</li>
-                <li><strong>å¯¼å…¥ä¸ºæ¨¡æ¿</strong> â€” ç”Ÿæˆå‘½ä»¤è¿½åŠ  <code>--importAsTemplate</code></li>
-            </ul>
-            <p class="info-box" style="background:#fff7e6;border-color:#fa8c16;color:#ad4e00;font-size:13px;">å¯¼å…¥å‘½ä»¤è‡ªåŠ¨è¿½åŠ  <code>--overwrite --acceptAllEulas --noSSLVerify</code>ï¼Œæ— éœ€æ‰‹åŠ¨å‹¾é€‰ã€‚</p>
-        </div>
-    </div>
-
-    <h3>4. è™šæ‹Ÿæœºè½¬æ¢</h3>
-    <p>çº¯æœ¬åœ°æ–‡ä»¶äº’è½¬ï¼Œæ— éœ€ vCenter / ESXi è¿žæŽ¥ã€‚å››ä¸ªå­—æ®µä¸Šä¸‹æŽ’åˆ—ï¼š</p>
-    <ol>
-        <li><strong>æºç±»åž‹</strong>ï¼ˆä¸‹æ‹‰ï¼š<code>ovf / ova / vmx</code>ï¼‰+ <strong>æºè·¯å¾„</strong>ï¼ˆæµè§ˆ â†’ <code>OpenFileDialog</code>ï¼ŒFilter æ ¹æ®æºç±»åž‹åŠ¨æ€ç”Ÿæˆï¼‰</li>
-        <li><strong>ç›®æ ‡ç±»åž‹</strong>ï¼ˆä¸‹æ‹‰ï¼š<code>ovf / ova / vmx</code>ï¼‰+ <strong>ç›®æ ‡è·¯å¾„</strong>ï¼ˆæµè§ˆ â†’ ovf/ova ç”¨ <code>SaveFileDialog</code> è‡ªåŠ¨å¡«æ‰©å±•åã€vmx ç”¨ <code>FolderBrowserDialog</code>ï¼‰</li>
-    </ol>
-    <p>ç”Ÿæˆçš„å‘½ä»¤æœ€ç®€å•ï¼š<code>ovftool "srcPath" "dstPath"</code>ã€‚</p>
-
-    <h3>5. å‘½ä»¤é¢„è§ˆä¸Žæ‰§è¡Œ</h3>
-    <p>åº•éƒ¨ GroupBox åˆ†æŒ‰é’®è¡Œï¼ˆå›ºå®šé«˜ 28pxï¼‰+ å‘½ä»¤æ–‡æœ¬æ¡†ï¼ˆ<code>Consolas 10pt</code> ç­‰å®½å­—ä½“ï¼‰ï¼š</p>
-    <table>
-        <tr><th>æŒ‰é’®</th><th>åŠŸèƒ½</th></tr>
-        <tr><td><strong>ç”Ÿæˆå‘½ä»¤</strong></td><td>æ ¹æ®å½“å‰æ¨¡å¼å’Œè¡¨å•å¡«å†™å†…å®¹è°ƒç”¨ <code>BuildExportCommand / BuildImportCommand / BuildConvertCommand</code> æž„å»ºå®Œæ•´ ovftool å‘½ä»¤å­—ç¬¦ä¸²</td></tr>
-        <tr><td><strong>å¤åˆ¶å‘½ä»¤</strong></td><td>ä¸€é”®å¤åˆ¶åˆ°å‰ªè´´æ¿ï¼Œå¼¹å‡ºç»¿è‰² Toastï¼ˆ800ms è‡ªåŠ¨æ¶ˆå¤±ï¼‰æç¤º"å‘½ä»¤å·²å¤åˆ¶åˆ°å‰ªè´´æ¿"</td></tr>
-        <tr><td><strong>æ‰§è¡Œå‘½ä»¤</strong></td><td>å¯åŠ¨ <code>OvfToolRunner</code> å­è¿›ç¨‹æ‰§è¡Œå‘½ä»¤ï¼›æœªè¿žæŽ¥ vCenter æ—¶æŒ‰é’®è‡ªåŠ¨ç¦ç”¨</td></tr>
+            <p><strongTÖH9ª(yo#ÏÜÝ›Û™Ï»ï&¹ceyb%ùë 9c%¹n ùl`;ï#9keù«­y/§y«(y..ˆÕH:-ëZƒŠHMa¤%@ƒŠHY4ƒ–B7žžÀƒŠHƒ–¶c–
+ ƒŠHƒžŽžncš¢‡–ò3€‚ç”¢$9doy.é9¥í¹å*9¢-YÞY»®Zé¢Æ6öFSç&ö÷CÂö6öFSîò3š^€YM%@ƒ–J3žR£š"ÕŸkejë^8#Â÷àÐ¢ÇãÇ7G&öæs–¼å…¥é€‰é¡¹ï¼ˆåŒù/©ÈÜ›Ý\›Þ;ï"OÜÝ›Û™ÎûÉ£Â÷àÐ¢ÇVÃàÐ¢ÆÆ“ãÇ7G&öæsîhÈVºkžöG–6„ð½ÍÑÉ½¹œøƒŠPƒ–.é€‰åŽæ‰å¯ç”¨æºç½‘å¡ / ç›®æ ‡ç½‘å¡ä¸‹æ‹‰ï¼›å‘½ä»¤ç”Ÿæˆ <code>--net:src="dst"</code> å€¹¥lÛOƒBˆCÇ7G&öæsîZûÎXZ^K‹®jŠiÛóÂ÷7G&öæsâ(	ByIÚ"C–F÷’î“¢þ÷–*€€ñ½‘”ø´µ¥µÁ½ÉÑÍQ•µÁ±…Ñ”ð½½‘”</li>
+            </ulBˆÛ\ÜÏHš[™›ËX›ÞˆÝ[OH˜˜XÚÙÜ›Ý[™ˆÙ™™ÙMŽØ›Ü™\‹XÛÛÜŽˆÙ˜NÌMŽØÛÛÜŽˆØYLÙ›Û\Ú^™NŒLÜÈ¹kï9aiydoy.é:!ê¹bª:/ïyb¨ÛÙO‹K[Ý™\Üš]HKXXØÙ\[][\ÈK[›ÔÔÓ™\šYžOØÛÙNûÈÎiz™Èh˜¾XªŽX»¦'Žð½Àø4(€€€€€€€€ð½‘¥Øø4(€€€€ð½‘¥Øø4(4(€€€€ñ ÌøÐ¸ƒ¢fkš.šrë¢ö³š6ˆð½ Ìø4(€€€€ñÀûžê¶œ¬åœ°æ–….í¹.¤º/k;ÈÎiz™Èd6VçFW"òU5†’‹ùîhê^8.Y¹¾KŠ®ZÙ~jë^Kˆ®Kˆ¾hé.X‰~ûÉ£Â÷ 4(€€€€ñ½°ø4(€€€€€€€€ñ±¤<strong>æºç±»åž‹</strong>ï¼ˆä¸‹æ‹‰ï¼š<code>ovf / ova / vmx</code;ï"JÈÝ›Û™Ï¹®¤:-ëZð½ÍÑÉ½¹œû¼ˆæµŽ)â8¡¤ˆÛÙD÷Väf–ÆTF–ÆösÂö6öFS¾ò1¥±Ñ•Èƒš‚çš6»šêCžÆåž‰bª9  yå'h‰ò$ð½±¤
+        <li><strong>ç›®æ …ìnYè³Â÷7G&öæsîò#’â&‹‰ï&ÛÙO›Ý™ˆÈÝ˜HÈ›^ØÛÙO»ï"JÈÝ›Û™Îyºîj~‹zþ[èCÂ÷7G&öæs¾ò#šÖ?¢ž ƒŠH½Ù˜½½Ù„ƒžR €ñ½‘”ùM…Ù•¥±•¥…±½œð½½‘”øƒ¢«–*£–†¯š&§–ÆW–B7ŽÙµàƒžR €ñ½‘”ù½±‘•É	É½ÝÍ•É¥…±½œð½½‘”û¼‰</liBˆÛÛƒBˆ¹å'ù¢$9æ¡9doy.é9§ 9ë 9ce{ï&ÛÙO›Ý™ÛÛœÜ˜Ô]ˆ™Ý]ØÛÙN8#Â÷àÐ Ð¢Æƒ3ãRâYÞKºNš(NŠxŽKˆîhšb†0ð½ Ì
+    <p9n¥z`êÜ›Ý\›Þ9b!¹£"zd«º(c;ÈŽY»®Zé®š¹‚#‡ŽûÈ’²YÞKºNih~iÊÎjnûÈƒÆ6öFSä6öç6öÆ2CÂö6öFSâzØžZëÞZÙ~KÙ>ûÈžûÉ£Â÷ 4(€€€€ñÑ…‰±”ø4(€€€€€€€€ñÑÈ<th>æŒ‰é’®</th¹b§ˆ;ÓÂ÷F€ð½ÑÈø4(€€€€€€€€ñÑÈøñÑøñÍÑÉ½¹œûžRvˆå‘½ä»¤</strong></td¹¨.y£k¹odX˜ÞjŠ[ÈÖJ3¢†£–6W–†¥†™å†…å®¹è°å*ÛÙOZ[^ÜÛÛ[X[™ÈZ[[\ÜÛÛ[X[™ÈZ[ÛÛ™\ÛÛ[X[™ØÛÙOˆ9§¡9nî¹k£9¥mÝ™ÛÛ9doy.é9keùë)¹.,ÝÝ€Ð¢ÇG#ãÇF@ñÍÑÉ½¹œû–’7–"Û–F÷’îð½ÍÑÉ½¹œøð½ÑøñÑû’â¦R»–’7–"Û–"Ã–&«¢ÒÓšvÿ¾ò3–òç–ëžîÿ¢&ÈQ½…ÍÓ¾ò àÀÁµÌƒ¢«–*£šÚ#–’Ç¾ò'š>Cž’è‹–F÷’î“–ÞË–’7–"Û–"Ã–&«¢ÒÓšvüˆð½Ñ</tr>
+        <tr><td><strong>æ‰¦(c9doy.éÜÝ›Û™ÏÝÇFCîY
+Ö* €ñ½‘”ù=Ù™Q½½±IÕ¹¹•Èð½½‘”øƒ–¶C¢þož¢/š&Ÿ¢†3–F÷’î“¾òošr«¢þ{š:”Ù•¹Ñ•Èƒš^Ûš2'¦J»¢«–*£žšžR ð½Ñøð½ÑÈ
     </table>
 
-    <h3>6. å¯†ç ä¸Ž URI ç¼–ç </h3>
-    <p>ç”Ÿæˆå‘½ä»¤æ—¶æ ¹æ® vCenter è¿žæŽ¥çŠ¶æ€å†³å®šæ˜¯å¦åµŒå…¥å¯†ç ï¼š</p>
+    <h3>6. å¯†ç ä¸Ž URI ç¼–ç </h3BˆyIþh‰YÞKºNi{njžhÚâd6VçFW"‹{š:—ž*Ûš–Ï–ºkšb¿–B›–Ö3–—–†ç ï¼š</p>
     <ul>
-        <li><strong>å·²è¿žæŽ¥</strong> â€” è‡ªåŠ¨ä»Ž <code>SessionManager.CurrentCredentials.Password</code> è¯»å–ï¼Œå¯¹ç”¨æˆ·åå’Œå¯†ç åˆ†åˆ«åš <code>Uri.EscapeDataString</code> ç¼–ç åŽåµŒå…¥ <code>vi://user:password@host/...</code></li>
-        <li><strong>æœªè¿žæŽ¥</strong> â€” ç”Ÿæˆä¸å¸¦å¯†ç çš„å‘½ä»¤ï¼ˆ<code>vi://user@host/...</code>ï¼‰ï¼Œä¿ç•™å ä½è®©ç”¨æˆ·æ‰‹åŠ¨å¡«å†™åŽå†ç²˜è´´æ‰§è¡Œ</li>
+        <li><strong9mìº-îhêSÂ÷7G&öæpƒŠPƒ¢«–*£’î8€ñ½‘”SessionManager.CurrentCredentials.Password</code> è¯»å–ï¼Œå¯¹ç”¨æˆ·åå’Œå¯†ç åˆ†åˆ«åš <code\šK‘\ØØ\Q]TÝš[™ÏØÛÙB{ÉnzYî[XÎXZRÆ6öFSçf“¢ò÷W6W#§77v÷&D†÷7BòââãÂö6öFPð½±¤ø4(€€€€€€€€ñ±¤øñÍÑÉ½¹œæœªè·¹£©OÜÝ›Û™Â(	ByIþh‰KˆÞ[ŠnZønzy¨NYÞKºNûÈƒÆ6öFSçf“¢ò÷W6W$†÷7BòââãÂö6öFS¾ò'¾ò3’Ýç•™å ä½è®©ç”¨æˆ·æ‰‹åŠ¨å¡«å†™åŽå†ç²˜è´´æ‰§è¡Œ</li>
     </ul>
-    <p class="info-box" style="background:#fff7e6;border-color:#fa8c16;color:#ad4e00;font-size:13px;">å¯†ç  URI ç¼–ç å¯æ­£ç¡®å¤„ç† @ã€:ã€ç©ºæ ¼ ç­‰ç‰¹æ®Šå­—ç¬¦ï¼Œé¿å… ovftool è§£æžå¤±è´¥ã€‚</p>
-
-    <h3>7. æ‰§è¡Œæµç¨‹</h3>
+    <p class="info-box" style="background:#fff7e6;border-color:#fa8c16;color:#ad4e00;font-size:13px;"9hnzU$’{ÉnzXúþjÚ>zîZHNyb8®8z›®jÂzØžx›žjè®ZÙ~zÊnûÈÎ˜þXXÒ÷fgFööÂŠz>iéZK‹J^8#Â÷àÐ Ð¢Æƒ3ãrâhšb†3šÖž¢,ð½ Ì
     <ol>
-        <li>ç‚¹å‡»"æ‰§è¡Œå‘½ä»¤"åŽï¼ŒåŽ»æŽ‰å‘½ä»¤å¼€å¤´çš„ <code>ovftool </code> å‰ç¼€ï¼ˆå› ä¸º <code>OvfToolRunner</code> ä¼šè‡ªå·±è§£æžå¯æ‰§è¡Œæ–‡ä»¶è·¯å¾„ï¼‰</li>
-        <li>æ¸…ç©ºå‘½ä»¤é¢„è§ˆåŒºå¹¶åˆ‡æ¢ä¸ºåªè¯»ï¼Œ<code>OvfToolRunner</code> ä»¥ UTF-8 ç¼–ç æ•èŽ·å­è¿›ç¨‹ stdout / stderrï¼Œå®žæ—¶è¿½åŠ åˆ°æ–‡æœ¬æ¡†å¹¶è‡ªåŠ¨æ»šåŠ¨åˆ°åº•éƒ¨</li>
-        <li>æ‰€æœ‰æ—¥å¿—è¡ŒåŒæ­¥å†™å…¥ä¸»ç¨‹åºæ—¥å¿—åŒºï¼ˆå¸¦ <code>[OVFå¯¼å‡º/å¯¼å…¥/è½¬æ¢]</code> å‰ç¼€ï¼‰</li>
-        <li>æˆåŠŸï¼šè¿½åŠ  <code>[æˆåŠŸ] xxå®Œæˆï¼Œé€€å‡ºç : 0</code>ï¼›å¤±è´¥ï¼šè¿½åŠ  <code>[å¤±è´¥] é”™è¯¯ä¿¡æ¯ï¼Œé€€å‡ºç : N</code>ï¼›ç„¶åŽæ¢å¤å‘½ä»¤æ¡†å¯ç¼–è¾‘</li>
-    </ol>
-
-    <h3>8. ovftool.exe è‡ªåŠ¨æœç´¢è·¯å¾„</h3>
-    <p><code>OvfToolRunner.ResolveOvfToolPath()</code> æŒ‰ä»¥ä¸‹é¡ºåºæŸ¥æ‰¾å¯æ‰§è¡Œæ–‡ä»¶ï¼š</p>
-    <ol>
-        <li>æ˜¾å¼ä¼ å…¥è·¯å¾„ï¼ˆå½“å‰ Tab æœªä½¿ç”¨æ­¤å…¥å£ï¼‰</li>
-        <li><code>C:\Program Files\VMware\VMware OVF Tool\ovftool.exe</code></li>
-        <li><code>C:\Program Files (x86)\VMware\VMware OVF Tool\ovftool.exe</code></li>
-        <li><code>C:\Program Files (x86)\VMware\VMware Workstation\OVFTool\ovftool.exe</code></li>
+        <li9à®yaîÈ¹¢iŠÎYÞKºB.YîûÈÎXë¾hèžYÞKºN[ÈZKNy¨BÆ6öFQ½Ù™Ñ½½°€ð½½‘” å‰ç¼€ï"9fè9..ˆÛÙO“Ý™•ÛÛ[›™\ØÛÙOˆ9/&º!ê¹mìz)èù§¤9cëù¢iú(c9¥¡ù.íº-ëùo¡;ï"OÛOƒBˆNkˆ^z›®YÞKºNš(NŠxŽXË®[›nXˆ~hÚ.K‹®X«¢»ï¼Œ<codeÝ™•ÛÛ[›™\ØÛÙOˆ9.éHU‹N9ï%¹è y£ez#­ZÙ‹ùž¢,ÍÑ‘½ÕÐ€¼ÍÑ‘•ÉË¾ò3–º{š^Û¢þ÷–*ƒ–"ÃšZšr³š†–æÛ¢«–*£šîk–*£–"Ã–êW¦ ð½±¤ø4(€€€€€€€€ñ±¤æ‰€æœ‰æ—¥åµú(c9d#9«iya¦yaiy..ùê"ùn£ù¥éym~XË®ûÈŽ[ŠbÆ6öFSå´õdnZûÎX{¢þZó–”¸½¬æ¢]</code9bcyï ;È“ÂöÆ4(€€€€€€€€ñ±¤ûš"C–*¾òk¢þ÷–*€€ñ½‘”Y¢$9b§×H9k£9¢$;ï#:` 9aî¹è NˆØÛÙNûÉ¾ZK‹J^ûÉ®‹÷–*€€ñ½‘”ùo–’Ç¢Ò•tƒ¦Rg¢¾´¿¡æ¯ÈÎ˜X{®z¢ãÂö6öFSîûÉ¾xKnYîh.ZHÞYÞKºNjnXúþ{Én‹éÂöÆ“àÐ¢ÂööÀ4(4(€€€€ñ Ì8. ovftool.exe è‡ªåŠ¨æœç´¢è·¯å¾„</h3>
+    <p><code>OvfToolRunner.ResolveOvfToolPath()</code> æŒ‰ä»¥ä¸‹é¡ºåºæŸ¥æ‰¾å¯æ‰§è¡Œæ–‡ä»¶ï¼š</pBˆÛƒBˆNi‹–ò?’òƒ–—¢Þ¿–ú¾ò#–öO–&4Q…ˆƒšr«’öÿžR£š¶“–—–>¾ò$ð½±¤ø4(€€€€€€€€ñ±¤<codeÎ—›ÙÜ˜[Hš[\×“]Ø\™W“]Ø\™HÕ‘ˆÛÛÝ™ÛÛ™^OØÛÙOÛ@Ð¢ÆÆ“ãÆ6öFSä3¥Å&öw&Òf–ÆW2‡ƒƒb•Åd×v&UÅd×v&RõdbFööÅÆ÷fgFööÂæW†SÂö6öFPð½±¤ø4(€€€€€€€€ñ±¤øñ½‘”ùéqAÉ½É…´¥±•Ì€¡ààØ¥qY5Ý…É•qY5Ý…É”]½É­ÍÑ…Ñ¥½¹q=YQ½½±q½Ù™Ñ½½°¹•á”ð½½‘”øð½±¤
         <li><code>C:\Program Files\VMware\VMware Workstation\OVFTool\ovftool.exe</code></li>
-        <li>éåŽ† <code>PATH</code> çŽ¯å¢ƒå˜é‡ä¸­çš„æ¯ä¸ªç›®å½•ï¼ŒæŸ¥æ‰¾ <code>ovftool.exe</code></li>
-    </ol>
-    <p>å…¨éƒ¨æ‰¾ä¸åˆ°æ—¶ç›´æŽ¥è¿”å›žé”™è¯¯ï¼š"æ‰¾ä¸åˆ° ovftool.exeï¼Œè¯·ç¡®è®¤ VMware OVF Tool å·²å®‰è£…ã€‚"</p>
-
-    <h3>9. è¶…æ—¶ä¸Žå–æ¶ˆ</h3>
-    <p>æ‰€æœ‰ ovftool å‘½ä»¤é»˜è®¤ <strong>5 åˆ†é’Ÿè¶…æ—¶</strong>ï¼ˆ<code>TimeoutMs = 300000</code>ï¼‰ï¼Œé€šè¿‡ <code>CancellationTokenSource</code> å®žçŽ°ï¼šè¶…æ—¶åŽè°ƒç”¨ <code>process.Kill()</code> å¼ºåˆ¶ç»ˆæ­¢å­è¿›ç¨‹ï¼Œè¿”å›žé€€å‡ºç  <code>-98</code> å’Œé”™è¯¯ä¿¡æ¯ "æ‰§è¡Œè¶…æ—¶ (300s)"ã€‚</p>
+        <li:`cyc¡ˆÛÙO”UØÛÙBxêÖŠ˜é‡.+yæ¡9«ãKŠ®yºî[Ù^ò3š~—š&ø€ñ½‘”ù½Ù™Ñ½½°¹•á”ð½½‘”øð½±¤ø4(€€€€ð½½°
+    <p9aj:`ê9¢nKˆÞX‹i{ny»Nhê^‹S–n{¦Rg¢¯ï¼š"æ‰¾ä¸åˆ° ovftool.exeï#:+ízîŠêBd×v&RõdbFööÂ[{.ZèžŠ8^8"#Â÷àÐ Ð¢Æƒ3ã’â‹h^i{nKˆîXùnkhƒÂöƒ3àÐ¢Çîh˜iÈ’÷fgFööÂYÞKºN›¹ŽŠêBÇ7G&öæsãRXˆn™)þ‹h^i{cÂ÷7G&öæs¾ò ñ½‘”TimeoutMs = 300000</code>ï"{ÈÎ˜	®‹ørÆ6öFSä6æ6VÆÆF–öåFö¶Vå6÷W&6SÂö6öFSâZéîxëûÉ®‹h^i{nYî‹>yJ‚Æ6öFSç&ö6W72ä¶–ÆÂ‚“Âö6öFSâ[Ë®X‹n{¸ŽjÚ.ZÙ‹ù¾zˆ¾ûÈÎ‹ùNY¹î˜X{®zÆ6öFP´äàð½½‘”øƒ–J3¦Rg¢¾¿’þ‡š¼€‹š&˜¡Œè¶…æ—¶ (300s)"ã€‚</p>
 
     <h3>10. ä¸‹æ‹‰å€™é€‰å€¼æ¥æº</h3>
-    <p>æ‰€æœ‰ ComboBox çš„å¯é€‰å€¼ç”± <code>UnifiedCache.CacheLoadResources()</code> ç»Ÿä¸€æä¾›ï¼ŒæŒ‰å­—æ®µç±»åž‹èšåˆå¤šä¸ªç¼“å­˜é”®å¹¶åŽ»é‡ï¼›ç¼“å­˜ä¸è¶³æ—¶å›žé€€ç¡¬ç¼–ç å…œåº•åˆ—è¡¨ï¼š</p>
-    <table>
-        <tr><th>å­—æ®µ</th><th>ç¼“å­˜é”®</th><th>ç¡¬ç¼–ç å…œåº•</th></tr>
-        <tr><td>VCSA / ESXi ä¸»æœº</td><td><code>vc_host</code> / <code>host_names</code> / <code>hosts</code> / <code>host_ips</code></td><td>â€”</td></tr>
-        <tr><td>è™šæ‹Ÿæœºåç§°</td><td><code>vm_names</code> / <code>vms</code></td><td>â€”</td></tr>
-        <tr><td>å­˜å‚¨</td><td><code>datastore_names</code> / <code>datastores</code></td><td><code>vsanDatastore</code>ã€<code>datastore1</code></td></tr>
-        <tr><td>ç”¨æˆ·åŸŸ</td><td><code>user_domain</code>ï¼ˆä¼šåŽ»æŽ‰ @ å‰ç¼€ï¼‰</td><td><code>vsphere.local</code>ã€<code>local.net</code></td></tr>
-        <tr><td>ç›®æ ‡ç½‘å¡</td><td><code>network_names</code> / <code>portgroups</code> / <code>networks</code></td><td><code>VM Network</code>ã€<code>Management Network</code></td></tr>
-    </table>
-
-    <h3>11. å‘½ä»¤æ–‡æœ¬æ¡†å³é”®èœå•</h3>
-    <p>å‘½ä»¤é¢„è§ˆåŒºè‡ªå¸¦ç‹¬ç«‹å³é”®èœå•ï¼ˆåŒºåˆ«äºŽè¾“å…¥æ¡†çš„å‰ªåˆ‡/å¤åˆ¶/ç²˜è´´èœå•ï¼‰ï¼š</p>
+    <p>æ‰€æœ‰ ComboBox çš„å¯é€‰å€¼ç”± <code[šYšYYØXÚKØXÚSØY™\ÛÝ\˜Ù\Ê
+OØÛÙOˆ9îçù. 9£ä9/¦ûï#9£"ykeù«­yìnùg¢ú f¹d"9i&¹.*¹ï$ùkf:e+¹nm¹c®úaã{ï&ùï$ùkf9.#z-¬ù¥í¹fçº` 9èk9ï%¹è yag9n¥yb%ú(j;ï&Ü Ð¢ÇF&ÆSàÐ¢ÇG ñÑ û–¶V®µ</th¹ï$ZÙŽ™JãÂ÷F€ñÑ ûž†³žò[ž‚–s–êTð½Ñ </tr>
+        <tr><td>VCSA / ESXi ä¸»æœº</td><td><code>vc_host</code> / <code>host_names</codeÈÛÙF†÷7G3Âö6öFP€¼€ñ½‘”host_ips</codeÝ(	CÂ÷FCãÂ÷G#àÐ¢ÇG ñÑû¢fkš.vœºåç§°</tdÛÙO›WÛ˜[Y\ÏØÛÙOˆÈÛÙO›\ÏØÛÙOÝ¸ %ÝÝ€Ð¢ÇG#ãÇFC–¶c–
+ ð½ÑøñÑ<code]\ÝÜ™WÛ˜[Y\ÏØÛÙOˆÈÛÙO™]\ÝÜ™\ÏØÛÙCÂ÷FCãÇF@ñ½‘”vsanDatastore</code>ã€<code>datastore1</code></tdÝƒBˆ¹å*9¢-ùgçÏÝÛÙO\Ù\—ÙÛXZ[ØÛÙO»ï"9/&¹c®ù£¢H9bcyï ;ï"OÝÛÙOœÜ\™K›ØØ[ØÛÙO¸à OÛÙO›ØØ[›™]ØÛÙOÝÝ€Ð¢ÇG#ãÇFCžn»š‚žöG–6„ð½ÑøñÑ<code™]ÛÜš×Û˜[Y\ÏØÛÙOˆÈÛÙOœÜÜ›Ý\ÏØÛÙOˆÈÛÙO›™]ÛÜšÜÏØÛÙOÝÇFCãÆ6öFSådÒæWGv÷&³Âö6öFSŽñ½‘”Management Network</code></tdÝƒBˆÝX›OƒBƒBˆÏŒLKˆ9doy.é9¥¡ù§+9¨a¹cìúe+º#ç9ceOÚÏƒBˆ¹doy.é:h¡:)â9c.º!ê¹n)¹âë9êâXû&R»¢>s–6W¼ˆåŒºåˆ©.£º)—š†žj–&«–"¿–’7–"Ø¿žÊc¢ÒÓ¢å•ï¼‰ï¼š</p>
     <ul>
-        <li>å¤åˆ¶é€‰ä¸­å†…å®¹ / å¤åˆ¶å…¨éƒ¨å†…å®¹</li>
-        <li>å…¨é€‰</li>
-        <li>æ¸…ç©º</li>
-    </ul>
-
-    <h3>12. ç¤ºä¾‹ç”Ÿæˆå‘½ä»¤</h3>
-    <div class="code-block"># VCSA å¯¼å‡ºï¼ˆå·²è¿žæŽ¥ï¼Œå¯†ç è‡ªåŠ¨åµŒå…¥ï¼‰
-ovftool -o --noNvramFile --noSSLVerify --noImageFiles "vi://administrator%40vsphere.local:%40%40%40@host192.168.1.100/Datacenter/vm/WebServer01" "D:\Export\WebServer01.ova"
-
-# VCSA å¯¼å…¥ï¼ˆç½‘å¡æ˜ å°„ï¼Œå¯¼å…¥ä¸ºæ¨¡æ¿ï¼‰
-ovftool --overwrite --acceptAllEulas -n=WebServer01 -ds=vsanDatastore --net:bridged="VM Network" -dm=thin --noSSLVerify --importAsTemplate "vi://administrator%40vsphere.local:%40%40%40@host192.168.1.100/?ip=192.168.1.50" "D:\OVA\WebServer01.ova"
-
-# OVA â†’ OVF è½¬æ¢ï¼ˆçº¯æœ¬åœ°ï¼‰
-ovftool "D:\OVA\WebServer01.ova" "D:\OVF\WebServer01.ovf"</div>
-
-    <h2 id="practical-cmds">ä¸ƒã€å¸¸ç”¨å‘½ä»¤å®žæˆ˜è®°å½•</h2>
-
-    <h3 id="practical-vmware-unlun">1. VMware å¸è½½ LUN</h3>
-    <p class="info-box" style="background:#e8f0fe;border-color:#1a73e8;color:#1a73e8;font-size:13px;">2024-05-11 14:18</p>
-
-    <h4>1. åˆ—å‡ºå·²æŒ‚è½½çš„æ•°æ®å­˜å‚¨</h4>
-    <p>é¦–å…ˆï¼Œåˆ—å‡ºæ‰€æœ‰æŒ‚è½½åˆ° ESXi ä¸»æœºçš„æ•°æ®å­˜å‚¨ï¼Œä½¿ç”¨ä»¥ä¸‹å‘½ä»¤ï¼š</p>
+        <li>å¤åˆ¶é€‰ä¸­å†…å®¹ / å¤åˆ¶å…¨éƒ¨å†…å®¹</liBˆO¹aj:`"OÛOƒBˆNkˆ^z›£ÂöÆ“àÐ¢Â÷VÃàÐ Ð¢Æƒ3ã"âzK®Kè¾yIþh‰YÞKºCÂöƒ3àÐ¢ÆF—b6Æ73Ò&6öFRÖ&Æö6²#â2d54ZûÎX{®ûÈŽ[{.‹ùîhê^ûÈÎZønzˆz®XªŽ[XÎXZ^ûÈÐ¦÷fgFööÂÖòÒÖæôçg&Ôf–ÆRÒÖæõ54ÅfW&–g’ÒÖæô–ÖvTf–ÆW2'f“¢òöFÖ–æ—7G&F÷"SCg7†W&RæÆö6Ã¢SCSCSC†÷7C“"ãc‚ããôFF6VçFW"÷fÒõvV%6W'fW#"$C¥ÄW‡÷'EÅvV%6W'fW#æ÷f Ð Ð¢2d54ZûÎXZ^ò#žöG–6‡šbƒ–Â¼Œå¯¼å…¥ä¸ºæ¨¡æ¿ÈÐ¦÷fgFööÂÒÖ÷fW'w&—FRÒÖ66WDÆÄWVÆ2ÖãÕvV%6W'fW#ÖG3×g6äFF7F÷&RÒÖæWC¦'&–FvVCÒ%dÒæWGv÷&²"ÖFÓ×F†–âÒÖæõ54ÅfW&–g’ÒÖ–×÷'D5FV×ÆFR'f“¢òöFÖ–æ—7G&F÷"SCg7†W&RæÆö6Ã¢SCSCSC†÷7C“"ãc‚ããóö—Ó“"ãc‚ããS"$C¥ÄõdÅvV%6W'fW#æ÷f Ð Ð¢2õd(i"õdb‹ÚÎhÚ.ûÈŽ{ªþiÊÎYËûÈÐ¦÷fgFööÂ$C¥ÄõdÅvV%6W'fW#æ÷f"$C¥ÄõdeÅvV%6W'fW#æ÷fb#ÂöF—càÐ Ð¢Æƒ"–CÒ'&7F–6ÂÖ6ÖG2#’âŽ–âãžR£–F÷’î“–º{š"c¢ºÃ–öTð½ Èø4(4(€€€€ñ Ì¥ô‰ÁÉ…Ñ¥…°µÙµÝ…É”µÕ¹±Õ¸ˆ1. VMware å¸è½½ LUN</h3>
+    <p class="info-box" style="background:#e8f0fe;border-color:#1a73e8;color:#1a73e8;font-size:13px;"ŒLKLLHMŒNÜƒBƒBˆŒKˆ9b%ùaî¹mì¹£ º/oyæ¡9¥l9£k¹kf9`ªÚƒBˆºi¥¹ab;ÈÎX‰Vëš&šr'š2¢ö÷–"ÀMa¤ƒ’âæœºçš„æ•°æ®å­˜å‚¨ï#9/oyJŽKº^Kˆ–F÷’î“¼š</p>
     <div class="code-block">esxcli storage filesystem list</div>
-    <p>ç¤ºä¾‹è¾“å‡ºä¼šæ˜¾ç¤ºæŒ‚è½½çš„ VMFS æ•°æ®å­˜å‚¨è¯¦æƒ…ã€‚</p>
+    <p>ç¤ºä¾‹è¾“å‡ºä¼šæ˜¾ç¤ºæŒ‚è½½çš„ VMFS æ•°æ®å­˜å‚¨è¯¦æƒ…ã€‚</pBƒBˆ"âi—š&ç›®æ ‡ LUN çš„å”¯ä¸€æ ‡è¯†ç¬¦</h4>
+    <p>ä½½å*9.éy."YÞKºNˆëV>[’â;šVÃš6»–¶c–
+£–È”çš„ LUN çš„å”¯ä¸€æ ‡è¡¹ë)»ï"[O“PWÒQÙ[NûÈžûÉ£Â÷àÐ¢ÆF—b6Æ73Ò&6öFRÖ&Æö6²#æW7†6fr×676–FWg2ÖÓÂöF—càÐ¢ÇîŠë[Ù^ŠhXÛŽ‹ÛÞy¨Ni[hÚîZÙŽX*Žy¨BUT”BKº^JeŽç»­ä½½å*8à ÜƒBƒBˆŒËˆ9cn:/oy¥l9£k¹kf9`ªÚƒBˆ¹/oyJŽX[nKŠÞKˆKŠ®YÞKºNjÎ[ÈÖ6ã¢ö÷žn»š‚•°æ®å­˜å‚¨ï&ÜƒBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈ™\ÞÛHÝÜ˜YÙHš[\Þ\Ý[H[›[Ý[[	›ÓS¹d#yéì	™ÝÃB™\ÞÛHÝÜ˜YÙHš[\Þ\Ý[H[›[Ý[]H	›ÕURQ	™ÝÃB™\ÞÛHÝÜ˜YÙHš[\Þ\Ý[H[›[Ý[\	›ù£ º/oyà®z-ëùo¡	™ÝÏÙ]ƒBƒBˆˆ:j£:+ày¥l9£k¹kf9`ª9¦+Y
+nXÛŽ‹ÛÓÂöƒ@4(€€€€ñÀå†æ¬¡è´:(c9¥l9£k¹kf9`ª9b%ú(j9doy.é9èkº+©9cn:/oyâ­¹  {ï&ÜƒBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈ™\ÞÛHÝÜ˜YÙHš[\Þ\Ý[H\ÝÙ]ƒBˆ¹èk¹/çH“[Ý[Y¹kejë^K‹¢Æ6öFSæfÇ6SÂö6öFSî8#Â÷ 4(4(€€€€ñ Ð5. åˆ†ç¦»è®¹i!ËÓSÚ Ð¢Ç–Â¢ºå¤‡è®¹ïk¹..¹é®ùî¯ùâ­¹  {ï&ÜƒBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈ™\ÞÛHÝÜ˜YÙHÛÜ™H]šXÙHÙ]K\Ý]O[Ù™ˆY	›ÓPWÒQ	™ÝÏÙ]ƒBƒBˆ‹ˆ:j£:+àz+¯¹i!x«nhÂöƒ@4(€€€€ñÀæ£€æ™z+®ZH~iŠþY
+nzk¾{«þûÉ£Â÷àÐ¢ÆF—b6Æ73Ò&6öFRÖ&Æö6²#æW7†6Æ’7F÷&vR6÷&RFWf–6RÆ—7BÖBfÇC´äô”BfwC³ÂöF—càÐ¢ÇîzîŠêNx«nhK‹¢Æ6öFQ½™˜ð½½‘”ûŽð½Àø4(4(€€€€ñ ÐøÜ¸ƒ–>[šÚ#š>C’úl1U;¾ò!M;¾ò$ð½ Ðø4(€€€€ñÀû¢SžÎï–¶c–
+£žº‡žB–Fcš&Ÿ¢†3š¶“š¶—¦ª“Žð½À
 
-    <h4>2. æŸ¥æ‰¾ç›®æ ‡ LUN çš„å”¯ä¸€æ ‡è¯†ç¬¦</h4>
-    <p>ä½¿ç”¨ä»¥ä¸‹å‘½ä»¤èŽ·å–ä¸Žæ•°æ®å­˜å‚¨å…³è”çš„ LUN çš„å”¯ä¸€æ ‡è¯†ç¬¦ï¼ˆ<em>NAA_ID</em>ï¼‰ï¼š</p>
-    <div class="code-block">esxcfg-scsidevs -m</div>
-    <p>è®°å½•è¦å¸è½½çš„æ•°æ®å­˜å‚¨çš„ UUID ä»¥ä¾›åŽç»­ä½¿ç”¨ã€‚</p>
-
-    <h4>3. å¸è½½æ•°æ®å­˜å‚¨</h4>
-    <p>ä½¿ç”¨å…¶ä¸­ä¸€ä¸ªå‘½ä»¤æ ¼å¼å¸è½½ç›®æ ‡æ•°æ®å­˜å‚¨ï¼š</p>
-    <div class="code-block">esxcli storage filesystem unmount -l &lt;LUNåç§°&gt;
-esxcli storage filesystem unmount -u &lt;UUID&gt;
-esxcli storage filesystem unmount -p &lt;æŒ‚è½½ç‚¹è·¯å¾„&gt;</div>
-
-    <h4>4. éªŒè¯æ•°æ®å­˜å‚¨æ˜¯å¦å¸è½½</h4>
-    <p>å†æ¬¡è¿è¡Œæ•°æ®å­˜å‚¨åˆ—è¡¨å‘½ä»¤ç¡®è®¤å¸è½½çŠ¶æ€ï¼š</p>
-    <div class="code-block">esxcli storage filesystem list</div>
-    <p>ç¡®ä¿"Mounted"å­—æ®µä¸º <code>false</code>ã€‚</p>
-
-    <h4>5. åˆ†ç¦»è®¾å¤‡/LUN</h4>
-    <p>å°†è®¾å¤‡è®¾ç½®ä¸ºç¦»çº¿çŠ¶æ€ï¼š</p>
-    <div class="code-block">esxcli storage core device set --state=off -d &lt;NAA_ID&gt;</div>
-
-    <h4>6. éªŒè¯è®¾å¤‡çŠ¶æ€</h4>
-    <p>æ£€æŸ¥è®¾å¤‡æ˜¯å¦ç¦»çº¿ï¼š</p>
-    <div class="code-block">esxcli storage core device list -d &lt;NAA_ID&gt;</div>
-    <p>ç¡®è®¤çŠ¶æ€ä¸º <code>off</code>ã€‚</p>
-
-    <h4>7. å–æ¶ˆæä¾› LUNï¼ˆSANï¼‰</h4>
-    <p>è”ç³»å­˜å‚¨ç®¡ç†å‘˜æ‰§è¡Œæ­¤æ­¥éª¤ã€‚</p>
-
-    <h4>8. é‡æ–°æ‰«æ ESXi ä¸»æœºä¸Šçš„è®¾å¤‡</h4>
-    <p>æ‰«æä»¥ç§»é™¤è®¾å¤‡ï¼š</p>
-    <div class="code-block">esxcli storage core adapter rescan [--all]</div>
-
-    <h4>9. æ°¸ä¹…å–æ¶ˆä½¿ç”¨è®¾å¤‡ï¼ˆå¯é€‰ï¼‰</h4>
-    <p>è‹¥éœ€æ°¸ä¹…åˆ é™¤è®¾å¤‡é…ç½®ï¼š</p>
-    <ol>
-        <li><strong>åˆ—å‡ºæ°¸ä¹…åˆ†ç¦»çš„è®¾å¤‡</strong>ï¼š
+    <h4ˆ:aãy¥¬9¢jù òU5†’K‹¾iË®Kˆ®y¨NŠë–’ð½ Ðø4(€€€€ñÀûš&¯š>?’î—žžï¦f“¢ºû–’¾òhð½À
+    <div class="code-block"\ÞÛHÝÜ˜YÙHÛÜ™HY\\ˆ™\ØØ[ˆËKX[OÙ]€Ð Ð¢Æƒ@ä¸ƒšÂã’æ–æ¶ˆä½¿ç”¨è®¹i!ûï"9bþ˜žûÈ“ÂöƒCàÐ¢Çîˆº^™ÈkŽK˜^XŠ™šNŠëîZH~˜XÞ{ÚîûÉ£Â÷ 4(€€€€ñ½°ø4(€€€€€€€€ñ±¤<strong>åˆ—å‡ºæ°¸ä¹…åˆ†ç¦»çš„è®¾å¤‡</strong>ï¼š
             <div class="code-block">esxcli storage core device detached list</div>
         </li>
-        <li><strong>ç§»é™¤è®¾å¤‡é…ç½®ä¿¡æ¯</strong>ï¼š
+        <li><strong9éîúfi:+®ZH~˜XÞ{ÚîK‡š¼ð½ÍÑÉ½¹œï¼š
             <div class="code-block">esxcli storage core device detached remove -d &lt;NAA_ID&gt;</div>
         </li>
     </ol>
-    <p>è¿™å°†æ°¸ä¹…ä»Ž ESXi ä¸»æœºé…ç½®ä¸­ç§»é™¤è®¾å¤‡å¼•ç”¨ã€‚</p>
-
-    <h3 id="practical-nfs41">2. ESXi å•å°ä¸»æœº NFS 4.1 å­˜å‚¨ä¸å¯è®¿é—®æ•…éšœå¤„ç†</h3>
-    <p class="info-box" style="background:#e8f0fe;border-color:#1a73e8;color:#1a73e8;font-size:13px;">2025-04-18 10:30</p>
-
-    <h4>1. æ•…éšœçŽ°è±¡</h4>
+    <p>è¿™å°†æ°¸ä¹…ä»Ž ESXi ä¸¹§.ºacyïk¹.+yéî™šNŠëîZHVòWžR£Žð½Àø4(4(€€€€ñ Ì¥ô‰ÁÉ…Ñ¥…°µ¹™ÌÐÄˆøÈ¸Ma¤ƒ–6W–>Ã’âæœº NFS 4.1 å­˜å‚¨ä¸å®+¯™zîiX^™©ÎZHNycÂöƒ04(€€€€ñÀ±…ÍÌô‰¥¹™¼µ‰½àˆÍÑå±”ô‰‰…­É½Õ¹è”á˜Á™”í‰½É‘•Èµ½±½ÈèŒÅ„ÜÍ”àí½±½ÈèŒÅ„ÜÍ”àí™½¹ÐµÍ¥é”èÄÍÁàìˆøÈÀÈÔ´ÀÐ´Äà€ÄÀèÌÀð½Àø4(4(€€€€ñ ÐøÄ¸ƒšV¦jsž:Ã¢Æ„ð½ Ð
     <ul>
-        <li>é›†ç¾¤å†…ä»…å•å° ESXi ä¸»æœºï¼ˆ192.168.5.192ï¼‰çš„ NFS 4.1 æ•°æ®å­˜å‚¨æ˜¾ç¤ºã€Œä¸å¯è®¿é—®ã€ï¼Œå®¹é‡æ˜¾ç¤ºä¸º 0Bï¼›å…¶ä½™åŒé›†ç¾¤ä¸»æœºæŒ‚è½½æ­£å¸¸ã€‚</li>
-        <li>åŸºç¡€ç½‘ç»œéªŒè¯æ­£å¸¸ï¼š<code>vmkping</code> åˆ° NFS æœåŠ¡ç«¯é›¶ä¸¢åŒ…ï¼Œ<code>nc</code> æµ‹è¯• TCP 2049 ç«¯å£è¿žé€šæˆåŠŸã€‚</li>
-        <li>NFS æœåŠ¡ç«¯ï¼ˆ192.168.5.197ï¼‰æœåŠ¡ã€æƒé™ã€ç›®å½•å‡æ­£å¸¸ï¼Œæ— é…ç½®å˜æ›´ã€‚</li>
-        <li>vCenter ç•Œé¢æ˜¾ç¤ºå­˜å‚¨åç§°å¸¦ <code>(1)</code> åŽç¼€ï¼ˆå¦‚ <code>nas-data (1)</code>ï¼‰ï¼Œå±žäºŽæ¸…å•ç¼“å­˜é‡å¤æ¡ç›®ã€‚</li>
-    </ul>
+        <li:fá¹ï©9a¡y.áyceycU5†’K‹¾iË®ûÈƒ“"ãc‚ãRã“.ò'žj9L€Ð¸ÄƒšVÃš6»–¶c–
+£šbûž’ëŽ3’â7–>¸®¾eë¸à#{ÈÎZëž˜xÚbûž’ë’âè€Á¼™am¹/fyd#:fá¹êNK‹šrëš2¢ö÷š¶…¸¸ã€‚</liBˆO¹gî¹è`9ïdyîç:j£:+ày«hùn.;ï&ÛÙO›ZÜ[™ÏØÛÙOˆ9b,‘”È9§#yb¨yêë™»nKŠ.XÈ^ò0ñ½‘”ù¹Œð½½‘”øƒšÖ/¢¾TQ@€ÈÀÐäƒž®¿–#è·º`&¹¢$9b§øà ÛOƒBˆO“‘”È9§#yb¨yêëûï"NL‹ŒMŽKŒNMûï"y§#yb¨xà y§`úfd8à yæë¹oeygaù«hùn.;ï#9¥è:acyïk¹aŽi»N8#ÂöÆ“àÐ¢ÆÆ“çd6VçFW"yXÎ™Ú.i‹ž’ë–¶c–
+£–B7žžÃ–â˜€ñ½‘”ø Ä¤ð½½‘”øƒ–B;žò¾ò#–š€ñ½‘”ù¹…Ìµ‘…Ñ„€ Ä¤ð½½‘”û¾ò'¾ò3–Æ{’ê;šâ–6WžòO–¶c¦7–’7šv‡žn»Žð½±¤ø4(€€€€ð½Õ°
 
-    <h4>2. æ ¹å› å®šä½</h4>
-    <ol>
-        <li>ç½‘ç»œä¸­æ–­æ¢å¤åŽï¼ŒESXi æœ¬åœ° NFS 4.1 å®¢æˆ·ç«¯æŒ‚è½½ä¼šè¯åƒµæ­»ï¼šå†…æ ¸ä¿ç•™å·è®°å½•ï¼Œä½†å®žé™… TCP ä¼šè¯å·²å¤±æ•ˆï¼Œè¡¨çŽ°ä¸º <code>Accessible: false</code>ã€<code>Mounted: false</code>ï¼Œå®¹é‡è¯»å–å¤±è´¥ã€‚</li>
-        <li>å‘½ä»¤æ··ç”¨è¯¯åŒºï¼š<code>esxcli storage nfs</code> æ˜¯ NFS v3 ä¸“ç”¨å‘½ä»¤ï¼Œæ— æ³•è¯†åˆ«å’Œæ“ä½œ NFS 4.1 å·ï¼Œä¼šè¯¯åˆ¤ä¸ºã€Œæ— æŒ‚è½½ã€ã€‚</li>
-        <li>å·åä¸åŒ¹é…ï¼švCenter æ¸…å•ç¼“å­˜ç”Ÿæˆå¸¦ <code>(1)</code> çš„é‡å¤åç§°ï¼Œç”¨è¯¥åç§°æ‰§è¡Œåˆ é™¤ä¼šæŠ¥ <code>Failed to remove unknown volume</code>ã€‚</li>
+    <h4‹ˆ9¨.yfè9k¦¹/cOÚƒBˆÛ Ð¢ÆÆ“î{Ù{¹ÎKŠÞijÞh.ZHÞYîûÈÄU5†’iÊÎYËäe2BãZê.h‹^®¶Œ‚è½½ä¼šè¯åƒµæ­»É®Xh^jŽKùÞyYžXÛbºÃ–öW¼Œä½†å®žé™… TCP ä¼šè§ymì¹i,y¥b;ï#:(j9ã¬9..ˆÛÙOXØÙ\ÜÚX›Nˆ˜[ÙOØÛÙO¸à OÛÙO“[Ý[Yˆ˜[ÙOØÛÙO»ÈÎZëž˜xâ¾å–å¤±è´¥ã€‚</liBˆO¹doy.é9­íùå*:+ëùc.»ï&ÛÙO™\ÞÛHÝÜ˜YÙH™œÏØÛÙBiŠòäe2c2K‰>yJŽYÞKºNûÈÎizk9^Š–"¯–J3šN7’öp9L€Ð¸Äƒ–6ß¾ò3’òk¢¯åˆ¤ä¸ºã€Œæ— æŒ‚è½½ã€ã€‚</li>
+        <li>åµd#y.#yc.zac{É§d6VçFW"kˆ^XÙ^{É>ZÙŽyIþh‰[ŠbÆ6öFSâƒ“Âö6öFSây¨N˜xÞZHÞYÞz{ûÈÎyJŽŠ—–B7žžÃš&Ÿ¢†3–"ƒ¦f“’òkš*”€ñ½‘”ù…¥±•Ñ¼É•µ½Ù”Õ¹­¹½Ý¸Ù½±Õµ”ð½½‘”ã€‚</li>
     </ol>
 
-    <h4>3. è§£å†³æ­¥éª¤ï¼ˆä¸šåŠ¡æ— å½±å“ï¼Œæ— éœ€é‡å¯ä¸»æœºï¼‰</h4>
+    <h4>3. è§¡a¬jÚ^šªNò#’âk–*‡š^ƒ–öÇ–N7¼Œæ— éœ€é‡å­..iË®ò$ð½ Ð
 
-    <p><strong>æ­¥éª¤ 1ï¼šç¡®è®¤çœŸå®žå·åä¸ŽçŠ¶æ€ï¼ˆNFS 4.1 ä¸“ç”¨å‘½ä»¤ï¼‰</strong></p>
-    <div class="code-block"># æŸ¥çœ‹æœ¬æœºæ‰€æœ‰NFS 4.1å·çŠ¶æ€ï¼ŒèŽ·å–çœŸå®žå·å
-esxcli storage nfs41 list</div>
-    <p>è¾“å‡ºç¤ºä¾‹å…³é”®ä¿¡æ¯ï¼š</p>
-    <ul>
-        <li>Volume Name: <code>nas-data</code>ï¼ˆçœŸå®žåç§°ï¼Œæ—  (1) åŽç¼€ï¼‰</li>
+    <p><strong>æ­¥éª¤ 1ï¼šç¡®è®¤çœŸå®žå·åä¸ŽçŠ¶æ€ï¼ˆNFS 4.1 ä¸“ç”¨å‘½ä»¤ï¼‰</strong></pBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈ‚2iú^yÈ¾iÊÎiË®h˜iÈ”äe2BãXÛ~x«nhûÈÎˆë~X[žr–º{–6ß–B44)•Íá±¤ÍÑ½É…”¹™ÌÐÄ±¥ÍÐð½‘¥Ø
+    <p:/¤ùaî¹é.¹/¢ùalúe+¹.hþûÉ£Â÷àÐ¢ÇVÃàÐ¢ÆÆ“åföÇVÖRæÖS¢Æ6öFSææ2ÖFFÂö6öFSîûÈŽyÉþZéîYÞz{ûÈÎizƒ’Yî{Èò$ð½±¤
         <li>Accessible: <code>false</code></li>
-        <li>Mounted: <code>false</code></li>
-    </ul>
-
-    <p><strong>æ­¥éª¤ 2ï¼šå¼ºåˆ¶ç§»é™¤åƒµæ­»å·</strong></p>
-    <p>ä½¿ç”¨çœŸå®žå·åæ‰§è¡Œåˆ é™¤ï¼Œæ¸…ç†å†…æ ¸åƒµæ­»æŒ‚è½½è®°å½•ï¼š</p>
-    <div class="code-block">esxcli storage nfs41 remove -v "nas-data"</div>
-    <p class="info-box" style="background:#fff7e6;border-color:#fa8c16;color:#ad4e00;font-size:13px;">è‹¥æç¤ºèµ„æºå ç”¨ï¼Œå¯å…ˆæ‰§è¡Œæ‡’å¸è½½å†åˆ é™¤ï¼š<br><code>umount -l /vmfs/volumes/nas-data</code></p>
-
-    <p><strong>æ­¥éª¤ 3ï¼šéªŒè¯æ¸…ç†ç»“æžœ</strong></p>
+        <li[Ý[YˆÛÙFfÇ6SÂö6öFPð½±¤ø4(€€€€ð½Õ°ø4(4(€€€€ñÀ<strong>æ­¥éª¤ 2ï&¹o.¹b-¹éî™šNX;^jÛ–6Üð½ÍÑÉ½¹œøð½Àø4(€€€€ñÀû’öÿžR£žr–º{–6ß–B7š&Ÿ¢†3–"ƒ¦f“¾ò3šâžB–š‚ã–×š¶ïš2¢ö÷¢ºÃ–öW¾òhð½À
+    <div class="code-block"\ÞÛHÝÜ˜YÙH™œÍH™[[Ý™H]ˆ›˜\ËY]HÙ]ƒBˆÛ\ÜÏHš[™›ËX›ÞˆÝ[OH˜˜XÚÙÜ›Ý[™ˆÙ™™ÙMŽØ›Ü™\‹XÛÛÜŽˆÙ˜NÌMŽØÛÛÜŽˆØYLÙ›Û\Ú^™NŒLÜÈº"éy£ä9é.º-a9®¤9ch9å*;ÈÎXúÖ#š&˜¡Œæ‡’å¸è½½å†åˆ é™¤ï&œÛÙO[[Ý[[Ý›YœËÝ›Û[Y\ËÛ˜\ËY]OØÛÙOÜ Ð Ð¢ÇãÇ7G&öæsîjÚ^šªB>ûÉ®š¨ÎŠšâžBžîOšzpð½ÍÑÉ½¹œ</p>
     <div class="code-block"># ç¡®è®¤å·å·²ç§»é™¤
 esxcli storage nfs41 list
 # ç¡®è®¤æŒ‚è½½ç‚¹å·²æ¶ˆå¤±
 df -h | grep nfs</div>
 
-    <p><strong>æ­¥éª¤ 4ï¼šå‘½ä»¤è¡Œé‡æ–°æŒ‚è½½ NFS 4.1</strong></p>
-    <p>ç»•è¿‡ vCenter ç•Œé¢ç¼“å­˜ï¼Œç›´æŽ¥åœ¨ ESXi æœ¬åœ°æ‰§è¡ŒæŒ‚è½½ï¼š</p>
-    <div class="code-block">esxcli storage nfs41 add -H 192.168.5.197 -s /nas/pacs -v nas-data</div>
-    <p>å‚æ•°è¯´æ˜Žï¼š</p>
+    <pÝ›Û™Ï¹«izj©;É®YÞKºNŠÎ˜xÞikhÈ.‹ÛÒäe2BãÂ÷7G&öæpð½Àø4(€€€€ñÀûžîW¢þÙ•¹Ñ•ÈƒžV3¦v‹žòE­˜ï#9æí9£©yg*TÖH9§+9g,9¢iŠÎhÈ.‹ÛÞòhð½Àø4(€€€€ñ‘¥Ø±…ÍÌô‰½‘”µ‰±½¬ˆù•Íá±¤ÍÑ½É…”¹™ÌÐÄ…‘€µ €ÄäÈ¸ÄØà¸Ô¸ÄäÜ€µÌ€½¹…Ì½Á…Ì€µØ¹…Ìµ‘…Ñ„ð½‘¥Øø4(€€€€ñÀû–>šVÃ¢¾Óšb;¾òhð½À
     <ul>
-        <li><code>-H</code>ï¼šNFS æœåŠ¡ç«¯ IP åœ°å€</li>
-        <li><code>-s</code>ï¼šæœåŠ¡ç«¯å…±äº«ç›®å½•è·¯å¾„</li>
-        <li><code>-v</code>ï¼šæœ¬åœ°æ•°æ®å­˜å‚¨åç§°</li>
+        <liÛÙBÔƒÂö6öFS¾òi9Lƒšr7–*‡ž®¼%@ƒ–rÃ–v ð½±¤ø4(€€€€€€€€ñ±¤<code\ÏØÛÙNûÉ®iÈÞXªzºþX[Kª¾yºî[Ù^‹zþ[èCÂöÆ“àÐ¢ÆÆ“ãÆ6öFSâ×cÂö6öFSîòkšr³–rÃšVÃš6»–¶c–
+£–B7žžÀð½±¤
     </ul>
 
-    <p><strong>æ­¥éª¤ 5ï¼šéªŒè¯æŒ‚è½½æ¢å¤</strong></p>
-    <div class="code-block">esxcli storage nfs41 list</div>
-    <p>æ­£å¸¸çŠ¶æ€ï¼š<code>Accessible: true</code>ã€<code>Mounted: true</code>ï¼Œ<code>df -h</code> å¯è¯»å–åˆ°æ­£ç¡®å®¹é‡ï¼›vCenter ç•Œé¢ä¼šè‡ªåŠ¨åŒæ­¥çŠ¶æ€ï¼Œã€Œä¸å¯è®¿é—®ã€æç¤ºæ¶ˆå¤±ã€‚</p>
+    <p><strong9«izj©{ï&ºj£:+ày£ º/oy h¹i#OÜÝ›Û™ÏÜ Ð¢ÆF—b6Æ73Ò&6öFRÖ&Æö6²!•Íá±¤ÍÑ½É…”¹™ÌÐÄ±¥ÍÐð½‘¥Øø4(€€€€ñÀûš¶…¸¸çŠ¶æ€ï&ÛÙOXØÙ\ÜÚX›NˆYOØÛÙN8Æ6öFQ5½Õ¹Ñ•èÑÉÕ”ð½½‘”û¾ò0ñ½‘”ù‘˜€µ ð½½‘”øƒ–/è®ùanX‹jÚ>zîZëž˜xþûÉ·d6VçFW"yXÎ™Ú.KÉ®ˆz®XªŽYÎjÚ^x«nhûÈÎ8ÎKˆÞXúþŠëþ™zî8ÞhùzK®khŽZK8#Â÷ 4(4(€€€€ñ Ð4. å…³é”®æ³¨æ„äº‹é¡¹</h4>
+    <olBˆOÝ›Û™Ï¹doy.é9c.¹b!¹âb9§+ÜÝ›Û™Ï»É¤äe2c2KÛþyJ‚Æ6öFQ•Íá±¤ÍÑ½É…”¹™Ìð½½‘”øƒ–¶C–F÷’î“¾ò19L€Ð¸Äƒ’ö÷”¨ <code>esxcli storage nfs41</code> å­å‘½ä»¤ï¼ŒäºŒè€…ä¸é€šç”¨ã€‚</li>
+        <li><strong9cmùd#y.éy§+9g,9..¹aáÜÝ›Û™ÎûÉ®XŠ™šBòhÈ.‹ÛÞi8ÞKÙÎy¨NXÛ~YÞûÈÎ[¦†ï’î”€ñ½‘”ù•Íá±¤ÍÑ½É…”¹™ÌÐÄ±¥ÍÐð½½‘” è¤X{®K‹®Xxnò3žšš¶‹žnÓš:—’ö÷”¨ vCenter ç•Œé¢æ˜¾ç¤ºçš„å¸¦ <code>(1)</code9d#¹ï 9d#yéì8à Û@Ð¢ÆÆ“ãÇ7G&öæsîK‰®XªZèžXZƒÂ÷7G&öæsîòk’â+¢þÃšN7’ös’îšâžB–º‹š"×«­£ º/oyï$ZÙŽ8˜xÞ[»®KÉ®ŠùÞò3’â7’òk–öÇ–N49Lƒšr7–*‡ž®¿šVÃš6»¾ò3’æ’â7’òk’â·šZ·–Û’î[’âïšrëžjš¶–âãš2¢ö÷Žð½±¤ø4(€€€€€€€€ñ±¤øñÍÑÉ½¹œæœåŠ¡ç«¯è¾…åŠ©æŽ’æ™OÜÝ›Û™ÎûÉ®ˆº^XÙ^XÃ’âïšrë–å¤æŒ‚è½½å¤±è´¥ï¼Œå‹ùg*‘”È9§#yb¨yêëù¢iú(cÛÙFW‡÷'Fg2×'cÂö6öFSâZèžXZŽ˜xÞ‹ÛÞZûÎX{®ŠxNX‰žûÈÎX‹~ikZê.h‹~zºþKÉ®ŠùÞ{É>ZÙŽûÈÎiz™È˜xÞY
+òäe2iÈÞXª8#ÂöÆ4(€€€€ð½½°ø4(4(€€€€ñ Ì¥ô‰ÁÉ…Ñ¥…°µÙµÝ…É”µµ‘ÌˆøÌ¸Y5Ý…É”ƒ–âãžR£–F÷’îð½ Ìø4(4(€€€€ñ ÐùMa¤ƒžÎç»/èy kKˆîzêycÂöƒ@4(€€€€ñÀ<strong>æŸ¥çœ‹ ESXi ç‰ˆæœ¬</strong>ï¼š</pBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈ‡f×v&R×cÂöF—càÐ Ð¢ÇãÇ7G&öæsšeçœ‹æ‰€æœ‰ ESXi ç›¸å…³ä¸y kÏÜÝ›Û™ÎûÉ£Â÷àÐ¢ÆF—b6Æ73Ò&6öFRÖ&Æö6²#æW7†6frÖ–æfòÖÂöF—`4(4(€€€€ñÀøñÍÑÉ½¹œûš~—žr&‰€æœ‰ ESXi ç¡¬ä»¶ä¿¡æ¯</strong>ï&ÜƒBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈ™\ÞÙ™ËZ[™›È]ÏÙ]ƒBƒBˆÇ7G&öæsî˜xÞY
+òd×v&RiÈÞXªÂ÷7G&öæsîòhð½Àø4(€€€€ñ‘¥Ø±…ÍÌô‰½‘”µ‰±½¬ˆùÍ•ÉÙ¥•µµÐµÙµÝ…É”É•ÍÑ…ÉÐð½‘¥Øø4(4(€€€€ñÀ<strong>æŸ¥çœ‹å®¿ä¸»æœº IP åœ°å€</strong;ï&ÜƒBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈ™\ÞÙ™Ë]›ZÛšXÈ[Ü™\TÙ]ƒBƒBˆÝ›Û™ÎzhyJŽzêyn{ÙXÚ•ccÂ÷7G&öæsîûÉ£Â÷ 4(€€€€ñ‘¥Ø±…ÍÌô‰½‘”µ‰±½¬ˆesxcfg-vmknic --enable-ipv6 false</divBƒBˆzÎK»nK‡š¿šeè¨ÚƒBˆÝ›Û™ÏÔH9/èy kûï"9dàyâc8à y¨.9oàù¥l8à z`'ùn©»ï"OÜÝ›Û™Ï»ï&Ü Ð¢ÆF—b6Æ73Ò&6öFRÖ&Æö6²!•Íá±¤¡…É‘Ý…É”ÁÔ±¥ÍÐð½‘¥Ø
 
-    <h4>4. å…³é”®æ³¨æ„äº‹é¡¹</h4>
-    <ol>
-        <li><strong>å‘½ä»¤åŒºåˆ†ç‰ˆæœ¬</strong>ï¼šNFS v3 ä½¿ç”¨ <code>esxcli storage nfs</code> å­å‘½ä»¤ï¼ŒNFS 4.1 ä½¿ç”¨ <code>esxcli storage nfs41</code> å­å‘½ä»¤ï¼ŒäºŒè€…ä¸é€šç”¨ã€‚</li>
-        <li><strong>å·åä»¥æœ¬åœ°ä¸ºå‡†</strong>ï¼šåˆ é™¤ / æŒ‚è½½æ“ä½œçš„å·åï¼Œå¿…é¡»ä»¥ <code>esxcli storage nfs41 list</code> è¾“å‡ºä¸ºå‡†ï¼Œç¦æ­¢ç›´æŽ¥ä½¿ç”¨ vCenter ç•Œé¢æ˜¾ç¤ºçš„å¸¦ <code>(1)</code> åŽç¼€åç§°ã€‚</li>
-        <li><strong>ä¸šåŠ¡å®‰å…¨</strong>ï¼šä¸Šè¿°æ“ä½œä»…æ¸…ç†å®¢æˆ·ç«¯æŒ‚è½½ç¼“å­˜ã€é‡å»ºä¼šè¯ï¼Œä¸ä¼šå½±å“ NFS æœåŠ¡ç«¯æ•°æ®ï¼Œä¹Ÿä¸ä¼šä¸­æ–­å…¶ä»–ä¸»æœºçš„æ­£å¸¸æŒ‚è½½ã€‚</li>
-        <li><strong>æœåŠ¡ç«¯è¾…åŠ©æŽ’æŸ¥</strong>ï¼šè‹¥å•å°ä¸»æœºåå¤æŒ‚è½½å¤±è´¥ï¼Œå¯åœ¨ NFS æœåŠ¡ç«¯æ‰§è¡Œ <code>exportfs -rv</code> å®‰å…¨é‡è½½å¯¼å‡ºè§„åˆ™ï¼Œåˆ·æ–°å®¢æˆ·ç«¯ä¼šè¯ç¼“å­˜ï¼Œæ— éœ€é‡å¯ NFS æœåŠ¡ã€‚</li>
-    </ol>
-
-    <h3 id="practical-vmware-cmds">3. VMware å¸¸ç”¨å‘½ä»¤</h3>
-
-    <h4>ESXi ç³»ç»Ÿä¿¡æ¯ä¸Žç®¡ç†</h4>
-    <p><strong>æŸ¥çœ‹ ESXi ç‰ˆæœ¬</strong>ï¼š</p>
-    <div class="code-block">vmware-v</div>
-
-    <p><strong>æŸ¥çœ‹æ‰€æœ‰ ESXi ç›¸å…³ä¿¡æ¯</strong>ï¼š</p>
-    <div class="code-block">esxcfg-info -a</div>
-
-    <p><strong>æŸ¥çœ‹æ‰€æœ‰ ESXi ç¡¬ä»¶ä¿¡æ¯</strong>ï¼š</p>
-    <div class="code-block">esxcfg-info -w</div>
-
-    <p><strong>é‡å¯ VMware æœåŠ¡</strong>ï¼š</p>
-    <div class="code-block">servicemgmt-vmware restart</div>
-
-    <p><strong>æŸ¥çœ‹å®¿ä¸»æœº IP åœ°å€</strong>ï¼š</p>
-    <div class="code-block">esxcfg-vmknic -l | grep IPv4</div>
-
-    <p><strong>ç¦ç”¨ç®¡ç†ç½‘å¡ IPv6</strong>ï¼š</p>
-    <div class="code-block">esxcfg-vmknic --enable-ipv6 false</div>
-
-    <h4>ç¡¬ä»¶ä¿¡æ¯æŸ¥è¯¢</h4>
-    <p><strong>CPU ä¿¡æ¯ï¼ˆå“ç‰Œã€æ ¸å¿ƒæ•°ã€é€Ÿåº¦ï¼‰</strong>ï¼š</p>
-    <div class="code-block">esxcli hardware cpu list</div>
-
-    <p><strong>èŽ·å– CPU è¯¦ç»†ä¿¡æ¯ï¼ˆæ ¸å¿ƒæ•°ç­‰ï¼‰</strong>ï¼š</p>
-    <div class="code-block">esxcli hardware cpu global get</div>
-
-    <p><strong>å†…å­˜ä¿¡æ¯</strong>ï¼š</p>
-    <div class="code-block"># æŸ¥çœ‹æ€»å†…å­˜å¤§å°
+    <p><strong>èŽµcåˆÔH:*n{¸nK‡š¿¾ò#š‚ã–Ãæ•°ç­‰ï¼‰</strong;ï&ÜƒBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈ™\ÞÛH\™Ø\™HÜHÛØ˜[Ù]Ù]ƒBƒBˆÇ7G&öæsîXh^ZÙŽKúhóÂ÷7G&öæsîûÉ£Â÷ 4(€€€€ñ‘¥Ø±…ÍÌô‰½‘”µ‰±½¬ˆ# æŸ¥çœ‹æ€»å†…å­˜å¤§å°
 esxcli hardware memory get
-# å†…å­˜æ¡æ•°ã€æ’æ§½æ•°å’Œå†…å­˜å¤§å°
-smbiosDump | grep -i size
-# æŸ¥çœ‹å…·ä½“å†…å­˜çš„å‚æ•°
-smbiosDump | grep -A 12 "Memory Device"
-# åªçœ‹å†…å­˜å¤§å°å’Œé¢‘çŽ‡
-smbiosDump | grep -A 12 "Memory Device" | grep -iE "Size|Speed"</div>
-
-    <h4>æ—¶é—´ç®¡ç†</h4>
-    <p><strong>è®¾ç½®æ—¶é—´</strong>ï¼š</p>
-    <div class="code-block">esxcli system time set --year=2016 --month=9 --day=13 --hour=10 --minute=9</div>
-
-    <p><strong>æŸ¥çœ‹å½“å‰æ—¶é—´</strong>ï¼š</p>
+# å†…å­˜æ¡æ•°ã€æ’æ§½æ•°å’Œå†…å­˜å¤¥l#ÃBœÛXš[ÜÑ[\Ü™\ZHÚ^™CBˆÈ9§éyç"ùamù/dùa¡ykf9æ¡9cà¹¥lBœÛXš[ÜÑ[\Ü™\PHLˆ“Y[[ÜžH]šXÙHƒBˆÈ9cê¹ç"ùa¡ykf9i)ùl#ùd£:h¤yã¡ÃBœÛXš[ÜÑ[\Ü™\PHLˆ“Y[[ÜžH]šXÙHˆÜ™\ZQH”Ú^™_ÜYYÙ]ƒBƒBˆ¹¥íºeí9ë¨yä!Ú Ð¢Ç ñÍÑÉ½¹œû¢ºûžö»š^Û¦^Ðð½ÍÑÉ½¹œû¾òhð½À
+    <div class="code-block"\ÞÛHÞ\Ý[H[YHÙ]K^YX\LŒMˆK[[ÛNHKY^OLLÈKZÝ\LLK[Z[]ONOÙ]ƒBƒBˆÝ›Û™Îi—žr/–öO–&7š^Û¦^Ðð½ÍÑÉ½¹œï¼š</p>
     <div class="code-block">esxcli system time get</div>
 
     <h4>ç½‘ç»œä¸Žè·¯ç”±ç®¡ç†</h4>
-    <p><strong>æŸ¥çœ‹ IP é…ç½®</strong>ï¼š</p>
-    <div class="code-block">esxcli network ip interface ipv4 get</div>
-
-    <p><strong>æŸ¥çœ‹è·¯ç”±åˆ—è¡¨</strong>ï¼š</p>
-    <div class="code-block">esxcli network ip route ipv4 list</div>
-
-    <p><strong>æŸ¥çœ‹ç½‘å¡çŠ¶æ€</strong>ï¼š</p>
-    <div class="code-block">esxcli network nic list</div>
-
-    <p><strong>å…³é—­ / å¼€å¯ç½‘ç»œæŽ¥å£</strong>ï¼š</p>
+    <p><strong9¦^yÈ²•˜XÞ{ÚãÂ÷7G&öæsîòhð½Àø4(€€€€ñ‘¥Ø±…ÍÌô‰½‘”µ‰±½¬ˆù•Íá±¤¹•ÑÝ½É¬¥À¥¹Ñ•É™…”¥ÁØÐ•Ðð½‘¥Øø4(4(€€€€ñÀøñÍÑÉ½¹œæ™yç"ú-ëùå,yb%ú(jÜÝ›Û™ÎûÉ£Â÷àÐ¢ÆF—b6Æ73Ò&6öFRÖ&Æö6²#æW7†6Æ’æWGv÷&²—&÷WFR—cBÆ—7CÂöF—càÐ Ð¢Ç ñÍÑÉ½¹œûš~—žr/žöG–6‡ž*Ûšð½ÍÑÉ½¹œû¾òhð½À
+    <div class="code-block"\ÞÛH™]ÛÜšÈšXÈ\ÝÙ]ƒBƒBˆÝ›Û™ÎX[>™zÒò[ÈY
+þ{Ù{¹Îhê^XŒð½ÍÑÉ½¹œï¼š</p>
     <div class="code-block">esxcli network nic down -n vmnic1
 esxcli network nic up -n vmnic1</div>
 
-    <h4>å­˜å‚¨è®¾å¤‡ä¸Žè™šæ‹Ÿæœºæ“ä½œ</h4>
-    <p><strong>æŸ¥çœ‹ç£ç›˜åˆ—è¡¨</strong>ï¼š</p>
-    <div class="code-block">esxcli storage core device list</div>
-
-    <p><strong>åˆ—å‡ºæ‰€æœ‰è™šæ‹ŸæœºåŠå…¶ VMID</strong>ï¼š</p>
+    <h4>å­˜å‚¨è®¾å¤….#º&f¹¢çiË®i8ÞKÙÃÂöƒ@4(€€€€ñÀ<strong>æŸ¥çœ‹ç£ç›˜åˆ—è¡¨</strong>ï¼š</pBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈ†W7†6Æ’7F÷&vR6÷&RFWf–6RÆ—7CÂöF—càÐ Ð¢Ç ñÍÑÉ½¹œû–"_–ëš&šr'¢fkš.šrë–>+–ØY5%ð½ÍÑÉ½¹œû¼š</p>
     <div class="code-block">vim-cmd vmsvc/getallvms</div>
 
-    <p><strong>æŸ¥çœ‹æŒ‡å®š VMID è™šæ‹ŸæœºçŠ¶æ€</strong>ï¼š</p>
-    <div class="code-block">vim-cmd vmsvc/power.getstate &lt;VMID&gt;</div>
-
-    <p><strong>å…³é—­è™šæ‹Ÿæœº</strong>ï¼š</p>
-    <div class="code-block">vim-cmd vmsvc/power.shutdown &lt;VMID&gt;</div>
-
-    <p><strong>å¯åŠ¨è™šæ‹Ÿæœº</strong>ï¼š</p>
-    <div class="code-block">vim-cmd vmsvc/power.on &lt;VMID&gt;</div>
-
-    <p><strong>å¼ºåˆ¶å…³é—­è™šæ‹Ÿæœº</strong>ï¼š</p>
-    <div class="code-block">vim-cmd vmsvc/power.off &lt;VMID&gt;</div>
-
-    <p><strong>æŸ¥çœ‹è™šæ‹Ÿæœºé…ç½®ä¿¡æ¯</strong>ï¼š</p>
-    <div class="code-block">vim-cmd vmsvc/get.config &lt;VMID&gt;</div>
-
-    <p><strong>ç£ç›˜åˆ†åŒºåŠæ“ä½œå·¥å…·</strong>ï¼š</p>
-    <div class="code-block">partedUtil</div>
-
-    <p><strong>æ³¨é”€è™šæ‹Ÿæœº</strong>ï¼š</p>
-    <div class="code-block">vim-cmd vmsvc/unregister &lt;VMID&gt;</div>
-
-    <p><strong>æ³¨å†Œè™šæ‹Ÿæœº</strong>ï¼š</p>
+    <pÝ›Û™Ï¹§éyç"ù£!ùk¦ˆ“RQ:&f¹¢çù§.¹â­¹  OÜÝ›Û™Ï»ï&Ü Ð¢ÆF—b6Æ73Ò&6öFRÖ&Æö6²!Ù¥´µµÙµÍÙŒ½Á½Ý•È¹•ÑÍÑ…Ñ”€™±ÐíY5%™Ðìð½‘¥Øø4(4(€€€€ñÀøñÍÑÉ½¹œå…³é—­è™šæ‹Ÿæœº</strong;ï&ÜƒBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈš[KXÛY›\Ý˜ËÜÝÙ\‹œÚ]ÝÛˆ	›Õ“RQ	™ÝÏÙ]€Ð Ð¢ÇãÇ7G&öæsîY
+Ö*£¢fkš.vœº</strong>ï&ÜƒBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈš[KXÛY›\Ý˜ËÜÝÙ\‹›Ûˆ	›Õ“RQ	™ÝÏÙ]ƒBƒBˆÇ7G&öæsî[Ë®X‹nX[>™zÞ‰™®h¹þiË£Â÷7G&öæsîûÉ£Â÷ 4(€€€€ñ‘¥Ø±…ÍÌô‰½‘”µ‰±½¬ˆvim-cmd vmsvc/power.off &lt;VMID&gt;</divBƒBˆÝ›Û™Ï¹§éyç"‰™®h¹Úrë¦7žö»’þ‡š¼ð½ÍÑÉ½¹œû¼š</p>
+    <div class="code-block">vim-cmd vmsvc/get.config &lt;VMID&gt;</divBƒBˆÝ›Û™Ï¹èàyææ9b!¹c.¹câ¹¤ãy/g9méyamÏÜÝ›Û™Ï»É£Â÷àÐ¢ÆF—b6Æ73Ò&6öFRÖ&Æö6²#ç'FVEWF–ÃÂöF—`4(4(€€€€ñÀøñÍÑÉ½¹œûšÎ£¦R¢fkš.vœº</strong>ï&ÜƒBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈš[KXÛY›\Ý˜ËÝ[œ™YÚ\Ý\ˆ	›Õ“RQ	™ÝÏÙ]€Ð Ð¢ÇãÇ7G&öæsîk:ŽXhÎ‰™®h¹Úrèð½ÍÑÉ½¹œû¼š</p>
     <div class="code-block">vim-cmd solo/registervm /vmfs/volumes/iSCSI-1/TestDSL/TestDSL.vmx</div>
 
-    <p><strong>èŽ·å–è™šæ‹Ÿæœºæ­£å¸¸è¿è¡Œæ—¶é—´</strong>ï¼š</p>
-    <div class="code-block">vim-cmd vmsvc/get.summary &lt;VMID&gt; | grep uptimeSeconds</div>
-
-    <p><strong>æŸ¥çœ‹ vmtools çŠ¶æ€</strong>ï¼š</p>
-    <div class="code-block">vim-cmd vmsvc/get.summary &lt;VMID&gt; | grep toolsRunningStatus</div>
-
-    <p><strong>æ¢å¤åˆ°è™šæ‹Ÿæœºå¿«ç…§çŠ¶æ€</strong>ï¼š</p>
-    <div class="code-block">vim-cmd vmsvc/snapshot.revert &lt;VMID&gt; &lt;snapshotId&gt; [suppressPowerOff]</div>
-
-    <p><strong>æŸ¥çœ‹å†…å­˜ã€CPU æ’æ§½ä½¿ç”¨æƒ…å†µ</strong>ï¼š</p>
-    <div class="code-block">smbiosDump</div>
-
-    <p class="info-box" style="background:#fff7e6;border-color:#fa8c16;color:#ad4e00;font-size:13px;">ä¸Šè¿°å‘½ä»¤ä¸­ï¼Œå°–æ‹¬å· <code>&lt;&gt;</code> å†…çš„éƒ¨åˆ†éœ€æ›¿æ¢ä¸ºå®žé™…å‚æ•°å€¼ï¼Œæ–¹æ‹¬å· <code>[]</code> å†…çš„å‚æ•°ä¸ºå¯é€‰ã€‚</p>
-
-    <h3 id="practical-vmfs-expand">4. VMware æ‰©å±• VMFS æ•°æ®å­˜å‚¨</h3>
-    <p class="info-box" style="background:#e8f0fe;border-color:#1a73e8;color:#1a73e8;font-size:13px;">2023-03-09 19:15</p>
+    <pÝ›Û™Ïº#­ùcåº&f¹¢çù§.¹«hùn.:/ä:(c9¥íºeíÜÝ›Û™Ï»ï&Ü Ð¢ÆF—b6Æ73Ò&6öFRÖ&Æö6²!Ù¥´µµÙµÍÙŒ½•Ð¹ÍÕµµ…Éä€™±ÐíY5%™ÐìðÉ•ÀÕÁÑ¥µ•M•½¹‘Ìð½‘¥Øø4(4(€€€€ñÀøñÍÑÉ½¹œæ™yç"È›]ÛÛÈ9â­¹  OÜÝ›Û™ÎûÉ£Â÷àÐ¢ÆF—b6Æ73Ò&6öFRÖ&Æö6²#çf–ÒÖ6ÖBf×7f2övWBç7VÖÖ'’fÇCµdÔ”BfwC²Âw&WFööÇ5'Vææ–æu7FGW3ÂöF—càÐ Ð¢ÇãÇ7G&öæsš‹–’7–"Ã¢fkš.šrë–ëç…§çŠ¶æ€</strong;ï&ÜƒBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈš[KXÛY›\Ý˜ËÜÛ˜\ÚÝœ™]™\	›Õ“RQ	™ÝÈ	›ÜÛ˜\ÚÝY	™ÝÈÜÝ\™\ÜÔÝÙ\“Ù™—OÙ]€Ð Ð¢ÇãÇ7G&öæsîiú^yÈ––¶cŽATƒš>Kšž÷’öÿžR£š–Ôð½ÍÑÉ½¹œû¾òhð½À
+    <div class="code-block"ÛXš[ÜÑ[\Ù]ƒBƒBˆÛ\ÜÏHš[™›ËX›ÞˆÝ[OH˜˜XÚÙÜ›Ý[™ˆÙ™™ÙMŽØ›Ü™\‹XÛÛÜŽˆÙ˜NÌMŽØÛÛÜŽˆØYLÙ›Û\Ú^™NŒLÜÈ¹."º/ì9doy.é9.+{ï#9l%¹¢ë9cíÈÛÙBfÇC²fwC³Âö6öFPƒ–žj¦£–"¦ršnö¢ä¸ºå®žé™…å‚æ•°å€¼ï#9¥®y¢ë9cíÈÛÙO–×OØÛÙOˆ9a¡yæ¡9`.i[K‹®X¿¦'Žð½Àø4(4(€€€€ñ Ì¥ô‰ÁÉ…Ñ¥…°µÙµ™Ìµ•áÁ…¹ˆøÐ¸Y5Ý…É”ƒš&§–ÆTY5LƒšVÃš6»–¶c–
+ ð½ Ìø4(€€€€ñÀ±…ÍÌô‰¥¹™¼µ‰½àˆÍÑå±”ô‰‰…­É½Õ¹è”á˜Á™”í‰½É‘•Èµ½±½ÈèŒÅ„ÜÍ”àí½±½ÈèŒÅ„ÜÍ”àí™½¹ÐµÍ¥é”èÄÍÁàìˆ2023-03-09 19:15</p>
 
     <h4>é—®é¢˜æè¿°</h4>
-    <p>å°è¯•æ‰©å±• ESXi ä¸»æœºä¸Šçš„æœ¬åœ°æ•°æ®å­˜å‚¨ï¼ˆä¾‹å¦‚ <code>datastore1</code>ï¼‰æ—¶å¤±è´¥ï¼ŒæŠ¥é”™ï¼š</p>
-    <div class="code-block">Failed to expand VMFS datastore datastore1 - Cannot change the host configuration</div>
+    <p>å°è¯•æ‰©å±• ESXi ä¸¹§.¹."¹æ¡9§+9g,9¥l9£k¹kf9`ª;ÈŽJ%¦‚ <code>datastore1</code>ï"y¥í¹i,z-){ÈÎhª^™Ižòhð½Àø4(€€€€ñ‘¥Ø±…ÍÌô‰½‘”µ‰±½¬ˆù…¥±•Ñ¼•áÁ…¹Y5L‘…Ñ…ÍÑ½É”‘…Ñ…ÍÑ½É”Ä€´…¹¹½Ð¡…¹”Ñ¡”¡½ÍÐ½¹™¥ÕÉ…Ñ¥½¸ð½‘¥Øø4(4(€€€€ñ Ðûž^ž*Û–"šz@ð½ Ðø4(€€€€ñÕ°ø4(€€€€€€€€ñ±¤ûš&§–ÆWšN7’ös–’Ç¢Ò—¼Œæç¤ºæ— æ³•æ›´æ”¹ä¸¹§.ºacyïk¸à Û@Ð¢ÆÆ“îYÊ‚U5†’6†VÆÂKŠÞiú^yÈ¾z8y¹ŽXˆnXË®h8^Xk^ûÉ£ÂöÆ“àÐ¢ÆÆñ½‘”bootbank</code9d£ÛÙO˜[›ÛÝ˜[šÏØÛÙOˆ9b!¹b*ù£!ùd$y.#yd#9æ¡“Q”È9cmøà ÛOƒBˆO¹/oyJ‚Æ6öFSçfÖ¶g7FööÇ2Õ‚×c&ö÷F&æ³Âö6öFSâiú^yÈ¾˜¾‹éŠëîZH~Kúhþ8#ÂöÆ“àÐ¢ÆÆ“’öÿžR €ñ½‘”ùÁ…ÉÑ•‘UÑ¥°•ÑÁÑ‰°€‰Ùµ™Ì½‘•Ù¥•Ì½‘¥Í­Ì½µÁà¹Ùµ¡‰„ÀéÀéPÀé0Àˆð½½‘”øƒšbûž’ë–öO–&7žŽžnc–"–2ë¢†£Žð½±¤ø4(€€€€€€€€ñ±¤ç›®æ ‡åˆ†åŒº 8 çš„ç©ºé—´æœªèƒ½å……åˆ†åˆ©ç”¨ï¼Œéœ€è¦å°†å…¶æ‰©å±•åˆ°æ•´ä¸ªç£ç›˜å‹ùå*9ênºeí8à ÛOƒBˆÝ[ƒBƒBˆº)èXk¶—¦ªð½ Ð
 
-    <h4>ç—‡çŠ¶åˆ†æž</h4>
-    <ul>
-        <li>æ‰©å±•æ“ä½œå¤±è´¥ï¼Œæç¤ºæ— æ³•æ›´æ”¹ä¸»æœºé…ç½®ã€‚</li>
-        <li>åœ¨ ESXi Shell ä¸­æŸ¥çœ‹ç£ç›˜åˆ†åŒºæƒ…å†µï¼š</li>
-        <li><code>bootbank</code> å’Œ <code>altbootbank</code> åˆ†åˆ«æŒ‡å‘ä¸åŒçš„ VMFS å·ã€‚</li>
-        <li>ä½¿ç”¨ <code>vmkfstools -Ph -v10 bootbank</code> æŸ¥çœ‹é€»è¾‘è®¾å¤‡ä¿¡æ¯ã€‚</li>
-        <li>ä½¿ç”¨ <code>partedUtil getptbl "vmfs/devices/disks/mpx.vmhba0:C0:T0:L0"</code> æ˜¾ç¤ºå½“å‰ç£ç›˜åˆ†åŒºè¡¨ã€‚</li>
-        <li>ç›®æ ‡åˆ†åŒº 8 çš„ç©ºé—´æœªèƒ½å……åˆ†åˆ©ç”¨ï¼Œéœ€è¦å°†å…¶æ‰©å±•åˆ°æ•´ä¸ªç£ç›˜å¯ç”¨ç©ºé—´ã€‚</li>
-    </ul>
+    <p><strong>æ­¥éª¤ 1ï¼šè°ƒæ•´åˆ†åŒºå¤§å°ï¼ˆpartedUtil resizeï¼‰</strong></pBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈ‡'FVEWF–Â&W6—¦R"÷fÖg2öFWf–6W2öF—6·2ö×‚çfÖ†&¤3¥C¤Ã"‚#cƒC3sSBC“C33ccÂöF—`4(4(€€€€ñÀøñÍÑÉ½¹œûš¶—¦ª€Ë¾òkš&§–ÆWšZ’îÛžÎïžî¾ò!Ùµ­™ÍÑ½½±Ì€´µÉ½Ý™Ï"OÜÝ›Û™ÏÜƒBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈ›ZÙœÝÛÛÈKYÜ›ÝÙœÈ‹Ý›YœËÙ]šXÙ\ËÙ\ÚÜËÛ\›Z˜LÌ•“Žˆ‹Ý›YœËÝ›Û[Y\ËÙ]\ÝÜ™LHÙ]ƒBƒBˆ¹odùbcy¥¡ù.í¹ìîùîçùâ­¹  OÚƒBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈ‘š[\Þ\Ý[HÚ^™H\ÙY]˜Z[X›H\ÙIH[Ý[YÛƒB•“Q”ËMˆÌKŽÈLŒQÈŒK‘ÈM	HÝ›YœËÝ›Û[Y\ËÙ]\ÝÜ™LCB•‘‘”ÈLNKŽÈ‹ÑÈLMËŒÈ‰HÝ›YœËÝ›Û[Y\ËÓÔÑUKMY˜NMÌMÌŽËX™ŽKLÌŽLØŒM™B™˜]ŒÈŒ“HËŽÈIHÝ›YœËÝ›Û[Y\ËÐ“ÓÕS’ÌCB™˜]ŒÈŒÈŒÈ	HÝ›YœËÝ›Û[Y\ËÐ“ÓÕS’ÌÙ]ƒBƒBˆ¹càº  ™;îhêSÂöƒ@4(€€€€ñÀè©¹îáº+NiˆîX¿–è€ƒ CSDN åšæ–‡ï¼š<a href="https://blog.csdn.net/weixin_39565764/article/details/120881801" target="_blank"TÖH9èk9ææ9¥è9¬åy¢jyk®yæ¡9i!9ä!¹¥®y¬åOØN8#Â÷àÐ Ð¢ÆF—b6Æ73Ò&W'&÷"Ö&÷‚#àÐ¢š8î™šžhCž’ë¾òkš&Ÿ¢†3–"–2ë¢ÂšVÓ–J3šZ’îÛžÎïžîš&§–ÆW–&7¾ò3¢·ç¡®ä·y.¡º)èùæî9alù¤ãy/g9æ¡:hãºfjxà ¹nîº+«¹g*:gg¹méy/g9¥íºeí9¢%¹îí9¢©9ê¥ùb>Xh^hš~ŠÎûÈÎKº^™‹.i[hÚîKŠ.ZKh‰niÈÞXªKŠÞijÞ8.YÎi{ni—¦b–ºcšZçšZš†–æÛš‚çš6»–º{¦fž:¿–Š–J0ÙMÁ¡•É”ƒž&#šr³¢Ûè¡Œé€‚å½“è°ƒæ•´ã€‚
+    </divBƒBˆÈYHœ˜XÝXØ[]›]Ø\™KXÙ\ƒRâd×v&RŠøKšn™zîš)ƒÂöƒ04(€€€€ñÀ±…ÍÌô‰¥¹™¼µ‰½àˆÍÑå±”ô‰‰…­É½Õ¹è”á˜Á™”í‰½É‘•Èµ½±½ÈèŒÅ„ÜÍ”àí½±½ÈèŒÅ„ÜÍ”àí™½¹ÐµÍ¥é”èÄÍÁàìˆûšnÓšZÃš^Û¦^Ðè€ÈÀÈÐ´ÀÈ´ÈÀ€ÄÜèÐÌð½À
 
-    <h4>è§£å†³æ­¥éª¤</h4>
-
-    <p><strong>æ­¥éª¤ 1ï¼šè°ƒæ•´åˆ†åŒºå¤§å°ï¼ˆpartedUtil resizeï¼‰</strong></p>
-    <div class="code-block">partedUtil resize "/vmfs/devices/disks/mpx.vmhba0:C0:T0:L0" 8 268437504 419430366</div>
-
-    <p><strong>æ­¥éª¤ 2ï¼šæ‰©å±•æ–‡ä»¶ç³»ç»Ÿï¼ˆvmkfstools --growfsï¼‰</strong></p>
-    <div class="code-block">vmkfstools --growfs "/vmfs/devices/disks/mpx.vmhba0:C0:T0:L0:8" "/vmfs/volumes/datastore1"</div>
-
-    <h4>å½“å‰æ–‡ä»¶ç³»ç»ŸçŠ¶æ€</h4>
-    <div class="code-block">Filesystem Size Used Available Use% Mounted on
-VMFS-6 71.8G 10.1G 61.6G 14% /vmfs/volumes/datastore1
-VFFS 119.8G 2.7G 117.0G 2% /vmfs/volumes/OSDATA-6405fb58-71728d8c-b6f9-000c293b096d
-vfat 4.0G 204.6M 3.8G 5% /vmfs/volumes/BOOTBANK1
-vfat 4.0G 64.0K 4.0G 0% /vmfs/volumes/BOOTBANK2</div>
-
-    <h4>å‚è€ƒé“¾æŽ¥</h4>
-    <p>è¯¦ç»†è¯´æ˜Žå¯å‚è€ƒ CSDN åšæ–‡ï¼š<a href="https://blog.csdn.net/weixin_39565764/article/details/120881801" target="_blank">ESXi ç¡¬ç›˜æ— æ³•æ‰©å®¹çš„å¤„ç†æ–¹æ³•</a>ã€‚</p>
-
-    <div class="error-box">
-        é£Žé™©æç¤ºï¼šæ‰§è¡Œåˆ†åŒºè°ƒæ•´å’Œæ–‡ä»¶ç³»ç»Ÿæ‰©å±•å‰ï¼Œè¯·ç¡®ä¿äº†è§£ç›¸å…³æ“ä½œçš„é£Žé™©ã€‚å»ºè®®åœ¨éžå·¥ä½œæ—¶é—´æˆ–ç»´æŠ¤çª—å£å†…æ‰§è¡Œï¼Œä»¥é˜²æ•°æ®ä¸¢å¤±æˆ–æœåŠ¡ä¸­æ–­ã€‚åŒæ—¶æŸ¥é˜…å®˜æ–¹æ–‡æ¡£å¹¶æ ¹æ®å®žé™…çŽ¯å¢ƒå’Œ vSphere ç‰ˆæœ¬è¿›è¡Œé€‚å½“è°ƒæ•´ã€‚
-    </div>
-
-    <h3 id="practical-vmware-cert">5. VMware è¯ä¹¦é—®é¢˜</h3>
-    <p class="info-box" style="background:#e8f0fe;border-color:#1a73e8;color:#1a73e8;font-size:13px;">æ›´æ–°æ—¶é—´: 2024-02-20 17:43</p>
-
-    <h4>æ­¥éª¤ä¸€ï¼šæ£€æŸ¥ STS è¯ä¹¦</h4>
-    <p>ä½¿ç”¨ <code>checksts.sh</code> è„šæœ¬æ£€æŸ¥ STSï¼ˆå®‰å…¨ä»¤ç‰ŒæœåŠ¡ï¼‰è¯ä¹¦çš„æœ‰æ•ˆæ€§ã€‚</p>
+    <h49«izj©9. ;ï&¹¨à9¦R5E2ŠøKšcÂöƒCàÐ¢ÇîKÛÞR €ñ½‘”ù¡•­ÍÑÌ¹Í ð½½‘”øƒ¢kšr³šŽše STSÈŽZèžXZŽKºNx˜ÎiÈÞXªò'¢¾’æ›žjšr'šV#š“€‚</p>
     <div class="code-block"><span class="cmd">bash</span> checksts.sh</div>
 
-    <p>å®˜æ–¹æŒ‡å¯¼é“¾æŽ¥ï¼š<a href="https://kb.vmware.com/s/article/79248" target="_blank">https://kb.vmware.com/s/article/79248</a></p>
+    <p9k¦9¥®y£!ùkÎ™;š:—¾òhñ„¡É•˜ô‰¡ÑÑÁÌè¼½­ˆ¹ÙµÝ…É”¹½´½Ì½…ÉÑ¥±”¼ÜäÈÐàˆÑ…É•Ðô‰}‰±…¹¬ˆù¡ÑÑÁÌè¼½­ˆ¹ÙµÝ…É”¹½´½Ì½…ÉÑ¥±”¼ÜäÈÐàð½„</p>
 
-    <h4>æ­¥éª¤äºŒï¼šä¿®å¤ STS è¯ä¹¦å¹¶é‡å¯æ‰€æœ‰æœåŠ¡</h4>
-    <p>ä½¿ç”¨ <code>fixsts.sh</code> è„šæœ¬æŒ‰ç…§å®˜æ–¹æŒ‡å¯¼ä¿®å¤ STS è¯ä¹¦ï¼Œç„¶åŽé‡å¯æ‰€æœ‰æœåŠ¡ï¼š</p>
-    <div class="code-block"><span class="cmd">service-control</span> --stop --all
-<span class="cmd">service-control</span> --start --all</div>
-
-    <h4>æ­¥éª¤ä¸‰ï¼šæ£€æŸ¥å…¶ä»–è¯ä¹¦æ˜¯å¦è¿‡æœŸ</h4>
-    <p>è¿è¡Œä»¥ä¸‹å‘½ä»¤æ£€æŸ¥æ‰€æœ‰å­˜å‚¨ä¸­çš„è¯ä¹¦åŠå…¶åˆ°æœŸæ—¥æœŸï¼š</p>
-    <div class="code-block"><span class="cmd">for</span> store <span class="cmd">in</span> $(/usr/lib/vmware-vmafd/bin/vecs-cli store list | grep -v TRUSTED_ROOT_CRLS); <span class="cmd">do</span>
-    echo <span class="str">"[*] Store :" $store</span>;
-    /usr/lib/vmware-vmafd/bin/vecs-cli entry list --store $store --text | grep -ie <span class="str">"Alias"</span> -ie <span class="str">"Not After"</span>;
-<span class="cmd">done</span>;</div>
-
-    <p>å¦‚æžœå‘çŽ°è¯ä¹¦å·²è¿‡æœŸï¼Œæ ¹æ®è¾“å‡ºç»“æžœé€‰æ‹©ç›¸åº”ä¿®å¤æ“ä½œã€‚å¯¹äºŽ <code>data-encipherment</code> è¯ä¹¦ç»­è®¢ï¼Œè¯·å‚è€ƒï¼š</p>
-    <p><strong>æ•°æ®åŠ å¯†è¯ä¹¦ç»­è®¢æŒ‡å—</strong> â€” <a href="https://kb.vmware.com/s/article/88548?lang=en_US" target="_blank">https://kb.vmware.com/s/article/88548?lang=en_US</a></p>
-
-    <h4>æ­¥éª¤å››ï¼šä½¿ç”¨ Certificate Manager ç»­è®¢è¯ä¹¦</h4>
-    <p>æ‰§è¡Œ <code>/usr/lib/vmware-vmca/bin/certificate-manager</code> å·¥å…·ï¼Œé€‰æ‹©é€‰é¡¹ <strong>8</strong> æˆ– <strong>4</strong> è¿›è¡Œç»­è®¢ï¼š</p>
+    <h4>æ­¥éª¤äºŒï&¹/ë¹i#HÕÈ:(Kšn[›n˜xÞY
+þh˜iÈžiÈÞXªÂöƒCàÐ¢ÇîKÛþyJ‚Æ6öFQ™¥áÍÑÌ¹Í ð½½‘”øƒ¢kšr³š2'žŸ–ºcšZçš2–¾ó’þ»–’4MQLƒ¢¾’æ›¼Œç„¶åŽé‡å­¢`9§"y§#yb¨{É£Â÷àÐ¢ÆF—b6Æ73Ò&6öFRÖ&Æö6²#ãÇ7â6Æ73Ò&6ÖB#ç6W'f–6RÖ6öçG&öÃÂ÷7à€´µÍÑ½À€´µ…±°4(ñÍÁ…¸±…ÍÌô‰µˆservice-control</span> --start --all</divBƒBˆjÚ^šªNKˆžûÉ®j8i—–Û’î[¢ä¹¦æ˜¯å¦è±ù§'ÏÚƒBˆº/ä:(c9.éy."ùdoy.é9¨à9§éy¢`9§"ykf9`ª9.+yæ¡:+ày.i¹câ¹am¹b,9§'ù¥éy§'ûï&Ü Ð¢ÆF—b6Æ73Ò&6öFRÖ&Æö6² ñÍÁ…¸±…ÍÌô‰µˆfor</span> store <span class="cmd">in</span> $(/usr/lib/vmware-vmafd/bin/vecs-cli store list | grep -v TRUSTED_ROOT_CRLS); <span class="cmd"ÏÜÜ[€Ð¢V6†òÇ7â6Æ73Ò'7G"#â%²¥Ò7F÷&R¢"G7F÷&SÂ÷7ãã°Ð¢÷W7"öÆ–"÷f×v&R×fÖfBö&–â÷fV72Ö6Æ’VçG'’Æ—7BÒ×7F÷&RG7F÷&RÒ×FW‡BÂw&WÖ–RÇ7â6Æ73Ò'7G"#â$Æ–2#Â÷7à€µ¥”€ñÍÁ…¸±…ÍÌô‰ÍÑÈˆø‰9½Ð™Ñ•Èˆð½ÍÁ…¸øì4(ñÍÁ…¸±…ÍÌô‰µˆù‘½¹”ð½ÍÁ…¸øìð½‘¥Øø4(4(€€€€ñÀû–ššzs–>Gž:Ã¢¾’æ›–ÞË¢þœŸÈÎjžhÚîŠE‡ºç»‘§§:`"y¢êyæî9n¥9/ë¹i#y¤ãy/g8à ¹kîy.£ˆÛÙO™]KY[˜Ú\\›Y[ØÛÙOˆ:(Kšn{ºÞŠê.ûÈÎŠß–è€ƒï¼š</p>
+    <p><strong9¥l9£k¹b¨9hnŠ’æ›žî·¢º‹š2–6\ð½ÍÑÉ½¹œ â€” <a href="https://kb.vmware.com/s/article/88548?lang=en_US" target="_blank">https://kb.vmware.com/s/article/88548?lang=en_US</aÜƒBƒBˆ¹«izj©9fæòk’ö÷”¨ Certificate Manager ç»­è®¢è¯ä¹¦</h4Bˆhš~ŠÂÆ6öFSâ÷W7"öÆ–"÷f×v&R×fÖ6ö&–âö6W'F–f–6FRÖÖævW#Âö6öFSâ[z^X[~ûÈÎ˜žhºž˜žš’Ç7G&öæsãƒÂ÷7G&öæpƒš"X€ñÍÑÉ½¹œøÐð½ÍÑÉ½¹œøƒ¢Ûè¡Œç»­è®¢ï¼š</p>
     <div class="code-block">root@localhost [ ~ ]# /usr/lib/vmware-vmca/bin/certificate-manager
 
                 |                                                                     |
@@ -1242,38 +496,8 @@ vfat 4.0G 64.0K 4.0G 0% /vmfs/volumes/BOOTBANK2</div>
                 |      8. Reset all Certificates                                      |
                 |_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _|
 Note : Use Ctrl-D to exit.
-Option[1 to 8]:</div>
-
-    <p>æŸ¥è¯¢ç»“æžœè‹¥æ˜¯ <code>MACHINE_SSL_CERT</code> è¿‡æœŸï¼Œé€‰æ‹©é€‰é¡¹ <strong>3</strong> è¿›è¡Œç»­è®¢ã€‚</p>
-    <div class="note">
-        <strong>æ³¨æ„</strong>ï¼šåœ¨ã€ŒHostnameã€è¾“å…¥ vc çš„ FQDNï¼Œåœ¨ã€ŒIPAddressã€è¾“å…¥ä¸Ž Hostname ç›¸åŒçš„å€¼ï¼ˆå¦‚æžœæ˜¯ä»¥ IP éƒ¨ç½²çš„ VCï¼Œè¯·è¾“å…¥ IP åœ°å€ï¼‰ï¼Œåœ¨ã€ŒVMCA Nameã€è¾“å…¥ä¸Ž Hostname ç›¸åŒçš„å€¼ï¼ˆå¦‚æžœæ˜¯ä»¥ IP éƒ¨ç½²çš„ VCï¼Œè¯·è¾“å…¥ IP åœ°å€ï¼‰ã€‚
-    </div>
-
-    <p><strong>ç¤ºä¾‹äº¤äº’ï¼ˆé€‰é¡¹ 4ï¼‰ï¼š</strong></p>
-    <div class="code-block">Option[1 to 8]: <span class="str">4</span>
-Do you wish to generate all certificates using configuration file : Option[Y/N] ? : <span class="str">y</span>
-
-Please provide valid SSO and VC privileged user credential to perform certificate operations.
-Enter username [Administrator@vsphere.local]:<span class="cmd">administrator@hdzy.net</span>
-Enter password:
-
-Please configure certool.cfg with proper values before proceeding to next step.
-
-Press Enter key to skip optional parameters or use Default value.
-
-Enter proper value for 'Country' [Default value : US] :
-
-Enter proper value for 'Name' [Default value : CA] :
-
-Enter proper value for 'Organization' [Default value : VMware] :
-
-Enter proper value for 'OrgUnit' [Default value : VMware Engineering] :
-
-Enter proper value for 'State' [Default value : California] :
-
-Enter proper value for 'Locality' [Default value : Palo Alto] :
-
-Enter proper value for 'IPAddress' (Provide comma separated values for multiple IP addresses) [optional] : <span class="cmd">192.168.3.100</span>
+Option[1 to 8]:</divBƒBˆ¹§éz+è¹îäù§§:"éy¦+ÈÛÙDÔ4„”äUõ54Åô4U%CÂö6öFSâ‹šr¾ò3¦'š.§¦'¦†ä€ñÍÑÉ½¹œ3</strong> è¿›è¡Œç»­è®¢ã€‚</pBˆ]ˆÛ\ÜÏH››ÝH€Ð¢Ç7G&öæsšÎ£š<ð½ÍÑÉ½¹œï¼šåœ¨ã€ŒHostnameã€è¾“å…¥ vc çš„ FQDNï¼Œåœ¨ã€ŒIPAddressã€è¾“å…¥ä¸Ž Hostname ç›¸åŒçš„å€¼ï¼ˆå¦‚æžœæ˜¯ä»¥ IP éƒ¨ç½²çš„ VCÈÎŠûb‘aiHT9g,9g`;ï"{ï#9g*8à#“PÐH˜[Yxà#z/¤ùaiy.#ˆÜÝ˜[YH9æî9d#9æ¡9`/;ï"9i ¹§§9¦+ù.éHT:`ê9ïl¹æ¡ò3¢¾Ø¤XZR•YËYØûÈž8 Ð¢ÂöF—càÐ Ð¢ÇãÇ7G&öæsž’ë’ú/’ê“’êK¾ò#¦'¦†ä€Ó¾ò'¾òhð½ÍÑÉ½¹œøð½À
+    <div class="code-block"Ü[Û–ÌHÈNˆÜ[ˆÛ\ÜÏHœÝˆÜÜ[€Ð¤Fò–÷Rv—6‚FòvVæW&FRÆÂ6W'F–f–6FW2W6–ær6öæf–wW&F–öâf–ÆR¢÷F–öåµ’ôåÒò¢Ç7â6Æ73Ò'7G"#ç“Â÷7ãàÐ Ð¥ÆV6R&÷f–FRfÆ–B54òæBd2&—f–ÆVvVBW6W"7&VFVçF–ÂFòW&f÷&Ò6W'F–f–6FR÷W&F–öç2àÐ¤VçFW"W6W&æÖR´FÖ–æ—7G&F÷$g7†W&RæÆö6ÅÓ£Ç7â6Æ73Ò&6ÖB#æFÖ–æ—7G&F÷$†G§’ææWCÂ÷7à4)¹Ñ•ÈÁ…ÍÍÝ½Éè4(4)A±•…Í”½¹™¥ÕÉ”•ÉÑ½½°¹™œÝ¥Ñ ÁÉ½Á•ÈÙ…±Õ•Ì‰•™½É”ÁÉ½••‘¥¹œÑ¼¹•áÐÍÑ•À¸4(4)AÉ•ÍÌ¹Ñ•È­•äÑ¼Í­¥À½ÁÑ¥½¹…°Á…É…µ•Ñ•ÉÌ½ÈÕÍ”•™…Õ±ÐÙ…±Õ”¸4(4)¹Ñ•ÈÁÉ½Á•ÈÙ…±Õ”™½È€½Õ¹ÑÉäœm•™…Õ±ÐÙ…±Õ”€èUMt€è4(4)¹Ñ•ÈÁÉ½Á•ÈÙ…±Õ”™½È€9…µ”œm•™…Õ±ÐÙ…±Õ”€èt€è4(4)¹Ñ•ÈÁÉ½Á•ÈÙ…±Õ”™½È€=É…¹¥é…Ñ¥½¸œm•™…Õ±ÐÙ…±Õ”€èY5Ý…É•t€è4(4)¹Ñ•ÈÁÉ½Á•ÈÙ…±Õ”™½È€=ÉU¹¥Ðœm•™…Õ±ÐÙ…±Õ”€èY5Ý…É”¹¥¹••É¥¹t€è4(4)¹Ñ•ÈÁÉ½Á•ÈÙ…±Õ”™½È€MÑ…Ñ”œm•™…Õ±ÐÙ…±Õ”€è…±¥™½É¹¥…t€è4(4)¹Ñ•ÈÁÉ½Á•ÈÙ…±Õ”™½È€1½…±¥Ñäœm•™…Õ±ÐÙ…±Õ”€èA…±¼±Ñ½t€è4(4)¹Ñ•ÈÁÉ½Á•ÈÙ…±Õ”™½È€%A‘‘É•ÍÌœ€¡AÉ½Ù¥‘”½µµ„Í•Á…É…Ñ•Ù…±Õ•Ì™½ÈµÕ±Ñ¥Á±”%@…‘‘É•ÍÍ•Ì¤m½ÁÑ¥½¹…±t€è€ñÍÁ…¸±…ÍÌô‰µˆøÄäÈ¸ÄØà¸Ì¸ÄÀÀð½ÍÁ…¸
 
 Enter proper value for 'Email' [Default value : email@acme.com] :
 
@@ -1282,412 +506,100 @@ Enter proper value for 'Hostname' (Provide comma separated values for multiple H
 Enter proper value for VMCA 'Name' :<span class="cmd">192.168.3.100</span>
 
 You are going to regenerate Root Certificate and all other certificates using VMCA
-Continue operation : Option[Y/N] ? : <span class="str">y</span>
-Status : 60% Completed [Replace vpxd-extension Cert...]</div>
+Continue operation : Option[Y/N] ? : <span class="str"OÜÜ[ƒB”Ý]\ÈˆŒ	HÛÛ\]YÔ™\XÙHœY^[œÚ[ÛˆÙ\‹‹—OÙ]ƒBƒBˆ¹«izj©9.¥;ï&¹/ë¹i#yd#ºaãyd+È”9§#yb¨OÚƒBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈÜ[ˆÛ\ÜÏH˜ÛYœÙ\šXÙKXÛÛ›ÛÜÜ[ˆK\ÝÜœBÜ[ˆÛ\ÜÏH˜ÛYœÙ\šXÙKXÛÛ›ÛÜÜ[ˆK\Ý\œÙ]€Ð Ð¢ÆƒCš¶—¦ª“–·¾òk–"ƒ¦f	-UA}MQ=ILƒ¢ä¹¦</h4>
+    <p>å‚è€ƒ VMware å®˜æ–¹æ–…¨hòhñ„¡É•˜ô‰¡ÑÑÁÌè¼½­ˆ¹ÙµÝ…É”¹½´½Ì½…ÉÑ¥±”¼àÈÔØÀý±…¹œõ•¹}ULˆÑ…É•Ðô‰}‰±…¹¬ˆù¡ÑÑÁÌè¼½­ˆ¹ÙµÝ…É”¹½´½Ì½…ÉÑ¥±”¼àÈÔØÀý±…¹œõ•¹}ULð½„û¾ò3¢þC¢†3šâžB¢kšr°€ñ½‘”clean_backup_stores.sh</code>ï¼š</pBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈ‚âö6ÆVåö&6·W÷7F÷&W2ç6ƒÂöF—`4(4(€€€€ñ‘¥Ø±…ÍÌô‰•ÉÉ½Èµ‰½àˆø4(€€€€€€€€ñÍÑÉ½¹œûšÎ£š<ð½ÍÑÉ½¹œû¼šè‹¥é…b,:e&z+ëkhŽhòÆ6öFSâÖ&6ƒ¢âö6ÆVåö&6·W÷7F÷&W2ç6ƒ¢ö&–âö&6…äÓ¢&B–çFW'&WFW#¢æò7V6‚f–ÆR÷"F—&V7F÷'“Âö6öFSîò3¢¾Óšb;¢kšr³–â›šr$]¥¹‘½ÝÌƒš6‹¢†3ž²›¼ˆCRLFï¼‰ï¼Œæ‰§è¡Œä»¥ä¸‹å‘½ä»¤ä¿®å¤ï¼š
+        <div style="margin-top:8px;"><code>sed -i -e 's/\r$//' clean_backup_stores.sh</codeÙ]€Ð¢ÂöF—`4(4(€€€€ñÀûšr–B;¦7–B¿š&šr'šr7–*‡¾òhð½À
+    <div class="code-block"Ü[ˆÛ\ÜÏH˜ÛY‡6W'f–6RÖ6öçG&öÃÂ÷7ãâÒ×7F÷ÒÖÆÂÇ7â6Æ73Ò&6ÖB ™…µÀì™…µÀìð½ÍÁ…¸ø€ñÍÁ…¸±…ÍÌô‰µˆservice-control</span> --start --all</divBƒBˆÝ›Û™Ï¹d#¹îëy¤ãy/gÜÝ›Û™Ï»É®zîŠêN[›n˜xÞ{Úîh˜iÈžKˆîŠøKšny»ŽX[j¢¶›š*—¢Ç»¾"l¹â­¹  xà ÜƒBˆÝ›Û™Ï¹æî9alihRîÛ’â(½½</strong>ï&¹mì¹."¹/(:!ì™‹æ3’êGžn`ƒŠHQ½½±ÌƒŠHÙµÝ…É”ƒŠHƒ¢ä¹¦é—®é¢˜æ–‡ä»¶å¤¹ä¸­ã€‚</p>
 
-    <h4>æ­¥éª¤äº”ï¼šä¿®å¤åŽé‡å¯ VPXD æœåŠ¡</h4>
-    <div class="code-block"><span class="cmd">service-control</span> --stop vpxd
-<span class="cmd">service-control</span> --start vpxd</div>
-
-    <h4>æ­¥éª¤å…­ï¼šåˆ é™¤ BACKUP_STORES è¯ä¹¦</h4>
-    <p>å‚è€ƒ VMware å®˜æ–¹æ–‡æ¡£ï¼š<a href="https://kb.vmware.com/s/article/82560?lang=en_US" target="_blank">https://kb.vmware.com/s/article/82560?lang=en_US</a>ï¼Œè¿è¡Œæ¸…ç†è„šæœ¬ <code>clean_backup_stores.sh</code>ï¼š</p>
-    <div class="code-block">./clean_backup_stores.sh</div>
-
-    <div class="error-box">
-        <strong>æ³¨æ„</strong>ï¼šè‹¥é‡åˆ°é”™è¯¯æ¶ˆæ¯ <code>-bash: ./clean_backup_stores.sh: /bin/bash^M: bad interpreter: No such file or directory</code>ï¼Œè¯´æ˜Žè„šæœ¬å¸¦æœ‰ Windows æ¢è¡Œç¬¦ï¼ˆCRLFï¼‰ï¼Œæ‰§è¡Œä»¥ä¸‹å‘½ä»¤ä¿®å¤ï¼š
-        <div style="margin-top:8px;"><code>sed -i -e 's/\r$//' clean_backup_stores.sh</code></div>
-    </div>
-
-    <p>æœ€åŽé‡å¯æ‰€æœ‰æœåŠ¡ï¼š</p>
-    <div class="code-block"><span class="cmd">service-control</span> --stop --all <span class="cmd">&amp;&amp;</span> <span class="cmd">service-control</span> --start --all</div>
-
-    <p><strong>åŽç»­æ“ä½œ</strong>ï¼šç¡®è®¤å¹¶é‡ç½®æ‰€æœ‰ä¸Žè¯ä¹¦ç›¸å…³çš„è­¦æŠ¥è‡³ç»¿è‰²çŠ¶æ€ã€‚</p>
-    <p><strong>ç›¸å…³æ–‡ä»¶ä¸‹è½½</strong>ï¼šå·²ä¸Šä¼ è‡³é˜¿é‡Œäº‘ç›˜ â†’ Tools â†’ vmware â†’ è¯ä¹¦é—®é¢˜æ–‡ä»¶å¤¹ä¸­ã€‚</p>
-
-    <h4>vSphere 7.x Certificate Manager é€‰é¡¹è¯´æ˜Ž</h4>
-    <p>é€šè¿‡ vCenter Server ç”¨æˆ·ç•Œé¢ï¼š<strong>èœå• â†’ ç³»ç»Ÿç®¡ç† â†’ è¯ä¹¦ â†’ è¯ä¹¦ç®¡ç†</strong>ã€‚</p>
-    <div class="note">
-        <strong>æ³¨æ„</strong>ï¼šWindows çŽ¯å¢ƒä¸‹éœ€ä»¥ç®¡ç†å‘˜èº«ä»½ç™»å½•æˆ–"ä»¥ç®¡ç†å‘˜èº«ä»½è¿è¡Œ"ã€‚
-    </div>
-
-    <ul>
-        <li><strong>vCenter Serverï¼ˆWindows ç‰ˆæœ¬ï¼‰</strong>ï¼š<code>C:\Program Files\VMware\vCenter Server\vmcad\certificate-manager</code></li>
-        <li><strong>vCenter Server Appliance</strong>ï¼š<code>/usr/lib/vmware-vmca/bin/certificate-manager</code></li>
-    </ul>
-
-    <table>
-        <tr><th>é€‰é¡¹</th><th>è¯¦ç»†ä¿¡æ¯</th><th>æ‰€éœ€ä¿¡æ¯</th></tr>
-        <tr><td>1</td><td>æ›¿æ¢è®¡ç®—æœº SSL è¯ä¹¦ä¸ºè‡ªå®šä¹‰ CA è¯ä¹¦ï¼›åŒæ—¶å¯ç”Ÿæˆè¯ä¹¦ç­¾åè¯·æ±‚å’Œå¯†é’¥</td><td>administrator@vsphere.local å¯†ç <br>è‡ªå®šä¹‰è®¡ç®—æœºè¯ä¹¦å’Œå¯†é’¥è·¯å¾„<br>æŒ‡å‘ VMCA Root çš„è‡ªå®šä¹‰è¯ä¹¦è·¯å¾„</td></tr>
-        <tr><td>2</td><td>æ›¿æ¢ VMCA æ ¹è¯ä¹¦å¹¶æ›¿æ¢æ‰€æœ‰è¯ä¹¦ï¼›æä¾›å­é€‰é¡¹ç”Ÿæˆè¯ä¹¦ç­¾åè¯·æ±‚å’Œå¯†é’¥</td><td>administrator@vsphere.local å¯†ç <br>certool.cfg æ–‡ä»¶é…ç½®<br>æ ¹ç­¾åè¯ä¹¦ + æ ¹ç­¾åå¯†é’¥<br><strong>å¯é€‰</strong>ï¼šè§£å†³æ–¹æ¡ˆç”¨æˆ·å’Œå…¶ä»–è®¡ç®—æœºè¯ä¹¦çš„è‡ªå®šä¹‰è¯ä¹¦å’Œå¯†é’¥è·¯å¾„</td></tr>
-        <tr><td>3</td><td>ä½¿ç”¨ VMCA ç”Ÿæˆçš„æ–°è¯ä¹¦æ›¿æ¢è®¡ç®—æœº SSL è¯ä¹¦</td><td>administrator@vsphere.local å¯†ç <br>certool.cfg æ–‡ä»¶é…ç½®</td></tr>
-        <tr><td>4</td><td>é‡æ–°ç”Ÿæˆæ–°çš„é»˜è®¤ VMCA æ ¹è¯ä¹¦å¹¶æ›¿æ¢æ‰€æœ‰è¯ä¹¦</td><td>administrator@vsphere.local å¯†ç <br>certool.cfg æ–‡ä»¶é…ç½®</td></tr>
-        <tr><td>5</td><td>æ›¿æ¢è§£å†³æ–¹æ¡ˆç”¨æˆ·è¯ä¹¦ä¸ºè‡ªå®šä¹‰ CA è¯ä¹¦</td><td>administrator@vsphere.local å¯†ç <br>è‡ªå®šä¹‰æ ¹ CA è¯ä¹¦è·¯å¾„<br>è§£å†³æ–¹æ¡ˆç”¨æˆ·ï¼ˆvpxdã€vpxd-extensionã€vSphere-webclientã€machineã€hvcã€wcpï¼‰çš„è‡ªå®šä¹‰è¯ä¹¦å’Œå¯†é’¥è·¯å¾„</td></tr>
-        <tr><td>6</td><td>ä½¿ç”¨ VMCA ç”Ÿæˆçš„æ–°è¯ä¹¦æ›¿æ¢è§£å†³æ–¹æ¡ˆç”¨æˆ·è¯ä¹¦</td><td>administrator@vsphere.local å¯†ç </td></tr>
-        <tr><td>7</td><td>é€šè¿‡é‡æ–°å‘å¸ƒæ—§è¯ä¹¦æ¢å¤ä¸Šæ¬¡æ“ä½œ</td><td>administrator@vsphere.local å¯†ç </td></tr>
-        <tr><td>8</td><td>é‡ç½®æ‰€æœ‰è¯ä¹¦</td><td>administrator@vsphere.local å¯†ç <br>certool.cfg æ–‡ä»¶é…ç½®</td></tr>
-    </table>
-
-    <p><strong>Certool.cfg æ–‡ä»¶ä½ç½®ï¼š</strong></p>
-    <ul>
-        <li><strong>Windows</strong>ï¼š<code>C:\Program Files\VMware\vCenter Server\vmcad\certool.cfg</code></li>
-        <li><strong>VCSA å’Œå¤–éƒ¨ PSC è®¾å¤‡</strong>ï¼š<code>/usr/lib/vmware-vmca/share/config/certool.cfg</code></li>
-    </ul>
-
-    <div class="code-block"><span class="cmd">root@localhost</span> [ ~ ]# <span class="cmd">cat</span> /usr/lib/vmware-vmca/share/config/certool.cfg
-#
-# Template file for a CSR request
-#
-
-# Country is needed and has to be 2 characters
-<span class="cmd">Country</span> = US
-<span class="cmd">Name</span>    = CA
-<span class="cmd">Organization</span> = VMware
+    <h4>vSphere 7.x Certificate Manager é€‰é¡¹è­9¦#ÚƒBˆº`&º/áÈÙ[\ˆÙ\™\ˆ9å*9¢-ùåc:gh»ï&Ý›Û™Ïº#ç9ceH8¡¤ˆ9ìî{¹Þº‡žBƒŠHƒ¢ä¹¦ â†’ è¯ä¹¦ç®¡ç†</strong>ã€‚</pBˆ]ˆÛ\ÜÏH››ÝH€Ð¢Ç7G&öæsšÎ£š<ð½ÍÑÉ½¹œï¼šWindows çŽ¯å¢ƒä¸‹éœ€ä»¥ç®¡ç†å‘˜èº«ä»½ç™»å½•æˆ–"ä»¥ç®¡ç†å‘˜èº«ä»½è´:(c¸à ƒBˆÙ]ƒBƒBˆ[ƒBˆCÇ7G&öæsçd6VçFW"6W'fW.ò!]¥¹‘½ÝÌƒž&#šr³¾ò$ð½ÍÑÉ½¹œï¼š<codeÎ—›ÙÜ˜[Hš[\×“]Ø\™WÙ[\ˆÙ\™\—›XØYÙ\YšXØ]K[X[˜YÙ\ØÛÙOÛOƒBˆCÇ7G&öæsçd6VçFW"6W'fW"Æ–æ6SÂ÷7G&öæsîûÉ£Æ6öFSâ÷W7"öÆ–"÷f×v&R×fÖ6ö&–âö6W'F–f–6FRÖÖævW#Âö6öFSãÂöÆ“àÐ¢Â÷VÀ4(4(€€€€ñÑ…‰±”
+        <tr><th:`"zhnOÝŠ›žî’áæ¯</th><th9¢`:g 9.hóÂ÷FƒãÂ÷G#àÐ¢ÇG ñÑøÄð½ÑøñÑûšnÿš6‹¢º‡žº_šrèMM0ƒ¢¾’æ›’âë¢«–ºk’æ$ƒ¢¾’æ›¾òo–B3š^Û–>¿žRš"C¢¾’æ›ž¶û–B7¢¾ßšÆ–J3–¾¦J”ð½ÑøñÑù…‘µ¥¹¥ÍÑÉ…Ñ½ÉÙÍÁ¡•É”¹±½…°ƒ–†ç <br>è‡ªå®šä¹‰è®¡ç®•§.º+ày.i¹d£9káºd©z-ëZñ‰Èûš2–BDY5I½½Ðƒžj¢«–ºk’æ'¢¾’æ›¢Þµ¡ÝÂ÷G#àÐ¢ÇG#ãÇFCã#Â÷FCãÇFCšnÿš6ˆY5ƒš‚ç¢ä¹¦å¹¶æ›¿æ¢æ‰€æœ‰è y.i»ï&ù¡Ké¾ZÙ˜žšžyIþh‰Š’æ›ž¶åè­ù¬`¹d£9hn™*SÂ÷FCãÇFA…‘µ¥¹¥ÍÑÉ…Ñ½ÉÙÍÁ¡•É”¹±½…°ƒ–¾ž‚ñ‰Èù•ÉÑ½½°¹™œƒšZ’îÛ¦7žö¸ñ‰Èæ ¹ç­¹d#z(Kšb²jžzÛ–B7–†é’¥<br><strong9bþ˜“Â÷7G&öæs¾òk¢ž–ÏšZçš†#žR£š"ß–J3–Û’î[¢º‡žº_šrë¢ä¹¦çš„è‡ªå®šä¹‰è y.i¹d£9hn™*^‹zþ[èCÂ÷FCãÂ÷G#àÐ¢ÇG ñÑøÌð½ÑøñÑû’öÿžR Y5ƒžRš"CžjšZÃ¢¾’æ›šnÿš6‹¢º‡žº_šrèMM0ƒ¢¾’æ˜ð½Ñ<td>administrator@vsphere.local å¯†ç <brÙ\ÛÛ˜Ù™È9¥¡ù.íºacyïkÝÝƒBˆƒÇFCãCÂ÷FCãÇFCî˜xÞikyIþh‰iky¨N›¹ŽŠêBdÔ4jžŠøKšn[›ni»þhÚ.h˜iÈžŠøKšcÂ÷FCãÇFCæFÖ–æ—7G&F÷$g7†W&RæÆö6ÂZž‚ñ‰Èù•ÉÑ½½°¹™œƒšZ»¶é…ç½®</tdÝƒBˆOÝi»þhÚ.Šz>Xk>ikžjŽyJŽh‹~Š’æ›’âë¢«–ºk’æ$ƒ¢¾’æ˜ð½Ñ<td>administrator@vsphere.local å¯†ç <br:!ê¹k¦¹.by¨.HÐH:+ày.iº-ëZñ‰Èû¢ž–ÏšZçš†#žR£š"ß¾ò!ÙÁá“ŽÙÁáµ•áÑ•¹Í¥½»ŽÙMÁ¡•É”µÝ•‰±¥•¹ÓŽµ…¡¥¹—Ž¡ÙŽÝÃ¾ò'žj¢«–ºk’æ'¢¾’æ›–J3–¾¦J—¢Þ¿–úð½Ñøð½ÑÈ
+        <tr><tdÝÇFCîKÛÞR Y5ƒžRvˆçš„æ–°è¯ä¹¦æ›½£hº)èXkZçš†#žR£š"Ø¯ä¹¦</td˜YZ[š\Ý˜]ÜœÜ\™K›ØØ[9ká¹è OÝÝ€Ð¢ÇG#ãÇF@Üð½Ñ<td>é€šè¿†aãy¥¬9cäyn izb¾’æ›š‹–’7’â+š²‡šN7’öpð½Ñ<td>administrator@vsphere.local å¯†ç </td></trBˆƒÂ÷F@ñÑû¦7žö»š&šr'¢¾’æ˜ð½Ñ<td>administrator@vsphere.local å¯†ç <brÙ\ÛÛ˜Ù™È9¥¡ù.íºacyïkÝÝƒBˆÝX›@Ð Ð¢ÇãÇ7G&öæsä6W'FööÂæ6frihRîÛ’ö7žö»¼š</strong></p>
+    <ulBˆOÝ›Û™Ï•Ú[™ÝÜÏÜÝ›Û™Ï»ï&ÛÙOÎ—›ÙÜ˜[Hš[\×“]Ø\™WÙ[\ˆÙ\™\—›XØYÙ\ÛÛ˜Ù™ÏØÛÙOÛOƒBˆCÇ7G&öæsåd54Y(ÎZIn˜:‚42Šë–’ð½ÍÑÉ½¹œï¼š<codeÝ\Ü‹ÛX‹Ý›]Ø\™K]›XØKÜÚ\™KØÛÛ™šYËØÙ\ÛÛ˜Ù™ÏØÛÙOÛ@Ð¢Â÷VÃàÐ Ð¢ÆF—b6Æ73Ò&6öFRÖ&Æö6²#ãÇ7â6Æ73Ò&6ÖB#ç&ö÷DÆö6Æ†÷7CÂ÷7ãâ²âÒ2Ç7â6Æ73Ò&6ÖB!…Ðð½ÍÁ…¸ø€½ÕÍÈ½±¥ˆ½ÙµÝ…É”µÙµ„½Í¡…É”½½¹™¥œ½•ÉÑ½½°¹™œ4(Œ4(ŒQ•µÁ±…Ñ”™¥±”™½È„MHÉ•ÅÕ•ÍÐ4(Œ4(4(Œ½Õ¹ÑÉä¥Ì¹••‘•…¹¡…ÌÑ¼‰”€È¡…É…Ñ•ÉÌ4(ñÍÁ…¸±…ÍÌô‰µˆù½Õ¹ÑÉäð½ÍÁ…¸ø€ôUL4(ñÍÁ…¸±…ÍÌô‰µˆù9…µ”ð½ÍÁ…¸ø€€€€ô4(ñÍÁ…¸±…ÍÌô‰µˆù=É…¹¥é…Ñ¥½¸ð½ÍÁ…¸ = VMware
 <span class="cmd">OrgUnit</span> = VMware Engineering
-<span class="cmd">State</span> = California
-<span class="cmd">Locality</span> = Palo Alto
-<span class="cmd">IPAddress</span> = 127.0.0.1
-<span class="cmd">Email</span> = email@acme.com
-<span class="cmd">Hostname</span> = server.acme.com</div>
+<span class="cmd"Ý]OÜÜ[‚Ò6Æ–f÷&æ–Ð£Ç7â6Æ73Ò&6ÖB!1½…±¥Ñäð½ÍÁ…¸ = Palo Alto
+<span class="cmd">IPAddress</spanHLËŒŒŒCBÜ[ˆÛ\ÜÏH˜ÛY‘[XZ[ÜÜ[ˆH[XZ[XÛYK˜ÛÛCBÜ[ˆÛ\ÜÏH˜ÛY„†÷7FæÖSÂ÷7à€ôÍ•ÉÙ•È¹…µ”¹½´ð½‘¥Ø
 
-    <h4>ç”¨ vecs-cli åˆ é™¤è¿‡æœŸè¯ä¹¦ï¼ˆæŽ¨èï¼Œæ— å¯†ç ã€è·¯å¾„å…¼å®¹ï¼‰</h4>
-
-    <p><strong>åˆ é™¤ \_\_MACHINE_CSRï¼ˆä¸€æ­¥åˆ°ä½ï¼‰ï¼š</strong></p>
-    <div class="code-block">/usr/lib/vmware-vmafd/bin/vecs-cli entry delete --store MACHINE_SSL_CERT --alias <span class="var">__MACHINE_CSR</span></div>
-    <p class="info-box" style="background:#e8f0fe;border-color:#1a73e8;color:#1a73e8;font-size:13px;">ä¸éœ€è¦å¯†é’¥åº“å¯†ç ï¼Œvecs-cli è‡ªå¸¦æœ¬åœ°ç®¡ç†å‘˜æƒé™ã€‚ä¸“é—¨ç®¡ç† VECS è¯ä¹¦ä»“åº“ï¼Œä¸ä¼šç ´å vCenter è¯ä¹¦ä½“ç³»ã€‚</p>
-
-    <p><strong>éªŒè¯æ˜¯å¦åˆ é™¤æˆåŠŸï¼š</strong></p>
+    <h49å*™XÜËXÛH9b(:fi:/áiÉâ¾’æ›¼ˆæŽ¨èï#9¥è9ká¹è xà z-ëZ–ó–ºç¼‰</h4BƒBˆÝ›Û™Ï¹b(:fi×ÓPPÒS‘WÐÔÔ»ï"9. 9«iyb,9/c{ï"{ï&ÜÝ›Û™ÏÜ Ð¢ÆF—b6Æ73Ò&6öFRÖ&Æö6² ½ÕÍÈ½±¥ˆ½ÙµÝ…É”µÙµ…™½‰¥¸½Ù•Ìµ±¤•¹ÑÉä‘•±•Ñ”€´µÍÑ½É”5!%9}MM1}IP€´µ…±¥…Ì€ñÍÁ…¸±…ÍÌô‰Ù…Èˆ__MACHINE_CSR</span></div>
+    <p class="info-box" style="background:#e8f0fe;border-color:#1a73e8;color:#1a73e8;font-size:13px;">ä¸éœ€è¦å¯†é’¥åº‘ká¹è {ÈÇfV72Ö6Æ’ˆz®[ŠniÊÎYËzêynYŽiØ&fCŽ’âI—¨ç®¡ç† VECS è¯ä¹¦ä»‘n¤ò3’â7’òkž‚Ó–v<Ù•¹Ñ•Èƒ¢¾’æ›’öG³¸à ÜƒBƒBˆÝ›Û™Îš¨ÎŠšb¿–B›–"ƒ¦f“š"C–*¾òhð½ÍÑÉ½¹œ</p>
     <div class="code-block">/usr/lib/vmware-vmafd/bin/vecs-cli entry list --store MACHINE_SSL_CERT</div>
-    <p>è¾“å‡ºé‡Œçœ‹ä¸åˆ° <code>__MACHINE_CSR</code> å³æ¸…ç†å®Œæˆã€‚</p>
-
-    <p><strong>åˆ é™¤ BACKUP_STORE ä¸­çš„ \_\_MACHINE_CERTï¼š</strong></p>
-    <div class="code-block">/usr/lib/vmware-vmafd/bin/vecs-cli entry delete --store BACKUP_STORE --alias <span class="var">__MACHINE_CERT</span> -y</div>
-
-    <h3 id="practical-vmware-snapshot">6. VMware å¿«ç…§ç®¡ç†</h3>
-
-    <h4>å¸¸ç”¨ vim-cmd å¿«ç…§å‘½ä»¤</h4>
-
-    <p><strong>æŸ¥çœ‹è™šæ‹Ÿæœº IDï¼š</strong></p>
-    <div class="code-block"><span class="cmd">vim-cmd</span> vmsvc/getallvms | <span class="cmd">awk</span> <span class="str">'{print $1, $2}'</span></div>
-
-    <p><strong>æŸ¥çœ‹å¿«ç…§ä¿¡æ¯ï¼š</strong></p>
+    <p>è¾“å‡ºé‡Œçœ‹ä¸åˆ° <code×ÓPPÒS‘WÐÔÔØÛÙOˆ9clù®!yä!¹k£9¢$8à ÜƒBƒBˆÇ7G&öæsîXŠ™šB$4µUõ5Dõ$RKŠÞy¨BÅõÅôÔ4„”äUô4U%NûÉ£Â÷7G&öæpð½Àø4(€€€€ñ‘¥Ø±…ÍÌô‰½‘”µ‰±½¬ˆø½ÕÍÈ½±¥ˆ½ÙµÝ…É”µÙµ…™½‰¥¸½Ù•Ìµ±¤•¹ÑÉä‘•±•Ñ”€´µÍÑ½É”	-UA}MQ=I€´µ…±¥…Ì€ñÍÁ…¸±…ÍÌô‰Ù…Èˆ__MACHINE_CERT</span^OÙ]€Ð Ð¢Æƒ2–CÒ'&7F–6Â×f×v&R×6æ6†÷B#ãbâd×v&R[ú¾xZ~zêycÂöƒ3àÐ Ð¢ÆƒCî[‹ŽyJ‚f–ÒÖ6ÖB[úž•‘½ä»¤</h4BƒBˆÝ›Û™Ï¹§éyç"‰™®h¹Úrè%¼š</strong></p>
+    <div class="code-block"><span class="cmd">vim-cmd</span> vmsvc/getallvms | <span class="cmd">awk</spanÜ[ˆÛ\ÜÏHœÝˆ‰ÞÜš[	K	ŸIÏÜÜ[ƒÂöF—`4(4(€€€€ñÀøñÍÑÉ½¹œûš~—žr%¿©áiKúhüš</strong></p>
     <div class="code-block"><span class="cmd">vim-cmd</span> vmsvc/snapshot.get</div>
 
-    <p><strong>æŸ¥çœ‹ä»»åŠ¡çŠ¶æ€ï¼š</strong></p>
-    <div class="code-block"><span class="cmd">cat</span> /etc/rc.local.d/local.sh</div>
+    <p><strong9¦^yÈ¾K»¾Xªx«nhûÉ£Â÷7G&öæpð½Àø4(€€€€ñ‘¥Ø±…ÍÌô‰½‘”µ‰±½¬ˆøñÍÁ…¸±…ÍÌô‰µˆù…Ðð½ÍÁ…¸ø€½•ÑŒ½ÉŒ¹±½…°¹½±½…°¹Í ð½‘¥Ø
 
-    <p><strong>æŸ¥çœ‹å®šæ—¶ä»»åŠ¡ï¼š</strong></p>
-    <div class="code-block"><span class="cmd">cat</span> /var/spool/cron/crontabs/root</div>
-
-    <p><strong>æ‰‹åŠ¨åˆ é™¤å¿«ç…§ï¼š</strong></p>
-    <div class="code-block"><span class="cmd">vim-cmd</span> vmsvc/snapshot.remove <span class="var">VMID</span> <span class="var">SNAPSHOTID</span></div>
-
-    <div class="note">
-        <strong>æ³¨æ„</strong>ï¼šè„šæœ¬æ–‡ä»¶ï¼ˆå¦‚ <code>snapshot_creat.sh</code> å’Œ <code>snapshot_del.sh</code>ï¼‰éœ€è¦æ”¾åœ¨ <code>/vmfs/volumes</code> ç›®å½•ä¸‹ï¼Œå³è™šæ‹Ÿæœºçš„å­˜æ”¾ç›®å½•ã€‚å¯¹äºŽä¸éœ€è¦åˆ›å»ºå¿«ç…§çš„ä¸»æœºï¼Œåœ¨è™šæ‹Ÿæœºå¤‡æ³¨ï¼ˆVM Noteï¼‰ä¸­æ·»åŠ åŒ…å« <code>nosnap</code> çš„è¿‡æ»¤å…³é”®å­—ã€‚
+    <p><strong>æŸ¥çœ‰k¦¹¥í¹.îXªòhð½ÍÑÉ½¹œøð½Àø4(€€€€ñ‘¥Ø±…ÍÌô‰½‘”µ‰±½¬ˆøñÍÁ…¸±…ÍÌô‰µˆù…Ðð½ÍÁ…¸ /var/spool/cron/crontabs/root</divBƒBˆÝ›Û™Ï¹¢bXªŽXŠ™šN[úžŸ&ÜÝ›Û™ÏÜƒBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈÜ[ˆÛ\ÜÏH˜ÛYš[KXÛYÜÜ[ˆ›\Ý˜ËÜÛ˜\ÚÝœ™[[Ý™HÜ[ˆÛ\ÜÏH˜\ˆ…dÔ”CÂ÷7ãâÇ7â6Æ73Ò'f"!M9AM!=Q%ð½ÍÁ…¸øð½‘¥Øø4(4(€€€€ñ‘¥Ø±…ÍÌô‰¹½Ñ”ˆø4(€€€€€€€€ñÍÑÉ½¹œûšÎ£š<ð½ÍÑÉ½¹œû¼šè„šæœ¬æ–….í»ÈŽZh"Æ6öFSç6æ6†÷Eö7&VBç6ƒÂö6öFSâY(ÂÆ6öFSç6æ6†÷EöFVÂç6ƒÂö6öFSîûÈž™ÈŠhiKîYÊ‚Æ6öFP½Ùµ™Ì½Ù½±Õµ•Ìð½½‘”øƒžn»–öW’â/¾ò3–6Ï¢fkš.šrëžj–¶cšRç›®å½•ã€‚å®y.£¹.#zg :) yb&ùnî¹n¾xZ~y¨NK‹¾iË®ûÈÎYÊŽ‰™®h¹þiË®ZH~k:ŽûÈ…dÒæ÷F^ò'’â·šÞåŠ åŒ…å« <code>nosnap</code9æ¡:/ákºNX[&R»–¶S€‚
     </div>
 
-    <h4>è‡ªåŠ¨åˆ›å»ºå¿«ç…§è„šæœ¬ï¼ˆsnapshot_creat.shï¼‰</h4>
-    <div class="code-block"><span class="cmd">#!/bin/sh</span>
-# è‡ªåŠ¨åˆ›å»ºESXiå¿«ç…§
-
-<span class="cmd">for</span> i <span class="cmd">in</span> `vim-cmd vmsvc/getallvms | grep -v nosnap | awk <span class="str">'{print $1}'</span> | grep -e <span class="str">"[0-9]"</span>`
+    <h4>è‡ªåŠ¨åˆ™nî¹oêxZbkšr³¼ˆsnapshot_creat.shï¼‰</h4>
+    <div class="code-block"><span class="cmd">#!/bin/sh</spanBˆÈ:!ê¹bª9b&[»¤U5†ž[ú¾xZpÐ Ð£Ç7â6Æ73Ò&6ÖB!™½Èð½ÍÁ…¸ø¤€ñÍÁ…¸±…ÍÌô‰µˆù¥¸ð½ÍÁ…¸øÙ¥´µµÙµÍÙŒ½•Ñ…±±ÙµÌðÉ•À€µØ¹½Í¹…Àð…Ý¬€ñÍÁ…¸±…ÍÌô‰ÍÑÈˆøíÁÉ¥¹Ð€Åôœð½ÍÁ…¸ | grep -e <span class="str">"[0-9]"</span>`
 <span class="cmd">do</span>
-    vname=$(vim-cmd vmsvc/get.summary $i | grep name | awk <span class="str">'{print $3}'</span> | cut -d\" -f2)
-    vim-cmd vmsvc/snapshot.create $i $(date <span class="str">"+%F"</span>)
-    sleep 30s
-
-    <span class="cmd">if</span> [ $? -eq 0 ]; <span class="cmd">then</span>
-        <span class="cmd">echo</span> <span class="str">"$(date "+%F%T"): $vname snapshot create success.." >> ./schedule_snap.log</span>
-    <span class="cmd">else</span>
-        <span class="cmd">echo</span> <span class="str">"$(date "+%F%T"): $vname snapshot create FAILED.." >> ./schedule_snap.log</span>
-    <span class="cmd">fi</span>
-<span class="cmd">done</span></div>
-
-    <h4>åˆ é™¤è¿‡æœŸå¿«ç…§è„šæœ¬ï¼ˆsnapshot_del.shï¼‰</h4>
-    <div class="code-block"><span class="cmd">#!/bin/sh</span>
-<span class="cmd">DAY</span>=5 # ä¿ç•™å¤©æ•°
-
-<span class="cmd">for</span> i <span class="cmd">in</span> `vim-cmd vmsvc/getallvms | awk <span class="str">'{print $1}'</span> | grep -e <span class="str">"[0-9]"</span>`
-<span class="cmd">do</span>
-    <span class="cmd">SNAPSHOT_COUNT</span>=`vim-cmd vmsvc/snapshot.get $i | egrep -- <span class="str">'--|-CHILD|^|-ROOT'</span> | wc -l`
-    <span class="cmd">if</span> [ $SNAPSHOT_COUNT -gt $DAY ]; <span class="cmd">then</span>
-        <span class="cmd">DELETE_COUNT</span>=$((SNAPSHOT_COUNT-DAY))
+    vname=$(vim-cmd vmsvc/get.summary $i | grep name | awk <span class="str">'{print $3}'</spanÝ]YˆYŒŠCBˆš[KXÛY›\Ý˜ËÜÛ˜\ÚÝ˜Ü™X]H	H	
+]HÜ[ˆÛ\ÜÏHœÝˆˆŠÉQˆÜÜ[ŠCBˆÛY\ÌÃBƒBˆÜ[ˆÛ\ÜÏH˜ÛYšYÜÜ[ˆÈ	ÈY\HNÈÜ[ˆÛ\ÜÏH˜ÛY[ÜÜ[ƒBˆÜ[ˆÛ\ÜÏH˜ÛY™XÚÏÜÜ[ˆÜ[ˆÛ\ÜÏHœÝˆˆ‰
+]HŠÉQ‰UŠNˆ	›˜[YHÛ˜\ÚÝÜ™X]HÝXØÙ\ÜË‹ˆˆˆ‹ÜØÚY[WÜÛ˜\›ÙÏÜÜ[ƒBˆÜ[ˆÛ\ÜÏH˜ÛY™[ÙOÜÜ[ƒBˆÜ[ˆÛ\ÜÏH˜ÛY™XÚÏÜÜ[ˆÜ[ˆÛ\ÜÏHœÝˆˆ‰
+]HŠÉQ‰UŠNˆ	›˜[YHÛ˜\ÚÝÜ™X]HRSQ‹ˆˆââ÷66†VGVÆU÷6ææÆösÂ÷7ãàÐ¢Ç7â6Æ73Ò&6ÖB#æf“Â÷7ãàÐ£Ç7â6Æ73Ò&6ÖB!‘½¹”ð½ÍÁ…¸øð½‘¥Øø4(4(€€€€ñ Ðû–"ƒ¦f“¢þšr–þ¯žŸ¢kšr³¾ò!Í¹…ÁÍ¡½Ñ}‘•°¹Í£¾ò$ð½ Ðø4(€€€€ñ‘¥Ø±…ÍÌô‰½‘”µ‰±½¬ˆøñÍÁ…¸±…ÍÌô‰µˆøŒ„½‰¥¸½Í ð½ÍÁ…¸ø4(ñÍÁ…¸±…ÍÌô‰µˆùdð½ÍÁ…¸øôÔ€Œƒ’þwžVg–’§šVÀ4(4(ñÍÁ…¸±…ÍÌô‰µˆù™½Èð½ÍÁ…¸ i <span class="cmd"[ÜÜ[‚f–ÒÖ6ÖBf×7f2övWFÆÇf×2Âv²Ç7â6Æ73Ò'7G"#âw·&–çBCÒsÂ÷7àðÉ•À€µ”€ñÍÁ…¸±…ÍÌô‰ÍÑÈˆø‰lÀ´åtˆð½ÍÁ…¸ù€4(ñÍÁ…¸±…ÍÌô‰µˆù‘¼ð½ÍÁ…¸ø4(€€€€ñÍÁ…¸±…ÍÌô‰µˆùM9AM!=Q}=U9Pð½ÍÁ…¸øõÙ¥´µµÙµÍÙŒ½Í¹…ÁÍ¡½Ð¹•Ð€‘¤ð•É•À€´´€ñÍÁ…¸±…ÍÌô‰ÍÑÈˆøœ´µðµ!%1ñyðµI==Pœð½ÍÁ…¸øðÝŒ€µ±€4(€€€€ñÍÁ…¸±…ÍÌô‰µˆù¥˜ð½ÍÁ…¸øl€‘M9AM!=Q}=U9P€µÐ€‘dtì€ñÍÁ…¸±…ÍÌô‰µˆùÑ¡•¸ð½ÍÁ…¸ø4(€€€€€€€€ñÍÁ…¸±…ÍÌô‰µˆù1Q}=U9Pð½ÍÁ…¸=$((SNAPSHOT_COUNT-DAY))
         <span class="cmd">OLD_SNAPSHOT_ID</span>=`vim-cmd vmsvc/snapshot.get $i | grep Id | head -$DELETE_COUNT | awk -F: <span class="str">'{print $2}'</span>`
 
-        <span class="cmd">for</span> n <span class="cmd">in</span> $OLD_SNAPSHOT_ID
-        <span class="cmd">do</span>
-            vim-cmd vmsvc/snapshot.remove $i $n > /dev/null
-            sleep 30s
-        <span class="cmd">done</span>
-    <span class="cmd">fi</span>
-<span class="cmd">done</span></div>
-
-    <h4>æ·»åŠ å®šæ—¶ä»»åŠ¡</h4>
-    <p>åœ¨ ESXi ä¸»æœºçš„ crond ä»»åŠ¡é…ç½®æ–‡ä»¶ <code>/var/spool/cron/crontabs/root</code> ä¸­æ·»åŠ å¦‚ä¸‹å†…å®¹ã€‚æŽ¨èæ–¹å¼ï¼šç¼–è¾‘ <code>/etc/rc.local.d/local.sh</code>ï¼Œè®©ä¸»æœºåœ¨å¯åŠ¨æ—¶è‡ªåŠ¨å†™å…¥ crond ä»»åŠ¡ï¼š</p>
-    <div class="code-block">/bin/echo <span class="str">"01 1 * * * sh /vmfs/volumes/5a0eeb56-e924f565-353e-e04f430764dc/crontabs/snapshot_creat.sh"</span> >> /var/spool/cron/crontabs/root
-/bin/echo <span class="str">"30 1 * * * sh /vmfs/volumes/5a0eeb56-e924f565-353e-e04f430764dc/crontabs/snapshot_del.sh"</span> >> /var/spool/cron/crontabs/root
-<span class="cmd">kill</span> $(cat /var/run/crond.pid)
-<span class="cmd">crond</span></div>
-
-    <p>è®¾ç½®å®ŒæˆåŽï¼Œç³»ç»Ÿå°†æ¯å¤©è‡ªåŠ¨æ‰§è¡Œå¿«ç…§åˆ›å»ºä¸Žåˆ é™¤ä»»åŠ¡ï¼š</p>
-    <ul>
-        <li><strong>å‡Œæ™¨ 01:01</strong> â€” æ‰§è¡Œ <code>snapshot_creat.sh</code>ï¼Œä¸ºæ‰€æœ‰æœªæ ‡è®° <code>nosnap</code> çš„è™šæ‹Ÿæœºåˆ›å»ºå½“æ—¥å¿«ç…§</li>
-        <li><strong>å‡Œæ™¨ 01:30</strong> â€” æ‰§è¡Œ <code>snapshot_del.sh</code>ï¼Œè¶…è¿‡ä¿ç•™å¤©æ•°ï¼ˆé»˜è®¤ 5 å¤©ï¼‰çš„æ—§å¿«ç…§å°†è¢«è‡ªåŠ¨åˆ é™¤</li>
+        <span class="cmd"›ÜÜÜ[ˆˆÜ[ˆÛ\ÜÏH˜ÛYš[ÜÜ[ˆ	ÓÔÓTÒÕÒQBˆÜ[ˆÛ\ÜÏH˜ÛY™ÏÜÜ[ƒBˆš[KXÛY›\Ý˜ËÜÛ˜\ÚÝœ™[[Ý™H	H	ˆˆÙ]‹Û[BˆÛY\ÌÃBˆÜ[ˆÛ\ÜÏH˜ÛY™Û™OÜÜ[ƒBˆÜ[ˆÛ\ÜÏH˜ÛY™šOÜÜ[ƒBÜ[ˆÛ\ÜÏH˜ÛY†FöæSÂ÷7ããÂöF—càÐ Ð¢ÆƒCîk{¾XªZé®i{nK»¾XªÂöƒCàÐ¢ÇîYÊ‚U5†’K‹šrëžjÉ½¹ƒ’îï–*‡¦7žö»šZ’îØ€ñ½‘”/var/spool/cron/crontabs/root</code9.+y­îXªZh.Kˆ––ºçŽš:£¢6CšZç–ò?&¹ï%º)Æ6öFSâöWF2÷&2æÆö6ÂæBöÆö6Âç6ƒÂö6öFS¾ò3¢º§’âïšrë–r£–B¿–*£š^Û¢«–*£–g–”É½¹ƒ’îåŠ¡ï&ÜƒBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈ‹Øš[‹ÙXÚÈÜ[ˆÛ\ÜÏHœÝˆ‚#¢¢¢6‚÷fÖg2÷föÇVÖW2óVVV#SbÖS“#FcScRÓ3S6RÖSFcC3scFF2ö7&öçF'2÷6æ6†÷Eö7&VBç6‚#Â÷7à€ø /var/spool/cron/crontabs/root
+/bin/echo <span class="str"ŒÌH
+ˆ
+ˆ
+ˆÚÝ›YœËÝ›Û[Y\ËÍXLYXM‹YNLMKLÍLÙKYLÌÍËØÜ›ÛXœËÜÛ˜\ÚÝÙ[œÚÜÜ[ˆâ÷f"÷7ööÂö7&öâö7&öçF'2÷&ö÷@Ð£Ç7â6Æ73Ò&6ÖB!­¥±°ð½ÍÁ…¸ø€¡…Ð€½Ù…È½ÉÕ¸½É½¹¹Á¥¤4(ñÍÁ…¸±…ÍÌô‰µˆcrond</spanÙ]€Ð Ð¢ÇîŠëî{ÚîZèÎh‰YîûÈÎ{;¾{¹þ[njøþZJžˆz®XªŽhš~ŠÎ[ú¾xZ~X‰¾[»®KˆîXŠ™šNK»¾XªûÉ£Â÷ 4(€€€€ñÕ°ø4(€€€€€€€€ñ±¤<strong>å‡Œæ™¨ 01:01</strong> â€” æ‰¦(cÛÙOœÛ˜\ÚÝØÜ™X]œÚØÛÙO»ï#9..¹¢`9§"y§*¹¨!ú+¬ÛÙFæ÷6æÂö6öFSây¨N‰™®h¹þiË®X‰¾[»®[Ù>iz^[ú¾xZsÂöÆ“àÐ¢ÆÆñÍÑÉ½¹œû–3šf €ÀÄèÌÀð½ÍÑÉ½¹œøƒŠPƒš&˜¡Œ <code>snapshot_del.sh</code;ï#:-¡z,~KwžVg–’§šVÃ¾ò#¦îc¢º€Ôƒ–’§¾ò'žjš^Ÿ–ëç…§å°†è¢«è‡ªåŠ¨åˆ é™¤</li>
     </ul>
 
-    <h3 id="practical-vmware-password">7. VMware å¯†ç é—®é¢˜å¤„ç†</h3>
-
-    <h4>ä¸€ã€VCSA åŸŸå¯†ç å¿˜è®°</h4>
-
-    <p><strong>æ­¥éª¤ 1ï¼šè¿›å…¥ lwregshell å®šä½é”®å€¼</strong></p>
-    <div class="code-block"><span class="cmd">/opt/likewise/bin/lwregshell</span>
-<span class="cmd">cd</span> HKEY_THIS_MACHINE\Services\vmdir
-<span class="cmd">list_values</span></div>
-
-    <p><strong>æ­¥éª¤ 2ï¼šä½¿ç”¨ vdcadmintool èŽ·å–ä¸´æ—¶å¯†ç ï¼ˆ6.7 ä»Žè¿™é‡Œå¼€å§‹ï¼Œåˆ°æ­¥éª¤ 3 ç»“æŸï¼‰</strong></p>
+    <h3 id="practical-vmware-password">7. VMware å¡¹è zeëºh¦9i!9ä!ÚÏƒBƒBˆ¹. 8à UÔÐH9gçZønz[ùŽŠëÂöƒ@4(4(€€€€ñÀøñÍÑÉ½¹œûš¶—¦ª€Ç¾òk¢Ûå…¥ lwregshell å®šä½é”®å€¼</strongÜƒBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈÜ[ˆÛ\ÜÏH˜ÛY‹ÛÜÛZÙ]Ú\ÙKØš[‹ÛÜ™YÜÚ[ÜÜ[€Ð£Ç7â6Æ73Ò&6ÖB#æ6CÂ÷7ãâ„´U•õD„•5ôÔ4„”äUÅ6W'f–6W5ÇfÖF— Ð£Ç7â6Æ73Ò&6ÖB#æÆ—7E÷fÇVW3Â÷7ããÂöF—càÐ Ð¢Ç ñÍÑÉ½¹œûš¶—¦ª€Ë¼šä½½å*™ØYZ[ÛÛ:#­ùanK‹Ni{nZž‚¾ò Ø¸Üƒ’î;¢þg¦3–ò–ž/#9b,9«izj©È9îäiÙü‰</strong></p>
     <div class="code-block"><span class="cmd">/usr/lib/vmware-vmdir/bin/vdcadmintool</span></div>
 
-    <p>é€‰æ‹© <code>3</code> è¾“å…¥è´¦å·ï¼Œå·¥å…·å°†è¿”å›žä¸€ä¸ª"æ–°å¯†ç "ã€‚<strong>vCenter 6.7 åˆ°æ­¤æ­¥å³å¯</strong>ï¼ŒæŒ‰ <code>0</code> é€€å‡ºï¼Œç”¨èŽ·å–çš„æ–°å¯†ç ç™»å½•ç®¡ç†ç•Œé¢ã€‚</p>
+    <p>é€‰æ‹© <code>3</code> è¾“å…¥è´¦å·ï¼Œå·¥å…·å°†è¿”å›žä¸€ä¸ª"æ–°å¡¹è H¸à Ý›Û™Çd6VçFW"bãrX‹jÚNjÚ^XÛ>X¼ð½ÍÑÉ½¹œï¼ŒæŒ‰ <code>0</code:` 9aî»ÈÎyJŽˆëV>[žjšZÃ–¾ž‚žfå½•ç®¡ç†ç•Œé¢ã€‚</p>
 
-    <p><strong>æ­¥éª¤ 3ï¼šè®¾ç½®æ–°å¯†ç ï¼ˆ7.x åŠä»¥ä¸Šï¼‰</strong></p>
-    <div class="code-block"><span class="cmd">set_value</span> dcAccountPassword <span class="str">"æ–°å¯†ç "</span></div>
+    <p><strong9«izj©ûï&º+¯¹ïk¹¥¬9ká¹è {ï"Ëž9`®Kº^Kˆ®ûÈ“Â÷7G&öæpð½Àø4(€€€€ñ‘¥Ø±…ÍÌô‰½‘”µ‰±½¬ˆøñÍÁ…¸±…ÍÌô‰µˆùÍ•Ñ}Ù…±Õ”ð½ÍÁ…¸ø‘½Õ¹ÑA…ÍÍÝ½É€ñÍÁ…¸±…ÍÌô‰ÍÑÈˆ"æ–°å¯†ç "</spanÙ]€Ð Ð¢ÇãÇ7G&öæsîjÚ^šªBNûÉ®˜xÞY
+þh˜iÈžiÈÞXªÂ÷7G&öæpð½Àø4(€€€€ñ‘¥Ø±…ÍÌô‰½‘”µ‰±½¬ˆøñÍÁ…¸±…ÍÌô‰µˆùÍ•ÉÙ¥”µ½¹ÑÉ½°ð½ÍÁ…¸ø€´µÍÑ½À€´µ…±°4(ñÍÁ…¸±…ÍÌô‰µˆùÍ•ÉÙ¥”µ½¹ÑÉ½°ð½ÍÁ…¸ --start --all</div>
 
-    <p><strong>æ­¥éª¤ 4ï¼šé‡å¯æ‰€æœ‰æœåŠ¡</strong></p>
-    <div class="code-block"><span class="cmd">service-control</span> --stop --all
-<span class="cmd">service-control</span> --start --all</div>
+    <h4>äºŒã€ä¿®æ”¹ VCSA root å¯†ç æ°¸ä¸è¿…§'ÏÚ Ð¢ÆF—b6Æ73Ò&6öFRÖ&Æö6² ñÍÁ…¸±…ÍÌô‰µˆchage</spanSHLHQHLH›ÛÝBÜ[ˆÛ\ÜÏH˜ÛY˜ÚYÙOÜÜ[ˆ[›ÛÝÜ[ˆÛ\ÜÏH˜ÛÛ[Y[‚2iú^yÈ²&ö÷B‹Jnh‹~‹ø~iÉþKúhóÂ÷7àð½‘¥Ø
 
-    <h4>äºŒã€ä¿®æ”¹ VCSA root å¯†ç æ°¸ä¸è¿‡æœŸ</h4>
-    <div class="code-block"><span class="cmd">chage</span> -M -1 -E -1 root
-<span class="cmd">chage</span> -l root  <span class="comment"># æŸ¥çœ‹ root è´¦æˆ·è¿‡æœŸä¿¡æ¯</span></div>
-
-    <h4>ä¸‰ã€VCSA root å¯†ç å¿˜è®°æ¢å¤æ–¹æ³•</h4>
-
-    <ol>
-        <li>é‡å¯ VCSAï¼Œåœ¨ GRUB ç•Œé¢ç¼–è¾‘å¯åŠ¨å‘½ä»¤ï¼Œæ”¹ä¸º <code>rw init=/bin/bash</code></li>
-        <li>å¯åŠ¨åŽé€šè¿‡ <code>passwd</code> å‘½ä»¤ä¿®æ”¹ root å¯†ç </li>
-        <li>ä½¿ç”¨ <code>umount</code> å¸è½½æ–‡ä»¶ç³»ç»Ÿï¼Œç„¶åŽæ‰§è¡Œ <code>reboot</code> é‡å¯</li>
+    <h49."xà UÔÐH›ÛÝ9ká¹è yoæ:+¬9 h¹i#y¥®y¬åOÚ Ð Ð¢ÆöÀ4(€€€€€€€€ñ±¤û¦7–B¼YM¼Œåœ¨ GRUB ç•Œé¢ç¼–è¤yd+XªŽYÞKºNò3šRç’âè€ñ½‘”ùÉÜ¥¹¥Ðô½‰¥¸½‰…Í ð½½‘”øð½±¤ø4(€€€€€€€€ñ±¤å¯åŠ¨åŽé€šè±ÈÛÙOœ\ÜÝÙØÛÙOˆ9doy.é9.îiK’&ö÷BZž‚ð½±¤ø4(€€€€€€€€ñ±¤û’ö÷”¨ <code>umount</code9cn:/oy¥¡K»n{;žî#9á-¹d#¹¢iŠÂÆ6öFSç&V&ö÷CÂö6öFPƒ¦7–B¼ð½±¤
     </ol>
 
-    <h4>å››ã€ESXi å¯†ç å¿˜è®°é‡ç½®æ–¹æ³•</h4>
-
-    <h4>æ–¹å¼ä¸€ï¼šé€šè¿‡å®‰è£…ä»‹è´¨é‡ç½®ï¼ˆæŽ¨èï¼‰</h4>
-    <ol>
+    <h4>å››ã€ESXi å¯†ç å¿˜è®°é‡ç½®æ–¹æ³•</h4BƒBˆikž[ÈþKˆûÉ®˜	®‹–º'¢Ž’î/¢Ò£¦7žö»¾ò#š:£¢6C¾ò$ð½ Ðø4(€€€€ñ½°
         <li>ç”¨åŒç‰ˆæœ¬ ESXi å®‰è£…é•œåƒå¯åŠ¨ä¸»æœº</li>
-        <li>é€‰æ‹© <strong>å®‰è£…</strong> å¹¶ä¿ç•™çŽ°æœ‰é…ç½®</li>
+        <li:`"y¢êHÝ›Û™ÎZèžŠ8SÂ÷7G&öæpƒ–æÛ’þwžVgž:Ãšr'¦7žö¸ð½±¤
         <li>è®¾ç½®æ–°å¯†ç ï¼Œç­‰å¾…å®‰è£…å®Œæˆå³å¯</li>
-    </ol>
+    </olBƒBˆikž[ÈþK¨ÎûÉ®˜	®‹YMƒ’âïšrë¦7žö»šZ’îÛš&ç¦?¦7žö¸ð½ Ðø4(€€€€ñ½°
+        <li>å³é”®ç‚¹å‡»éœ€è¦é‡ç½®å¯†ç çš„ ESXi ä¸»æœº â†’ <strong9¡X[’âïšrë¦7žö»šZ’îØð½ÍÑÉ½¹œ</li>
+        <li>ç¼–è¤y£ä9cå¹aî¹æ¡:acyïk¹¥¡K»nò3–>[šÚ#š&šr'¦'¦†ç¼Œä»…åœ¨ã€Œå®‰å…¨å’ŒæœåŠ¡ â†’ ç”¨æˆ·ã€ä¸­å‹º`"HÛÙOœ›ÛÝØÛÙByJŽh‹|Œé…ç½®å›ºå®šå¯†ç å¹¶å¡©aiy¥¬9ká¹è OÛ@Ð¢ÆÆ“îXû>™Jîyºîj~K‹¾iË¢(i"Ç7G&öæs¦f–*ƒ’âïšrë¦7žö»šZ’îØð½ÍÑÉ½¹œ</li>
+        <li>æ£€æŸ¥é…ç½®æ–….í¹d":)á9 )ÏÛ@Ð¢ÆÆ“îXû>™Jâ(i"Ç7G&öæs’îå¤</strongÛOƒBˆÛÛƒBƒBˆ¹¥®yo#Kˆžòk¦k¢þ•¹Ñ=LƒšVGš4æ¨¡å¼æ‰‹åŠ¨ä»¹¥.OÚƒBˆ¹g*9¥dy£í9ª(yo#ÈÚ[9¡zK®zÊnûÈƒÆ6öFQÍ ´Ð¸ÈŒð½½‘”û¾ò'’â/š&Ÿ¢†3¾òhð½À
+    <div class="code-block"Ü[ˆÛ\ÜÏH˜ÛY†Ö¶F—#Â÷7à€½µ¹Ð½ÕÍˆ4(ñÍÁ…¸±…ÍÌô‰µˆùµ½Õ¹Ðð½ÍÁ…¸ø€½‘•Ø½Í‘„Ô€½µ¹Ð½ÕÍˆ4(ñÍÁ…¸±…ÍÌô‰µˆùÀð½ÍÁ…¸ø€½µ¹Ð½Í‘„Ô½ÍÑ…”¹Ñè€½ÑµÀ¼¸4(ñÍÁ…¸±…ÍÌô‰µˆùð½ÍÁ…¸ø€½ÑµÀ4(ñÍÁ…¸±…ÍÌô‰µˆùÑ…Èð½ÍÁ…¸ zxvf stage.tgz
+<span class="cmd">tar</spanž™ˆØØ[ÞƒBÜ[ˆÛ\ÜÏH˜ÛYšOÜÜ[ˆÙ]ËÜ\ÜÝÙBÜ[ˆÛ\ÜÏH˜ÛÛ[Y[ˆÈ9¢o¹b,9ìnKËÂ&ö÷C§ƒ®Zž‚èÄÈÈÌÈèäèäääääèÜƒžj¢†3¾ò3š*+’â·¦^Ó–*ƒ–¾žj‹–†ç "å­•«­y®!zfiÜÜ[ƒBÜ[ˆÛ\ÜÏH˜ÛYœ›OÜÜ[ˆ\™ˆÝYÙKÞˆØØ[ÞƒBÜ[ˆÛ\ÜÏH˜ÛY‡F#Â÷7ãâ§‡fbÆö6ÂçFw¢WF0Ð£Ç7â6Æ73Ò&6ÖB#çF#Â÷7ãâ§‡fb7FvRçFw¢Æö6ÂçFw Ð£Ç7â6Æ73Ò&6ÖB#æ7Â÷7ãâÆö6ÂçFw¢öÖçB÷W6"òàÐ£Ç7â6Æ73Ò&6ÖB#ç&V&ö÷CÂ÷7ããÂöF—càÐ Ð¢Çî‹ù–”Ma¤ƒžÎç»d#»ÈÎhÈ’Ç7G&öæsäc#Â÷7G&öæpƒ–6Å­g*ÕRH9åc:ghºaãy¥¬:+¯¹ïk¹¥¬9ká¹è xà ÜƒBƒBˆÈYHœ˜XÝXØ[]›]Ø\™K]\Ü˜YHŽˆ“]Ø\™H9âb9§+9caùî©ÏÚÏƒBƒBˆ¹. 8à QTÖH9..iË®XØ^êœð½ Ð
 
-    <h4>æ–¹å¼äºŒï¼šé€šè¿‡ VCSA ä¸»æœºé…ç½®æ–‡ä»¶æ‰¹é‡é‡ç½®</h4>
-    <ol>
-        <li>å³é”®ç‚¹å‡»éœ€è¦é‡ç½®å¯†ç çš„ ESXi ä¸»æœº â†’ <strong>æå–ä¸»æœºé…ç½®æ–‡ä»¶</strong></li>
-        <li>ç¼–è¾‘æå–å‡ºçš„é…ç½®æ–‡ä»¶ï¼Œå–æ¶ˆæ‰€æœ‰é€‰é¡¹ï¼Œä»…åœ¨ã€Œå®‰å…¨å’ŒæœåŠ¡ â†’ ç”¨æˆ·ã€ä¸­å‹¾é€‰ <code>root</code> ç”¨æˆ·ï¼Œé…ç½®å›ºå®šå¯†ç å¹¶å¡«å…¥æ–°å¯†ç </li>
-        <li>å³é”®ç›®æ ‡ä¸»æœº â†’ <strong>é™„åŠ ä¸»æœºé…ç½®æ–‡ä»¶</strong></li>
-        <li>æ£€æŸ¥é…ç½®æ–‡ä»¶åˆè§„æ€§</li>
-        <li>å³é”® â†’ <strong>ä¿®å¤</strong></li>
-    </ol>
+    <p><strong>æ­¥éª¤ 1ï¼šä¸‹è½½è¡¥ä¸åŒ…</strong8 %:+¯úeëˆH™YHšÎ‹ËÛ^K›]Ø\™K˜ÛÛKÙÜ›Ý\Ý›]Ø\™KÜ]ÚÜÙX\˜Úˆ\™Ù]H—Ø›[šÈ•“]Ø\™H:(iy. y."ú/ozhmOØOˆ:#­ùcå¹§ 9¥¬9æ¡:(iy. H’T;ï"\Ý;ï"y¥¡ù.í¸à Ü Ð Ð¢ÇãÇ7G&öæsîjÚ^šªB.ûÉ®i—žr/–öO–&7ž&#šr°ð½ÍÑÉ½¹œ</p>
+    <div class="code-block"><span class="cmd">vmware</span> -vl</divBƒBˆÝ›Û™Ï¹«izj©ûï&º-¾XZ^{»NhªNjŠ[ÈóÂ÷7G&öæpð½Àø4(€€€€ñ‘¥Ø±…ÍÌô‰½‘”µ‰±½¬ˆøñÍÁ…¸±…ÍÌô‰µˆùÙ¥´µµð½ÍÁ…¸ hostsvc/maintenance_mode_enter</div>
 
-    <h4>æ–¹å¼ä¸‰ï¼šé€šè¿‡ CentOS æ•‘æ´æ¨¡å¼æ‰‹åŠ¨ä¿®æ”¹</h4>
-    <p>åœ¨æ•‘æ´æ¨¡å¼ shell æç¤ºç¬¦ï¼ˆ<code>sh-4.2#</code>ï¼‰ä¸‹æ‰§è¡Œï¼š</p>
-    <div class="code-block"><span class="cmd">mkdir</span> /mnt/usb
-<span class="cmd">mount</span> /dev/sda5 /mnt/usb
-<span class="cmd">cp</span> /mnt/sda5/stage.tgz /tmp/.
-<span class="cmd">cd</span> /tmp
-<span class="cmd">tar</span> zxvf stage.tgz
-<span class="cmd">tar</span> zxvf local.tgz
-<span class="cmd">vi</span> /etc/passwd
-<span class="comment"># æ‰¾åˆ°ç±»ä¼¼ root:x:å¯†ç :12232:9:99999:7 çš„è¡Œï¼ŒæŠŠä¸­é—´åŠ å¯†çš„"å¯†ç "å­—æ®µæ¸…é™¤</span>
-<span class="cmd">rm</span> -rf stage.tgz local.tgz
-<span class="cmd">tar</span> zxvf local.tgz etc
-<span class="cmd">tar</span> zxvf stage.tgz local.tgz
-<span class="cmd">cp</span> local.tgz /mnt/usb/.
-<span class="cmd">reboot</span></div>
-
-    <p>è¿›å…¥ ESXi ç³»ç»ŸåŽï¼ŒæŒ‰ <strong>F2</strong> å³å¯åœ¨ DCUI ç•Œé¢é‡æ–°è®¾ç½®æ–°å¯†ç ã€‚</p>
-
-    <h3 id="practical-vmware-upgrade">8. VMware ç‰ˆæœ¬å‡çº§</h3>
-
-    <h4>ä¸€ã€ESXi ä¸»æœºå‡çº§</h4>
-
-    <p><strong>æ­¥éª¤ 1ï¼šä¸‹è½½è¡¥ä¸åŒ…</strong> â€” è®¿é—® <a href="https://my.vmware.com/group/vmware/patch#search" target="_blank">VMware è¡¥ä¸ä¸‹è½½é¡µ</a> èŽ·å–æœ€æ–°çš„è¡¥ä¸ ZIPï¼ˆdepotï¼‰æ–‡ä»¶ã€‚</p>
-
-    <p><strong>æ­¥éª¤ 2ï¼šæŸ¥çœ‹å½“å‰ç‰ˆæœ¬</strong></p>
-    <div class="code-block"><span class="cmd">vmware</span> -vl</div>
-
-    <p><strong>æ­¥éª¤ 3ï¼šè¿›å…¥ç»´æŠ¤æ¨¡å¼</strong></p>
-    <div class="code-block"><span class="cmd">vim-cmd</span> hostsvc/maintenance_mode_enter</div>
-
-    <p><strong>æ­¥éª¤ 4ï¼šæŸ¥çœ‹è¡¥ä¸åŒ…åŒ…å«çš„ç‰ˆæœ¬ Profile</strong></p>
-    <div class="code-block"><span class="cmd">esxcli</span> software sources profile list -d <span class="var">è¡¥ä¸åŒ…å®Œæ•´è·¯å¾„</span>
-
-<span class="comment"># ç¤ºä¾‹</span>
-<span class="cmd">esxcli</span> software sources profile list -d /vmfs/volumes/2F-5210-10T/update/VMware-ESXi-7.0U3v-24723872-depot.zip</div>
-
-    <p><strong>æ­¥éª¤ 5ï¼šæ‰§è¡Œå‡çº§</strong></p>
-    <div class="code-block"><span class="cmd">esxcli</span> software profile update -d <span class="var">è¡¥ä¸åŒ…å®Œæ•´è·¯å¾„</span> -p <span class="var">ç‰ˆæœ¬Profileå</span>
-
-<span class="comment"># ç¤ºä¾‹</span>
+    <pÝ›Û™Ï¹«izj©;É®iú^yÈ¢†—’â–2–2–B§š„ç‰ˆæœ¬ Profile</strongÜƒBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈÜ[ˆÛ\ÜÏH˜ÛY™\ÞÛOÜÜ[ˆÛÙØ\™HÛÝ\˜Ù\È›Ùš[H\ÝYÜ[ˆÛ\ÜÏH˜\ˆŽŠ^KˆXÈ^ZèÎi[N‹zþ[èCÂ÷7ãàÐ Ð£Ç7â6Æ73Ò&6öÖÖVçB Œƒž’ë’ú,ð½ÍÁ…¸
+<span class="cmd">esxcli</spanÛÙØ\™HÛÝ\˜Ù\È›Ùš[H\ÝYÝ›YœËÝ›Û[Y\ËÌ‘‹MLŒLLLÝ\]KÕ“]Ø\™KQTÖKMËŒLÝ‹LÌŒÎÌ‹Y\Ýžš\Ù]ƒBƒBˆÝ›Û™ÎjÚ^šªB^ûÉ®hš~ŠÎXØ~{ªsÂ÷7G&öæsãÂ÷ 4(€€€€ñ‘¥Ø±…ÍÌô‰½‘”µ‰±½¬ˆ<span class="cmd"\ÞÛOÜÜ[ˆÛÙØ\™H›Ùš[H\]HYÜ[ˆÛ\ÜÏH˜\ˆº(iy. yc!yk£9¥m:-ëùo¡ÜÜ[‚×Ç7â6Æ73Ò'f"#îx˜ŽiÊÅ&öf–Æ^YÓÂ÷7à4(4(ñÍÁ…¸±…ÍÌô‰½µµ•¹ÐˆøŒƒž’ë’‹</span>
 <span class="cmd">esxcli</span> software profile update -d /vmfs/volumes/2F-5210-10T/update/VMware-ESXi-7.0U3v-24723872-depot.zip -p <span class="str">ESXi-7.0U3v-24723872-standard</span></div>
 
-    <p><strong>æ­¥éª¤ 6ï¼šé‡å¯ä¸»æœº</strong></p>
-    <div class="code-block"><span class="cmd">reboot</span></div>
+    <p><strong9«izj©»ï&ºaãyd+ù..ù§.ÜÝ›Û™ÏÜ Ð¢ÆF—b6Æ73Ò&6öFRÖ&Æö6² ñÍÁ…¸±…ÍÌô‰µˆreboot</span></div>
 
-    <p><strong>æ­¥éª¤ 7ï¼šç¡®è®¤å‡çº§åŽçš„ç‰ˆæœ¬</strong></p>
-    <div class="code-block"><span class="cmd">vmware</span> -vl</div>
-
-    <p><strong>æ–¹å¼äºŒï¼šç›´æŽ¥æ›´æ–° VIBï¼ˆå¯é€‰ï¼‰</strong></p>
-    <div class="code-block"><span class="cmd">esxcli</span> software vib.update -d patch.zip</div>
-    <div class="info-box" style="background:#e8f0fe;border-color:#1a73e8;color:#1a73e8;font-size:13px;">æ­¤å‘½ä»¤é€‚ç”¨äºŽé€šè¿‡ ZIP æ–‡ä»¶ç›´æŽ¥æ›´æ–°å•ä¸ªæˆ–å°‘æ•° VIB çš„åœºæ™¯ï¼Œä¸é€‚ç”¨äºŽå®Œæ•´ç‰ˆæœ¬å‡çº§çš„ depot åŒ…ã€‚å®Œæ•´ç‰ˆæœ¬å‡çº§è¯·ä½¿ç”¨ä¸Šé¢çš„ <code>software profile update</code> æ–¹å¼ã€‚</div>
-
-    <h4>äºŒã€VCSAï¼ˆvCenter Server Applianceï¼‰å‡çº§</h4>
-
-    <p><strong>å‡†å¤‡å·¥ä½œ</strong>ï¼šé€šè¿‡ SSH + SFTP å°† ISO è¡¥ä¸é•œåƒä¸Šä¼ åˆ° VCSA ä¸»æœºï¼Œå¹¶æŒ‚è½½åˆ° CD-ROM é©±åŠ¨å™¨ã€‚</p>
-
-    <p><strong>æ­¥éª¤ 1ï¼šStaging é˜¶æ®µ â€” æš‚å­˜è¡¥ä¸å¹¶æŸ¥çœ‹åè®®</strong></p>
-    <div class="code-block"><span class="cmd">software-packages</span> stage --iso</div>
-
-    <p>æŸ¥çœ‹æš‚å­˜çš„å‡çº§åŒ…è¯¦æƒ…ï¼š</p>
-    <div class="code-block"><span class="cmd">software-packages</span> list --staged</div>
-
-    <p><strong>æ­¥éª¤ 2ï¼šæ‰§è¡Œå‡çº§</strong></p>
-    <div class="code-block"><span class="cmd">software-packages</span> install --staged</div>
-
-    <p><strong>æ­¥éª¤ 3ï¼šé‡å¯ VCSA</strong></p>
-    <div class="code-block"><span class="cmd">reboot</span></div>
-
-    <p><strong>æ­¥éª¤ 4ï¼šéªŒè¯å‡çº§åŽçš„ç‰ˆæœ¬</strong></p>
-    <div class="code-block"><span class="cmd">version.get</span></div>
-
-    <h2 id="faq">å…«ã€å¸¸è§é—®é¢˜ä¸Žé”™è¯¯å¤„ç†</h2>
-
-    <h3>A. å¸¸è§é—®é¢˜</h3>
-    <h4>1. ä¿å­˜çš„å¯†ç å­˜å‚¨åœ¨å“ªé‡Œï¼Ÿ</h4>
-    <p>å¯†ç ç» Base64 ç¼–ç åŽä¿å­˜åœ¨ <code>%APPDATA%\VMTool\credentials.json</code> æ–‡ä»¶ä¸­ã€‚é¦–æ¬¡è¾“å…¥å¯†ç åŽè‡ªåŠ¨ä¿å­˜ï¼ŒåŽç»­è¿žæŽ¥æ— éœ€é‡æ–°è¾“å…¥ã€‚å¯é€šè¿‡ä¸»é¡µ"é‡ç½®è®°å¿†"æŒ‰é’®æ¸…é™¤ã€‚</p>
+    <pÝ›Û™Ï¹«izj©òkž†»¢º“–6º¥d#¹æ¡9âb9§+ÜÝ›Û™ÏÜƒBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈÜ[ˆÛ\ÜÏH˜ÛY›]Ø\™OÜÜ[‚×fÃÂöF—càÐ Ð¢Ç ñÍÑÉ½¹œûšZç–ò?’ê3¾òkžnÓš:—šnÓšZÀY%¾ò#–/é€‰ï¼‰</strongÜƒBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈÜ[ˆÛ\ÜÏH˜ÛY™\ÞÛOÜÜ[ˆÛÙØ\™HšX‹\]HY]Úžš\Ù]ƒBˆ]ˆÛ\ÜÏHš[™›ËX›ÞˆÝ[OH˜˜XÚÙÜ›Ý[™ˆÙNŒ™NØ›Ü™\‹XÛÛÜŽˆÌXMÌÙNØÛÛÜŽˆÌXMÌÙNÙ›Û\Ú^™NŒLÜÈŽjÚNYÞKºN˜.yJŽK¨î˜	®‹i%@ƒšZ’îÛžnÓš:—šnÓšZÃ–6W’â«š"[–ÂGšVÀY%ƒžj–rëšf¿#9.#z` ¹å*9.£¹k£9¥m9âb9§+9ca{ª^j‘•Á½Ðƒ–2Ž–º3šVÓž&#šr³–6žêŸ¢¾ß’öÿžR£’â+¦v‹žj€ñ½‘”software profile update</code9¥®yo#8#ÂöF—càÐ Ð¢ÆƒCîK¨Î8d54ûÈ‡d6VçFW"6W'fW"Æ–æ6^ûÈžXØ~{ªsÂöƒCàÐ Ð¢Ç ñÍÑÉ½¹œû––’–Þ—’öpð½ÍÑÉ½¹œû¾òk¦k¢þMM €¬MQ@ƒ–Â%M<ƒ¢†—’â¦Vs–4¸Šä¼ åˆ° VCSA ä¸¹§.»ÈÎ[›nhÈ.‹ÛÞX‹4BÕ$ôÒš›XªŽYšŽ8#Â÷àÐ Ð¢Ç ñÍÑÉ½¹œûš¶—¦ª€Ç¼šStaging é˜¶æ®µ â€” æš‚å­˜è¡¥ä¸å¹¶æŸ¥çœ‹åè®®</strong></pBˆ]ˆÛ\ÜÏH˜ÛÙKX›ØÚÈƒÇ7â6Æ73Ò&6ÖB!Í½™ÑÝ…É”µÁ…­…•Ìð½ÍÁ…¸ stage --iso</divBƒBˆ¹§éyç"ù¦ ¹kf9æ¡9caùî©ùc!z+é¹ á{ï&Ü Ð¢ÆF—b6Æ73Ò&6öFRÖ&Æö6² ñÍÁ…¸±…ÍÌô‰µˆsoftware-packages</span\ÝK\ÝYÙYÙ]ƒBƒBˆÝ›Û™ÎjÚ^šªB.ûÉ®hš~ŠÎXØ~{ªsÂ÷7G&öæsãÂ÷ 4(€€€€ñ‘¥Ø±…ÍÌô‰½‘”µ‰±½¬ˆ<span class="cmd"ÛÙØ\™K\XÚØYÙ\ÏÜÜ[‚–ç7FÆÂÒ×7FvVCÂöF—càÐ Ð¢ÇãÇ7G&öæsš¶—¦ª€Ï¾òk¦7–B¼YMð½ÍÑÉ½¹œøð½Àø4(€€€€ñ‘¥Ø±…ÍÌô‰½‘”µ‰±½¬ˆøñÍÁ…¸±…ÍÌô‰µˆùÉ•‰½½Ðð½ÍÁ…¸</divBƒBˆÝ›Û™Ï¹«izj©;ï&ºj£:(XØ~{ª~Yîy¨Nx˜ŽiÊÃÂ÷7G&öæpð½Àø4(€€€€ñ‘¥Ø±…ÍÌô‰½‘”µ‰±½¬ˆøñÍÁ…¸±…ÍÌô‰µˆùÙ•ÉÍ¥½¸¹•Ðð½ÍÁ…¸øð½‘¥Øø4(4(€€€€ñ È¥ô‰™…Äˆû–£€å¸¸è§é—®é¢˜ä¸Žé”™è¯­i!9ä!Ú€Ð Ð¢Æƒ1¸ƒ–âã¢ž¦^»¦Š`ð½ Ìø4(€€€€ñ Ð1. ä·ykf9æ¡9hnzZÙŽX*ŽYÊŽY:®˜xÎûÉóÂöƒCàÐ¢ÇîZønz{¸ò&6ScB{ÉnzYîKùÞZÙŽYÊ‚Æ6öFSâTDDUÅdÕFööÅÆ7&VFVçF–Ç2æ§6öãÂö6öFPƒšZ»¶ä¸­ã€‚é¦–æ¬¡è¤XZ^ZønzYîˆz®XªŽKùÞZÙŽò3–B;žî·¢þ{š:—š^ƒ¦r¦7šZÃ¢‘aixà ¹cë˜	®‹øRâé¡µ"é‡ç½®è®°å¿†"æŒ‰é’®æ¸…é™¤ã€‚</p>
     <h4>2. éƒ¨ç½²åŽ IP åœ°å€æœªç”Ÿæ•ˆæ€Žä¹ˆåŠžï¼Ÿ</h4>
-    <p>æ£€æŸ¥è™šæ‹Ÿæœºæ¨¡æ¿çš„ Guest OS ç±»åž‹æ˜¯å¦å—å½“å‰ ESXi ç‰ˆæœ¬æ”¯æŒï¼ŒLinux éœ€å®‰è£… cloud-initï¼ŒWindows éœ€ç¡®ä¿æ¨¡æ¿ç³»ç»Ÿçš„ç®¡ç†å‘˜å¯†ç æ­£ç¡®ã€‚</p>
-    <h4>3. å¦‚ä½•æ‰“å¼€è™šæ‹Ÿæœºçš„è¿œç¨‹æŽ§åˆ¶å°ï¼Ÿ</h4>
-    <p>åœ¨è™šæ‹Ÿæœºåˆ—è¡¨ä¸­åŒå‡»æŸå°è™šæ‹Ÿæœºæ‰“å¼€è¯¦æƒ…é¡µï¼Œç‚¹å‡»é¡¶éƒ¨"æ‰“å¼€ VMRC"æŒ‰é’®ã€‚éœ€æå‰å®‰è£… VMware Remote Console å®¢æˆ·ç«¯ã€‚</p>
-    <h4>4. ä¼šè¯å¤±æ•ˆåŽå¦‚ä½•å¤„ç†ï¼Ÿ</h4>
-    <p>ç¨‹åºå†…ç½®å¿ƒè·³ä¿æ´»æœºåˆ¶ï¼Œä¼šè¯æ–­å¼€åŽä¼šè‡ªåŠ¨å°è¯•é™é»˜é‡è¿žã€‚è‹¥è‡ªåŠ¨é‡è¿žå¤±è´¥ï¼Œä¼šå¼¹çª—æç¤ºæ‰‹åŠ¨é‡è¿žã€‚ä¹Ÿå¯é€šè¿‡ä¸»é¡µ"æ–­å¼€è¿žæŽ¥"åŽé‡æ–°è¿žæŽ¥ã€‚</p>
+    <p>æ£€æŸ¥è™šæ‹Ÿæœºæ¨¡æ¿çš„ Guest OS ç±»åž‹æ˜¯å¦å…ùodùbcHTÖH9âb9§+9¥+ù£ {ï#[^:g 9k¢z(áHÛÝYZ[š];ï#Ú[™ÝÜÈ:g 9èk¹/çyª(y§o{;žîwš„ç®¡ç†å‘˜å¯†ç æ­¡èk¸à ÜƒBˆ2âZh.KÙ^h™>[È‰™®h¹þiË®y¨N‹sž¢/š:Ÿ–"Û–0ï¼Ÿ</h4>
+    <p>åœ¨è™šæ‹Ÿæœºåˆ—è¡¨ä¸­åŒå‡»æŸå°è™šæ‹Ÿæœºæ‰“å¼€è¯¦æƒ…é¡µï¼Œç‚¹å‡»é¡¶éƒ¨"æ‰“å¼€ VMRC"æŒ‰é’®ã€‚éœ€æ„9bcyk¢z(áH“]Ø\™H™[[ÝHÛÛœÛÛH9k¨¹¢-ùêëøà Ü Ð¢ÆƒCãBâKÉ®ŠùÞZKiXŽYîZh.KÙ^ZHNynò|ð½ Ð
+    <p9ê"ùn£ùa¡yïk¹l>‹{>KwšÒïšrë–"Û¾ò3’òk¢æ–­å¼€åŽä¼šè‡ªåŠ¨å°è¥zgfznæ:aãz-î8.ˆº^ˆz®XªŽ˜xÞ‹{–’Ç¢Ò—¾ò3’òk–òçžª_šç¤ºæ‰‹åŠ¨é‡è·¸à ¹.gùbþ˜	®‹’âï¦†Ô‹šZ·–ò¢þ{š:”‹–B;¦7šZÃ¢þ{š:—Žð½À
 
-    <h3>B. å¸¸è§é”™è¯¯å¤„ç†</h3>
-    <h4>1. PowerCLI å‘½ä»¤æ— æ³•è¯†åˆ«</h4>
-    <div class="error-box">Set-PowerCLIConfiguration : æ— æ³•å°†"Set-PowerCLIConfiguration"é¡¹è¯†åˆ«ä¸º cmdletã€å‡½æ•°ã€è„šæœ¬æ–‡ä»¶æˆ–å¯è¿è¡Œç¨‹åºçš„åç§°ã€‚</div>
-    <p><strong>è§£å†³æ–¹æ³•</strong>ï¼šæŒ‰"çŽ¯å¢ƒå‡†å¤‡"ä¸­çš„æ­¥éª¤å®‰è£… PowerCLIã€‚</p>
+    <h3‹ˆ9n.:)àze&z*þZHNycÂöƒ3àÐ¢Æƒ@Ä¸A½Ý•É1$ƒ–F÷’î“š^ƒšÎW¢†åˆ«</h4>
+    <div class="error-box">Set-PowerCLIConfiguration : æ— æ³•å°†"Set-PowerCLIConfiguration"é¡¹è¯†åˆ«ä¸º cmdletã€å‡½æ•°ã€è„šæœ¬æ–‡ä»¶æˆ–å‹ú-ŠÎzˆ¾[¨þy¨NYÞz{8#ÂöF—`4(€€€€ñÀ<strong>è§£å†³æ–¹æ³•</strong>ï¼šæŒ‰"çŽ¯å¢ƒå‡†å¤‡"ä¸­çš„æ­¥éª¤å®‰è£… PowerCLIã€‚</p>
 
     <h4>2. è¿žæŽ¥ vCenter / ESXi å¤±è´¥</h4>
     <div class="error-box">Connect-VIServer : æ— æ³•è¿žæŽ¥åˆ°æœåŠ¡å™¨</div>
-    <p><strong>è§£å†³æ–¹æ³•</strong>ï¼šç¡®è®¤æœåŠ¡å™¨åœ°å€æ­£ç¡®ä¸” 443 ç«¯å£ç½‘ç»œå¯è¾¾ã€ç”¨æˆ·åå¯†ç æ­£ç¡®ã€è¯ä¹¦çŠ¶æ€æ­£å¸¸ã€‚<br>
-    <em>vCenter</em>ï¼šç¡®è®¤ç”¨æˆ·åŸŸå¡«å†™æ­£ç¡®ï¼ˆå¦‚ <code>vsphere.local</code>ï¼‰ï¼Œç”¨æˆ·ååº”ä¸ºåŸŸç”¨æˆ·æ ¼å¼ï¼ˆå¦‚ <code>administrator</code>ï¼‰ã€‚<br>
-    <em>ESXi ç›´è¿ž</em>ï¼šç”¨æˆ·åŸŸç•™ç©ºï¼Œç”¨æˆ·åä½¿ç”¨ <code>root</code>ï¼Œç¨‹åºä¼šè‡ªåŠ¨æ·»åŠ  <code>-Force</code> å‚æ•°è¿žæŽ¥ã€‚</p>
+    <p><strong>è§¡a¬ikžk9SÂ÷7G&öæsîòkž†»¢º“šr7–*‡–f£–rÃ–vš¶‡¡®ä¸” 443 ç«¯åˆùïdyîç9bþ‹ëŽžR£š"ß–B7–†ç æ­£ç¡®ã€è y.i¹â­¹  y«hùn.8à œƒBˆ[OÙ[\Ù[O»ï&¹èkº+©9å*9¢-ùgçùhjùa¦y«hùèk»ï"9i ˆÛÙGg7†W&RæÆö6ÃÂö6öFSîûÈžûÈÎyJŽh‹~YÞ[©NK‹®YùþyJŽh‹~jÎ[ÈþûÈŽZh"Æ6öFQ…‘µ¥¹¥ÍÑÉ…Ñ½Èð½½‘”û¾ò'Žñ‰È
+    <em>ESXi ç›´è·Ù[O»ï&¹å*9¢-ùgçùåfyên»ï#9å*9¢-ùd#y/oùå*ÛÙG&ö÷CÂö6öFSîûÈÎzˆ¾[¨þKÉ®ˆz®XªŽk{¾XªÆ6öFPµ½É”ð½½‘”øƒ–>šVÃ¢þ{š:—Žð½À
 
-    <h4>3. éƒ¨ç½²è™šæ‹Ÿæœºå¤±è´¥ - æ‰¾ä¸åˆ°æ¨¡æ¿/ç½‘ç»œ/å­˜å‚¨</h4>
-    <div class="error-box">New-VM : æ‰¾ä¸åˆ°æ¨¡æ¿ / ç½‘ç»œä¸å­˜åœ¨ / å­˜å‚¨ä¸å¯ç”¨</div>
-    <p><strong>è§£å†³æ–¹æ³•</strong>ï¼šç¡®è®¤ CSV ä¸­çš„èµ„æºåç§°ä¸Žå½“å‰è¿žæŽ¥çš„æœåŠ¡å™¨ï¼ˆvCenter / ESXiï¼‰ä¸­å®Œå…¨ä¸€è‡´ï¼ˆåŒºåˆ†å¤§å°å†™ï¼‰ã€‚å¯ä½¿ç”¨"åˆ·æ–°ç¼“å­˜"åŽé€šè¿‡èµ„æºåˆ—è¡¨æŸ¥çœ‹æ­£ç¡®çš„åç§°ã€‚</p>
+    <h4Ëˆ:`ê9ïlº&f¹¢çù§.¹i,z-)HH9¢nKˆÞX‹jŠiÛòÞöGžîp¿–¶c–
+ ð½ Ðø4(€€€€ñ‘¥Ø±…ÍÌô‰•ÉÉ½Èµ‰½àˆNew-VM : æ‰¹.#yb,9ª(y§oÈÈ9ïdyîç9.#ykf9g*È9kf9`ª9.#ybþyJƒÂöF—`4(€€€€ñÀ<strong>è§£å†³æ–¹æ³•</strong>ï¼šç¡®è®¤ CSV ä¸­çš„èµ„æºåç§°ä¸Žå½‘bcz/ç¹£©yæ¡9§#yb¨yfj;È‡d6VçFW"òU5†žûÈžKŠÞZèÎXZŽKˆˆ{NûÈŽXË®XˆnZJ~[þXižûÈž8.X¿’öÿžR ‹–"Ö–°ç¼‘kf¹d#º`&º/áú-a9®¤9b%ú(j9§éyç"ù«hùèk¹æ¡9d#yéì8à Ü Ð Ð¢Æƒ@Ð¸ƒ¢ÖšêC’â7¢ÚÌð½ Ðø4(€€€€ñÀøñÍÑÉ½¹œû¢ž…†±¥®y¬åOÜÝ›Û™Ï»É®˜žhºžX[nK¹niÈž‹k’xµ„æºçš„ä¸¹§.¹¢%¹kf9`ª8à ÜƒBƒBˆKˆÔÕˆ9¥¡ù.í¹ï%¹è zeëºh¦ÚƒBˆÝ›Û™Ïº)èXkZçšÎTð½ÍÑÉ½¹œû¼šç”¨ Excel æˆ– VS Code é‡æ–°ä¿å­˜ä¸º UTF-8 BOM ç¼–ç ã€‚</p>
 
-    <h4>4. èµ„æºä¸è¶³</h4>
-    <p><strong>è§£å†³æ–¹æ³•</strong>ï¼šé€‰æ‹©å…¶ä»–æœ‰è¶³å¤Ÿèµ„æºçš„ä¸»æœºæˆ–å­˜å‚¨ã€‚</p>
-
-    <h4>5. CSV æ–‡ä»¶ç¼–ç é—®é¢˜</h4>
-    <p><strong>è§£å†³æ–¹æ³•</strong>ï¼šç”¨ Excel æˆ– VS Code é‡æ–°ä¿å­˜ä¸º UTF-8 BOM ç¼–ç ã€‚</p>
-
-    <h4>6. VMRC æŽ§åˆ¶å°æ— æ³•å¯åŠ¨</h4>
-    <div class="error-box">æœªæ£€æµ‹åˆ° VMware Remote Console</div>
-    <p><strong>è§£å†³æ–¹æ³•</strong>ï¼šä¸‹è½½å¹¶å®‰è£… VMware Remote Console å®¢æˆ·ç«¯ã€‚ç¡®ä¿å®¢æˆ·ç«¯å‡ºç«™ 443 å’Œ 902 ç«¯å£æ”¾è¡Œã€‚</p>
-
-    <div class="footer">
-        <p>å¦‚æœ‰é—®é¢˜æˆ–å»ºè®®ï¼Œæ¬¢è¿Žåé¦ˆã€‚</p>
-        <p>VmOps &mdash; è™šæ‹ŸåŒ–è¿ç»´æ‰¹é‡éƒ¨ç½²å·¥å…· &nbsp;<span class="version-badge">v__APP_VERSION__</span></p>
-        <p class="footer-contact">å¼€å‘è€…ï¼šXuGuihong &nbsp;|&nbsp; é‚®ç®±ï¼š<a href="mailto:hack003@163.com">hack003@163.com</a></p>
-    </div>
-</div>
-    <script>
-        (function() {
-            var items = document.querySelectorAll('.toc-sidebar .has-children > a');
-            for (var i = 0; i < items.length; i++) {
-                items[i].addEventListener('click', function(e) {
-                    e.preventDefault();
-                    this.parentElement.classList.toggle('open');
-                });
-            }
-
-            var subLinks = document.querySelectorAll('.toc-sidebar .children a');
-            for (var j = 0; j < subLinks.length; j++) {
-                subLinks[j].addEventListener('click', function() {
-                    var kids = this.closest('.children');
-                    if (kids) {
-                        var siblings = kids.querySelectorAll('.sub.active');
-                        for (var k = 0; k < siblings.length; k++) siblings[k].classList.remove('active');
-                        this.parentElement.classList.add('active');
-                    }
-                });
-            }
-
-            var hash = window.location.hash;
-            if (hash) {
-                var openLink = document.querySelector('.toc-sidebar a[href="' + hash + '"]');
-                if (openLink) {
-                    var parent = openLink.closest('.has-children');
-                    if (parent) parent.classList.add('open');
-                    if (openLink.parentElement.classList.contains('sub'))
-                        openLink.parentElement.classList.add('active');
-                }
-            }
-        })();
-    </script>
-    <script>
-        (function() {
-            var blocks = document.querySelectorAll('.code-block');
-            for (var i = 0; i < blocks.length; i++) {
-                if (blocks[i].closest('.script-wrapper')) continue;
-                if (blocks[i].querySelector('.copy-btn')) continue;
-                var btn = document.createElement('button');
-                btn.className = 'copy-btn';
-                btn.textContent = 'ðŸ“‹ å¤åˆ¶ä»£ç ';
-                btn.onclick = function() { copyScript(this); };
-                blocks[i].appendChild(btn);
-            }
-        })();
-        function copyScript(btn) {
-            var text = '';
-            var wrapper = btn.closest('.script-wrapper');
-            if (wrapper) {
-                var scriptEl = wrapper.querySelector('script[type="text/plain"]');
-                if (scriptEl) {
-                    text = scriptEl.textContent;
-                } else {
-                    var wb = wrapper.querySelector('.code-block');
-                    var wbClone = wb.cloneNode(true);
-                    var wbBtn = wbClone.querySelector('.copy-btn, .script-actions');
-                    if (wbBtn) wbBtn.remove();
-                    text = wbClone.innerText.replace(/\s+$/, '');
-                }
-            } else {
-                var block = btn.closest('.code-block');
-                if (block) {
-                    var clone = block.cloneNode(true);
-                    var extra = clone.querySelector('.copy-btn, .script-actions');
-                    if (extra) extra.remove();
-                    text = clone.innerText.replace(/\s+$/, '');
-                }
-            }
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text).then(function() {
-                    markCopied(btn);
-                }, function() {
-                    fallbackCopy(text, btn);
-                });
-            } else {
-                fallbackCopy(text, btn);
-            }
-        }
-        function fallbackCopy(text, btn) {
-            var ta = document.createElement('textarea');
-            ta.value = text;
-            ta.style.position = 'fixed';
-            ta.style.left = '-9999px';
-            document.body.appendChild(ta);
-            ta.select();
-            try { document.execCommand('copy'); markCopied(btn); }
-            catch(e) { alert('å¤åˆ¶å¤±è´¥ï¼Œè¯·æ‰‹åŠ¨é€‰æ‹©ä»£ç å—å¤åˆ¶'); }
+    <h4>6. VMRC æŽ¥b-¹cì9¥è9¬åyd+XªƒÂöƒ@4(€€€€ñ‘¥Ø±…ÍÌô‰•ÉÉ½Èµ‰½àˆûšr«šŽšÖ/–"ÀY5Ý…É”I•µ½Ñ”½¹Í½±”ð½‘¥Ø
+    <pÝ›Û™Ïº)èùa¬ù¥®y¬åOÜÝ›Û™Ï»ï&¹."ú/oynm¹k¢z(áH“]Ø\™H™[[ÝHÛÛœÛÛH9k¨¹¢-zºÎž†»’þw–º‹š"×«­aî¹êæHÈ9d£Lˆ9êëùcèù¥/º(c8à Ü Ð Ð¢ÆF—b6Æ73Ò&fö÷FW"#àÐ¢ÇîZh.iÈž™zîš)Žh‰n[»®ŠêîûÈÎjÊ.‹øîXøÞšhŽ8#Â÷ 4(€€€€€€€€ñÀùYµ=ÁÌ€™µ‘…Í ìƒ¢fkš.–2[¢Ðç»´æ‰¹é‡éƒ¨ç½²å·¥å…· &nbsp;<span class="version-badge">v__APP_VERSION__</span></p>
+        <p class="footer-contact">å¼€å‘è€…ï¼šXuGuihong &nbsp;|&nbsp; é‚®ç®±ï¼š<a href="mailto:hack003@163.com">hack003@163.com</aÜƒBˆÙ]ƒBÙ]€Ð¢Ç67&—CàÐ¢†gVæ7F–öâ‚’°Ð¢f"—FV×2ÒFö7VÖVçBçVW'•6VÆV7F÷$ÆÂ‚rçFö2×6–FV&"æ†2Ö6†–ÆG&Vââr“°Ð¢f÷"‡f"’Ò²’Â—FV×2æÆVæwFƒ²’²²’°Ð¢—FV×5¶•ÒæFDWfVçDÆ—7FVæW"‚v6Æ–6²rÂgVæ7F–öâ†R’°Ð¢Rç&WfVçDFVfVÇB‚“°Ð¢F†—2ç&VçDVÆVÖVçBæ6Æ74Æ—7BçFövvÆR‚v÷Vâr“°Ð¢Ò“°Ð¢ÐÐ Ð¢f"7V$Æ–æ·2ÒFö7VÖVçBçVW'•6VÆV7F÷$ÆÂ‚rçFö2×6–FV&"æ6†–ÆG&Vâr“°Ð¢f÷"‡f"¢Ò²¢Â7V$Æ–æ·2æÆVæwFƒ²¢²²’°Ð¢7V$Æ–æ·5¶¥ÒæFDWfVçDÆ—7FVæW"‚v6Æ–6²rÂgVæ7F–öâ‚’°Ð¢f"¶–G2ÒF†—2æ6Æ÷6W7B‚ræ6†–ÆG&Vâr“°Ð¢–b†¶–G2’°Ð¢f"6–&Æ–æw2Ò¶–G2çVW'•6VÆV7F÷$ÆÂ‚rç7V"æ7F—fRr“°Ð¢f÷"‡f"²Ò²²Â6–&Æ–æw2æÆVæwFƒ²²²²’6–&Æ–æw5¶µÒæ6Æ74Æ—7Bç&VÖ÷fR‚v7F—fRr“°Ð¢F†—2ç&VçDVÆVÖVçBæ6Æ74Æ—7BæFB‚v7F—fRr“°Ð¢ÐÐ¢Ò“°Ð¢ÐÐ Ð¢f"†6‚Òv–æF÷ræÆö6F–öâæ†6ƒ°Ð¢–b††6‚’°Ð¢f"÷VäÆ–æ²ÒFö7VÖVçBçVW'•6VÆV7F÷"‚rçFö2×6–FV&"¶‡&VcÒ"r²†6‚²r%Òr“°Ð¢–b†÷VäÆ–æ²’°Ð¢f"&VçBÒ÷VäÆ–æ²æ6Æ÷6W7B‚ræ†2Ö6†–ÆG&Vâr“°Ð¢–b‡&VçB’&VçBæ6Æ74Æ—7BæFB‚v÷Vâr“°Ð¢–b†÷VäÆ–æ²ç&VçDVÆVÖVçBæ6Æ74Æ—7Bæ6öçF–ç2‚w7V"r’Ð¢÷VäÆ–æ²ç&VçDVÆVÖVçBæ6Æ74Æ—7BæFB‚v7F—fRr“°Ð¢ÐÐ¢ÐÐ¢Ò’‚“°Ð¢Â÷67&—CàÐ¢Ç67&—@4(€€€€€€€€¡™Õ¹Ñ¥½¸ ¤ì4(€€€€€€€€€€€Ù…È‰±½­Ì€ô‘½Õµ•¹Ð¹ÅÕ•ÉåM•±•Ñ½É±° œ¹½‘”µ‰±½¬œ¤ì4(€€€€€€€€€€€™½È€¡Ù…È¤€ô€Àì¤€ð‰±½­Ì¹±•¹Ñ ì¤¬¬¤ì4(€€€€€€€€€€€€€€€¥˜€¡‰±½­Ím¥t¹±½Í•ÍÐ œ¹ÍÉ¥ÁÐµÝÉ…ÁÁ•Èœ¤¤½¹Ñ¥¹Õ”ì4(€€€€€€€€€€€€€€€¥˜€¡‰±½­Ím¥t¹ÅÕ•ÉåM•±•Ñ½È œ¹½Áäµ‰Ñ¸œ¤¤½¹Ñ¥¹Õ”ì4(€€€€€€€€€€€€€€€Ù…È‰Ñ¸€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰ÕÑÑ½¸œ¤ì4(€€€€€€€€€€€€€€€‰Ñ¸¹±…ÍÍ9…µ”€ô€½Áäµ‰Ñ¸œì4(€€€€€€€€€€€€€€€‰Ñ¸¹Ñ•áÑ½¹Ñ•¹Ð€ô€ŸÂ~N,ƒ–’7–"Û’îž‚œì4(€€€€€€€€€€€€€€€‰Ñ¸¹½¹±¥¬€ô™Õ¹Ñ¥½¸ ¤ì½ÁåMÉ¥ÁÐ¡Ñ¡¥Ì¤ìôì4(€€€€€€€€€€€€€€€‰±½­Ím¥t¹…ÁÁ•¹‘¡¥±¡‰Ñ¸¤ì4(€€€€€€€€€€€ô4(€€€€€€€ô¤ ¤ì4(€€€€€€€™Õ¹Ñ¥½¸½ÁåMÉ¥ÁÐ¡‰Ñ¸¤ì4(€€€€€€€€€€€Ù…ÈÑ•áÐ€ô€œœì4(€€€€€€€€€€€Ù…ÈÝÉ…ÁÁ•È€ô‰Ñ¸¹±½Í•ÍÐ œ¹ÍÉ¥ÁÐµÝÉ…ÁÁ•Èœ¤ì4(€€€€€€€€€€€¥˜€¡ÝÉ…ÁÁ•È¤ì4(€€€€€€€€€€€€€€€Ù…ÈÍÉ¥ÁÑ°€ôÝÉ…ÁÁ•È¹ÅÕ•ÉåM•±•Ñ½È ÍÉ¥ÁÑmÑåÁ”ô‰Ñ•áÐ½Á±…¥¸‰tœ¤ì4(€€€€€€€€€€€€€€€¥˜€¡ÍÉ¥ÁÑ°¤ì4(€€€€€€€€€€€€€€€€€€€Ñ•áÐ€ôÍÉ¥ÁÑ°¹Ñ•áÑ½¹Ñ•¹Ðì4(€€€€€€€€€€€€€€€ô•±Í”ì4(€€€€€€€€€€€€€€€€€€€Ù…ÈÝˆ€ôÝÉ…ÁÁ•È¹ÅÕ•ÉåM•±•Ñ½È œ¹½‘”µ‰±½¬œ¤ì4(€€€€€€€€€€€€€€€€€€€Ù…ÈÝ‰±½¹”€ôÝˆ¹±½¹•9½‘”¡ÑÉÕ”¤ì4(€€€€€€€€€€€€€€€€€€€Ù…ÈÝ‰	Ñ¸€ôÝ‰±½¹”¹ÅÕ•ÉåM•±•Ñ½È œ¹½Áäµ‰Ñ¸°€¹ÍÉ¥ÁÐµ…Ñ¥½¹Ìœ¤ì4(€€€€€€€€€€€€€€€€€€€¥˜€¡Ý‰	Ñ¸¤Ý‰	Ñ¸¹É•µ½Ù” ¤ì4(€€€€€€€€€€€€€€€€€€€Ñ•áÐ€ôÝ‰±½¹”¹¥¹¹•ÉQ•áÐ¹É•Á±…” ½qÌ¬¼°€œœ¤ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€ô•±Í”ì4(€€€€€€€€€€€€€€€Ù…È‰±½¬€ô‰Ñ¸¹±½Í•ÍÐ œ¹½‘”µ‰±½¬œ¤ì4(€€€€€€€€€€€€€€€¥˜€¡‰±½¬¤ì4(€€€€€€€€€€€€€€€€€€€Ù…È±½¹”€ô‰±½¬¹±½¹•9½‘”¡ÑÉÕ”¤ì4(€€€€€€€€€€€€€€€€€€€Ù…È•áÑÉ„€ô±½¹”¹ÅÕ•ÉåM•±•Ñ½È œ¹½Áäµ‰Ñ¸°€¹ÍÉ¥ÁÐµ…Ñ¥½¹Ìœ¤ì4(€€€€€€€€€€€€€€€€€€€¥˜€¡•áÑÉ„¤•áÑÉ„¹É•µ½Ù” ¤ì4(€€€€€€€€€€€€€€€€€€€Ñ•áÐ€ô±½¹”¹¥¹¹•ÉQ•áÐ¹É•Á±…” ½qÌ¬¼°€œœ¤ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€ô4(€€€€€€€€€€€¥˜€¡¹…Ù¥…Ñ½È¹±¥Á‰½…É€˜˜Ý¥¹‘½Ü¹¥ÍM•ÕÉ•½¹Ñ•áÐ¤ì4(€€€€€€€€€€€€€€€¹…Ù¥…Ñ½È¹±¥Á‰½…É¹ÝÉ¥Ñ•Q•áÐ¡Ñ•áÐ¤¹Ñ¡•¸¡™Õ¹Ñ¥½¸ ¤ì4(€€€€€€€€€€€€€€€€€€€µ…É­½Á¥•¡‰Ñ¸¤ì4(€€€€€€€€€€€€€€€ô°™Õ¹Ñ¥½¸ ¤ì4(€€€€€€€€€€€€€€€€€€€™…±±‰…­½Áä¡Ñ•áÐ°‰Ñ¸¤ì4(€€€€€€€€€€€€€€€ô¤ì4(€€€€€€€€€€€ô•±Í”ì4(€€€€€€€€€€€€€€€™…±±‰…­½Áä¡Ñ•áÐ°‰Ñ¸¤ì4(€€€€€€€€€€€ô4(€€€€€€€ô4(€€€€€€€™Õ¹Ñ¥½¸™…±±‰…­½Áä¡Ñ•áÐ°‰Ñ¸¤ì4(€€€€€€€€€€€Ù…ÈÑ„€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð Ñ•áÑ…É•„œ¤ì4(€€€€€€€€€€€Ñ„¹Ù…±Õ”€ôÑ•áÐì4(€€€€€€€€€€€Ñ„¹ÍÑå±”¹Á½Í¥Ñ¥½¸€ô€™¥á•œì4(€€€€€€€€€€€Ñ„¹ÍÑå±”¹±•™Ð€ô€œ´äääåÁàœì4(€€€€€€€€€€€‘½Õµ•¹Ð¹‰½‘ä¹…ÁÁ•¹‘¡¥±¡Ñ„¤ì4(€€€€€€€€€€€Ñ„¹Í•±•Ð ¤ì4(€€€€€€€€€€€ÑÉäì‘½Õµ•¹Ð¹•á•½µµ…¹ ½Áäœ¤ìµ…É­½Á¥•¡‰Ñ¸¤ìô4(€€€€€€€€€€€…Ñ ¡”¤ì…±•ÉÐ Ÿ–’7–"Û–’Ç¢Ò—¾ò3¢·æ‰‹åŠ¨é€‰æ‹©ä»£ç å—å¤åˆ¶'); }
             document.body.removeChild(ta);
         }
         function markCopied(btn) {
