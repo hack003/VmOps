@@ -2,11 +2,9 @@
 // CoreUtils.cs - é€šç”¨æ‚é¡¹å·¥å…·é›†åˆï¼ˆé™æ€æ–¹æ³•ï¼‰
 // ============================================================================
 // èŒè´£èŒƒå›´ï¼š
-//   âœ… IP/ç½‘ç»œå·¥å…·  â€” CidrToNetmask() CIDR â†’ å­ç½‘æ©ç 
-//   âœ… èµ„æºè·¯å¾„     â€” GetResourcePath() / OrganizeResourceFiles() / GetUserDataDir()
-//   âœ… ç¼–ç å¤„ç†     â€” ConvertCsvToUtf8() / DetectEncoding() è‡ªåŠ¨ç¼–ç æ£€æµ‹
-//   âœ… åº”ç”¨æ ‡è¯†     â€” GetAppIcon() è¿”å›å†…åµŒå›¾æ ‡
-//   âœ… è¿è¡Œæ—¶æ£€æŸ¥   â€” CheckProgramExpiry() æˆæƒåˆ°æœŸæ£€æŸ¥
+//   âœ… IP-ïdyîç9méyamÈ8 %ÚY•Ó™]X\ÚÊ
+HÒQˆ8¡¤ˆ9kd9ïdy£ªyè CB‹ËÈ8§!H:-a9®¤:-ëZ€€€€ƒŠP•ÑI•Í½ÕÉ•A…Ñ  ¤€¼=É…¹¥é•I•Í½ÕÉ•¥±•Ì ¤€¼•ÑUÍ•É…Ñ…¥È ¤4(¼¼€€ƒŠrƒò[‚–’B€€€€ƒŠP½¹Ù•ÉÑÍÙQ½UÑ˜à ¤€¼•Ñ•Ñ¹½‘¥¹œ ¤ƒ¢«–*£ò[‚ššÖ,4(¼¼€€ƒŠrƒ–êSR£š‚¢†     â€” GetAppIcon() è¿”å›å†…åµŒå›¾æ ‡
+//   âœ… è´:(c9¥í¹¨à9¦R(	B6†V6µ&öw&ÔW‡—'’‚’hèiØ"Ãšrv£€æŸ¥
 // ============================================================================
 using System;
 using System.Collections.Generic;
@@ -18,18 +16,8 @@ namespace VirtualizationOpsTool.Utils
     public static class CoreUtils
     {
         private const string DEFAULT_NETMASK = "255.255.255.0";
-        private static readonly Dictionary<int, string> CidrTable;
-
-        static CoreUtils()
-        {
-            CidrTable = new Dictionary<int, string>();
-            for (int cidr = 0; cidr <= 32; cidr++)
-            {
-                uint maskInt = cidr == 0 ? 0 : (0xFFFFFFFF << (32 - cidr)) & 0xFFFFFFFF;
-                byte[] octets = new byte[4];
-                octets[0] = (byte)((maskInt >> 24) & 0xFF);
-                octets[1] = (byte)((maskInt >> 16) & 0xFF);
-                octets[2] = (byte)((maskInt >> 8) & 0xFF);
+        private static readonly Dictionary<int, stringÚY•X›NÃBƒBˆİ]XÈÛÜ™U][Ê
+CBˆÃBˆÚY•X›HH™]ÈXİ[Û˜\O[İš[™Â‚“°Ğ¢f÷"†–çB6–G"Ò²6–G"ÃÒ3#²6–G"²²Ğ¢°Ğ¢V–çBÖ6´–çBÒ6–G"ÓÒò¢ƒ„dddddddbÃÂƒ3"Ò6–G"’’b„dddddddc°Ğ¢'—FUµÒö7FWG2ÒæWr'—FU³EÓ°Ğ¢ö7FWG5³ÒÒ†'—FR’‚†Ö6´–çBãâ#B’b„db“°Ğ¢ö7FWG5³ÒÒ†'—FR’‚†Ö6´–çBà€ÄØ¤€˜€Áá¤ì4(€€€€€€€€€€€€€€€½Ñ•ÑÍlÉt€ô€¡‰åÑ”¤ ¡µ…Í­%¹Ğ€> 8) & 0xFF);
                 octets[3] = (byte)(maskInt & 0xFF);
                 CidrTable[cidr] = $"{octets[0]}.{octets[1]}.{octets[2]}.{octets[3]}";
             }
@@ -46,184 +34,9 @@ namespace VirtualizationOpsTool.Utils
 
             if (!s.Contains("."))
             {
-                if (int.TryParse(s, out int cidr) && cidr >= 0 && cidr <= 32)
-                {
-                    return CidrTable[cidr];
-                }
-                return DEFAULT_NETMASK;
-            }
-
-            string[] parts = s.Split('.');
-            if (parts.Length == 4)
-            {
-                foreach (var p in parts)
-                {
-                    if (!int.TryParse(p, out int n) || n < 0 || n > 255)
-                        return DEFAULT_NETMASK;
-                }
-                return s;
-            }
-
-            return DEFAULT_NETMASK;
-        }
-
-        public static string GetResourcePath(string filename)
-        {
-            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-            string preferred = Path.Combine(baseDir, "Resources", filename);
-            if (File.Exists(preferred))
-                return preferred;
-            string direct = Path.Combine(baseDir, filename);
-            if (File.Exists(direct))
-                return direct;
-
-            string tempDir = Path.Combine(Path.GetTempPath(), "VMTool", "v" + AppVersion.VERSION_STR);
-            Directory.CreateDirectory(tempDir);
-            string tempFile = Path.Combine(tempDir, filename);
-
-            if (!File.Exists(tempFile))
-            {
-                var asm = System.Reflection.Assembly.GetExecutingAssembly();
-                string resourceName = $"VirtualizationOpsTool.Resources.{filename}";
-                using var stream = asm.GetManifestResourceStream(resourceName);
-                if (stream == null) return direct;
-                using var fs = new FileStream(tempFile, FileMode.Create, FileAccess.Write);
-                stream.CopyTo(fs);
-            }
-
-            return tempFile;
-        }
-
-        public static string GetHelpFilePath()
-        {
-            try
-            {
-                string srcPath = GetResourcePath("help.html");
-                if (string.IsNullOrEmpty(srcPath) || !File.Exists(srcPath))
-                    return srcPath;
-
-                string content = File.ReadAllText(srcPath, new UTF8Encoding(false));
-                content = content.Replace("__APP_VERSION__", AppVersion.VERSION_STR);
-
-                string tempDir = Path.Combine(Path.GetTempPath(), "VMTool");
-                Directory.CreateDirectory(tempDir);
-                string tempFile = Path.Combine(tempDir, "help.html");
-                File.WriteAllText(tempFile, content, new UTF8Encoding(false));
-
-                string srcIcon = GetResourcePath("vmware.ico");
-                string dstIcon = Path.Combine(tempDir, "vmware.ico");
-                if (!string.IsNullOrEmpty(srcIcon) && File.Exists(srcIcon) && !File.Exists(dstIcon))
-                {
-                    File.Copy(srcIcon, dstIcon);
-                }
-
-                return tempFile;
-            }
-            catch
-            {
-                return GetResourcePath("help.html");
-            }
-        }
-
-        public static System.Drawing.Icon? GetAppIcon()
-        {
-            try
-            {
-                // ä¼˜å…ˆå°è¯•ä»å†…åµŒèµ„æºåŠ è½½
-                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-                var resourceName = "VirtualizationOpsTool.Resources.vmware.ico";
-                using (var stream = assembly.GetManifestResourceStream(resourceName))
-                {
-                    if (stream != null)
-                    {
-                        return new System.Drawing.Icon(stream);
-                    }
-                }
-
-                // å¤‡ç”¨ï¼šä»æ–‡ä»¶è·¯å¾„åŠ è½½
-                string iconPath = GetResourcePath("vmware.ico");
-                if (File.Exists(iconPath))
-                {
-                    return new System.Drawing.Icon(iconPath);
-                }
-            }
-            catch { }
-            return null;
-        }
-
-        public static string GetUserDataDir()
-        {
-            string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string dataDir = Path.Combine(appdata, "VMTool");
-            if (!Directory.Exists(dataDir))
-            {
-                Directory.CreateDirectory(dataDir);
-            }
-            return dataDir;
-        }
-
-        public static void OrganizeResourceFiles()
-        {
-            try
-            {
-                string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-                string resourcesDir = Path.Combine(baseDir, "Resources");
-                Directory.CreateDirectory(resourcesDir);
-
-                foreach (var name in new[] { "vmware.ico", "help.html" })
-                {
-                    string src = Path.Combine(baseDir, name);
-                    string dst = Path.Combine(resourcesDir, name);
-                    if (File.Exists(src) && !File.Exists(dst))
-                    {
-                        File.Copy(src, dst);
-                    }
-                }
-            }
-            catch
-            {
-            }
-        }
-
-        public static void ConvertCsvToUtf8(string filePath)
-        {
-            if (!File.Exists(filePath)) return;
-
-            try
-            {
-                var encoding = DetectEncoding(filePath);
-                if (encoding.CodePage == Encoding.UTF8.CodePage)
-                    return;
-
-                string content = File.ReadAllText(filePath, encoding);
-                File.WriteAllText(filePath, content, new UTF8Encoding(false));
-            }
-            catch
-            {
-            }
-        }
-
-        private static Encoding DetectEncoding(string filePath)
-        {
-            var bom = new byte[4];
-            using (var file = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            {
-                file.Read(bom, 0, 4);
-            }
-
-            if (bom[0] == 0xEF && bom[1] == 0xBB && bom[2] == 0xBF)
-                return Encoding.UTF8;
-            if (bom[0] == 0xFF && bom[1] == 0xFE)
-                return Encoding.Unicode;
-            if (bom[0] == 0xFE && bom[1] == 0xFF)
-                return Encoding.BigEndianUnicode;
-
-            return Encoding.Default;
-        }
-
-        public static bool CheckProgramExpiry()
-        {
-            return true;
-        }
-    }
-}
+                if (int.TryParse(s, out int cidr) && cidr H	‰ˆÚYˆHÌŠCBˆÃBˆ™]\›ˆÚY•X›VØÚY—NÃBˆCBˆ™]\›ˆQUSÓ‘UPTÒÎÃBˆCBƒBˆİš[™Ö×H\ÈHË”Ü]
+	Ë‰ÊNÃBˆYˆ
+\Ë“[™İOH
+CBˆÃBˆ›Ü™XXÚ
+˜\ˆ[ˆ\ÊCBˆÃBˆYˆ
+Z[•T\œÙJİ][ŠHˆˆ#SRĞ¢&WGW&âDTdTÅEôäUDÔ4³°Ğ¢ĞĞ¢&WGW&â3°Ğ¢ĞĞ Ğ¢&WGW&âDTdTÅEôäUDÔ4³°Ğ¢ĞĞ Ğ¢V&Æ–27FF–27G&–ærvWE&W6÷W&6UF‚‡7G&–ærf–ÆVæÖRĞ¢°Ğ¢7G&–ær&6TF—"ÒFöÖ–âä7W'&VçDFöÖ–âä&6TF—&V7F÷'“°Ğ¢7G&–ær&VfW'&VBÒF‚ä6öÖ&–æR†&6TF—"Â%&W6÷W&6W2"Âf–ÆVæÖR“°Ğ¢–b„f–ÆRäW†—7G2‡&VfW'&VB’Ğ¢&WGW&â&VfW'&VC°Ğ¢7G&–ærF—&V7BÒF‚ä6öÖ&–æR†&6TF—"Âf–ÆVæÖR“°Ğ¢–b„f–ÆRäW†—7G2†F—&V7B’Ğ¢&WGW&âF—&V7C°Ğ Ğ¢7G&–ærFV×F—"ÒF‚ä6öÖ&–æR…F‚ävWEFV×F‚‚’Â%dÕFööÂ"Â'b"²fW'6–öâådU%4”ôåõ5E"“°Ğ¢F—&V7F÷'’ä7&VFTF—&V7F÷'’‡FV×F—"“°Ğ¢7G&–ærFV×f–ÆRÒF‚ä6öÖ&–æR‡FV×F—"Âf–ÆVæÖR“°Ğ Ğ¢–b‚f–ÆRäW†—7G2‡FV×f–ÆR’Ğ¢°Ğ¢f"6ÒÒ7—7FVÒå&VfÆV7F–öâä76VÖ&Ç’ävWDW†V7WF–æt76VÖ&Ç’‚“°Ğ¢7G&–ær&W6÷W&6TæÖRÒB%f—'GVÆ—¦F–öä÷5FööÂå&W6÷W&6W2ç¶f–ÆVæÖWÒ#°Ğ¢W6–ærf"7G&VÒÒ6ÒävWDÖæ–fW7E&W6÷W&6U7G&VÒ‡&W6÷W&6TæÖR“°Ğ¢–b‡7G&VÒÓÒçVÆÂ’&WGW&âF—&V7C°Ğ¢W6–ærf"g2ÒæWrf–ÆU7G&VÒ‡FV×f–ÆRÂf–ÆTÖöFRä7&VFRÂf–ÆT66W72åw&—FR“°Ğ¢7G&VÒä6÷•Fò†g2“°Ğ¢ĞĞ Ğ¢&WGW&âFV×f–ÆS°Ğ¢ĞĞ Ğ¢V&Æ–27FF–27G&–ærvWD†VÇf–ÆUF‚‚Ğ¢°Ğ¢G'Ğ¢°Ğ¢7G&–ær7&5F‚ÒvWE&W6÷W&6UF‚‚&†VÇæ‡FÖÂ"“°Ğ¢–b‡7G&–ærä—4çVÆÄ÷$V×G’‡7&5F‚’ÇÂf–ÆRäW†—7G2‡7&5F‚’Ğ¢&WGW&â7&5Fƒ°Ğ Ğ¢7G&–ær6öçFVçBÒf–ÆRå&VDÆÅFW‡B‡7&5F‚ÂæWrUDc„Væ6öF–ær†fÇ6R’“°Ğ¢6öçFVçBÒ6öçFVçBå&WÆ6R‚%õôõdU%4”ôåõò"ÂfW'6–öâådU%4”ôåõ5E"“°Ğ Ğ¢7G&–ærFV×F—"ÒF‚ä6öÖ&–æR…F‚ävWEFV×F‚‚’Â%dÕFööÂ"“°Ğ¢F—&V7F÷'’ä7&VFTF—&V7F÷'’‡FV×F—"“°Ğ¢7G&–ærFV×f–ÆRÒF‚ä6öÖ&–æR‡FV×F—"Â&†VÇæ‡FÖÂ"“°Ğ¢f–ÆRåw&—FTÆÅFW‡B‡FV×f–ÆRÂ6öçFVçBÂæWrUDc„Væ6öF–ær†fÇ6R’“°Ğ Ğ¢7G&–ær7&4–6öâÒvWE&W6÷W&6UF‚‚'f×v&Ræ–6ò"“°Ğ¢7G&–ærG7D–6öâÒF‚ä6öÖ&–æR‡FV×F—"Â'f×v&Ræ–6ò"“°Ğ¢–b‚7G&–ærä—4çVÆÄ÷$V×G’‡7&4–6öâ’bbf–ÆRäW†—7G2‡7&4–6öâ’bbf–ÆRäW†—7G2†G7D–6öâ’Ğ¢°Ğ¢f–ÆRä6÷’‡7&4–6öâÂG7D–6öâ“°Ğ¢ĞĞ Ğ¢&WGW&âFV×f–ÆS°Ğ¢ĞĞ¢6F6€Ğ¢°Ğ¢&WGW&âvWE&W6÷W&6UF‚‚&†VÇæ‡FÖÂ"“°Ğ¢ĞĞ¢ĞĞ Ğ¢V&Æ–27FF–27—7FVÒäG&v–ærä–6öãòvWD–6öâ‚Ğ¢°Ğ¢G'Ğ¢°Ğ¢òòKÉXX[	ŞŠW’î;––Ö3¢ÖšêC–*ƒ¢öô4(€€€€€€€€€€€€€€€Ù…È…ÍÍ•µ‰±ä€ôMåÍÑ•´¹I•™±•Ñ¥½¸¹ÍÍ•µ‰±ä¹•Ñá•ÕÑ¥¹ÍÍ•µ‰±ä ¤ì4(€€€€€€€€€€€€€€€Ù…ÈÉ•Í½ÕÉ•9…µ”€ô€‰Y¥ÉÑÕ…±¥é…Ñ¥½¹=ÁÍQ½½°¹I•Í½ÕÉ•Ì¹Ùµİ…É”¹¥¼ˆì4(€€€€€€€€€€€€€€€ÕÍ¥¹œ€¡Ù…ÈÍÑÉ•…´€ô…ÍÍ•µ‰±ä¹•Ñ5…¹¥™•ÍÑI•Í½ÕÉ•MÑÉ•…´¡É•Í½ÕÉ•9…µ”¤¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€¥˜€¡ÍÑÉ•…´€„ô¹Õ±°¤4(€€€€€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€€€€€É•ÑÕÉ¸¹•ÜMåÍÑ•´¹É…İ¥¹œ¹%½¸¡ÍÑÉ•…´¤ì4(€€€€€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€ô4(4(€€€€€€€€€€€€€€€€¼¼ƒ–’R£¾òk’î;šZ’îÛ¢Ş¿–ú–*ƒ¢öô4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œ¥½¹A…Ñ €ô•ÑI•Í½ÕÉ•A…Ñ  ‰Ùµİ…É”¹¥¼ˆ¤ì4(€€€€€€€€€€€€€€€¥˜€¡¥±”¹á¥ÍÑÌ¡¥½¹A…Ñ ¤¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€É•ÑÕÉ¸¹•ÜMåÍÑ•´¹É…İ¥¹œ¹%½¸¡¥½¹A…Ñ ¤ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€ô4(€€€€€€€€€€€…Ñ ìô4(€€€€€€€€€€€É•ÑÕÉ¸¹Õ±°ì4(€€€€€€€ô4(4(€€€€€€€ÁÕ‰±¥ŒÍÑ…Ñ¥ŒÍÑÉ¥¹œ•ÑUÍ•É…Ñ…¥È ¤4(€€€€€€€ì4(€€€€€€€€€€€ÍÑÉ¥¹œ…ÁÁ‘…Ñ„€ô¹Ù¥É½¹µ•¹Ğ¹•Ñ½±‘•ÉA…Ñ ¡¹Ù¥É½¹µ•¹Ğ¹MÁ•¥…±½±‘•È¹ÁÁ±¥…Ñ¥½¹…Ñ„¤ì4(€€€€€€€€€€€ÍÑÉ¥¹œ‘…Ñ…¥È€ôA…Ñ ¹½µ‰¥¹”¡…ÁÁ‘…Ñ„°€‰Y5Q½½°ˆ¤ì4(€€€€€€€€€€€¥˜€ …¥É•Ñ½Éä¹á¥ÍÑÌ¡‘…Ñ…¥È¤¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€¥É•Ñ½Éä¹É•…Ñ•¥É•Ñ½Éä¡‘…Ñ…¥È¤ì4(€€€€€€€€€€€ô4(€€€€€€€€€€€É•ÑÕÉ¸‘…Ñ…¥Èì4(€€€€€€€ô4(4(€€€€€€€ÁÕ‰±¥ŒÍÑ…Ñ¥ŒÙ½¥=É…¹¥é•I•Í½ÕÉ•¥±•Ì ¤4(€€€€€€€ì4(€€€€€€€€€€€ÑÉä4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œ‰…Í•¥È€ôÁÁ½µ…¥¸¹ÕÉÉ•¹Ñ½µ…¥¸¹	…Í•¥É•Ñ½Éäì4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œÉ•Í½ÕÉ•Í¥È€ôA…Ñ ¹½µ‰¥¹”¡‰…Í•¥È°€‰I•Í½ÕÉ•Ìˆ¤ì4(€€€€€€€€€€€€€€€¥É•Ñ½Éä¹É•…Ñ•¥É•Ñ½Éä¡É•Í½ÕÉ•Í¥È¤ì4(4(€€€€€€€€€€€€€€€™½É•… €¡Ù…È¹…µ”¥¸¹•İmtì€‰Ùµİ…É”¹¥¼ˆ°€‰¡•±À¹¡Ñµ°ˆô¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€ÍÑÉ¥¹œÍÉŒ€ôA…Ñ ¹½µ‰¥¹”¡‰…Í•¥È°¹…µ”¤ì4(€€€€€€€€€€€€€€€€€€€ÍÑÉ¥¹œ‘ÍĞ€ôA…Ñ ¹½µ‰¥¹”¡É•Í½ÕÉ•Í¥È°¹…µ”¤ì4(€€€€€€€€€€€€€€€€€€€¥˜€¡¥±”¹á¥ÍÑÌ¡ÍÉŒ¤€˜˜€…¥±”¹á¥ÍÑÌ¡‘ÍĞ¤¤4(€€€€€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€€€€€¥±”¹½Áä¡ÍÉŒ°‘ÍĞ¤ì4(€€€€€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€ô4(€€€€€€€€€€€…Ñ 4(€€€€€€€€€€€ì4(€€€€€€€€€€€ô4(€€€€€€€ô4(4(€€€€€€€ÁÕ‰±¥ŒÍÑ…Ñ¥ŒÙ½¥½¹Ù•ÉÑÍÙQ½UÑ˜à¡ÍÑÉ¥¹œ™¥±•A…Ñ ¤4(€€€€€€€ì4(€€€€€€€€€€€¥˜€ …¥±”¹á¥ÍÑÌ¡™¥±•A…Ñ ¤¤É•ÑÕÉ¸ì4(4(€€€€€€€€€€€ÑÉä4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Ù…È•¹½‘¥¹œ€ô•Ñ•Ñ¹½‘¥¹œ¡™¥±•A…Ñ ¤ì4(€€€€€€€€€€€€€€€¥˜€¡•¹½‘¥¹œ¹½‘•A…”€ôô¹½‘¥¹œ¹UQà¹½‘•A…”¤4(€€€€€€€€€€€€€€€€€€€É•ÑÕÉ¸ì4(4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œ½¹Ñ•¹Ğ€ô¥±”¹I•…‘±±Q•áĞ¡™¥±•A…Ñ °•¹½‘¥¹œ¤ì4(€€€€€€€€€€€€€€€¥±”¹]É¥Ñ•±±Q•áĞ¡™¥±•A…Ñ °½¹Ñ•¹Ğ°¹•ÜUQá¹½‘¥¹œ¡™…±Í”¤¤ì4(€€€€€€€€€€€ô4(€€€€€€€€€€€…Ñ 4(€€€€€€€€€€€ì4(€€€€€€€€€€€ô4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”ÍÑ…Ñ¥Œ¹½‘¥¹œ•Ñ•Ñ¹½‘¥¹œ¡ÍÑÉ¥¹œ™¥±•A…Ñ ¤4(€€€€€€€ì4(€€€€€€€€€€€Ù…È‰½´€ô¹•Ü‰åÑ•lÑtì4(€€€€€€€€€€€ÕÍ¥¹œ€¡Ù…È™¥±”€ô¹•Ü¥±•MÑÉ•…´¡™¥±•A…Ñ °¥±•5½‘”¹=Á•¸°¥±••ÍÌ¹I•…°¥±•M¡…É”¹I•…‘]É¥Ñ”¤¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€™¥±”¹I•…¡‰½´°€À°€Ğ¤ì4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€¥˜€¡‰½µlÁt€ôô€Áá€˜˜‰½µlÅt€ôô€Áá	€˜˜‰½µlÉt€ôô€Áá	¤4(€€€€€€€€€€€€€€€É•ÑÕÉ¸¹½‘¥¹œ¹UQàì4(€€€€€€€€€€€¥˜€¡‰½µlÁt€ôô€Áá€˜˜‰½µlÅt€ôô€Áá¤4(€€€€€€€€€€€€€€€É•ÑÕÉ¸¹½‘¥¹œ¹U¹¥½‘”ì4(€€€€€€€€€€€¥˜€¡‰½µlÁt€ôô€Áá€˜˜‰½µlÅt€ôô€Áá¤4(€€€€€€€€€€€€€€€É•ÑÕÉ¸¹½‘¥¹œ¹	¥¹‘¥…¹U¹¥½‘”ì4(4(€€€€€€€€€€€É•ÑÕÉ¸¹½‘¥¹œ¹•™…Õ±Ğì4(€€€€€€€ô4(4(€€€€€€€ÁÕ‰±¥ŒÍÑ…Ñ¥Œ‰½½°¡•­AÉ½É…µáÁ¥Éä ¤4(€€€€€€€ì4(€€€€€€€€€€€É•ÑÕÉ¸ÑÉÕ”ì4(€€€€€€€ô4(€€€ô4)ô
