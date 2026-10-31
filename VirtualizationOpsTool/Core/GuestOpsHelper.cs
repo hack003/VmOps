@@ -77,10 +77,4 @@ try {{
                 return (guestFamilyRaw == "linuxGuest", guestFamilyRaw, guestFullNameRaw);
 
             string osName = guestFullNameRaw ?? "";
-            bool isLinux = osName.Length > 0 && osName.IndexOf("linux|kylin|openEuler|centos|ubuntu|debian|redhat|suse|fedora|alibaba|neokylin|uos", StringComparison.OrdinalIgnoreCase) >= 0;
-            if (!isLinux && osName.Length > 0 && osName.IndexOf("windows|Windows", StringComparison.Ordinal) < 0)
-                isLinux = true;
-            return (isLinux, guestFamilyRaw ?? "", osName);
-        }
-    }
-}
+            bool isLinux = osName.Length 	‰ˆÜÓ˜[YK’[™^ÙŠ›[^Þ[[ŸÜ[‘][\ŸÙ[ÜßX[_XšX[Ÿ™Y]Ý\Ù_™YÜ˜_[X˜X˜_™[ÚÞ[[Ÿ[ÜÈ‹Ýš[™ÐÛÛ\\š\ÛÛ‹“Ü™[˜[YÛ›Ü™PØ\ÙJHÒ°Ð¢–b‚—4Æ–çW‚bb÷4æÖRäÆVæwF‚âbb÷4æÖRä–æFW„öb‚'v–æF÷w7Åv–æF÷w2"Â7G&–æt6ö×&—6öâä÷&F–æÂ’ÂÐ¢—4Æ–çW‚ÒG'VS°Ð¢&WGW&â†—4Æ–çW‚ÂwVW7DfÖ–Ç•&róò""Â÷4æÖR“°Ð¢ÐÐ¢ÐÐ§
