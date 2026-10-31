@@ -1,30 +1,7 @@
 // ============================================================================
 // IPsRunner.cs - PowerShell æ‰§è¡Œå™¨æ¥å£å®šä¹‰
 // ============================================================================
-// èŒè´£ï¼šå®šä¹‰ PowerShell æ‰§è¡Œé€šé“çš„ç»Ÿä¸€å¥‘çº¦
-//
-// æ ¸å¿ƒæ¥å£ IPsRunnerï¼š
-//   âœ… IsConnected / CurrentVc â€” è¿æ¥çŠ¶æ€ + å½“å‰ vCenter åˆ«å
-//   âœ… ExecuteScriptAsync() â€” æ‰§è¡Œè„šæœ¬å¹¶è¿”å›æ–‡æœ¬è¾“å‡ºï¼ˆè¯¦æƒ…æŸ¥è¯¢/æ“ä½œè„šæœ¬ï¼‰
-//   âœ… ExecuteQueryAsync() â€” æ‰§è¡ŒæŸ¥è¯¢è„šæœ¬å¹¶è¿”å› Dictionary åˆ—è¡¨ï¼ˆè¡¨æ ¼æ•°æ®ï¼‰
-//   âœ… DisconnectAsync() â€” æ–­å¼€é€šé“è¿æ¥
-//
-// å®ç°ç±»ï¼š
-//   SessionManagerï¼ˆå¸¸é©»é€šç”¨é€šé“ï¼‰/ TempDeploymentRunnerï¼ˆä¸´æ—¶éƒ¨ç½²é€šé“ï¼‰
-// ============================================================================
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace VirtualizationOpsTool.Core
-{
-    public interface IPsRunner : IDisposable
-    {
-        bool IsConnected { get; }
-        string? CurrentVc { get; }
-
-        Task<string> ExecuteScriptAsync(string script, Action<string?, string?>? logCallback = null, int timeoutSec = 60);
-        Task<List<Dictionary<string, object>>> ExecuteQueryAsync(string script, Action<string?, string?>? logCallback = null, int timeoutSec = 90);
+// èŒè´£É®Zé®K˜’÷vW%6†VÆÂhšb†3¦k¦Gš„ç». 9idyî©ƒB‹ËÃB‹ËÈ9¨.9oàhê^Xú2•5'VææW.ûÉ Ğ¢òò)ÈR—46öææV7FVBò7W'&VçEf2(	B‹ùîhê^x«nh²[Ù>X˜Òd6VçFW"XŠ¾YĞĞ¢òò)ÈRW†V7WFU67&—D7–æ2‚’(	Bhš~ŠÎˆI®iÊÎ[›n‹ùNY¹îih~iÊÎ‹é>X{®ûÈŠúnh8^iú^Šú"şi8ŞKÙÎˆI®iÊÎûÈĞ¢òò)ÈRW†V7WFUVW'”7–æ2‚’(	Bhš~ŠÎiú^Šú.ˆI®iÊÎ[›n‹ùNY¹âF–7F–öæ'’X‰~ŠûÈŠjÎi[hÚîûÈĞ¢òò)ÈRF—66öææV7D7–æ2‚’(	BijŞ[È˜	®˜>‹ùîhêPĞ¢òğĞ¢òòZéîxë{¾ûÉ Ğ¢òò6W76–öäÖævW.ûÈ[‹š›¾˜	®yJ˜	®˜>ûÈ’òFV×FWÆ÷–ÖVçE'VææW.ûÈK‹Ni{n˜:{Û.˜	®˜>ûÈĞ¢òòÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓĞĞ§W6–ær7—7FVÓ°Ğ§W6–ær7—7FVÒä6öÆÆV7F–öç2ävVæW&–3°Ğ§W6–ær7—7FVÒåF‡&VF–æråF6·3°Ğ Ğ¦æÖW76Rf—'GVÆ—¦F–öä÷5FööÂä6÷&PĞ§°Ğ¢V&Æ–2–çFW&f6R•5'VææW"¢”F—7÷6&ÆPĞ¢°Ğ¢&ööÂ—46öææV7FVB²vWC²ĞĞ¢7G&–æsò7W'&VçEf2²vWC²ĞĞ Ğ¢F6³Ç7G&–æsâW†V7WFU67&—D7–æ2‡7G&–ær67&—BÂ7F–öãÇ7G&–æsòÂ7G&–æsóãòÆöt6ÆÆ&6²ÒçVÆÂÂ–çBF–ÖV÷WE6V2Òc“°Ğ¢F6³ÄÆ—7CÄF–7F–öæ'“Ç7G&–ærÂö&¦V7@øøá•ÕÑ•EÕ•ÉåÍå¹Œ¡ÍÑÉ¥¹œÍÉ¥ÁĞ°Ñ¥½¸ñÍÑÉ¥¹œü°ÍÑÉ¥¹œü? logCallback = null, int timeoutSec = 90);
         Task DisconnectAsync(Action<string?, string?>? logCallback = null);
     }
 }
