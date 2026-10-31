@@ -1,138 +1,37 @@
 // ============================================================================
 // OvfToolRunner.cs - VMware OVF Tool è¿›ç¨‹æ‰§è¡Œå™¨
 // ============================================================================
-// èŒè´£ï¼šå°è£…å¤–éƒ¨ ovftool.exe å­è¿›ç¨‹ï¼Œæ”¯æŒ OVF å¯¼å‡º / OVA å¯¼å‡º / OVF å¯¼å…¥
-//
-// æ ¸å¿ƒç±»ï¼š
-//   âœ… OvfExportInput â€” å¯¼å‡ºå‚æ•°æ¨¡å‹ï¼ˆVC IP / VM å / å¯¼å‡ºè·¯å¾„ / SSL è®¾ç½®ç­‰ï¼‰
-//   âœ… OvfRunResult â€” æ‰§è¡Œç»“æœæ¨¡å‹ï¼ˆIsSuccess / ExitCode / ErrorMessage / FullLogï¼‰
-//   âœ… OvfToolRunner â€” è¿›ç¨‹æ‰§è¡Œå™¨ï¼Œæ„å»ºå‘½ä»¤è¡Œå‚æ•° + å¯åŠ¨ Process + å®æ—¶æ—¥å¿—å›è°ƒ
-//   âœ… LogReceivedHandler â€” æ—¥å¿—è¡Œæ¥æ”¶å§”æ‰˜
+// èŒè´£É®[Š8^ZIn˜:‚÷fgFööÂæW†RZÙ‹ù¾zˆ¾ûÈÎiJşhÈõdbZûÎX{¢òõdZûÎX{¢òõdbZó–”4(¼¼4(¼¼ƒš‚ã–Ãç±»ï¼š
+//   âœ… OvfExportInput â€” å¯9aî¹`.i[jŠYè¾ûÈ…d2•òdÒYÒòZûÎX{®‹zş[èBò54ÂŠëö»¶'¾ò$4(¼¼€€ƒŠr=Ù™IÕ¹I•ÍÕ±ĞƒŠPƒš&˜¡Œç»‘§§9ª(yg¢ò!%ÍMÕ•ÍÌ€¼á¥Ñ½‘”€¼ÉÉ½É5•ÍÍ…”€¼Õ±±1½Ÿ"CB‹ËÈ8§!Hİ™•ÛÛ[›™\ˆ8 %:-¾zˆ¾hš~ŠÎYšûÈÎièN[»®YŞKºNŠÎXšVÀ€¬ƒ–B¿–* AÉ½•ÍÌ€¬ƒ–º{š^Ûš^—–ş_–n{¢Â4(¼¼€€ƒŠr1½I••¥Ù•‘!…¹‘±•ÈƒŠPƒš^—–×è¡Œæ¥æ”¶å§”æ‰˜
 //
 // ç‰¹ç‚¹ï¼š
-//   ç‹¬ç«‹äº PowerCLI ä½“ç³»ï¼Œç›´æ¥ spawn ovftool.exe å­è¿›ç¨‹
-// ============================================================================
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace VirtualizationOpsTool.Core
-{
-    /// <summary>
-    /// OVF å¯¼å‡ºè¾“å…¥å‚æ•°
-    /// </summary>
-    public class OvfExportInput
-    {
-        public string VcIp { get; set; } = "";
-        public string Domain { get; set; } = "";
-        public string VmName { get; set; } = "";
-        public string OvaName { get; set; } = "";
-        public string ExportSavePath { get; set; } = "";
-        public bool Overwrite { get; set; }
-        public bool IgnoreNvram { get; set; }
-        public bool SslUnsecure { get; set; }
-        public bool IgnoreImageFiles { get; set; }
-        public string OvfToolExePath { get; set; } = "";
-        public int TimeoutMs { get; set; } = 300000;
-        public string Username { get; set; } = "";
-        public string Password { get; set; } = "";
-    }
-
-    /// <summary>
-    /// OVF æ‰§è¡Œç»“æœ
-    /// </summary>
-    public class OvfRunResult
-    {
-        public bool IsSuccess { get; set; }
-        public int ExitCode { get; set; }
-        public string ErrorMessage { get; set; } = "";
-        public string FullLog { get; set; } = "";
-    }
-
-    /// <summary>
-    /// æ—¥å¿—æ¥æ”¶å§”æ‰˜
-    /// </summary>
-    public delegate void LogReceivedHandler(string logLine);
-
-    /// <summary>
-    /// OVF Tool è¿›ç¨‹æ‰§è¡Œå™¨ï¼ˆç‹¬ç«‹ç±»ï¼Œè´Ÿè´£æ‰€æœ‰ ovftool è¿›ç¨‹æ‰§è¡Œé€»è¾‘ï¼‰
-    /// </summary>
-    public class OvfToolRunner
-    {
-        private readonly StringBuilder _logBuilder = new StringBuilder();
-        private readonly object _logLock = new object();
-        private Process? _currentProcess;
-        private CancellationTokenSource _cts = new CancellationTokenSource();
-
-        public event LogReceivedHandler? OnLogReceived;
-
-        /// <summary>
+//   ç‹¬ç«‰.£ˆİÙ\ÓH9/dùìîûï#9æí9£©HÜ]Ûˆİ™ÛÛ™^H9kd:-¾zˆ°Ğ¢òòÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓĞĞ§W6–ær7—7FVÓ°Ğ§W6–ær7—7FVÒä6öÆÆV7F–öç2ävVæW&–3°Ğ§W6–ær7—7FVÒäF–væ÷7F–73°Ğ§W6–ær7—7FVÒä”ó°Ğ§W6–ær7—7FVÒåFW‡C°Ğ§W6–ær7—7FVÒåF‡&VF–æs°Ğ§W6–ær7—7FVÒåF‡&VF–æråF6·3°Ğ Ğ¦æÖW76Rf—'GVÆ—¦F–öä÷5FööÂä6÷&PĞ§°Ğ¢òòòÇ7VÖÖ'“àĞ¢òòòõdbZûÎX{®ŠE…¥å‚æ•°
+    /// </summaryBˆX›XÈÛ\ÜÈİ™‘^Ü[œ]BˆÃBˆX›XÈİš[™È˜Ò\ÈÙ]ÈÙ]ÈHHˆÃBˆX›XÈİš[™ÈÛXZ[ˆÈÙ]ÈÙ]ÈHHˆÃBˆX›XÈİš[™È›S˜[YHÈÙ]ÈÙ]ÈHHˆÃBˆX›XÈİš[™Èİ˜S˜[YHÈÙ]ÈÙ]ÈHHˆÃBˆX›XÈİš[™È^ÜØ]™T]ÈÙ]ÈÙ]ÈHHˆÃBˆX›XÈ›ÛÛİ™\Üš]HÈÙ]ÈÙ]ÈCBˆX›XÈ›ÛÛYÛ›Ü™Sœ˜[HÈÙ]ÈÙ]ÈCBˆX›XÈ›ÛÛÜÛ[œÙXİ\™HÈÙ]ÈÙ]ÈCBˆX›XÈ›ÛÛYÛ›Ü™R[XYÙQš[\ÈÈÙ]ÈÙ]ÈCBˆX›XÈİš[™Èİ™•ÛÛ^T]ÈÙ]ÈÙ]ÈHHˆÃBˆX›XÈ[[Y[İ]\ÈÈÙ]ÈÙ]ÈHHÌÃBˆX›XÈİš[™È\Ù\›˜[YHÈÙ]ÈÙ]ÈHHˆÃBˆX›XÈİš[™È\ÜİÛÜ™ÈÙ]ÈÙ]ÈHHˆÃBˆCBƒBˆËËÈİ[[X\@Ğ¢òòòõdbhš~ŠÎ{¹>iéÀĞ¢òòòÂ÷7VÖÖ'“àĞ¢V&Æ–26Æ72÷fe'Vå&W7VÇ@Ğ¢°Ğ¢V&Æ–2&ööÂ—57V66W72²vWC²6WC²ĞĞ¢V&Æ–2–çBW†—D6öFR²vWC²6WC²ĞĞ¢V&Æ–27G&–ærW'&÷$ÖW76vR²vWC²6WC²ÒÒ"#°Ğ¢V&Æ–27G&–ærgVÆÄÆör²vWC²6WC²ÒÒ"#°Ğ¢ĞĞ Ğ¢òòòÇ7VÖÖ'“àĞ¢òòòiz^[ù~hê^iKnZyNh™€Ğ¢òòòÂ÷7VÖÖ'“àĞ¢V&Æ–2FVÆVvFRfö–BÆöu&V6V—fVD†æFÆW"‡7G&–ærÆötÆ–æR“°Ğ Ğ¢òòòÇ7VÖÖ'4(€€€€¼¼¼=YQ½½°ƒ¢şg¨‰¢iŠÎYšò#.³®'±»ÈÎ‹IâÒ†‰€æœ‰ ovftool è¿™ê"hšb†3¦è¤{ÈĞ¢òòòÂ÷7VÖÖ'4(€€€ÁÕ‰±¥Œ±…ÍÌ=Ù™Q½½±IÕ¹¹•È4(€€€ì4(€€€€€€€ÁÉ¥Ù…Ñ”É•…‘½¹±äMÑÉ¥¹	Õ¥±‘•È}±½	Õ¥±‘•È€ô¹•ÜMÑÉ¥¹	Õ¥±‘•È ¤ì4(€€€€€€€ÁÉ¥Ù…Ñ”É•…‘½¹±ä½‰©•Ğ}±½1½¬€ô¹•Ü½‰©•Ğ ¤ì4(€€€€€€€ÁÉ¥Ù…Ñ”AÉ½•ÍÌü}ÕÉÉ•¹ÑAÉ½•ÍÌì4(€€€€€€€ÁÉ¥Ù…Ñ”…¹•±±…Ñ¥½¹Q½­•¹M½ÕÉ”}ÑÌ€ô¹•Ü…¹•±±…Ñ¥½¹Q½­•¹M½ÕÉ” ¤ì4(4(€€€€€€€ÁÕ‰±¥Œ•Ù•¹Ğ1½I••¥Ù•‘!…¹‘±•Èü=¹1½I••¥Ù•ì4(4(€€€€€€€€¼¼¼€ñÍÕµµ…Éä
         /// æ‰§è¡Œ OVF å¯¼å‡º
         /// </summary>
-        public async Task<OvfRunResult> RunExport(OvfExportInput input)
-        {
-            var result = new OvfRunResult();
-            _logBuilder.Clear();
-            _cts.Dispose();
-            _cts = new CancellationTokenSource();
+        public async Task<OvfRunResult[‘^Ü
+İ™‘^Ü[œ][œ]
+CBˆÃBˆ˜\ˆ™\İ[H™]Èİ™”[”™\İ[
 
-            string ovfToolPath = ResolveOvfToolPath(input.OvfToolExePath);
-            if (string.IsNullOrEmpty(ovfToolPath) || !File.Exists(ovfToolPath))
-            {
-                result.ErrorMessage = "æ‰¾ä¸åˆ° ovftool.exeï¼Œè¯·ç¡®è®¤ VMware OVF Tool å·²å®‰è£…ã€‚";
-                result.ExitCode = -1;
-                AppendLog(result.ErrorMessage);
-                result.FullLog = _logBuilder.ToString();
-                return result;
-            }
-            AppendLog($"ovftool è·¯å¾„: {ovfToolPath}");
-
-            string fullExportPath = Path.GetFullPath(input.ExportSavePath);
-            string outputDir = Path.GetDirectoryName(fullExportPath) ?? "";
-            if (string.IsNullOrEmpty(outputDir))
-            {
-                outputDir = Path.GetPathRoot(fullExportPath) ?? "";
-            }
-            if (!Directory.Exists(outputDir))
-            {
-                result.ErrorMessage = $"è¾“å‡ºç›®å½•ä¸å­˜åœ¨: {outputDir}";
-                result.ExitCode = -1;
-                AppendLog(result.ErrorMessage);
-                result.FullLog = _logBuilder.ToString();
-                return result;
-            }
-            AppendLog($"è¾“å‡ºç›®å½•: {outputDir}");
-
-            if (string.IsNullOrEmpty(input.Username) || string.IsNullOrEmpty(input.Password))
-            {
-                result.ErrorMessage = "ç”¨æˆ·åæˆ–å¯†ç ä¸ºç©ºï¼Œæ— æ³•æ‰§è¡Œå¯¼å‡ºã€‚";
-                result.ExitCode = -1;
-                AppendLog(result.ErrorMessage);
-                result.FullLog = _logBuilder.ToString();
-                return result;
-            }
-
-            string arguments = BuildExportArguments(input);
-            AppendLog($"æ‰§è¡Œå‚æ•°: {arguments}");
-
-            try
-            {
-                result.ExitCode = await RunProcessAsync(ovfToolPath, arguments, input.TimeoutMs);
-                result.IsSuccess = result.ExitCode == 0;
-                if (!result.IsSuccess && string.IsNullOrEmpty(result.ErrorMessage))
-                {
-                    result.ErrorMessage = $"ovftool é€€å‡ºç éé›¶: {result.ExitCode}";
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                result.IsSuccess = false;
-                result.ExitCode = -98;
-                result.ErrorMessage = $"æ‰§è¡Œè¶…æ—¶ ({input.TimeoutMs / 1000}s)";
+NÃBˆÛÙĞZ[\‹ÛX\Š
+NÃBˆØİË‘\ÜÜÙJ
+NÃBˆØİÈH™]ÈØ[˜Ù[][Û•ÚÙ[”Ûİ\˜ÙJ
+NÃBƒBˆİš[™Èİ™•ÛÛ]H™\ÛÛ™Sİ™•ÛÛ]
+[œ]“İ™•ÛÛ^T]
+NÃBˆYˆ
+İš[™Ë’\Ó[Ü‘[\Jİ™•ÛÛ]
+HQš[K‘^\İÊİ™•ÛÛ]
+JCBˆÃBˆ™\İ[‘\œ›Ü“Y\ÜØYÙHH¹¢o¹.#yb,İ™ÛÛ™^{ÈÎŠû^†»¢ºY5İ…É”=YQ½½°ƒ–ŞË–º'¢ˆì4(€€€€€€€€€€€€€€€É•ÍÕ±Ğ¹á¥Ñ½‘”€ô€´Äì4(€€€€€€€€€€€€€€€ÁÁ•¹‘1½œ¡É•ÍÕ±Ğ¹ÉÉ½É5•ÍÍ…”¤ì4(€€€€€€€€€€€€€€€É•ÍÕ±Ğ¹Õ±±1½œ€ô}±½	Õ¥±‘•È¹Q½MÑÉ¥¹œ ¤ì4(€€€€€€€€€€€€€€€É•ÑÕÉ¸É•ÍÕ±Ğì4(€€€€€€€€€€€ô4(€€€€€€€€€€€ÁÁ•¹‘1½œ ‰½Ù™Ñ½½°ƒ¢Şµ¡ˆÛİ™•ÛÛ]HŠNÃBƒBˆİš[™È[^Ü]H]‘Ù][]
+[œ]‘^ÜØ]™T]
+NÃBˆİš[™Èİ]]\ˆH]‘Ù]\™XİÜS˜[YJ[^Ü]
+HÏÈˆÃBˆYˆ
+İš[™Ë’\Ó[Ü‘[\Jİ]]\ŠJCBˆÃBˆİ]]\ˆH]‘Ù]]›Ûİ
+[^Ü]
+HÏÈˆÃBˆCBˆYˆ
+Q\™XİÜK‘^\İÊİ]]\ŠJCBˆÃBˆ™\İ[‘\œ›Ü“Y\ÜØYÙHH	º/¤ùaî¹æë¹oey.#ykf9g*ˆÛİ]]\ŸHÃBˆ™\İ[‘^]ÛÙHHLNÃBˆ\[™ÙÊ™\İ[‘\œ›Ü“Y\ÜØYÙJNÃBˆ™\İ[‘[ÙÈHÛÙĞZ[\‹•Ôİš[™Ê
+NÃBˆ™]\›ˆ™\İ[ÃBˆCBˆ\[™ÙÊ	º/¤ùaî¹æë¹oeNˆÛİ]]\ŸHŠNÃBƒBˆYˆ
+İš[™Ë’\Ó[Ü‘[\J[œ]•\Ù\›˜[YJHİš[™Ë’\Ó[Ü‘[\J[œ]”\ÜİÛÜ™
+JCBˆÃBˆ™\İ[‘\œ›Ü“Y\ÜØYÙHH¹å*9¢-ùd#y¢%¹hnzK‹®z›®ûÈÎizk9^hš~ŠÎZó–ëˆì4(€€€€€€€€€€€€€€€É•ÍÕ±Ğ¹á¥Ñ½‘”€ô€´Äì4(€€€€€€€€€€€€€€€ÁÁ•¹‘1½œ¡É•ÍÕ±Ğ¹ÉÉ½É5•ÍÍ…”¤ì4(€€€€€€€€€€€€€€€É•ÍÕ±Ğ¹Õ±±1½œ€ô}±½	Õ¥±‘•È¹Q½MÑÉ¥¹œ ¤ì4(€€€€€€€€€€€€€€€É•ÑÕÉ¸É•ÍÕ±Ğì4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€ÍÑÉ¥¹œ…ÉÕµ•¹ÑÌ€ô	Õ¥±‘áÁ½ÉÑÉÕµ•¹ÑÌ¡¥¹ÁÕĞ¤ì4(€€€€€€€€€€€ÁÁ•¹‘1½œ ‹š&Ÿ¢†3–>šVÀèí…ÉÕµ•¹ÑÍôˆ¤ì4(4(€€€€€€€€€€€ÑÉä4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€É•ÍÕ±Ğ¹á¥Ñ½‘”€ô…İ…¥ĞIÕ¹AÉ½•ÍÍÍå¹Œ¡½Ù™Q½½±A…Ñ °…ÉÕµ•¹ÑÌ°¥¹ÁÕĞ¹Q¥µ•½ÕÑ5Ì¤ì4(€€€€€€€€€€€€€€€É•ÍÕ±Ğ¹%ÍMÕ•ÍÌ€ôÉ•ÍÕ±Ğ¹á¥Ñ½‘”€ôô€Àì4(€€€€€€€€€€€€€€€¥˜€ …É•ÍÕ±Ğ¹%ÍMÕ•ÍÌ€˜˜ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡É•ÍÕ±Ğ¹ÉÉ½É5•ÍÍ…”¤¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€É•ÍÕ±Ğ¹ÉÉ½É5•ÍÍ…”€ô€‰½Ù™Ñ½½°ƒ¦–ë‚¦v{¦nØèíÉ•ÍÕ±Ğ¹á¥Ñ½‘•ôˆì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€ô4(€€€€€€€€€€€…Ñ €¡=Á•É…Ñ¥½¹…¹•±•‘á•ÁÑ¥½¸¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€É•ÍÕ±Ğ¹%ÍMÕ•ÍÌ€ô™…±Í”ì4(€€€€€€€€€€€€€€€É•ÍÕ±Ğ¹á¥Ñ½‘”€ô€´äàì4(€€€€€€€€€€€€€€€É•ÍÕ±Ğ¹ÉÉ½É5•ÍÍ…”€ô€‹š&˜¡Œè¶…æ—¶ ({input.TimeoutMs / 1000}s)";
                 AppendLog(result.ErrorMessage);
             }
             catch (Exception ex)
@@ -148,19 +47,7 @@ namespace VirtualizationOpsTool.Core
         }
 
         /// <summary>
-        /// æ‰§è¡Œä»»æ„ ovftool å‘½ä»¤ï¼ˆç›´æ¥ä¼ å…¥å®Œæ•´å‚æ•°å­—ç¬¦ä¸²ï¼‰
-        /// </summary>
-        public async Task<OvfRunResult> RunCommand(string arguments, int timeoutMs = 300000)
-        {
-            var result = new OvfRunResult();
-            _logBuilder.Clear();
-            _cts.Dispose();
-            _cts = new CancellationTokenSource();
-
-            string ovfToolPath = ResolveOvfToolPath("");
-            if (string.IsNullOrEmpty(ovfToolPath) || !File.Exists(ovfToolPath))
-            {
-                result.ErrorMessage = "æ‰¾ä¸åˆ° ovftool.exeï¼Œè¯·ç¡®è®¤ VMware OVF Tool å·²å®‰è£…ã€‚";
+        /// æ‰§è¡Œä»»æ„ ovftool å‘½ä»¤ï¼ˆç›´æ¥ä¼ å…¥å®Œæ•´å€¹¥l9keùë)¹.,»ï"CBˆËËÈÜİ[[X\@Ğ¢V&Æ–27–æ2F6³Ä÷fe'Vå&W7VÇCâ'Vä6öÖÖæB‡7G&–ær&wVÖVçG2Â–çBF–ÖV÷WD×2Ò3Ğ¢°Ğ¢f"&W7VÇBÒæWr÷fe'Vå&W7VÇB‚“°Ğ¢öÆöt'V–ÆFW"ä6ÆV"‚“°Ğ¢ö7G2äF—7÷6R‚“°Ğ¢ö7G2ÒæWr6æ6VÆÆF–öåFö¶Vå6÷W&6R‚“°Ğ Ğ¢7G&–ær÷feFööÅF‚Ò&W6öÇfT÷feFööÅF‚‚""“°Ğ¢–b‡7G&–ærä—4çVÆÄ÷$V×G’†÷feFööÅF‚’ÇÂf–ÆRäW†—7G2†÷feFööÅF‚’Ğ¢°Ğ¢&W7VÇBäW'&÷$ÖW76vRÒ.h›’â7–"À½Ù™Ñ½½°¹•á—¾ò3¢·ç¡®è®¤ VMware OVF Tool å·²å®‰è£…ã€‚";
                 result.ExitCode = -1;
                 AppendLog(result.ErrorMessage);
                 result.FullLog = _logBuilder.ToString();
@@ -182,47 +69,11 @@ namespace VirtualizationOpsTool.Core
             {
                 result.IsSuccess = false;
                 result.ExitCode = -98;
-                result.ErrorMessage = $"æ‰§è¡Œè¶…æ—¶ ({timeoutMs / 1000}s)";
-                AppendLog(result.ErrorMessage);
-            }
-            catch (Exception ex)
-            {
-                result.IsSuccess = false;
-                result.ExitCode = -99;
-                result.ErrorMessage = $"æ‰§è¡Œå¼‚å¸¸: {ex.Message}";
-                AppendLog(result.ErrorMessage);
-            }
-
-            result.FullLog = _logBuilder.ToString();
-            return result;
-        }
-
-        /// <summary>
-        /// å–æ¶ˆæ­£åœ¨æ‰§è¡Œçš„ä»»åŠ¡
-        /// </summary>
-        public void Cancel()
-        {
-            _cts.Cancel();
-            try
-            {
-                _currentProcess?.Kill();
-            }
-            catch { }
-        }
-
-        /// <summary>
-        /// ç»„è£…å¯¼å‡ºå‚æ•°
-        /// </summary>
-        private string BuildExportArguments(OvfExportInput input)
-        {
-            var parts = new List<string>();
-
-            if (input.Overwrite) parts.Add("-o");
-            if (input.IgnoreNvram) parts.Add("--noNvramFile");
-            if (input.SslUnsecure) parts.Add("--noSSLVerify");
-            if (input.IgnoreImageFiles) parts.Add("--noImageFiles");
-
-            // URI ç¼–ç ç”¨æˆ·åå’Œå¯†ç 
+                result.ErrorMessage = $"æ‰¦(c:-¡y¥íˆ
+İ[Y[İ]\ÈÈL\ÊHÃBˆ\[™ÙÊ™\İ[‘\œ›Ü“Y\ÜØYÙJNÃBˆCBˆØ]Ú
+^Ù\[Ûˆ^
+CBˆÃBˆ™\İ[’\ÔİXØÙ\ÜÈH˜[ÙNÃBˆ™\İ[‘^]ÛÙHHNNNÃBˆ™\İ[‘\œ›Ü“Y\ÜØYÙHH	¹¢iú(c9o ¹n.ˆÙ^“Y\ÜØYÙ_HÃBˆ\[™ÙÊ™\İ[‘\œ›Ü“Y\ÜØYÙJNÃBˆCBƒBˆ™\İ[‘[ÙÈHÛÙĞZ[\‹•Ôİš[™Ê
+NÃBˆ™]\›ˆ™\İ[ÃBˆCBƒBˆËËÈİ[[X\OƒBˆËËÈ9ankhjÚ>YÊhš~ŠÎy¨NK»¾XªĞ¢òòòÂ÷7VÖÖ'4(€€€€€€€ÁÕ‰±¥ŒÙ½¥…¹•° ¤4(€€€€€€€ì4(€€€€€€€€€€€}ÑÌ¹…¹•° ¤ì4(€€€€€€€€€€€ÑÉä4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€}ÕÉÉ•¹ÑAÉ½•ÍÌü¹-¥±° ¤ì4(€€€€€€€€€€€ô4(€€€€€€€€€€€…Ñ ìô4(€€€€€€€ô4(4(€€€€€€€€¼¼¼€ñÍÕµµ…Éäø4(€€€€€€€€¼¼¼ƒî¢–¼å‡ºå€¹¥lBˆËËÈÜİ[[X\@Ğ¢&—fFR7G&–ær'V–ÆDW‡÷'D&wVÖVçG2„÷fdW‡÷'D–çWB–çWBĞ¢°Ğ¢f"'G2ÒæWrÆ—7CÇ7G&–æp ¤ì4(4(€€€€€€€€€€€¥˜€¡¥¹ÁÕĞ¹=Ù•ÉİÉ¥Ñ”¤Á…ÉÑÌ¹‘ ˆµ¼ˆ¤ì4(€€€€€€€€€€€¥˜€¡¥¹ÁÕĞ¹%¹½É•9ÙÉ…´¤Á…ÉÑÌ¹‘ ˆ´µ¹½9ÙÉ…µ¥±”ˆ¤ì4(€€€€€€€€€€€¥˜€¡¥¹ÁÕĞ¹MÍ±U¹Í•ÕÉ”¤Á…ÉÑÌ¹‘ ˆ´µ¹½MM1Y•É¥™äˆ¤ì4(€€€€€€€€€€€¥˜€¡¥¹ÁÕĞ¹%¹½É•%µ…•¥±•Ì¤Á…ÉÑÌ¹‘ ˆ´µ¹½%µ…•¥±•Ìˆ¤ì4(4(€€€€€€€€€€€€¼¼UI$ƒò[‚R£š"Õå’Œå¯†ç 
             string encodedUser = Uri.EscapeDataString(input.Username);
             string encodedPw = Uri.EscapeDataString(input.Password);
 
@@ -243,117 +94,29 @@ namespace VirtualizationOpsTool.Core
 
         /// <summary>
         /// è§£æ ovftool è·¯å¾„
-        /// </summary>
-        private string ResolveOvfToolPath(string explicitPath)
-        {
-            if (!string.IsNullOrEmpty(explicitPath) && File.Exists(explicitPath))
-                return explicitPath;
+        /// </summaryBˆš]˜]Hİš[™È™\ÛÛ™Sİ™•ÛÛ]
+İš[™È^XÚ]]
+CBˆÃBˆYˆ
+\İš[™Ë’\Ó[Ü‘[\J^XÚ]]
+H	‰ˆš[K‘^\İÊ^XÚ]]
+JCBˆ™]\›ˆ^XÚ]]ÃBƒBˆËÈ9n.:)àyk¢z(áz-ëùo¡Bˆ˜\ˆÛÛ[[Û”]ÈH™]Ö×CBˆÃBˆÎ—›ÙÜ˜[Hš[\×“]Ø\™W“]Ø\™HÕ‘ˆÛÛİ™ÛÛ™^H‹BˆÎ—›ÙÜ˜[Hš[\È
+ŠW“]Ø\™W“]Ø\™HÕ‘ˆÛÛİ™ÛÛ™^H‹BˆÎ—›ÙÜ˜[Hš[\È
+ŠW“]Ø\™W“]Ø\™HÛÜšÜİ][Û—Õ‘•ÛÛİ™ÛÛ™^H‹BˆÎ—›ÙÜ˜[Hš[\×“]Ø\™W“]Ø\™HÛÜšÜİ][Û—Õ‘•ÛÛİ™ÛÛ™^H‹BˆNÃBƒBˆ›Ü™XXÚ
+˜\ˆ][ˆÛÛ[[Û”]ÊCBˆÃBˆYˆ
+š[K‘^\İÊ]
+JCBˆ™]\›ˆ]ÃBˆCBƒBˆËÈ9l'z+åy.ãˆU9§éy¢oƒBˆİš[™ÏÈ][ˆH[š\›Û›Y[‘Ù][š\›Û›Y[˜\šXX›J”UŠNÃBˆYˆ
+\İš[™Ë’\Ó[Ü‘[\J][ŠJCBˆÃBˆ›Ü™XXÚ
+˜\ˆ\ˆ[ˆ][‹”Ü]
+	ÎÉÊJCBˆÃBˆİš[™ÈØ[™Y]HH]ÛÛXš[™J\‹•š[J
+K›İ™ÛÛ™^HŠNÃBˆYˆ
+š[K‘^\İÊØ[™Y]JJCBˆ™]\›ˆØ[™Y]NÃBˆCBˆCBƒBˆ™]\›ˆˆÃBˆCBƒBˆËËÈİ[[X\OƒBˆËËÈ9d+Xª‹ù¢%¹¶æ•è¶)è4(€€€€€€€€¼¼¼€ğ½ÍÕµµ…Éäø4(€€€€€€€ÁÉ¥Ù…Ñ”…Íå¹ŒQ…Í¬ñ¥¹ĞøIÕ¹AÉ½•ÍÍÍå¹Œ¡ÍÑÉ¥¹œ™¥±•9…µ”°ÍÑÉ¥¹œ…ÉÕµ•¹ÑÌ°¥¹ĞÑ¥µ•½ÕÑ5Ì¤4(€€€€€€€ì4(€€€€€€€€€€€Ù…ÈÁÍ¤€ô¹•ÜAÉ½•ÍÍMÑ…ÉÑ%¹™¼4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€¥±•9…µ”€ô™¥±•9…µ”°4(€€€€€€€€€€€€€€€ÉÕµ•¹ÑÌ€ô…ÉÕµ•¹ÑÌ°4(€€€€€€€€€€€€€€€UÍ•M¡•±±á•ÕÑ”€ô™…±Í”°4(€€€€€€€€€€€€€€€I•‘¥É•ÑMÑ…¹‘…É‘=ÕÑÁÕĞ€ôÑÉÕ”°4(€€€€€€€€€€€€€€€I•‘¥É•ÑMÑ…¹‘…É‘ÉÉ½È€ôÑÉÕ”°4(€€€€€€€€€€€€€€€É•…Ñ•9½]¥¹‘½Ü€ôÑÉÕ”°4(€€€€€€€€€€€€€€€MÑ…¹‘…É‘=ÕÑÁÕÑ¹½‘¥¹œ€ô¹½‘¥¹œ¹UQà°4(€€€€€€€€€€€€€€€MÑ…¹‘…É‘ÉÉ½É¹½‘¥¹œ€ô¹½‘¥¹œ¹UQà4(€€€€€€€€€€€ôì4(4(€€€€€€€€€€€}ÑÌ¹…¹•±™Ñ•È¡Ñ¥µ•½ÕÑ5Ì¤ì4(4(€€€€€€€€€€€ÕÍ¥¹œ€¡Ù…ÈÁÉ½•ÍÌ€ô¹•ÜAÉ½•ÍÌìMÑ…ÉÑ%¹™¼€ôÁÍ¤ô¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€}ÕÉÉ•¹ÑAÉ½•ÍÌ€ôÁÉ½•ÍÌì4(4(€€€€€€€€€€€€€€€ÁÉ½•ÍÌ¹=ÕÑÁÕÑ…Ñ…I••¥Ù•€¬ô€¡Ì°”¤€ôø4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€¥˜€¡”¹…Ñ„€„ô¹Õ±°¤4(€€€€€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€€€€€ÁÁ•¹‘1½œ¡”¹…Ñ„¤ì4(€€€€€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€ôì4(4(€€€€€€€€€€€€€€€ÁÉ½•ÍÌ¹ÉÉ½É…Ñ…I••¥Ù•€¬ô€¡Ì°”¤€ôø4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€¥˜€¡”¹…Ñ„€„ô¹Õ±°¤4(€€€€€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€€€€€ÁÁ•¹‘1½œ ‰mIItí”¹…Ñ…ôˆ¤ì4(€€€€€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€ôì4(4(€€€€€€€€€€€€€€€ÁÁ•¹‘1½œ ‹–BµŠ¨è¿™ê"ÎˆÙš[S˜[Y_HŠNÃBˆ›ØÙ\ÜË”İ\
 
-            // å¸¸è§å®‰è£…è·¯å¾„
-            var commonPaths = new[]
-            {
-                @"C:\Program Files\VMware\VMware OVF Tool\ovftool.exe",
-                @"C:\Program Files (x86)\VMware\VMware OVF Tool\ovftool.exe",
-                @"C:\Program Files (x86)\VMware\VMware Workstation\OVFTool\ovftool.exe",
-                @"C:\Program Files\VMware\VMware Workstation\OVFTool\ovftool.exe",
-            };
-
-            foreach (var path in commonPaths)
-            {
-                if (File.Exists(path))
-                    return path;
-            }
-
-            // å°è¯•ä» PATH æŸ¥æ‰¾
-            string? pathEnv = Environment.GetEnvironmentVariable("PATH");
-            if (!string.IsNullOrEmpty(pathEnv))
-            {
-                foreach (var dir in pathEnv.Split(';'))
-                {
-                    string candidate = Path.Combine(dir.Trim(), "ovftool.exe");
-                    if (File.Exists(candidate))
-                        return candidate;
-                }
-            }
-
-            return "";
-        }
-
-        /// <summary>
-        /// å¯åŠ¨è¿›ç¨‹å¹¶æ•è·è¾“å‡º
-        /// </summary>
-        private async Task<int> RunProcessAsync(string fileName, string arguments, int timeoutMs)
-        {
-            var psi = new ProcessStartInfo
-            {
-                FileName = fileName,
-                Arguments = arguments,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                CreateNoWindow = true,
-                StandardOutputEncoding = Encoding.UTF8,
-                StandardErrorEncoding = Encoding.UTF8
-            };
-
-            _cts.CancelAfter(timeoutMs);
-
-            using (var process = new Process { StartInfo = psi })
-            {
-                _currentProcess = process;
-
-                process.OutputDataReceived += (s, e) =>
-                {
-                    if (e.Data != null)
-                    {
-                        AppendLog(e.Data);
-                    }
-                };
-
-                process.ErrorDataReceived += (s, e) =>
-                {
-                    if (e.Data != null)
-                    {
-                        AppendLog($"[ERR] {e.Data}");
-                    }
-                };
-
-                AppendLog($"å¯åŠ¨è¿›ç¨‹: {fileName}");
-                process.Start();
-                process.BeginOutputReadLine();
-                process.BeginErrorReadLine();
-
-                var tcs = new TaskCompletionSource<bool>();
-                process.EnableRaisingEvents = true;
-                process.Exited += (s, e) => tcs.TrySetResult(true);
-
-                using (var reg = _cts.Token.Register(() =>
-                {
-                    try { process.Kill(); } catch { }
-                    tcs.TrySetCanceled();
-                }))
-                {
-                    try
-                    {
-                        await tcs.Task;
-                    }
-                    catch (TaskCanceledException)
-                    {
-                        AppendLog($"è¿›ç¨‹è¢«ç»ˆæ­¢ï¼ˆè¶…æ—¶æˆ–ç”¨æˆ·å–æ¶ˆï¼‰");
-                        throw new OperationCanceledException(_cts.Token);
-                    }
-                }
-
-                process.WaitForExit();
-
-                int exitCode = process.ExitCode;
-                AppendLog($"è¿›ç¨‹é€€å‡ºç : {exitCode}");
-                _currentProcess = null;
-                return exitCode;
-            }
-        }
-
-        /// <summary>
+NÃBˆ›ØÙ\ÜË™YÚ[“İ]]™XY[™J
+NÃBˆ›ØÙ\ÜË™YÚ[‘\œ›Ü”™XY[™J
+NÃBƒBˆ˜\ˆÜÈH™]È\ÚĞÛÛ\][Û”Ûİ\˜ÙO›ÛÛŠ
+NÃBˆ›ØÙ\ÜË‘[˜X›T˜Z\Ú[™Ñ]™[ÈHYNÃBˆ›ØÙ\ÜË‘^]Y
+ÏH
+ËJHBF72åG'•6WE&W7VÇB‡G'VR“°Ğ Ğ¢W6–ær‡f"&VrÒö7G2åFö¶Vâå&Vv—7FW"‚‚’ÓàĞ¢°Ğ¢G'’²&ö6W72ä¶–ÆÂ‚“²Ò6F6‚²ĞĞ¢F72åG'•6WD6æ6VÆVB‚“°Ğ¢Ò’Ğ¢°Ğ¢G'Ğ¢°Ğ¢v—BF72åF6³°Ğ¢ĞĞ¢6F6‚…F6´6æ6VÆVDW†6WF–öâĞ¢°Ğ¢VæDÆör‚B.‹ù¾zˆ¾Š*¾{¸jÚ.ûÈ‹h^i{nh‰nyJh‹~XùnkhûÈ’"“°Ğ¢F‡&÷ræWr÷W&F–öä6æ6VÆVDW†6WF–öâ…ö7G2åFö¶Vâ“°Ğ¢ĞĞ¢ĞĞ Ğ¢&ö6W72åv—Df÷$W†—B‚“°Ğ Ğ¢–çBW†—D6öFRÒ&ö6W72äW†—D6öFS°Ğ¢VæDÆör‚B.‹o¢/¦–ë‚èí•á¥Ñ½‘•ôˆ¤ì4(€€€€€€€€€€€€€€€}ÕÉÉ•¹ÑAÉ½•ÍÌ€ô¹Õ±°ì4(€€€€€€€€€€€€€€€É•ÑÕÉ¸•á¥Ñ½‘”ì4(€€€€€€€€€€€ô4(€€€€€€€ô4(4(€€€€€€€€¼¼¼€ñÍÕµµ…Éä
         /// è¿½åŠ æ—¥å¿—ï¼ˆçº¿ç¨‹å®‰å…¨ï¼‰
         /// </summary>
         private void AppendLog(string line)
