@@ -1,81 +1,9 @@
 // ============================================================================
-// DeployManager.cs - æ‰¹é‡éƒ¨ç½²ç¼–æ’å™¨
-// ============================================================================
-// èŒè´£ï¼šè¯»å– CSV éƒ¨ç½²åˆ—è¡¨ â†’ åˆ›å»ºä¸´æ—¶éƒ¨ç½²é€šé“ â†’ é€å°æ‰§è¡Œ New-VM + Guest ç½‘ç»œé…ç½®
-//
-// æ ¸å¿ƒæµç¨‹ï¼š
-//   âœ… DeployFromCsvAsync() â€” å…¥å£ï¼Œè§£æ CSV/å†…å­˜åˆ—è¡¨ â†’ æ ¡éªŒ â†’ åˆ›å»º TempDeploymentRunner
-//   âœ… å•å°éƒ¨ç½²æµæ°´çº¿ â€” åˆ›å»º VM â†’ å¼€æœºç­‰å¾… â†’ GuestOS ç½‘ç»œé…ç½® â†’ èµ„æºåˆ†é…
-//   âœ… DictionaryExtensions â€” .NET Framework 4.8 å…¼å®¹æ‰©å±•æ–¹æ³•ï¼ˆGetValueOrDefaultï¼‰
-//
-// ä¾èµ–ï¼š
-//   SessionManagerï¼ˆå‡­è¯å¤ç”¨ï¼‰/ TempDeploymentRunnerï¼ˆä¸´æ—¶é€šé“ï¼‰/ UnifiedCacheï¼ˆç¼“å­˜ï¼‰
-// ============================================================================
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using VirtualizationOpsTool.Utils;
-
-namespace VirtualizationOpsTool.Core
-{
-    /// <summary>
-    /// .NET Framework 4.8 å…¼å®¹æ‰©å±•æ–¹æ³•
-    /// </summary>
-    internal static class DictionaryExtensions
-    {
-        public static TValue GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue defaultValue = default)
-        {
-            if (dict.TryGetValue(key, out var value))
-                return value;
-            return defaultValue;
-        }
-    }
-
-    public class DeployManager
-    {
-        private static readonly HashSet<char> _safeNamePattern = new HashSet<char>(
-            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.");
-
-        private const string DEFAULT_GUEST_PASSWORD = "Admin@9000";
-        private const string DEFAULT_DNS_LINUX = "223.5.5.5 223.6.6.6";
-        private const string DEFAULT_DNS_WINDOWS = "223.5.5.5,223.6.6.6";
-
-        private readonly Control _uiControl;
-        private readonly Action<string, string> _logCallback;
-        private TempDeploymentRunner? _deploymentRunner;
-
-        public DeployManager(Control uiControl, Action<string, string> logCallback)
-        {
-            _uiControl = uiControl;
-            _logCallback = logCallback;
-        }
-
-        private string GetVmField(Dictionary<string, string> vmData, string key, string defaultValue = "")
-        {
-            string value;
-            if (vmData.TryGetValue(key, out value))
-            {
-                return value ?? defaultValue;
-            }
-            return defaultValue;
-        }
-
-        public async Task DeployFromCsvAsync(string csvPath = null, List<Dictionary<string, string>> vmListData = null)
-        {
-            if (!SessionManager.Instance.IsConnected)
-            {
-                _uiControl.Invoke(new Action(() =>
-                {
-                    _logCallback("é”™è¯¯", "å°šæœªè¿æ¥åˆ° vCenter Serverï¼Œè¯·å…ˆè¿æ¥æˆåŠŸåå†æ‰§è¡Œæ‰¹é‡éƒ¨ç½²ã€‚");
-                    MessageBox.Show("å°šæœªè¿æ¥åˆ° vCenter Server\nè¯·å…ˆç‚¹å‡»ã€Œå¼€å§‹è¿æ¥ã€ï¼Œè¿æ¥æˆåŠŸåå†æ‰§è¡Œæ‰¹é‡éƒ¨ç½²ã€‚", "è­¦å‘Š", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }));
-                return;
-            }
-
-            List<Dictionary<string, string>> vmList;
+// DeployManager.cs - æ‰¹é‡`ê9ïl¹ï%¹£¤¹fjB‹ËÈOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOCB‹ËÈ: c:-(ûï&º+¾XXMXƒ¦£öË–"_¢† ƒŠHƒ–"e»ºä¸´æ—¶éƒ¨ç½²é€šé“ â†’ é€åŒ9¢iú(c™]ËU“H
+ÈİY\İ9ïdyîç:acyïkƒB‹ËÃB‹ËÈ9¨.9oàkXzˆ¼š
+//   âœ… DeployFromCsvAsync() â€” å…¥å£ÈÎŠzz@MX¿––¶c–"_¢† ƒŠHƒš‚‡¦ª0ƒŠHƒ–"e»º TempDeploymentRunner
+//   âœ… å•åŒ:`ê9ïl¹­`y¬-9î¯È8 %9b&ùnîˆ“H8¡¤ˆ9o 9§.¹ëbyhR(i"wVW7Dõ2{Ù{¹Î˜XŞ{Úâ(i"‹XNk©Xˆn˜XĞĞ¢òò)ÈRF–7F–öæ'”W‡FVç6–öç2(	BääUBg&ÖWv÷&²Bã‚X[ÎZëhš[^ikk9^ûÈ„vWEfÇVT÷$FVfVÇNò$4(¼¼4(¼¼ƒ’èµ–ï&ƒB‹ËÈÙ\ÜÚ[Û“X[˜YÙ\»ÈXzŞŠøZHŞyJò$¼Q•µÁ•Á±½åµ•¹ÑIÕ¹¹•Ë¾ò#’âÓš^Û¦k¦O¾ò$¼U¹¥™¥•‘…¡—¼ˆç¼‘kf;ÈĞ¢òòÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓĞĞ§W6–ær7—7FVÓ°Ğ§W6–ær7—7FVÒä6öÆÆV7F–öç2ävVæW&–3°Ğ§W6–ær7—7FVÒä”ó°Ğ§W6–ær7—7FVÒäÆ–ç°Ğ§W6–ær7—7FVÒåF‡&VF–æråF6·3°Ğ§W6–ær7—7FVÒåv–æF÷w2äf÷&×3°Ğ§W6–ærf—'GVÆ—¦F–öä÷5FööÂåWF–Ç3°Ğ Ğ¦æÖW76Rf—'GVÆ—¦F–öä÷5FööÂä6÷&PĞ§°Ğ¢òòòÇ7VÖÖ'“àĞ¢òòòääUBg&ÖWv÷&²Bã‚X[ÎZëhš[^ikk9PĞ¢òòòÂ÷7VÖÖ'“àĞ¢–çFW&æÂ7FF–26Æ72F–7F–öæ'”W‡FVç6–öç0Ğ¢°Ğ¢V&Æ–27FF–2EfÇVRvWEfÇVT÷$FVfVÇCÅD¶W’ÂEfÇVSâ‡F†—2F–7F–öæ'“ÅD¶W’ÂEfÇVSâF–7BÂD¶W’¶W’ÂEfÇVRFVfVÇEfÇVRÒFVfVÇBĞ¢°Ğ¢–b†F–7BåG'”vWEfÇVR†¶W’Â÷WBf"fÇVR’Ğ¢&WGW&âfÇVS°Ğ¢&WGW&âFVfVÇEfÇVS°Ğ¢ĞĞ¢ĞĞ Ğ¢V&Æ–26Æ72FWÆ÷”ÖævW Ğ¢°Ğ¢&—fFR7FF–2&VFöæÇ’†6…6WCÆ6†#â÷6fTæÖUGFW&âÒæWr†6…6WCÆ6†#â€Ğ¢&&6FVfv†–¦¶ÆÖæ÷'7GWgw‡—¤$4DTdt„”¤´ÄÔäõ%5EUeu…•£#3CScsƒ’Õòâ"“°Ğ Ğ¢&—fFR6öç7B7G&–ærDTdTÅEôuTU5Eõ55tõ$BÒ$FÖ–ä“#°Ğ¢&—fFR6öç7B7G&–ærDTdTÅEôDå5ôÄ”åU‚Ò###2ãRãRãR##2ãbãbãb#°Ğ¢&—fFR6öç7B7G&–ærDTdTÅEôDå5õt”äDõu2Ò###2ãRãRãRÃ##2ãbãbãb#°Ğ Ğ¢&—fFR&VFöæÇ’6öçG&öÂ÷V”6öçG&öÃ°Ğ¢&—fFR&VFöæÇ’7F–öãÇ7G&–ærÂ7G&–æp}±½…±±‰…¬ì4(€€€€€€€ÁÉ¥Ù…Ñ”Q•µÁ•Á±½åµ•¹ÑIÕ¹¹•Èü}‘•Á±½åµ•¹ÑIÕ¹¹•Èì4(4(€€€€€€€ÁÕ‰±¥Œ•Á±½å5…¹…•È¡½¹ÑÉ½°Õ¥½¹ÑÉ½°°Ñ¥½¸ñÍÑÉ¥¹œ°ÍÑÉ¥¹œø±½…±±‰…¬¤4(€€€€€€€ì4(€€€€€€€€€€€}Õ¥½¹ÑÉ½°€ôÕ¥½¹ÑÉ½°ì4(€€€€€€€€€€€}±½…±±‰…¬€ô±½…±±‰…¬ì4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”ÍÑÉ¥¹œ•ÑYµ¥•±¡¥Ñ¥½¹…ÉäñÍÑÉ¥¹œ°ÍÑÉ¥¹œøÙµ…Ñ„°ÍÑÉ¥¹œ­•ä°ÍÑÉ¥¹œ‘•™…Õ±ÑY…±Õ”€ô€ˆˆ¤4(€€€€€€€ì4(€€€€€€€€€€€ÍÑÉ¥¹œÙ…±Õ”ì4(€€€€€€€€€€€¥˜€¡Ùµ…Ñ„¹QÉå•ÑY…±Õ”¡­•ä°½ÕĞÙ…±Õ”¤¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€É•ÑÕÉ¸Ù…±Õ”€üü‘•™…Õ±ÑY…±Õ”ì4(€€€€€€€€€€€ô4(€€€€€€€€€€€É•ÑÕÉ¸‘•™…Õ±ÑY…±Õ”ì4(€€€€€€€ô4(4(€€€€€€€ÁÕ‰±¥Œ…Íå¹ŒQ…Í¬•Á±½åÉ½µÍÙÍå¹Œ¡ÍÑÉ¥¹œÍÙA…Ñ €ô¹Õ±°°1¥ÍĞñ¥Ñ¥½¹…ÉäñÍÑÉ¥¹œ°ÍÑÉ¥¹œøøÙµ1¥ÍÑ…Ñ„€ô¹Õ±°¤4(€€€€€€€ì4(€€€€€€€€€€€¥˜€ …M•ÍÍ¥½¹5…¹…•È¹%¹ÍÑ…¹”¹%Í½¹¹•Ñ•¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€}Õ¥½¹ÑÉ½°¹%¹Ù½­”¡¹•ÜÑ¥½¸  ¤€ôø4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€}±½…±±‰…¬ ‹¦Rg¢¾¼ˆ°€‹–Âkšr«¢Şæ¥åˆ° vCenter Serverï¼Œè­ùab:-îhê^h‰X©şYîXhŞhš~ŠÎh›˜xş˜:{Û.8""“°Ğ¢ÖW76vT&÷‚å6†÷r‚.[	®iÊ®‹{š:—–"ÀÙ•¹Ñ•ÈM•ÉÙ•Éq»¢¾ß–#
+ç–ï3–ò–/¢ş{š:—7¾ò3¢ş{š:—š"C–*–B;–7š&Ÿ¢†3š&ç¦?¦£öËˆ°€‹¢¶›–F(ˆ°5•ÍÍ…•	½á	ÕÑÑ½¹Ì¹=,°5•ÍÍ…•	½á%½¸¹]…É¹¥¹œ¤ì4(€€€€€€€€€€€€€€€ô¤¤ì4(€€€€€€€€€€€€€€€É•ÑÕÉ¸ì4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€1¥ÍĞñ¥Ñ¥½¹…ÉäñÍÑÉ¥¹œ°ÍÑÉ¥¹œø vmList;
 
             if (vmListData != null && vmListData.Count > 0)
             {
@@ -88,21 +16,8 @@ namespace VirtualizationOpsTool.Core
                 {
                     _uiControl.Invoke(new Action(() =>
                     {
-                        _logCallback("é”™è¯¯", "CSV æ–‡ä»¶ä¸å­˜åœ¨: " + pathToUse);
-                        MessageBox.Show("CSV éƒ¨ç½²æ–‡ä»¶ä¸å­˜åœ¨ï¼Œè¯·å…ˆåœ¨ã€Œç¼–è¾‘åˆ—è¡¨ã€ä¸­åˆ›å»ºæˆ–ä¿å­˜éƒ¨ç½²æ–‡ä»¶ã€‚", "é”™è¯¯", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }));
-                    return;
-                }
-
-                try
-                {
-                    vmList = LoadCsv(pathToUse);
-                }
-                catch (Exception ex)
-                {
-                    _uiControl.Invoke(new Action(() =>
-                    {
-                        _logCallback("é”™è¯¯", "CSV æ–‡ä»¶è¯»å–å¤±è´¥: " + ex.Message);
+                        _logCallback("é”™è¯¯", "CSV æ–….í¹.#ykf9g*ˆˆ
+È]Õ\ÙJNÃBˆY\ÜØYÙP›Ş”ÚİÊÔÕˆ:`ê9ïl¹¥¡ù.í¹.#ykf9g*;ï#:+íùab9g*8à#9ï%º/¤yb%ú(j8à#y.+yb&ùnî¹¢%¹/çykf:`ê9ïl¹¥¡ù.í¸à ˆ‹ºe&z*ò"ÂÖW76vT&÷„'WGFöç2äô²ÂÖW76vT&÷„–6öâäW'&÷"“°Ğ¢Ò’“°Ğ¢&WGW&ã°Ğ¢ĞĞ Ğ¢G'Ğ¢°Ğ¢fÔÆ—7BÒÆöD77b‡F…FõW6R“°Ğ¢ĞĞ¢6F6‚„W†6WF–öâW‚Ğ¢°Ğ¢÷V”6öçG&öÂä–çfö¶R†æWr7F–öâ‚‚’Ğ4(€€€€€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€€€€€}±½…±±‰…¬ ‹¦Rg¢¯", "CSV æ–‡ä»¶è¯»å–å¤±è´¥: " + ex.Message);
                     }));
                     return;
                 }
@@ -112,27 +27,14 @@ namespace VirtualizationOpsTool.Core
             {
                 _uiControl.Invoke(new Action(() =>
                 {
-                    _logCallback("è­¦å‘Š", "CSV æ–‡ä»¶ä¸­æ²¡æœ‰å¯éƒ¨ç½²çš„è™šæ‹Ÿæœº");
-                }));
-                return;
-            }
+                    _logCallback("è­¦å‘Š", "CSV æ–….í¹.+y¬¨y§"ycë˜:{Û.y¨N‰™®h¹Úrèˆ¤ì4(€€€€€€€€€€€€€€€ô¤¤ì4(€€€€€€€€€€€€€€€É•ÑÕÉ¸ì4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€¥¹ĞÑ½Ñ…±½Õ¹Ğ€ôÙµ1¥ÍĞ¹½Õ¹Ğì4(€€€€€€€€€€€}Õ¥½¹ÑÉ½°¹%¹Ù½­”¡¹•ÜÑ¥½¸  ¤€ôø4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€1½MÑ…•!•…‘•È ‹š&ç¦?¦£öË¢fkš.šrè€£–ÄíÑ½Ñ…±½Õ¹Ñôƒ–>À¤ˆ¤ì4(€€€€€€€€€€€€€€€1½Yµ1¥ÍÑAÉ•Ù¥•Ü¡Ùµ1¥ÍĞ¤ì4(€€€€€€€€€€€ô¤¤ì4(4(€€€€€€€€€€€€¼¼ƒš‚®°ä»¹b¨yo 9iâÃBˆÙ\ÜÚ[Û“X[˜YÙ\‹’[œİ[˜ÙK“X\šÕ\ÚÔİ\Y
 
-            int totalCount = vmList.Count;
-            _uiControl.Invoke(new Action(() =>
-            {
-                LogStageHeader($"æ‰¹é‡éƒ¨ç½²è™šæ‹Ÿæœº (å…± {totalCount} å°)");
-                LogVmListPreview(vmList);
-            }));
+NÃBƒBˆ›ÛÛ]]^XÜ]Z\™YH]ØZ]Ù\ÜÚ[Û“X[˜YÙ\‹’[œİ[˜ÙKXÜ]Z\™Q\Ş[Y[]]^\Ş[˜Ê
+NÃBˆYˆ
+[]]^XÜ]Z\™Y
+CBˆÃBˆİZPÛÛ›Û’[›ÚÙJ™]ÈXİ[ÛŠ
 
-            // æ ‡è®°ä»»åŠ¡å¼€å§‹
-            SessionManager.Instance.MarkTaskStarted();
-
-            bool mutexAcquired = await SessionManager.Instance.AcquireDeploymentMutexAsync();
-            if (!mutexAcquired)
-            {
-                _uiControl.Invoke(new Action(() =>
-                {
-                    _logCallback("é”™è¯¯", "å·²æœ‰æ‰¹é‡éƒ¨ç½²ä»»åŠ¡æ­£åœ¨è¿è¡Œï¼Œè¯·ç­‰å¾…å®Œæˆåå†è¯•ã€‚");
+HOƒBˆÃBˆÛÙĞØ[˜XÚÊºe&z*ò"Â.[{.iÈh›˜xæ£öË’îåŠ¡æ­¡g*:/ä:(c;ÈÎŠû^¶'–…å®Œæˆåå†è¯•ã€‚");
                 }));
                 SessionManager.Instance.MarkTaskCompleted();
                 return;
@@ -145,37 +47,23 @@ namespace VirtualizationOpsTool.Core
                 {
                     _uiControl.Invoke(new Action(() =>
                     {
-                        _logCallback("é”™è¯¯", "ä¸´æ—¶éƒ¨ç½²é€šé“åˆ›å»ºå¤±è´¥ï¼Œè¯·æ£€æŸ¥ vCenter è¿æ¥æˆ–å‡­è¯ç¼“å­˜ã€‚");
+                        _logCallback("é”™è¯¯", "ä¸´æ—¶éƒ¨ç½²é€šé“åˆ›å»ºå¤±è´¥ï¼Œè­ù¨à9¦Rd6VçFW"‹{š:—š"[–·¢ç¼“å­˜ã€‚");
                     }));
                     SessionManager.Instance.ReleaseDeploymentMutex();
                     SessionManager.Instance.MarkTaskCompleted();
                     return;
                 }
 
-                var results = new List<DeployResult>();
-            DateTime deployStart = DateTime.Now;
-            bool wasCancelled = false;
+                var results = new List<DeployResult
 
-            _uiControl.Invoke(new Action(() => LogStageHeader("é˜¶æ®µ 1/3ï¼šåˆ›å»º & å¼€æœº")));
+NÃBˆ]U[YH\ŞTİ\H]U[YK“›İÎÃBˆ›ÛÛØ\ĞØ[˜Ù[YH˜[ÙNÃBƒBˆİZPÛÛ›Û’[›ÚÙJ™]ÈXİ[ÛŠ
 
-            for (int i = 0; i < vmList.Count; i++)
-            {
-                if (SessionManager.Instance.IsCancelRequested)
-                {
-                    _uiControl.Invoke(new Action(() => _logCallback("è­¦å‘Š", "ç”¨æˆ·è¯·æ±‚ç»ˆæ­¢éƒ¨ç½²ä»»åŠ¡")));
-                    wasCancelled = true;
-                    break;
-                }
+HOˆÙÔİYÙRXY\Šºf-¹«­HKÌûï&¹b&ùnîˆ	ˆ9o 9§.ˆŠJJNÃBƒBˆ›Üˆ
+[HHÈH›S\İÛİ[ÈJÊÊCBˆÃBˆYˆ
+Ù\ÜÚ[Û“X[˜YÙ\‹’[œİ[˜ÙK’\ĞØ[˜Ù[™\]Y\İY
+CBˆÃBˆİZPÛÛ›Û’[›ÚÙJ™]ÈXİ[ÛŠ
 
-                var row = vmList[i];
-                var result = await DeployVmAsync(row, i + 1, totalCount);
-                results.Add(result);
-            }
-
-            if (!wasCancelled && results.Any(r => r.Success && !string.IsNullOrEmpty(r.VmMoRef)))
-            {
-                var stage1Results = results.Where(r => r.Success && !string.IsNullOrEmpty(r.VmMoRef)).ToList();
-                _uiControl.Invoke(new Action(() => LogStageHeader($"é˜¶æ®µ 2/3ï¼šç­‰å¾… VMware Tools å°±ç»ª ({stage1Results.Count} å°å¹¶è¡Œ)")));
+HOˆÛÙĞØ[˜XÚÊº+i¹dbˆ‹¹å*9¢-ú+~k.{¸jÚ.˜:{Û.K»¾Xª"’’“°Ğ¢v46æ6VÆÆVBÒG'VS°Ğ¢'&V³°Ğ¢ĞĞ Ğ¢f"&÷rÒfÔÆ—7E¶•Ó°Ğ¢f"&W7VÇBÒv—BFWÆ÷•fÔ7–æ2‡&÷rÂ’²ÂF÷FÄ6÷VçB“°Ğ¢&W7VÇG2äFB‡&W7VÇB“°Ğ¢ĞĞ Ğ¢–b‚v46æ6VÆÆVBbb&W7VÇG2äç’‡"ĞÈ¹MÕ•ÍÌ€˜˜€…ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡È¹Yµ5½I•˜¤¤¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Ù…ÈÍÑ…”ÅI•ÍÕ±ÑÌ€ôÉ•ÍÕ±ÑÌ¹]¡•É”¡È€ôøÈ¹MÕ•ÍÌ€˜˜€…ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡È¹Yµ5½I•˜¤¤¹Q½1¥ÍĞ ¤ì4(€€€€€€€€€€€€€€€}Õ¥½¹ÑÉ½°¹%¹Ù½­”¡¹•ÜÑ¥½¸  ¤€ô LogStageHeader($"é˜¶æ®µ 2/3É®zØZY5İ…É”Q½½±Ìƒ–ÂÇî¨€¡íÍÑ…”ÅI•ÍÕ±ÑÌ¹½Õ¹Ñôƒ–0å¹¶è¡Œ)")));
 
                 var waitTasks = stage1Results.Select(r => WaitToolsReadyAsync(r.VmMoRef));
                 var waitResults = await Task.WhenAll(waitTasks);
@@ -198,11 +86,11 @@ namespace VirtualizationOpsTool.Core
                     if (!result.Success || string.IsNullOrEmpty(result.VmMoRef)) continue;
 
                     int vmIndex = i + 1;
-                    bool toolsReady = waitResults[stage1Results.FindIndex(s => s.Label == result.Label)];
+                    bool toolsReady = waitResults[stage1Results.FindIndex(s =Ë“X™[OH™\İ[“X™[
+WNÃBƒBˆYˆ
+]ÛÛÔ™XYJCBˆÃBˆİZPÛÛ›Û’[›ÚÙJ™]ÈXİ[ÛŠ
 
-                    if (!toolsReady)
-                    {
-                        _uiControl.Invoke(new Action(() => _logCallback("é”™è¯¯", $"[{vmIndex}/{totalCount}] {result.Label} Tools æœªå°±ç»ªï¼Œè·³è¿‡ GuestOps")));
+HBöÆöt6ÆÆ&6²‚.™IŠ¼ˆ°€‰míÙµ%¹‘•áô½íÑ½Ñ…±½Õ¹ÑõtíÉ•ÍÕ±Ğ¹1…‰•±ôQ½½±Ìƒšr«–ÂÇî«¾ò3¢ŞÏ¢Ç GuestOps")));
                         result.Success = false;
                         result.Status = (result.Status ?? "") + "(Tools è¶…æ—¶)";
                         continue;
@@ -217,144 +105,8 @@ namespace VirtualizationOpsTool.Core
                     }
                     catch (Exception ex)
                     {
-                        _uiControl.Invoke(new Action(() => _logCallback("é”™è¯¯", $"[{vmIndex}/{totalCount}] GuestOps å¤±è´¥ {result.Label}: {ex.Message}")));
-                        result.Success = false;
-                        result.Status = (result.Status ?? "") + "(GuestOpså¤±è´¥)";
-                    }
-                }
-            }
-
-            TimeSpan deployElapsed = DateTime.Now - deployStart;
-            int successCount = results.Count(r => r.Success);
-            int failCount = totalCount - successCount;
-
-            if (!wasCancelled)
-            {
-                _uiControl.Invoke(new Action(() =>
-                {
-                    LogSummaryTable(results, deployElapsed);
-                }));
-            }
-            else
-            {
-                _uiControl.Invoke(new Action(() =>
-                {
-                    LogSummaryTable(results, deployElapsed, cancelled: true);
-                }));
-            }
-
-            // æ ‡è®°ä»»åŠ¡å®Œæˆ
-            }
-            finally
-            {
-                if (_deploymentRunner != null)
-                {
-                    SessionManager.Instance.RenewTempRunnerTimer();
-                    _deploymentRunner = null;
-                }
-                SessionManager.Instance.ReleaseDeploymentMutex();
-                SessionManager.Instance.MarkTaskCompleted();
-            }
-        }
-
-        private async Task<DeployResult> DeployVmAsync(Dictionary<string, string> vmData, int vmIndex, int vmTotal)
-        {
-            string vmname = ComputeVmname(vmData);
-            string vmIp = vmData.GetValueOrDefault("IP", "");
-            string label = vmname;
-            DateTime startTime = DateTime.Now;
-            string statusText = "å¤±è´¥";
-            string vmMoRef = null;
-
-            try
-            {
-                LogVmHeader(vmIndex, vmTotal, label);
-
-                var (isValid, err) = ValidateVmData(vmData, forNewVm: false);
-                if (!isValid)
-                {
-                    throw new Exception($"CSV æ•°æ®æ ¡éªŒå¤±è´¥: {err}");
-                }
-
-                LogVmStep("æ£€æŸ¥å­˜åœ¨...");
-                bool vmExists = await CheckVmExistsAsync(vmData);
-                if (vmExists)
-                {
-                    LogVmStep("  â†’ å·²å­˜åœ¨, å°†é‡æ–°é…ç½®");
-                }
-                else
-                {
-                    LogVmStep("  â†’ ä¸å­˜åœ¨, å¼€å§‹æ–°å»º");
-                }
-
-                if (vmExists)
-                {
-                    vmMoRef = await ResolveVmMoRefByNameAsync(vmData);
-                    LogVmStep("é‡æ–°é…ç½® (CPU, å†…å­˜, ç½‘å¡, ç£ç›˜)...");
-                    string psScript = BuildDeployScriptReconfigure(vmData, vmMoRef);
-                    await ExecuteInSessionAsync(psScript, "reconfigure");
-                    LogVmStep("  â†’ å®Œæˆ");
-
-                    statusText = "é‡æ–°é…ç½®";
-                }
-                else
-                {
-                    string template = (vmData.GetValueOrDefault("Template", "") ?? "").Trim();
-                    if (string.IsNullOrEmpty(template))
-                    {
-                        throw new Exception("CSV æ•°æ®æ ¡éªŒå¤±è´¥: Templateï¼ˆæ¨¡æ¿åç§°ï¼‰ä¸èƒ½ä¸ºç©º");
-                    }
-
-                    LogVmStep("ä»æ¨¡æ¿åˆ›å»ºè™šæ‹Ÿæœº...");
-                    string psScript = BuildDeployScriptStep1(vmData);
-                    await ExecuteInSessionAsyncReturnOutput(psScript, "step1");
-                    LogVmStep("  â†’ å®Œæˆ");
-
-                    vmMoRef = await ResolveVmMoRefByNameAsync(vmData);
-
-                    LogVmStep("é…ç½® (CPU, å†…å­˜, ç½‘å¡)...");
-                    psScript = BuildDeployScriptStep2(vmData, vmMoRef);
-                    await ExecuteInSessionAsync(psScript, "step2");
-                    LogVmStep("  â†’ å®Œæˆ");
-
-                    LogVmStep("å¯åŠ¨è™šæ‹Ÿæœº...");
-                    psScript = BuildDeployScriptStep3(vmData, vmMoRef);
-                    await ExecuteInSessionAsync(psScript, "step3");
-                    LogVmStep("  â†’ å®Œæˆ");
-
-                    statusText = "æ–°å»º";
-                }
-
-                TimeSpan elapsed = DateTime.Now - startTime;
-                LogVmResult($"çŠ¶æ€: {statusText}æˆåŠŸ âœ“  (è€—æ—¶ {FormatDuration((int)elapsed.TotalSeconds)})");
-                return new DeployResult { Label = label, Ip = vmIp, Status = statusText, Elapsed = (int)elapsed.TotalSeconds, Success = true, VmMoRef = vmMoRef };
-            }
-            catch (Exception ex)
-            {
-                TimeSpan elapsed = DateTime.Now - startTime;
-                string errMsg = ex.Message.Length > 80 ? ex.Message.Substring(0, 80) : ex.Message;
-                LogVmResult($"çŠ¶æ€: éƒ¨ç½²å¤±è´¥ âœ—  ({errMsg})");
-                _logCallback("é”™è¯¯", $"è™šæ‹Ÿæœº {label} éƒ¨ç½²å¤±è´¥: {ex.Message}");
-                return new DeployResult { Label = label, Ip = vmIp, Status = "å¤±è´¥", Elapsed = (int)elapsed.TotalSeconds, Success = false, VmMoRef = vmMoRef };
-            }
-        }
-
-        private async Task<bool> CheckVmExistsAsync(Dictionary<string, string> vmData)
-        {
-            string vmname = ComputeVmname(vmData);
-            string checkScript = $@"
-$ErrorActionPreference = 'Stop';
-try {{
-$vm = Get-View -ViewType VirtualMachine -Property Name,Config.Template -ErrorAction SilentlyContinue | Where-Object {{ $_.Name -eq '{EscapePsString(vmname)}' -and $_.Config.Template -eq $false }};
-if ($vm -ne $null) {{ Write-Output 'EXISTS' }} else {{ Write-Output 'NOT_EXISTS' }}
-}} catch {{ Write-Output 'NOT_EXISTS' }}
-";
-
-            try
-            {
-                string output = await _deploymentRunner!.ExecuteScriptAsync(checkScript, _logCallback, 30);
-                
-                // æŒ‰è¡Œåˆ†å‰²ï¼Œç²¾ç¡®åŒ¹é…ï¼Œé¿å… NOT_EXISTS è¢« Contains("EXISTS") è¯¯åˆ¤
+                        _uiControl.Invoke(new Action(() =ÛÙĞØ[˜XÚÊºe&z*ò"ÂB%··fÔ–æFW‡Ò÷·F÷FÄ6÷VçGÕÒwVW7D÷2ZK‹JR·&W7VÇBäÆ&VÇÓ¢¶W‚äÖW76vWÒ"’’“°Ğ¢&W7VÇBå7V66W72ÒfÇ6S°Ğ¢&W7VÇBå7FGW2Ò‡&W7VÇBå7FGW2óò""’²"„wVW7D÷>ZK‹JR’#°Ğ¢ĞĞ¢ĞĞ¢ĞĞ Ğ¢F–ÖU7âFWÆ÷”VÆ6VBÒFFUF–ÖRäæ÷rÒFWÆ÷•7F'C°Ğ¢–çB7V66W746÷VçBÒ&W7VÇG2ä6÷VçB‡"Óâ"å7V66W72“°Ğ¢–çBf–Ä6÷VçBÒF÷FÄ6÷VçBÒ7V66W746÷VçC°Ğ Ğ¢–b‚v46æ6VÆÆVBĞ¢°Ğ¢÷V”6öçG&öÂä–çfö¶R†æWr7F–öâ‚‚’Ğ4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€1½MÕµµ…ÉåQ…‰±”¡É•ÍÕ±ÑÌ°‘•Á±½å±…ÁÍ•¤ì4(€€€€€€€€€€€€€€€ô¤¤ì4(€€€€€€€€€€€ô4(€€€€€€€€€€€•±Í”4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€}Õ¥½¹ÑÉ½°¹%¹Ù½­”¡¹•ÜÑ¥½¸  ¤€ôø4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€1½MÕµµ…ÉåQ…‰±”¡É•ÍÕ±ÑÌ°‘•Á±½å±…ÁÍ•°…¹•±±•èÑÉÕ”¤ì4(€€€€€€€€€€€€€€€ô¤¤ì4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€€¼¼ƒš‚¢ºÃ’îï–*‡–º3š"@4(€€€€€€€€€€€ô4(€€€€€€€€€€€™¥¹…±±ä4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€¥˜€¡}‘•Á±½åµ•¹ÑIÕ¹¹•È€„ô¹Õ±°¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€M•ÍÍ¥½¹5…¹…•È¹%¹ÍÑ…¹”¹I•¹•İQ•µÁIÕ¹¹•ÉQ¥µ•È ¤ì4(€€€€€€€€€€€€€€€€€€€}‘•Á±½åµ•¹ÑIÕ¹¹•È€ô¹Õ±°ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€M•ÍÍ¥½¹5…¹…•È¹%¹ÍÑ…¹”¹I•±•…Í••Á±½åµ•¹Ñ5ÕÑ•à ¤ì4(€€€€€€€€€€€€€€€M•ÍÍ¥½¹5…¹…•È¹%¹ÍÑ…¹”¹5…É­Q…Í­½µÁ±•Ñ• ¤ì4(€€€€€€€€€€€ô4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”…Íå¹ŒQ…Í¬ñ•Á±½åI•ÍÕ±Ğø•Á±½åYµÍå¹Œ¡¥Ñ¥½¹…ÉäñÍÑÉ¥¹œ°ÍÑÉ¥¹œøÙµ…Ñ„°¥¹ĞÙµ%¹‘•à°¥¹ĞÙµQ½Ñ…°¤4(€€€€€€€ì4(€€€€€€€€€€€ÍÑÉ¥¹œÙµ¹…µ”€ô½µÁÕÑ•Yµ¹…µ”¡Ùµ…Ñ„¤ì4(€€€€€€€€€€€ÍÑÉ¥¹œÙµ%À€ôÙµ…Ñ„¹•ÑY…±Õ•=É•™…Õ±Ğ ‰%@ˆ°€ˆˆ¤ì4(€€€€€€€€€€€ÍÑÉ¥¹œ±…‰•°€ôÙµ¹…µ”ì4(€€€€€€€€€€€…Ñ•Q¥µ”ÍÑ…ÉÑQ¥µ”€ô…Ñ•Q¥µ”¹9½Üì4(€€€€€€€€€€€ÍÑÉ¥¹œÍÑ…ÑÕÍQ•áĞ€ô€‹–’Ç¢Ò”ˆì4(€€€€€€€€€€€ÍÑÉ¥¹œÙµ5½I•˜€ô¹Õ±°ì4(4(€€€€€€€€€€€ÑÉä4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€1½Yµ!•…‘•È¡Ùµ%¹‘•à°ÙµQ½Ñ…°°±…‰•°¤ì4(4(€€€€€€€€€€€€€€€Ù…È€¡¥ÍY…±¥°•ÉÈ¤€ôY…±¥‘…Ñ•Yµ…Ñ„¡Ùµ…Ñ„°™½É9•İY´è™…±Í”¤ì4(€€€€€€€€€€€€€€€¥˜€ …¥ÍY…±¥¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€Ñ¡É½Ü¹•Üá•ÁÑ¥½¸ ‰MXƒšVÃš6»š‚‡¦ª3–’Ç¢Ò”èí•ÉÉôˆ¤ì4(€€€€€€€€€€€€€€€ô4(4(€€€€€€€€€€€€€€€1½YµMÑ•À ‹šš~—–¶c–r ¸¸¸ˆ¤ì4(€€€€€€€€€€€€€€€‰½½°Ùµá¥ÍÑÌ€ô…İ…¥Ğ¡•­Yµá¥ÍÑÍÍå¹Œ¡Ùµ…Ñ„¤ì4(€€€€€€€€€€€€€€€¥˜€¡Ùµá¥ÍÑÌ¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€1½YµMÑ•À ˆ€ƒŠHƒ–ŞË–¶c–r °ƒ–Â¦7šZÃ¦7ö¸ˆ¤ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€•±Í”4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€1½YµMÑ•À ˆ€ƒŠHƒ’â7–¶c–r °ƒ–ò–/šZÃ–îèˆ¤ì4(€€€€€€€€€€€€€€€ô4(4(€€€€€€€€€€€€€€€¥˜€¡Ùµá¥ÍÑÌ¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€Ùµ5½I•˜€ô…İ…¥ĞI•Í½±Ù•Yµ5½I•™	å9…µ•Íå¹Œ¡Ùµ…Ñ„¤ì4(€€€€€€€€€€€€€€€€€€€1½YµMÑ•À ‹¦7šZÃ¦7ö¸€¡AT°ƒ––¶`°ƒöG–6„°ƒn`¤¸¸¸ˆ¤ì4(€€€€€€€€€€€€€€€€€€€ÍÑÉ¥¹œÁÍMÉ¥ÁĞ€ô	Õ¥±‘•Á±½åMÉ¥ÁÑI•½¹™¥ÕÉ”¡Ùµ…Ñ„°Ùµ5½I•˜¤ì4(€€€€€€€€€€€€€€€€€€€…İ…¥Ğá•ÕÑ•%¹M•ÍÍ¥½¹Íå¹Œ¡ÁÍMÉ¥ÁĞ°€‰É•½¹™¥ÕÉ”ˆ¤ì4(€€€€€€€€€€€€€€€€€€€1½YµMÑ•À ˆ€ƒŠHƒ–º3š"@ˆ¤ì4(4(€€€€€€€€€€€€€€€€€€€ÍÑ…ÑÕÍQ•áĞ€ô€‹¦7šZÃ¦7ö¸ˆì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€•±Í”4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€ÍÑÉ¥¹œÑ•µÁ±…Ñ”€ô€¡Ùµ…Ñ„¹•ÑY…±Õ•=É•™…Õ±Ğ ‰Q•µÁ±…Ñ”ˆ°€ˆˆ¤€üü€ˆˆ¤¹QÉ¥´ ¤ì4(€€€€€€€€€€€€€€€€€€€¥˜€¡ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡Ñ•µÁ±…Ñ”¤¤4(€€€€€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€€€€€Ñ¡É½Ü¹•Üá•ÁÑ¥½¸ ‰MXƒšVÃš6»š‚‡¦ª3–’Ç¢Ò”èQ•µÁ±…Ñ—¼ˆæ¨¡æ½d#yéì;ÈKˆŞˆ;ŞK‹®z›¢"“°Ğ¢ĞĞ Ğ¢ÆöufÕ7FW‚.K¸îjŠiÛşX‰¾[»®‰™®h¹şiË¢âââ"“°Ğ¢7G&–ær567&—BÒ'V–ÆDFWÆ÷•67&—E7FW‡fÔFF“°Ğ¢v—BW†V7WFT–å6W76–öä7–æ5&WGW&ä÷WGWB‡567&—BÂ'7FW"“°Ğ¢ÆöufÕ7FW‚"(i"ZèÎh‰"“°Ğ Ğ¢fÔÖõ&VbÒv—B&W6öÇfUfÔÖõ&Vd'”æÖT7–æ2‡fÔFF“°Ğ Ğ¢ÆöufÕ7FW‚.˜XŞ{Úâ„5RÂXh^ZÙ‚Â{ÙXÚ’âââ"“°Ğ¢567&—BÒ'V–ÆDFWÆ÷•67&—E7FW"‡fÔFFÂfÔÖõ&Vb“°Ğ¢v—BW†V7WFT–å6W76–öä7–æ2‡567&—BÂ'7FW""“°Ğ¢ÆöufÕ7FW‚"(i"ZèÎh‰"“°Ğ Ğ¢ÆöufÕ7FW‚.Y
+şXª‰™®h¹şiË¢âââ"“°Ğ¢567&—BÒ'V–ÆDFWÆ÷•67&—E7FW2‡fÔFFÂfÔÖõ&Vb“°Ğ¢v—BW†V7WFT–å6W76–öä7–æ2‡567&—BÂ'7FW2"“°Ğ¢ÆöufÕ7FW‚"(i"ZèÎh‰"“°Ğ Ğ¢7FGW5FW‡BÒ.ik[»¢#°Ğ¢ĞĞ Ğ¢F–ÖU7âVÆ6VBÒFFUF–ÖRäæ÷rÒ7F'EF–ÖS°Ğ¢ÆöufÕ&W7VÇB‚B.x«nh¢·7FGW5FW‡GŞh‰X©ò)É2ˆ	~i{b´f÷&ÖDGW&F–öâ‚†–çB–VÆ6VBåF÷FÅ6V6öæG2—Ò’"“°Ğ¢&WGW&âæWrFWÆ÷•&W7VÇB²Æ&VÂÒÆ&VÂÂ—ÒfÔ—Â7FGW2Ò7FGW5FW‡BÂVÆ6VBÒ†–çB–VÆ6VBåF÷FÅ6V6öæG2Â7V66W72ÒG'VRÂfÔÖõ&VbÒfÔÖõ&VbÓ°Ğ¢ĞĞ¢6F6‚„W†6WF–öâW‚Ğ¢°Ğ¢F–ÖU7âVÆ6VBÒFFUF–ÖRäæ÷rÒ7F'EF–ÖS°Ğ¢7G&–ærW'$×6rÒW‚äÖW76vRäÆVæwF‚âƒòW‚äÖW76vRå7V'7G&–ærƒÂƒ’¢W‚äÖW76vS°Ğ¢ÆöufÕ&W7VÇB‚B.x«nh¢˜:{Û.ZK‹JR)Ér‡¶W'$×6wÒ’"“°Ğ¢öÆöt6ÆÆ&6²‚.™IŠúò"ÂB.‰™®h¹şiË¢¶Æ&VÇÒ˜:{Û.ZK‹JS¢¶W‚äÖW76vWÒ"“°Ğ¢&WGW&âæWrFWÆ÷•&W7VÇB²Æ&VÂÒÆ&VÂÂ—ÒfÔ—Â7FGW2Ò.ZK‹JR"ÂVÆ6VBÒ†–çB–VÆ6VBåF÷FÅ6V6öæG2Â7V66W72ÒfÇ6RÂfÔÖõ&VbÒfÔÖõ&VbÓ°Ğ¢ĞĞ¢ĞĞ Ğ¢&—fFR7–æ2F6³Æ&ööÃâ6†V6µfÔW†—7G47–æ2„F–7F–öæ'“Ç7G&–ærÂ7G&–æpÙµ…Ñ„¤4(€€€€€€€ì4(€€€€€€€€€€€ÍÑÉ¥¹œÙµ¹…µ”€ô½µÁÕÑ•Yµ¹…µ”¡Ùµ…Ñ„¤ì4(€€€€€€€€€€€ÍÑÉ¥¹œ¡•­MÉ¥ÁĞ€ô€‘ ˆ4(‘ÉÉ½ÉÑ¥½¹AÉ•™•É•¹”€ô€MÑ½Àœì4)ÑÉäíì4(‘Ù´€ô•ĞµY¥•Ü€µY¥•İQåÁ”Y¥ÉÑÕ…±5…¡¥¹”€µAÉ½Á•ÉÑä9…µ”±½¹™¥œ¹Q•µÁ±…Ñ”€µÉÉ½ÉÑ¥½¸M¥±•¹Ñ±å½¹Ñ¥¹Õ”ğ]¡•É”µ=‰©•Ğíì€‘|¹9…µ”€µ•Ä€íÍ…Á•AÍMÑÉ¥¹œ¡Ùµ¹…µ”¥ôœ€µ…¹€‘|¹½¹™¥œ¹Q•µÁ±…Ñ”€µ•Ä€‘™…±Í”õôì4)¥˜€ ‘Ù´€µ¹”€‘¹Õ±°¤íì]É¥Ñ”µ=ÕÑÁÕĞ€a%MQLœõô•±Í”íì]É¥Ñ”µ=ÕÑÁÕĞ€9=Q}a%MQLœõô4)õô…Ñ íì]É¥Ñ”µ=ÕÑÁÕĞ€9=Q}a%MQLœõô4(ˆì4(4(€€€€€€€€€€€ÑÉä4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œ½ÕÑÁÕĞ€ô…İ…¥Ğ}‘•Á±½åµ•¹ÑIÕ¹¹•È„¹á•ÕÑ•MÉ¥ÁÑÍå¹Œ¡¡•­MÉ¥ÁĞ°}±½…±±‰…¬°€ÌÀ¤ì4(€€€€€€€€€€€€€€€€4(€€€€€€€€€€€€€€€€¼¼ƒš2'¢†3–"–&Ë¾ò3Êû†»–2ç¦7¾ò3¦ÿ–49=Q}a%MQLƒ¢Š¬½¹Ñ…¥¹Ì ‰a%MQLˆ¤ƒ¢¾µˆ¤
                 var lines = output.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var line in lines)
                 {
@@ -417,131 +169,50 @@ if ($vmView -and $vmView.Guest -and $vmView.Guest.ToolsStatus) {{ Write-Output (
             await ExecuteInSessionAsyncReturnOutput(psScript, marker);
         }
 
-        private async Task<string> ExecuteInSessionAsyncReturnOutput(string psScript, string? marker = null)
-        {
-            string wrappedScript = psScript;
-            if (!string.IsNullOrEmpty(marker))
-            {
-                string markerVar = $"$__marker_{marker}";
-                wrappedScript = $@"
-try {{
-{psScript}
-Write-Output '{markerVar}_OK'
-}} catch {{
-$errMsg = 'Deploy Error: ';
-if ($_.Exception.Message) {{ $errMsg += $_.Exception.Message; }}
-elseif ($_.ToString()) {{ $errMsg += $_.ToString(); }}
-else {{ $errMsg += 'æœªçŸ¥é”™è¯¯'; }}
-Write-Error $errMsg;
-throw $errMsg;
-}}
-";
-            }
-
-            return await _deploymentRunner!.ExecuteScriptAsync(wrappedScript, _logCallback, 300);
-        }
-
-        private string ParseVmMoRef(string output)
-        {
-            if (string.IsNullOrEmpty(output)) return null;
-            var lines = output.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var line in lines)
-            {
-                var trimmed = line.Trim();
-                if (trimmed.StartsWith("VM_MOREF="))
-                {
-                    return trimmed.Substring("VM_MOREF=".Length).Trim();
-                }
-            }
-            return null;
-        }
-
-        private async Task<string> ResolveVmMoRefByNameAsync(Dictionary<string, string> vmData)
-        {
-            string vmname = ComputeVmname(vmData);
-            string escaped = EscapePsString(vmname);
-            string script = $@"
-$ErrorActionPreference = 'Stop';
-$vm = Get-View -ViewType VirtualMachine -Property Name,Config.Template -ErrorAction SilentlyContinue | Where-Object {{ $_.Name -eq '{escaped}' -and $_.Config.Template -eq $false }} | Select-Object -First 1;
-if ($vm) {{ Write-Output $vm.MoRef }} else {{ Write-Output 'NOT_FOUND' }}
-";
-            string output = await _deploymentRunner!.ExecuteScriptAsync(script, _logCallback, 30);
-            var lines = output?.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            if (lines != null)
-            {
-                foreach (var line in lines)
-                {
-                    var t = line.Trim();
-                    if (t == "NOT_FOUND") continue;
-                    if (!string.IsNullOrEmpty(t) && t.Contains("-")) return t;
-                }
-            }
-            throw new Exception("æ— æ³•å®šä½å·²å­˜åœ¨è™šæ‹Ÿæœºçš„ MoRef: " + vmname);
-        }
-
-        private string BuildDeployScriptStep1(Dictionary<string, string> vmData)
-        {
-            string hostValRaw = (vmData.GetValueOrDefault("Host") ?? "").Trim();
-            string hostValEsc = EscapePsString(hostValRaw);
-            string template = EscapePsString(vmData.GetValueOrDefault("Template") ?? "");
-            string datastore = EscapePsString(vmData.GetValueOrDefault("Datastore") ?? "");
-            string network = EscapePsString(vmData.GetValueOrDefault("Vlan") ?? "");
-            string vmname = ComputeVmname(vmData);
-
-            string chooseHost;
-            if (!string.IsNullOrEmpty(hostValRaw))
-            {
-                chooseHost = $@"
-$hostView = Get-View -ViewType HostSystem -ErrorAction SilentlyContinue | Where-Object {{ $_.Name -eq '{hostValEsc}' }} | Select-Object -First 1;
-if ($null -eq $hostView) {{
-    Write-Host ('ä¸»æœº {0} ä¸å­˜åœ¨ï¼Œæ­£åœ¨ä» vCenter è‡ªåŠ¨é€‰æ‹©ä¸€å°å·²è¿æ¥çš„ä¸»æœº...' -f '{hostValEsc}');
-    $hostView = Get-View -ViewType HostSystem -ErrorAction Stop | Where-Object {{ [string]$_.Runtime.ConnectionState -eq 'connected' }} | Select-Object -First 1;
-    if ($null -eq $hostView) {{ throw 'vCenter ä¸­æ²¡æœ‰å¯ç”¨ï¼ˆConnected çŠ¶æ€ï¼‰çš„ä¸»æœº' }};
-    Write-Host ('å·²è‡ªåŠ¨é€‰æ‹©ä¸»æœº: ' + $hostView.Name);
-}}";
-            }
-            else
-            {
-                chooseHost = $@"
-Write-Host 'CSV æœªæŒ‡å®šä¸»æœºï¼Œæ­£åœ¨ä» vCenter è‡ªåŠ¨é€‰æ‹©ä¸€å°å·²è¿æ¥çš„ä¸»æœº...';
-$hostView = Get-View -ViewType HostSystem -ErrorAction Stop | Where-Object {{ [string]$_.Runtime.ConnectionState -eq 'connected' }} | Select-Object -First 1;
-if ($null -eq $hostView) {{ throw 'vCenter ä¸­æ²¡æœ‰å¯ç”¨ï¼ˆConnected çŠ¶æ€ï¼‰çš„ä¸»æœº' }};
-Write-Host ('å·²è‡ªåŠ¨é€‰æ‹©ä¸»æœº: ' + $hostView.Name);";
-            }
-
-            string script = $@"
-$ErrorActionPreference = 'Stop';
-try {{
-Get-View -ViewType Datacenter -Property Name -ErrorAction SilentlyContinue | Out-Null;
-Write-Output (""[CFG] Template='{template}' Host='{hostValRaw}' Datastore='{datastore}' Network='{network}' VmName='{EscapePsString(vmname)}'"");
-$tpl = Get-View -ViewType VirtualMachine -ErrorAction Stop | Where-Object {{ $_.Name -eq '{template}' -and $_.Config.Template -eq $true }} | Select-Object -First 1;
-if ($null -eq $tpl) {{ throw 'æœªæ‰¾åˆ°æ¨¡æ¿ï¼š{template}' }};
-Write-Output (""[STEP] æ¨¡æ¿æ‰¾åˆ°: $($tpl.Name) ParentType=$($tpl.Parent.Type) ParentValue=$($tpl.Parent.Value)"");
-{chooseHost}
-Write-Output (""[STEP] ä¸»æœºæ‰¾åˆ°: $($hostView.Name) MoRef=$($hostView.MoRef.Value)"");
-$ds = Get-View -ViewType Datastore -Property Name -ErrorAction Stop | Where-Object {{ $_.Name -eq '{datastore}' }} | Select-Object -First 1;
-if ($null -eq $ds) {{ throw 'æœªæ‰¾åˆ°å­˜å‚¨ï¼š{datastore}' }};
-Write-Output (""[STEP] å­˜å‚¨æ‰¾åˆ°: $($ds.Name) MoRef=$($ds.MoRef.Value)"");
-$netView = Get-View -ViewType Network -Property Name -ErrorAction SilentlyContinue | Where-Object {{ $_.Name -eq '{network}' }} | Select-Object -First 1;
-if ($null -eq $netView) {{
-  $netView = Get-View -ViewType DistributedVirtualPortgroup -Property Name -ErrorAction Stop | Where-Object {{ $_.Name -eq '{network}' }} | Select-Object -First 1;
-}};
-if ($null -eq $netView) {{ throw 'æœªæ‰¾åˆ°ç½‘ç»œï¼š{network}' }};
-Write-Output (""[STEP] ç½‘ç»œæ‰¾åˆ°: $($netView.Name) Type=$($netView.MoRef.Type) MoRef=$($netView.MoRef.Value)"");
-Write-Output (""[STEP] å‡†å¤‡ Get-View -Id tpl.Parent (å€¼=$($tpl.Parent.Type)-$($tpl.Parent.Value))"");
-$parentObj = Get-View -Id $tpl.Parent -ErrorAction Stop;
-Write-Output (""[STEP] Parent å¯¹è±¡æ‹¿åˆ°: Type=$($parentObj.MoRef.Type) Name=$($parentObj.Name)"");
-$folderMoRef = $null;
-if ($parentObj.MoRef.Type -eq 'Folder') {{
-  $folderMoRef = $parentObj.MoRef;
-  Write-Output (""[STEP] FolderMoRef (ç›´æ¥Folder): $($folderMoRef.Value)"");
-}} elseif ($parentObj.MoRef.Type -eq 'ResourcePool' -and $parentObj.Owner) {{
-  Write-Output (""[STEP] Parentæ˜¯ResourcePool, æŸ¥ Owner..."");
-  $rpOwner = Get-View -Id $parentObj.Owner -ErrorAction Stop;
-  Write-Output (""[STEP] RP Owner: Type=$($rpOwner.MoRef.Type) Name=$($rpOwner.Name)"");
-  if ($rpOwner.MoRef.Type -eq 'Folder') {{ $folderMoRef = $rpOwner.MoRef; Write-Output (""[STEP] FolderMoRef (ä»Owner): $($folderMoRef.Value)"") }};
-}};
-if (-not $folderMoRef) {{ throw 'æ— æ³•è§£æç›®æ ‡ Folderï¼Œè¯·æ£€æŸ¥æ¨¡æ¿æ‰€åœ¨ä½ç½®' }};
+        private async Task<string^Xİ]R[”Ù\ÜÚ[Û\Ş[˜Ô™]\›“İ]]
+İš[™ÈÔØÜš\İš[™ÏÈX\šÙ\ˆH[
+CBˆÃBˆİš[™ÈÜ˜\YØÜš\HÔØÜš\ÃBˆYˆ
+\İš[™Ë’\Ó[Ü‘[\JX\šÙ\ŠJCBˆÃBˆİš[™ÈX\šÙ\•˜\ˆH	‰×ÛX\šÙ\—ŞÛX\šÙ\ŸHÃBˆÜ˜\YØÜš\H	ƒBHŞÃBÜÔØÜš\CB•Üš]KSİ]]	ŞÛX\šÙ\•˜\ŸWÓÒÉÃBŸ_HØ]ÚŞÃB‰\œ“\ÙÈH	Ñ\ŞH\œ›Üˆ	ÎÃBšYˆ
+	Ë‘^Ù\[Û‹“Y\ÜØYÙJHŞÈ	\œ“\ÙÈ
+ÏH	Ë‘^Ù\[Û‹“Y\ÜØYÙNÈ_CB™[ÙZYˆ
+	Ë•Ôİš[™Ê
+JHŞÈ	\œ“\ÙÈ
+ÏH	Ë•Ôİš[™Ê
+NÈ_CB™[ÙHŞÈ	\œ“\ÙÈ
+ÏH	ù§*¹çéze&z+ëÉÎÈ_CB•Üš]KQ\œ›Üˆ	\œ“\ÙÎÃB›İÈ	\œ“\ÙÎÃBŸ_CBˆÃBˆCBƒBˆ™]\›ˆ]ØZ]Ù\Ş[Y[[›™\ˆK‘^Xİ]TØÜš\\Ş[˜ÊÜ˜\YØÜš\ÛÙĞØ[˜XÚËÌ
+NÃBˆCBƒBˆš]˜]Hİš[™È\œÙU›S[Ô™YŠİš[™Èİ]]
+CBˆÃBˆYˆ
+İš[™Ë’\Ó[Ü‘[\Jİ]]
+JH™]\›ˆ[ÃBˆ˜\ˆ[™\ÈHİ]]”Ü]
+™]Ö×HÈ	×‰Ë	×‰ÈKİš[™ÔÜ]Ü[ÛœË”™[[İ™Q[\Q[šY\ÊNÃBˆ›Ü™XXÚ
+˜\ˆ[™H[ˆ[™\ÊCBˆÃBˆ˜\ˆš[[YYH[™K•š[J
+NÃBˆYˆ
+š[[YY”İ\ÕÚ]
+•“WÓSÔ‘QHŠJCBˆÃBˆ™]\›ˆš[[YY”İXœİš[™Ê•“WÓSÔ‘QH‹“[™İ
+K•š[J
+NÃBˆCBˆCBˆ™]\›ˆ[ÃBˆCBƒBˆš]˜]H\Ş[˜È\ÚÏİš[™Ïˆ™\ÛÛ™U›S[Ô™YS˜[YP\Ş[˜ÊXİ[Û˜\Oİš[™Ëİš[™Ïˆ›Q]JCBˆÃBˆİš[™È›[˜[YHHÛÛ\]U›[˜[YJ›Q]JNÃBˆİš[™È\ØØ\YH\ØØ\TÔİš[™Ê›[˜[YJNÃBˆİš[™ÈØÜš\H	ƒB‰\œ›ÜXİ[Û”™Y™\™[˜ÙHH	ÔİÜ	ÎÃB‰›HHÙ]UšY]ÈUšY]Õ\Hš\X[XXÚ[™HT›Ü\H˜[YKÛÛ™šYË•[\]HQ\œ›ÜXİ[ÛˆÚ[[PÛÛ[YHÚ\™KSØš™XİŞÈ	Ë“˜[YHY\H	ŞÙ\ØØ\YIÈX[™	ËÛÛ™šYË•[\]HY\H	˜[ÙH_HÙ[XİSØš™XİQš\œİNÃBšYˆ
+	›JHŞÈÜš]KSİ]]	›K“[Ô™Yˆ_H[ÙHŞÈÜš]KSİ]]	Ó“ÕÑ“ÕS‘	È_CBˆÃBˆİš[™Èİ]]H]ØZ]Ù\Ş[Y[[›™\ˆK‘^Xİ]TØÜš\\Ş[˜ÊØÜš\ÛÙĞØ[˜XÚËÌ
+NÃBˆ˜\ˆ[™\ÈHİ]]Ë”Ü]
+™]Ö×HÈ	×‰Ë	×‰ÈKİš[™ÔÜ]Ü[ÛœË”™[[İ™Q[\Q[šY\ÊNÃBˆYˆ
+[™\ÈOH[
+CBˆÃBˆ›Ü™XXÚ
+˜\ˆ[™H[ˆ[™\ÊCBˆÃBˆ˜\ˆH[™K•š[J
+NÃBˆYˆ
+OH““ÕÑ“ÕS‘ŠHÛÛ[YNÃBˆYˆ
+\İš[™Ë’\Ó[Ü‘[\J
+H	‰ˆÛÛZ[œÊ‹HŠJH™]\›ˆÃBˆCBˆCBˆ›İÈ™]È^Ù\[ÛŠ¹¥è9¬åyk¦¹/cymì¹kf9g*:&f¹¢çiË®y¨BÖõ&Vc¢"²fÖæÖR“°Ğ¢ĞĞ Ğ¢&—fFR7G&–ær'V–ÆDFWÆ÷•67&—E7FW„F–7F–öæ'“Ç7G&–ærÂ7G&–æpÙµ…Ñ„¤4(€€€€€€€ì4(€€€€€€€€€€€ÍÑÉ¥¹œ¡½ÍÑY…±I…Ü€ô€¡Ùµ…Ñ„¹•ÑY…±Õ•=É•™…Õ±Ğ ‰!½ÍĞˆ¤€üü€ˆˆ¤¹QÉ¥´ ¤ì4(€€€€€€€€€€€ÍÑÉ¥¹œ¡½ÍÑY…±ÍŒ€ôÍ…Á•AÍMÑÉ¥¹œ¡¡½ÍÑY…±I…Ü¤ì4(€€€€€€€€€€€ÍÑÉ¥¹œÑ•µÁ±…Ñ”€ôÍ…Á•AÍMÑÉ¥¹œ¡Ùµ…Ñ„¹•ÑY…±Õ•=É•™…Õ±Ğ ‰Q•µÁ±…Ñ”ˆ¤€üü€ˆˆ¤ì4(€€€€€€€€€€€ÍÑÉ¥¹œ‘…Ñ…ÍÑ½É”€ôÍ…Á•AÍMÑÉ¥¹œ¡Ùµ…Ñ„¹•ÑY…±Õ•=É•™…Õ±Ğ ‰…Ñ…ÍÑ½É”ˆ¤€üü€ˆˆ¤ì4(€€€€€€€€€€€ÍÑÉ¥¹œ¹•Ñİ½É¬€ôÍ…Á•AÍMÑÉ¥¹œ¡Ùµ…Ñ„¹•ÑY…±Õ•=É•™…Õ±Ğ ‰Y±…¸ˆ¤€üü€ˆˆ¤ì4(€€€€€€€€€€€ÍÑÉ¥¹œÙµ¹…µ”€ô½µÁÕÑ•Yµ¹…µ”¡Ùµ…Ñ„¤ì4(4(€€€€€€€€€€€ÍÑÉ¥¹œ¡½½Í•!½ÍĞì4(€€€€€€€€€€€¥˜€ …ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡¡½ÍÑY…±I…Ü¤¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€¡½½Í•!½ÍĞ€ô€‘ ˆ4(‘¡½ÍÑY¥•Ü€ô•ĞµY¥•Ü€µY¥•İQåÁ”!½ÍÑMåÍÑ•´€µÉÉ½ÉÑ¥½¸M¥±•¹Ñ±å½¹Ñ¥¹Õ”ğ]¡•É”µ=‰©•Ğíì€‘|¹9…µ”€µ•Ä€í¡½ÍÑY…±ÍôœõôğM•±•Ğµ=‰©•Ğ€µ¥ÉÍĞ€Äì4)¥˜€ ‘¹Õ±°€µ•Ä€‘¡½ÍÑY¥•Ü¤íì4(€€€]É¥Ñ”µ!½ÍĞ€ ”¸¹§.ˆÌH9.#ykf9g*;ï#9«hùg*9.ãˆÙ[\ˆ:!ê¹bª:`"y¢êy. 9c[{.‹{š:—j’âïšrè¸¸¸œ€µ˜€í¡½ÍÑY…±Íôœ¤ì4(€€€€‘¡½ÍÑY¥•Ü€ô•ĞµY¥•Ü€µY¥•İQåÁ”!½ÍÑMåÍÑ•´€µÉÉ½ÉÑ¥½¸MÑ½Àğ]¡•É”µ=‰©•ĞíìmÍÑÉ¥¹t‘|¹IÕ¹Ñ¥µ”¹½¹¹•Ñ¥½¹MÑ…Ñ”€µ•Ä€½¹¹•Ñ•œõôğM•±•Ğµ=‰©•Ğ€µ¥ÉÍĞ€Äì4(€€€¥˜€ ‘¹Õ±°€µ•Ä€‘¡½ÍÑY¥•Ü¤íìÑ¡É½Ü€Ù•¹Ñ•Èƒ’â·šÊ‡šr'–>¿R£¾ò!½¹¹•Ñ•ƒ*Ûš¾ò'j’âïšrèœõôì4(€€€]É¥Ñ”µ!½ÍĞ€ Ÿ–ŞË¢«–*£¦'š.§’âïšrèè€œ€¬€‘¡½ÍÑY¥•Ü¹9…µ”¤ì4)õôˆì4(€€€€€€€€€€€ô4(€€€€€€€€€€€•±Í”4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€¡½½Í•!½ÍĞ€ô€‘ ˆ4)]É¥Ñ”µ!½ÍĞ€MXƒšr«š2–ºk’âïšrë¾ò3š¶–r£’î8Ù•¹Ñ•Èƒ¢«–*£¦'š.§’â–>Ã–ŞË¢ş{š:—j’âïšrè¸¸¸œì4(‘¡½ÍÑY¥•Ü€ô•ĞµY¥•Ü€µY¥•İQåÁ”!½ÍÑMåÍÑ•´€µÉÉ½ÉÑ¥½¸MÑ½Àğ]¡•É”µ=‰©•ĞíìmÍÑÉ¥¹t‘|¹IÕ¹Ñ¥µ”¹½¹¹•Ñ¥½¹MÑ…Ñ”€µ•Ä€½¹¹•Ñ•œõôğM•±•Ğµ=‰©•Ğ€µ¥ÉÍĞ€Äì4)¥˜€ ‘¹Õ±°€µ•Ä€‘¡½ÍÑY¥•Ü¤íìÑ¡É½Ü€Ù•¹Ñ•Èƒ’â·šÊ‡šr'–>·”¨ï"ÛÛ›™XİY9â­¹  {ï"yæ¡9..ù§.‰È_NÃB•Üš]KRÜİ
+	[{.ˆz®Xª˜hºK‹šrèè€œ€¬€‘¡½ÍÑY¥•Ü¹9…µ”¤ìˆì4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€ÍÑÉ¥¹œÍÉ¥ÁĞ€ô€‘ ˆ4(‘ÉÉ½ÉÑ¥½¹AÉ•™•É•¹”€ô€MÑ½Àœì4)ÑÉäíì4)•ĞµY¥•Ü€µY¥•İQåÁ”…Ñ…•¹Ñ•È€µAÉ½Á•ÉÑä9…µ”€µÉÉ½ÉÑ¥½¸M¥±•¹Ñ±å½¹Ñ¥¹Õ”ğ=ÕĞµ9Õ±°ì4)]É¥Ñ”µ=ÕÑÁÕĞ€ ˆ‰mtQ•µÁ±…Ñ”ôíÑ•µÁ±…Ñ•ôœ!½ÍĞôí¡½ÍÑY…±I…İôœ…Ñ…ÍÑ½É”ôí‘…Ñ…ÍÑ½É•ôœ9•Ñİ½É¬ôí¹•Ñİ½É­ôœYµ9…µ”ôíÍ…Á•AÍMÑÉ¥¹œ¡Ùµ¹…µ”¥ôœˆˆ¤ì4(‘ÑÁ°€ô•ĞµY¥•Ü€µY¥•İQåÁ”Y¥ÉÑÕ…±5…¡¥¹”€µÉÉ½ÉÑ¥½¸MÑ½Àğ]¡•É”µ=‰©•Ğíì€‘|¹9…µ”€µ•Ä€íÑ•µÁ±…Ñ•ôœ€µ…¹€‘|¹½¹™¥œ¹Q•µÁ±…Ñ”€µ•Ä€‘ÑÉÕ”õôğM•±•Ğµ=‰©•Ğ€µ¥ÉÍĞ€Äì4)¥˜€ ‘¹Õ±°€µ•Ä€‘ÑÁ°¤íìÑ¡É½Ü€–œªæ‰¾åˆ°æ¨¡æ¿É§·FV×ÆFWÒr×Ó°Ğ¥w&—FRÔ÷WGWB‚"%µ5DUÒjŠiÛşh›îX‹¢B‚GGÂäæÖR’&VçEG—SÒB‚GGÂå&VçBåG—R’&VçEfÇVSÒB‚GGÂå&VçBåfÇVR’""“°Ğ§¶6†ö÷6T†÷7GĞĞ¥w&—FRÔ÷WGWB‚"%µ5DUÒK‹¾iË®h›–"Àè€ ‘¡½ÍÑY¥•Ü¹9…µ”¤5½I•˜ô ‘¡½ÍÑY¥•Ü¹5½I•˜¹Y…±Õ”¤ˆˆ¤ì4(‘‘Ì€ô•ĞµY¥•Ü€µY¥•İQåÁ”…Ñ…ÍÑ½É”€µAÉ½Á•ÉÑä9…µ”€µÉÉ½ÉÑ¥½¸MÑ½Àğ]¡•É”µ=‰©•Ğíì€‘|¹9…µ”€µ•Ä€í‘…Ñ…ÍÑ½É•ôœõôğM•±•Ğµ=‰©•Ğ€µ¥ÉÍĞ€Äì4)¥˜€ ‘¹Õ±°€µ•Ä€‘‘Ì¤íìÑ¡É½Ü€Ÿšr«š&û–"Ã–¶c–
+£¾òií‘…Ñ…ÍÑ½É•ôœõôì4)]É¥Ñ”µ=ÕÑÁÕĞ€ ˆ‰mMQAtƒ–¶c–
+£š&û–"Àè€ ‘‘Ì¹9…µ”¤5½I•˜ô ‘‘Ì¹5½I•˜¹Y…±Õ”¤ˆˆ¤ì4(‘¹•ÑY¥•Ü€ô•ĞµY¥•Ü€µY¥•İQåÁ”9•Ñİ½É¬€µAÉ½Á•ÉÑä9…µ”€µÉÉ½ÉÑ¥½¸M¥±•¹Ñ±å½¹Ñ¥¹Õ”ğ]¡•É”µ=‰©•Ğíì€‘|¹9…µ”€µ•Ä€í¹•Ñİ½É­ôœõôğM•±•Ğµ=‰©•Ğ€µ¥ÉÍĞ€Äì4)¥˜€ ‘¹Õ±°€µ•Ä€‘¹•ÑY¥•Ü¤íì4(€€‘¹•ÑY¥•Ü€ô•ĞµY¥•Ü€µY¥•İQåÁ”¥ÍÑÉ¥‰ÕÑ•‘Y¥ÉÑÕ…±A½ÉÑÉ½ÕÀ€µAÉ½Á•ÉÑä9…µ”€µÉÉ½ÉÑ¥½¸MÑ½Àğ]¡•É”µ=‰©•Ğíì€‘|¹9…µ”€µ•Ä€í¹•Ñİ½É­ôœõôğM•±•Ğµ=‰©•Ğ€µ¥ÉÍĞ€Äì4)õôì4)¥˜€ ‘¹Õ±°€µ•Ä€‘¹•ÑY¥•Ü¤íìÑ¡É½Ü€Ÿšr«š&åˆ°ç½‘ç»œï¼š{network}' }};
+Write-Output (""[STEP] ç½‘ç»œæ‰¹b,ˆ	
+	™]šY]Ë“˜[YJH\OI
+	™]šY]Ë“[Ô™Y‹•\JH[Ô™YI
+	™]šY]Ë“[Ô™Y‹•˜[YJHˆŠNÃB•Üš]KSİ]]
+ˆ–ÔÕTH9aá¹i!ÈÙ]UšY]ÈRY”\™[
+9`/I
+	”\™[•\JKI
+	”\™[•˜[YJJHˆŠNÃB‰\™[ØšˆHÙ]UšY]ÈRY	”\™[Q\œ›ÜXİ[ÛˆİÜÃB•Üš]KSİ]]
+ˆ–ÔÕTH\™[9k‹h»şX‹¢G—SÒB‚G&VçDö&¢äÖõ&VbåG—R’æÖSÒB‚G&VçDö&¢äæÖR’""“°Ğ¢FföÆFW$Öõ&VbÒFçVÆÃ°Ğ¦–b‚G&VçDö&¢äÖõ&VbåG—RÖWtföÆFW"r’·°Ğ¢FföÆFW$Öõ&VbÒG&VçDö&¢äÖõ&Vc°Ğ¢w&—FRÔ÷WGWB‚"%µ5DUÒföÆFW$Öõ&Vby»NhêTföÆFW"“¢B‚FföÆFW$Öõ&VbåfÇVR’""“°Ğ§×ÒVÇ6V–b‚G&VçDö&¢äÖõ&VbåG—RÖWu&W6÷W&6UööÂrÖæBG&VçDö&¢ä÷væW"’·°Ğ¢w&—FRÔ÷WGWB‚"%µ5DUÒ&VçNiŠõ&W6÷W&6UööÂÂiúR÷væW"âââ""“°Ğ¢G'÷væW"ÒvWBÕf–WrÔ–BG&VçDö&¢ä÷væW"ÔW'&÷$7F–öâ7F÷°Ğ¢w&—FRÔ÷WGWB‚"%µ5DUÒ%÷væW#¢G—SÒB‚G'÷væW"äÖõ&VbåG—R’æÖSÒB‚G'÷væW"äæÖR’""“°Ğ¢–b‚G'÷væW"äÖõ&VbåG—RÖWtföÆFW"r’·²FföÆFW$Öõ&VbÒG'÷væW"äÖõ&Vc²w&—FRÔ÷WGWB‚"%µ5DUÒföÆFW$Öõ&VbK¸ä÷væW"“¢B‚FföÆFW$Öõ&VbåfÇVR’""’×Ó°Ğ§×Ó°Ğ¦–b‚Öæ÷BFföÆFW$Öõ&Vb’·²F‡&÷r~izk9^Šz>iéyºîjrföÆFW.ûÈÎŠßššeæ¨¡æ¿æ‰€åœ¨ä½ç½®' }};
 Write-Output (""[STEP] FolderMoRefæœ€ç»ˆ: Type=$($folderMoRef.Type) Value=$($folderMoRef.Value)"");
 $cloneSpec = New-Object VMware.Vim.VirtualMachineCloneSpec;
 $cloneSpec.PowerOn = $false;
@@ -562,41 +233,13 @@ while ($true) {{
   $t = Get-View -Id $cloneTask -Property Info.State,Info.Error,Info.Result -ErrorAction SilentlyContinue;
   if ($null -ne $t -and $t.Info.State -eq 'success') {{
     $newVmMoRef = $t.Info.Result;
-    Write-Host ('å…‹éš†æˆåŠŸ: ' + $newVmMoRef.Value);
-    break;
-  }}
-  if ($null -ne $t -and $t.Info.State -eq 'error') {{ throw ('CloneVM å¤±è´¥: ' + $t.Info.Error.LocalizedMessage + ' | folder=' + $folderMoRef.Type + '-' + $folderMoRef.Value + ' host=' + $hostView.MoRef.Type + '-' + $hostView.MoRef.Value + ' ds=' + $ds.MoRef.Type + '-' + $ds.MoRef.Value + ' pool=' + $relocate.Pool.Type + '-' + $relocate.Pool.Value + ' tpl=' + $tpl.MoRef.Type + '-' + $tpl.MoRef.Value + ' parentCR=' + $parent.Name) }}
-}};
-Write-Output (""VM_MOREF=$($newVmMoRef.Value)"");
-Write-Output '[STEP] Step1 å…¨éƒ¨å®Œæˆ';
-}} catch {{ Write-Error ('Step1 å¤±è´¥: ' + $_.Exception.Message); throw }}
-";
-            return script;
-        }
-
-        private string BuildDeployScriptStep2(Dictionary<string, string> vmData, string vmMoRef)
-        {
-            string vmname = ComputeVmname(vmData);
-            int diskCap = SafeInt(vmData.GetValueOrDefault("DiskCapacityGB", "0"), 0, 0, 65535);
-            string scriptBody = BuildReconfigScript(vmData, vmMoRef);
-
-            if (diskCap > 0)
-            {
-                string diskScript = $@"
-$vmView = Get-View -Id '{EscapePsString(vmMoRef)}' -Property Config.Hardware.Device -ErrorAction Stop;
-if (-not $vmView) {{ throw 'æœªæ‰¾åˆ°è™šæ‹Ÿæœº MoRef: {EscapePsString(vmMoRef)}' }};
-$allDisks = @($vmView.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualDisk] }});
-$allScsi = @($vmView.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualSCSIController] }});
-if ($allScsi.Count -eq 0) {{ throw 'æœªæ‰¾åˆ°ä»»ä½• SCSI æ§åˆ¶å™¨ï¼ˆVirtualSCSIController å­ç±»ï¼‰ï¼Œè¯·æ£€æŸ¥æ¨¡æ¿ç¡¬ä»¶' }};
-$scsiCtrl = $allScsi | Sort-Object BusNumber, Key | Select-Object -First 1;
-$systemDisk = $allDisks | Where-Object {{ $_.ControllerKey -eq $scsiCtrl.Key }} | Select-Object -First 1;
-if (-not $systemDisk) {{ throw ('é€‰ä¸­çš„ SCSI æ§åˆ¶å™¨ (Key=' + $scsiCtrl.Key + ') ä¸Šæ— ç£ç›˜') }};
+    Write-Host (%ab™¨nh‰X©ó¢r²FæWufÔÖõ&VbåfÇVR“°Ğ¢'&V³°Ğ¢×ĞĞ¢–b‚FçVÆÂÖæRGBÖæBGBä–æfòå7FFRÖWvW'&÷"r’·²F‡&÷r‚t6ÆöæUdÒZK‹JS¢r²GBä–æfòäW'&÷"äÆö6Æ—¦VDÖW76vR²rÂföÆFW#Òr²FföÆFW$Öõ&VbåG—R²rÒr²FföÆFW$Öõ&VbåfÇVR²r†÷7CÒr²F†÷7Ef–WräÖõ&VbåG—R²rÒr²F†÷7Ef–WräÖõ&VbåfÇVR²rG3Òr²FG2äÖõ&VbåG—R²rÒr²FG2äÖõ&VbåfÇVR²rööÃÒr²G&VÆö6FRåööÂåG—R²rÒr²G&VÆö6FRåööÂåfÇVR²rGÃÒr²GGÂäÖõ&VbåG—R²rÒr²GGÂäÖõ&VbåfÇVR²r&VçD5#Òr²G&VçBäæÖR’×ĞĞ§×Ó°Ğ¥w&—FRÔ÷WGWB‚"%dÕôÔõ$TcÒB‚FæWufÔÖõ&VbåfÇVR’""“°Ğ¥w&—FRÔ÷WGWBuµ5DUÒ7FWXZ˜:ZèÎh‰s°Ğ§×Ò6F6‚·²w&—FRÔW'&÷"‚u7FWZK‹JS¢r²EòäW†6WF–öâäÖW76vR“²F‡&÷r×ĞĞ¢#°Ğ¢&WGW&â67&—C°Ğ¢ĞĞ Ğ¢&—fFR7G&–ær'V–ÆDFWÆ÷•67&—E7FW"„F–7F–öæ'“Ç7G&–ærÂ7G&–æsâfÔFFÂ7G&–ærfÔÖõ&VbĞ¢°Ğ¢7G&–ærfÖæÖRÒ6ö×WFUfÖæÖR‡fÔFF“°Ğ¢–çBF—6´6Ò6fT–çB‡fÔFFävWEfÇVT÷$FVfVÇB‚$F—6´66—G”t""Â#"’ÂÂÂcSS3R“°Ğ¢7G&–ær67&—D&öG’Ò'V–ÆE&V6öæf–u67&—B‡fÔFFÂfÔÖõ&Vb“°Ğ Ğ¢–b†F—6´6âĞ¢°Ğ¢7G&–ærF—6µ67&—BÒD Ğ¢GfÕf–WrÒvWBÕf–WrÔ–Bw´W66U57G&–ær‡fÔÖõ&Vb—ÒrÕ&÷W'G’6öæf–rä†&Gv&RäFWf–6RÔW'&÷$7F–öâ7F÷°Ğ¦–b‚Öæ÷BGfÕf–Wr’·²F‡&÷r~iÊ®h›îX‹‰™®h¹şiË¢Öõ&Vc¢´W66U57G&–ær‡fÔÖõ&Vb—Òr×Ó°Ğ¢FÆÄF—6·2Ò‚GfÕf–Wrä6öæf–rä†&Gv&RäFWf–6RÂv†W&RÔö&¦V7B·²EòÖ—2µd×v&Råf–Òåf—'GVÄF—6µÒ×Ò“°Ğ¢FÆÅ676’Ò‚GfÕf–Wrä6öæf–rä†&Gv&RäFWf–6RÂv†W&RÔö&¦V7B·²EòÖ—2µd×v&Råf–Òåf—'GVÅ454”6öçG&öÆÆW%Ò×Ò“°Ğ¦–b‚FÆÅ676’ä6÷VçBÖW’·²F‡&÷rZr«š&û–"Ã’îä½• SCSI æ¥b-¹fj;È…f—'GVÅ454”6öçG&öÆÆW"ZÙ{¾ûÈûÈÎŠû~j8iú^jŠiÛşzÎK»br×Ó°Ğ¢G676”7G&ÂÒFÆÅ676’Â6÷'BÔö&¦V7B'W4çVÖ&W"Â¶W’Â6VÆV7BÔö&¦V7BÔf—'7B°Ğ¢G7—7FVÔF—6²ÒFÆÄF—6·2Âv†W&RÔö&¦V7B·²Eòä6öçG&öÆÆW$¶W’ÖWG676”7G&Âä¶W’×ÒÂ6VÆV7BÔö&¦V7BÔf—'7B°Ğ¦–b‚Öæ÷BG7—7FVÔF—6²’·²F‡&÷r‚f'’â·jMM$ƒš:•ˆ¶å™¨ (Key=' + $scsiCtrl.Key + ') ä¸Šæ— ç£ç›˜') }};
 $targetCapBytes = [int64]{diskCap} * 1GB;
 $configSpec = New-Object VMware.Vim.VirtualMachineConfigSpec;
 $scsiDisks = @($allDisks | Where-Object {{ $_.ControllerKey -eq $scsiCtrl.Key }});
 $dataDisk = if ($scsiDisks.Count -ge 2) {{ $scsiDisks[1] }} else {{ $null }};
 if (-not $dataDisk) {{
-    Write-Host ('æ•°æ®ç›˜ä¸å­˜åœ¨ï¼Œæ–°å»ºç¬¬2å—ç¡¬ç›˜ï¼ˆå®¹é‡: ' + {diskCap} + ' GBï¼ŒæŒ‚ SCSI æ§åˆ¶å™¨ Key=' + $scsiCtrl.Key + 'ï¼‰');
+    Write-Host ('æ•°æ®ç›˜ä¸å­˜åœ¨ï¼Œæ–°å»ºç¬¬2å•èk9ææ;ÈZë˜xó¢r²¶F—6´6Ò²rt.ûÈÎhÈ"454’hê~X‹nYš‚¶W“Òr²G676”7G&Âä¶W’²|‰');
     $newDisk = New-Object VMware.Vim.VirtualDisk;
     $newDisk.Key = -1;
     $newDisk.ControllerKey = $scsiCtrl.Key;
@@ -624,24 +267,10 @@ if (-not $dataDisk) {{
     $configSpec.DeviceChange += $diskSpec;
 }}
 $task = $vmView.ReconfigVM_Task($configSpec);
-while ($true) {{ Start-Sleep -Seconds 3; $t = Get-View -Id $task -Property Info.State,Info.Error -ErrorAction SilentlyContinue; if ($null -ne $t -and $t.Info.State -eq 'success') {{ Write-Host 'æ•°æ®ç›˜é…ç½®å®Œæˆ'; break }}; if ($null -ne $t -and $t.Info.State -eq 'error') {{ throw ('ç£ç›˜æ“ä½œå¤±è´¥: ' + $t.Info.Error.LocalizedMessage) }} }}
-";
-                return scriptBody + "; " + diskScript;
-            }
-
-            return scriptBody;
-        }
-
-        private string BuildDeployScriptStep3(Dictionary<string, string> vmData, string vmMoRef)
-        {
-            string vmname = ComputeVmname(vmData);
-            return $@"
-$ErrorActionPreference = 'Stop';
-Write-Output '[STEP3] å¼€å§‹ Step3 (å¼€æœº)';
-Write-Output '[STEP3] ç­‰å¾… 15 ç§’è®© VSAN ç£ç›˜å…ƒæ•°æ®åŒæ­¥...';
-Start-Sleep -Seconds 15;
-$vm = Get-View -Id '{EscapePsString(vmMoRef)}' -Property Runtime.PowerState,Config.Hardware.Device -ErrorAction Stop;
-if (-not $vm) {{ throw 'æœªæ‰¾åˆ°è™šæ‹Ÿæœº MoRef: {EscapePsString(vmMoRef)}' }};
+while ($true) {{ Start-Sleep -Seconds 3; $t = Get-View -Id $task -Property Info.State,Info.Error -ErrorAction SilentlyContinue; if ($null -ne $t -and $t.Info.State -eq 'success') {{ Write-Host 'æ•°æ®ç›˜é…ç½®å®Œæˆ'; break }}; if ($null -ne $t -and $t.Info.State -eq 'error') {{ throw (%èàyææ9¤ãy/g9i,z-)Nˆ	È
+È	’[™›Ë‘\œ›Ü‹“ØØ[^™YY\ÜØYÙJH_H_CBˆÃBˆ™]\›ˆØÜš\›ÙH
+ÈÈˆ
+È\ÚÔØÜš\ÃBˆCBƒBˆ™]\›ˆØÜš\›ÙNÃBˆCBƒBˆš]˜]Hİš[™ÈZ[\ŞTØÜš\İ\ÊXİ[Û˜\Oİš[™Ëİš[™ÂfÔFFÂ7G&–ærfÔÖõ&VbĞ¢°Ğ¢7G&–ærfÖæÖRÒ6ö×WFUfÖæÖR‡fÔFF“°Ğ¢&WGW&âD Ğ¢DW'&÷$7F–öå&VfW&Væ6RÒu7F÷s°Ğ¥w&—FRÔ÷WGWBuµ5DU5Ò[ÈZx²7FW2[ÈiË¢’s°Ğ¥w&—FRÔ÷WGWBuµ5DU5ÒzØ[èRRzy.Šê’e4âz8y¹XXVÃš6»–B3š¶”¸¸¸œì4)MÑ…ÉĞµM±••À€µM•½¹‘Ì€ÄÔì4(‘Ù´€ô•ĞµY¥•Ü€µ%€íÍ…Á•AÍMÑÉ¥¹œ¡Ùµ5½I•˜¥ôœ€µAÉ½Á•ÉÑäIÕ¹Ñ¥µ”¹A½İ•ÉMÑ…Ñ”±½¹™¥œ¹!…É‘İ…É”¹•Ù¥”€µÉÉ½ÉÑ¥½¸MÑ½Àì4)¥˜€ µ¹½Ğ€‘Ù´¤íìÑ¡É½Ü€Ÿšr«š&åˆ°è™šæ‹Ÿæœº MoRef: {EscapePsString(vmMoRef)}' }};
 Write-Output ('[STEP3] PowerState=' + $vm.Runtime.PowerState);
 if ($vm.Runtime.PowerState -ne 'poweredOn') {{
   Write-Output '[STEP3] æ£€æŸ¥ç£ç›˜å°±ç»ªçŠ¶æ€...';
@@ -653,197 +282,30 @@ if ($vm.Runtime.PowerState -ne 'poweredOn') {{
       $diskCount = @($chk.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualDisk] }}).Count;
       $badDisk = @($chk.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualDisk] -and -not $_.Backing }});
       if ($badDisk.Count -eq 0 -and $diskCount -gt 0) {{ 
-        Write-Output ('[STEP3] ç£ç›˜å°±ç»ª: å…± ' + $diskCount + ' å—ï¼ˆç­‰å¾… ' + ($w+1) + 'sï¼‰'); 
-        $ready = $true; 
-        break 
-      }}
-      if (($w+1) % 10 -eq 0) {{ Write-Output ('[STEP3] ç­‰å¾…ç£ç›˜å°±ç»ª... (' + ($w+1) + 's) ç£ç›˜æ€»æ•°: ' + $diskCount + ' åç›˜: ' + $badDisk.Count) }}
+        Write-Output ('[STEP3] ç£ç›˜å°±ç»ª: å…± ' + $diskCount + ' å—ÈzØZ€œ€¬€ ‘Ü¬Ä¤€¬€Ï¾ò$œ¤ì€4(€€€€€€€€‘É•…‘ä€ô€‘ÑÉÕ”ì€4(€€€€€€€‰É•…¬€4(€€€€€õô4(€€€€€¥˜€  ‘Ü¬Ä¤€”€ÄÀ€µ•Ä€À¤íì]É¥Ñ”µ=ÕÑÁÕĞ€ mMQ@Ítƒ¶'–…ç£ç›˜å°±ç»ª... (' + ($w+1) + 's) ç£ç›˜æ€»æ•°: ' + $diskCount + ' åç›˜: ' + $badDisk.Count) }}
     }}
   }};
-  if (-not $ready) {{ Write-Output '[STEP3] ç­‰å¾…è¶…æ—¶ï¼Œå°è¯•ç›´æ¥å¼€æœº' }};
-  $bootRetry = 0;
-  while ($bootRetry -lt 3) {{
-    Write-Output ('[STEP3] å°è¯•å¼€æœº (ç¬¬ ' + ($bootRetry+1) + ' æ¬¡)...');
-    $task = $vm.PowerOnVM_Task($null);
-    Write-Output ('[STEP3] PowerOnVM_Task=' + $task.Value);
-    $bootOk = $false;
-    for ($bi = 0; $bi -lt 20; $bi++) {{
-      Start-Sleep -Seconds 3;
-      $t = Get-View -Id $task -Property Info.State,Info.Error -ErrorAction SilentlyContinue;
-      if ($null -ne $t -and $t.Info.State -eq 'success') {{ Write-Output '[STEP3] å¼€æœºæˆåŠŸ'; $bootOk = $true; break }}
-      if ($null -ne $t -and $t.Info.State -eq 'error') {{ 
-        $errLocal = $t.Info.Error.LocalizedMessage;
-        Write-Output ('[STEP3] å¼€æœºè¿”å› error: ' + $errLocal);
-        if ($errLocal -match 'Unable to enumerate all disks|disk is not ready|not ready') {{
-          $bootRetry++;
-          Write-Output ('[STEP3] ç£ç›˜æœªå°±ç»ªç±»é”™è¯¯ï¼Œç­‰å¾… 10 ç§’åé‡è¯•...');
-          Start-Sleep -Seconds 10;
-          continue 2;
-        }}
-        throw ('å¼€æœºå¤±è´¥: ' + $errLocal)
-      }}
-    }}
-    if ($bootOk) {{ break }};
-    if ($bootRetry -ge 3) {{ throw 'å¼€æœºå¤±è´¥: é‡è¯• 3 æ¬¡åä»ç„¶æ— æ³•å¼€æœº' }};
-  }}
-  Write-Output '[STEP3] å¼€æœºåå¼ºåˆ¶ Reconnect ç½‘å¡...';
-  $netVms = Get-View -Id '{EscapePsString(vmMoRef)}' -Property Config.Hardware.Device -ErrorAction SilentlyContinue;
-  if ($netVms) {{
-    $rcSpec = New-Object VMware.Vim.VirtualMachineConfigSpec;
-    $reconnectCount = 0;
-    foreach ($dev in $netVms.Config.Hardware.Device) {{
-      if ($dev -is [VMware.Vim.VirtualEthernetCard]) {{
-        $ed = New-Object VMware.Vim.VirtualDeviceConfigSpec;
-        $ed.Operation = [VMware.Vim.VirtualDeviceConfigSpecOperation]::edit;
-        $ed.Device = $dev;
-        $ed.Device.Connectable = New-Object VMware.Vim.VirtualDeviceConnectInfo;
-        $ed.Device.Connectable.Connected = $true;
-        $ed.Device.Connectable.StartConnected = $true;
-        $ed.Device.Connectable.AllowGuestControl = $true;
-        $rcSpec.DeviceChange += $ed;
-        $reconnectCount++;
-      }}
-    }}
-    if ($reconnectCount -gt 0) {{
-      $rcTask = $netVms.ReconfigVM_Task($rcSpec);
-      Write-Output ('[STEP3] Reconnect Task=' + $rcTask.Value + ' ç½‘å¡æ•°=' + $reconnectCount);
-      for ($ri=0; $ri -lt 15; $ri++) {{
-        Start-Sleep -Seconds 2;
-        $rt = Get-View -Id $rcTask -Property Info.State,Info.Error -ErrorAction SilentlyContinue;
-        if ($rt -and $rt.Info.State -eq 'success') {{ Write-Output '[STEP3] Reconnect æˆåŠŸ'; break }}
-        if ($rt -and $rt.Info.State -eq 'error') {{ Write-Output ('[STEP3] Reconnect å¤±è´¥: ' + $rt.Info.Error.LocalizedMessage); break }}
-      }}
-    }}
-  }}
-}} else {{
-  Write-Output ('[STEP3] è™šæ‹Ÿæœºå·²å¤„äºå¼€æœºçŠ¶æ€: {EscapePsString(vmname)}');
-  Write-Output '[STEP3] å¼ºåˆ¶ Reconnect ç½‘å¡...';
-  $netVms2 = Get-View -Id '{EscapePsString(vmMoRef)}' -Property Config.Hardware.Device -ErrorAction SilentlyContinue;
-  if ($netVms2) {{
-    $rcSpec2 = New-Object VMware.Vim.VirtualMachineConfigSpec;
-    foreach ($dev in $netVms2.Config.Hardware.Device) {{
-      if ($dev -is [VMware.Vim.VirtualEthernetCard]) {{
-        $ed2 = New-Object VMware.Vim.VirtualDeviceConfigSpec;
-        $ed2.Operation = [VMware.Vim.VirtualDeviceConfigSpecOperation]::edit;
-        $ed2.Device = $dev;
-        $ed2.Device.Connectable = New-Object VMware.Vim.VirtualDeviceConnectInfo;
-        $ed2.Device.Connectable.Connected = $true;
-        $ed2.Device.Connectable.StartConnected = $true;
-        $ed2.Device.Connectable.AllowGuestControl = $true;
-        $rcSpec2.DeviceChange += $ed2;
-      }}
-    }}
-    $rcTask2 = $netVms2.ReconfigVM_Task($rcSpec2);
-    Write-Output ('[STEP3] Reconnect Task=' + $rcTask2.Value);
-    for ($ri=0; $ri -lt 15; $ri++) {{
-      Start-Sleep -Seconds 2;
-      $rt2 = Get-View -Id $rcTask2 -Property Info.State,Info.Error -ErrorAction SilentlyContinue;
-      if ($rt2 -and $rt2.Info.State -eq 'success') {{ Write-Output '[STEP3] Reconnect æˆåŠŸ'; break }}
-      if ($rt2 -and $rt2.Info.State -eq 'error') {{ Write-Output ('[STEP3] Reconnect å¤±è´¥: ' + $rt2.Info.Error.LocalizedMessage); break }}
-    }}
-  }}
-}}
-";
-        }
-
-        private string BuildDeployScriptReconfigure(Dictionary<string, string> vmData, string vmMoRef)
-        {
-            string vmname = ComputeVmname(vmData);
-            int diskCap = SafeInt(vmData.GetValueOrDefault("DiskCapacityGB", "0"), 0, 0, 65535);
-            string scriptBody = BuildReconfigScript(vmData, vmMoRef);
-
-            if (diskCap > 0)
-            {
-                string diskScript = $@"
-$vmView = Get-View -Id '{EscapePsString(vmMoRef)}' -Property Config.Hardware.Device -ErrorAction Stop;
-if (-not $vmView) {{ throw 'æœªæ‰¾åˆ°è™šæ‹Ÿæœº MoRef: {EscapePsString(vmMoRef)}' }};
-$allDisks = @($vmView.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualDisk] }});
-$allScsi = @($vmView.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualSCSIController] }});
-if ($allScsi.Count -eq 0) {{ throw 'æœªæ‰¾åˆ°ä»»ä½• SCSI æ§åˆ¶å™¨ï¼ˆVirtualSCSIController å­ç±»ï¼‰ï¼Œè¯·æ£€æŸ¥æ¨¡æ¿ç¡¬ä»¶' }};
-$scsiCtrl = $allScsi | Sort-Object BusNumber, Key | Select-Object -First 1;
-$systemDisk = $allDisks | Where-Object {{ $_.ControllerKey -eq $scsiCtrl.Key }} | Select-Object -First 1;
-if (-not $systemDisk) {{ throw ('é€‰ä¸­çš„ SCSI æ§åˆ¶å™¨ (Key=' + $scsiCtrl.Key + ') ä¸Šæ— ç£ç›˜') }};
-$targetCapBytes = [int64]{diskCap} * 1GB;
-$configSpec = New-Object VMware.Vim.VirtualMachineConfigSpec;
-$scsiDisks = @($allDisks | Where-Object {{ $_.ControllerKey -eq $scsiCtrl.Key }});
-$dataDisk = if ($scsiDisks.Count -ge 2) {{ $scsiDisks[1] }} else {{ $null }};
-if (-not $dataDisk) {{
-    Write-Host ('æ•°æ®ç›˜ä¸å­˜åœ¨ï¼Œæ–°å»ºç¬¬2å—ç¡¬ç›˜ï¼ˆå®¹é‡: ' + {diskCap} + ' GBï¼ŒæŒ‚ SCSI æ§åˆ¶å™¨ Key=' + $scsiCtrl.Key + 'ï¼‰');
-    $newDisk = New-Object VMware.Vim.VirtualDisk;
-    $newDisk.Key = -1;
-    $newDisk.ControllerKey = $scsiCtrl.Key;
-    $usedUnits = @($scsiDisks | ForEach-Object {{ [int]$_.UnitNumber }});
-    $nextUnit = 0; foreach ($u in $usedUnits) {{ if ($u -ge $nextUnit) {{ $nextUnit = $u + 1 }} }};
-    $newDisk.UnitNumber = $nextUnit;
-    $newDisk.CapacityInBytes = $targetCapBytes;
-    $backing = New-Object VMware.Vim.VirtualDiskFlatVer2BackingInfo;
-    $backing.DiskMode = [VMware.Vim.VirtualDiskMode]::persistent;
-    $backing.ThinProvisioned = $true;
-    $backing.Datastore = $systemDisk.Backing.Datastore;
-    $backing.FileName = '';
-    $newDisk.Backing = $backing;
-    $diskSpec = New-Object VMware.Vim.VirtualDeviceConfigSpec;
-    $diskSpec.Operation = [VMware.Vim.VirtualDeviceConfigSpecOperation]::add;
-    $diskSpec.FileOperation = [VMware.Vim.VirtualDeviceConfigSpecFileOperation]::create;
-    $diskSpec.Device = $newDisk;
-    $configSpec.DeviceChange += $diskSpec;
-    $task = $vmView.ReconfigVM_Task($configSpec);
-    while ($true) {{ Start-Sleep -Seconds 3; $t = Get-View -Id $task -Property Info.State,Info.Error -ErrorAction SilentlyContinue; if ($null -ne $t -and $t.Info.State -eq 'success') {{ Write-Host 'æ•°æ®ç›˜åˆ›å»ºå®Œæˆ'; break }}; if ($null -ne $t -and $t.Info.State -eq 'error') {{ throw ('æ–°å»ºç£ç›˜å¤±è´¥: ' + $t.Info.Error.LocalizedMessage) }} }}
-}} else {{
-    $existingCap = [math]::Round([double]$dataDisk.CapacityGB, 2);
-    Write-Host ('æ•°æ®ç›˜å·²å­˜åœ¨ï¼ˆå½“å‰å®¹é‡: ' + $existingCap + ' GBï¼‰');
-    if ({diskCap} -gt $existingCap) {{
-        Write-Host ('æ‰©å±•æ•°æ®ç›˜è‡³: ' + {diskCap} + ' GB');
-        $dataDisk.CapacityInBytes = $targetCapBytes;
-        $diskSpec = New-Object VMware.Vim.VirtualDeviceConfigSpec;
-        $diskSpec.Operation = [VMware.Vim.VirtualDeviceConfigSpecOperation]::edit;
-        $diskSpec.Device = $dataDisk;
-        $configSpec.DeviceChange += $diskSpec;
-        $task = $vmView.ReconfigVM_Task($configSpec);
-        while ($true) {{ Start-Sleep -Seconds 3; $t = Get-View -Id $task -Property Info.State,Info.Error -ErrorAction SilentlyContinue; if ($null -ne $t -and $t.Info.State -eq 'success') {{ Write-Host 'æ•°æ®ç›˜æ‰©å®¹å®Œæˆ'; break }}; if ($null -ne $t -and $t.Info.State -eq 'error') {{ throw ('æ‰©å®¹ç£ç›˜å¤±è´¥: ' + $t.Info.Error.LocalizedMessage) }} }}
-    }} elseif ({diskCap} -lt $existingCap) {{
-        Write-Host ('ç›®æ ‡å®¹é‡å°äºå½“å‰å®¹é‡ï¼Œä¸ºé¿å…æ•°æ®ä¸¢å¤±ï¼Œè·³è¿‡ç¼©å®¹æ“ä½œ')
-    }} else {{
-        Write-Host ('ç›®æ ‡å®¹é‡ä¸å½“å‰å®¹é‡ä¸€è‡´ï¼Œæ— éœ€æ“ä½œ')
-    }}
-}}
-";
-                return scriptBody + "; " + diskScript;
-            }
-
-            return scriptBody;
-        }
-
-        private string ComputeSafeHostname(Dictionary<string, string> vmData)
-        {
-            string nameRaw = vmData.GetValueOrDefault("Name") ?? "";
-            string ipRaw = vmData.GetValueOrDefault("IP") ?? "";
-
-            string ipSuffix = "";
-            if (!string.IsNullOrEmpty(ipRaw))
-            {
-                var parts = ipRaw.Split('.');
-                if (parts.Length > 0 && int.TryParse(parts[parts.Length - 1], out int suffix))
-                {
-                    ipSuffix = suffix.ToString();
-                }
-            }
-
-            string safeHostname;
-            if (ContainsNonAscii(nameRaw))
-            {
-                string englishPart = ExtractEnglishPart(nameRaw);
-                if (string.IsNullOrEmpty(englishPart)) englishPart = "vm";
-                safeHostname = !string.IsNullOrEmpty(ipSuffix) ? $"{englishPart}-IP{ipSuffix}" : englishPart;
-            }
-            else
-            {
-                safeHostname = SafeHostname(nameRaw);
-                if (safeHostname == "vm") safeHostname = "vm";
-                else if (!string.IsNullOrEmpty(ipSuffix)) safeHostname = $"{safeHostname}-IP{ipSuffix}";
-            }
-
-            if (safeHostname.Length > 15)
+  if (-not $ready) {{ Write-Output '[STEP3] ç­‰å¾…è¶…æ—¶ï¼Œå°è¥yæí9£©yo 9§.‰È_NÃBˆ	›Ûİ™]HHÃBˆÚ[H
+	›Ûİ™]H[ÊHŞÃBˆÜš]KSİ]]
+	ÖÔÕT×H9l'z)^[ÈiË¢zÊÂr²‚F&ö÷E&WG'’³’²rjÊ’âââr“°Ğ¢GF6²ÒGfÒå÷vW$öådÕõF6²‚FçVÆÂ“°Ğ¢w&—FRÔ÷WGWB‚uµ5DU5Ò÷vW$öådÕõF6³Òr²GF6²åfÇVR“°Ğ¢F&ö÷Dö²ÒFfÇ6S°Ğ¢f÷"‚F&’Ò²F&’ÖÇB#²F&’²²’·°Ğ¢7F'BÕ6ÆVWÕ6V6öæG23°Ğ¢GBÒvWBÕf–WrÔ–BGF6²Õ&÷W'G’–æfòå7FFRÄ–æfòäW'&÷"ÔW'&÷$7F–öâ6–ÆVçFÇ”6öçF–çVS°Ğ¢–b‚FçVÆÂÖæRGBÖæBGBä–æfòå7FFRÖWw7V66W72r’·²w&—FRÔ÷WGWBuµ5DU5Ò[ÈiË®h‰X©òs²F&ö÷Dö²ÒGG'VS²'&V²×ĞĞ¢–b‚FçVÆÂÖæRGBÖæBGBä–æfòå7FFRÖWvW'&÷"r’·² Ğ¢FW'$Æö6ÂÒGBä–æfòäW'&÷"äÆö6Æ—¦VDÖW76vS°Ğ¢w&—FRÔ÷WGWB‚uµ5DU5Ò[ÈiË®‹ùNY¹âW'&÷#¢r²FW'$Æö6Â“°Ğ¢–b‚FW'$Æö6ÂÖÖF6‚uVæ&ÆRFòVçVÖW&FRÆÂF—6·7ÆF—6²—2æ÷B&VG—Ææ÷B&VG’r’·°Ğ¢F&ö÷E&WG'’²³°Ğ¢w&—FRÔ÷WGWB‚uµ5DU5Òz8y¹iÊ®[{º®{¾™IŠúşûÈÎzØ[èRzy.Yî˜xŞŠT¸¸¸œ¤ì4(€€€€€€€€€MÑ…ÉĞµM±••À€µM•½¹‘Ì€ÄÀì4(€€€€€€€€€½¹Ñ¥¹Õ”€Èì4(€€€€€€€õô4(€€€€€€€Ñ¡É½Ü€ Ÿ–òšrë–’Ç¢Ò”è€œ€¬€‘•ÉÉ1½…°¤4(€€€€€õô4(€€€õô4(€€€¥˜€ ‘‰½½Ñ=¬¤íì‰É•…¬õôì4(€€€¥˜€ ‘‰½½ÑI•ÑÉä€µ”€Ì¤íìÑ¡É½Ü€Ÿ–òšrë–’Ç¢Ò”èƒ¦7¢¾T€Ìƒš²‡–B;’î7Ûš^ƒšÎW–òšrèœõôì4(€õô4(€]É¥Ñ”µ=ÕÑÁÕĞ€mMQ@Ítƒ–òšrë–B;–òë–"ØI•½¹¹•ĞƒöG–6„¸¸¸œì4(€€‘¹•ÑYµÌ€ô•ĞµY¥•Ü€µ%€íÍ…Á•AÍMÑÉ¥¹œ¡Ùµ5½I•˜¥ôœ€µAÉ½Á•ÉÑä½¹™¥œ¹!…É‘İ…É”¹•Ù¥”€µÉÉ½ÉÑ¥½¸M¥±•¹Ñ±å½¹Ñ¥¹Õ”ì4(€¥˜€ ‘¹•ÑYµÌ¤íì4(€€€€‘ÉMÁ•Œ€ô9•Üµ=‰©•ĞY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±5…¡¥¹•½¹™¥MÁ•Œì4(€€€€‘É•½¹¹•Ñ½Õ¹Ğ€ô€Àì4(€€€™½É•… € ‘‘•Ø¥¸€‘¹•ÑYµÌ¹½¹™¥œ¹!…É‘İ…É”¹•Ù¥”¤íì4(€€€€€¥˜€ ‘‘•Ø€µ¥ÌmY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±Ñ¡•É¹•Ñ…É‘t¤íì4(€€€€€€€€‘•€ô9•Üµ=‰©•ĞY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±•Ù¥•½¹™¥MÁ•Œì4(€€€€€€€€‘•¹=Á•É…Ñ¥½¸€ômY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±•Ù¥•½¹™¥MÁ•=Á•É…Ñ¥½¹tèé•‘¥Ğì4(€€€€€€€€‘•¹•Ù¥”€ô€‘‘•Øì4(€€€€€€€€‘•¹•Ù¥”¹½¹¹•Ñ…‰±”€ô9•Üµ=‰©•ĞY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±•Ù¥•½¹¹•Ñ%¹™¼ì4(€€€€€€€€‘•¹•Ù¥”¹½¹¹•Ñ…‰±”¹½¹¹•Ñ•€ô€‘ÑÉÕ”ì4(€€€€€€€€‘•¹•Ù¥”¹½¹¹•Ñ…‰±”¹MÑ…ÉÑ½¹¹•Ñ•€ô€‘ÑÉÕ”ì4(€€€€€€€€‘•¹•Ù¥”¹½¹¹•Ñ…‰±”¹±±½İÕ•ÍÑ½¹ÑÉ½°€ô€‘ÑÉÕ”ì4(€€€€€€€€‘ÉMÁ•Œ¹•Ù¥•¡…¹”€¬ô€‘•ì4(€€€€€€€€‘É•½¹¹•Ñ½Õ¹Ğ¬¬ì4(€€€€€õô4(€€€õô4(€€€¥˜€ ‘É•½¹¹•Ñ½Õ¹Ğ€µĞ€À¤íì4(€€€€€€‘ÉQ…Í¬€ô€‘¹•ÑYµÌ¹I•½¹™¥Y5}Q…Í¬ ‘ÉMÁ•Œ¤ì4(€€€€€]É¥Ñ”µ=ÕÑÁÕĞ€ mMQ@ÍtI•½¹¹•ĞQ…Í¬ôœ€¬€‘ÉQ…Í¬¹Y…±Õ”€¬€œƒöG–6‡šVÀôœ€¬€‘É•½¹¹•Ñ½Õ¹Ğ¤ì4(€€€€€™½È€ ‘É¤ôÀì€‘É¤€µ±Ğ€ÄÔì€‘É¤¬¬¤íì4(€€€€€€€MÑ…ÉĞµM±••À€µM•½¹‘Ì€Èì4(€€€€€€€€‘ÉĞ€ô•ĞµY¥•Ü€µ%€‘ÉQ…Í¬€µAÉ½Á•ÉÑä%¹™¼¹MÑ…Ñ”±%¹™¼¹ÉÉ½È€µÉÉ½ÉÑ¥½¸M¥±•¹Ñ±å½¹Ñ¥¹Õ”ì4(€€€€€€€¥˜€ ‘ÉĞ€µ…¹€‘ÉĞ¹%¹™¼¹MÑ…Ñ”€µ•Ä€ÍÕ•ÍÌœ¤íì]É¥Ñ”µ=ÕÑÁÕĞ€mMQ@ÍtI•½¹¹•Ğƒš"C–*|œì‰É•…¬õô4(€€€€€€€¥˜€ ‘ÉĞ€µ…¹€‘ÉĞ¹%¹™¼¹MÑ…Ñ”€µ•Ä€•ÉÉ½Èœ¤íì]É¥Ñ”µ=ÕÑÁÕĞ€ mMQ@ÍtI•½¹¹•Ğƒ–’Ç¢Ò”è€œ€¬€‘ÉĞ¹%¹™¼¹ÉÉ½È¹1½…±¥é•‘5•ÍÍ…”¤ì‰É•…¬õô4(€€€€€õô4(€€€õô4(€õô4)õô•±Í”íì4(€]É¥Ñ”µ=ÕÑÁÕĞ€ mMQ@Ítƒ¢fkš.šrë–ŞË–’’ê;–òšrë*ÛšèíÍ…Á•AÍMÑÉ¥¹œ¡Ùµ¹…µ”¥ôœ¤ì4(€]É¥Ñ”µ=ÕÑÁÕĞ€mMQ@Ítƒ–òë–"ØI•½¹¹•ĞƒöG–6„¸¸¸œì4(€€‘¹•ÑYµÌÈ€ô•ĞµY¥•Ü€µ%€íÍ…Á•AÍMÑÉ¥¹œ¡Ùµ5½I•˜¥ôœ€µAÉ½Á•ÉÑä½¹™¥œ¹!…É‘İ…É”¹•Ù¥”€µÉÉ½ÉÑ¥½¸M¥±•¹Ñ±å½¹Ñ¥¹Õ”ì4(€¥˜€ ‘¹•ÑYµÌÈ¤íì4(€€€€‘ÉMÁ•ŒÈ€ô9•Üµ=‰©•ĞY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±5…¡¥¹•½¹™¥MÁ•Œì4(€€€™½É•… € ‘‘•Ø¥¸€‘¹•ÑYµÌÈ¹½¹™¥œ¹!…É‘İ…É”¹•Ù¥”¤íì4(€€€€€¥˜€ ‘‘•Ø€µ¥ÌmY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±Ñ¡•É¹•Ñ…É‘t¤íì4(€€€€€€€€‘•È€ô9•Üµ=‰©•ĞY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±•Ù¥•½¹™¥MÁ•Œì4(€€€€€€€€‘•È¹=Á•É…Ñ¥½¸€ômY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±•Ù¥•½¹™¥MÁ•=Á•É…Ñ¥½¹tèé•‘¥Ğì4(€€€€€€€€‘•È¹•Ù¥”€ô€‘‘•Øì4(€€€€€€€€‘•È¹•Ù¥”¹½¹¹•Ñ…‰±”€ô9•Üµ=‰©•ĞY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±•Ù¥•½¹¹•Ñ%¹™¼ì4(€€€€€€€€‘•È¹•Ù¥”¹½¹¹•Ñ…‰±”¹½¹¹•Ñ•€ô€‘ÑÉÕ”ì4(€€€€€€€€‘•È¹•Ù¥”¹½¹¹•Ñ…‰±”¹MÑ…ÉÑ½¹¹•Ñ•€ô€‘ÑÉÕ”ì4(€€€€€€€€‘•È¹•Ù¥”¹½¹¹•Ñ…‰±”¹±±½İÕ•ÍÑ½¹ÑÉ½°€ô€‘ÑÉÕ”ì4(€€€€€€€€‘ÉMÁ•ŒÈ¹•Ù¥•¡…¹”€¬ô€‘•Èì4(€€€€€õô4(€€€õô4(€€€€‘ÉQ…Í¬È€ô€‘¹•ÑYµÌÈ¹I•½¹™¥Y5}Q…Í¬ ‘ÉMÁ•ŒÈ¤ì4(€€€]É¥Ñ”µ=ÕÑÁÕĞ€ mMQ@ÍtI•½¹¹•ĞQ…Í¬ôœ€¬€‘ÉQ…Í¬È¹Y…±Õ”¤ì4(€€€™½È€ ‘É¤ôÀì€‘É¤€µ±Ğ€ÄÔì€‘É¤¬¬¤íì4(€€€€€MÑ…ÉĞµM±••À€µM•½¹‘Ì€Èì4(€€€€€€‘ÉĞÈ€ô•ĞµY¥•Ü€µ%€‘ÉQ…Í¬È€µAÉ½Á•ÉÑä%¹™¼¹MÑ…Ñ”±%¹™¼¹ÉÉ½È€µÉÉ½ÉÑ¥½¸M¥±•¹Ñ±å½¹Ñ¥¹Õ”ì4(€€€€€¥˜€ ‘ÉĞÈ€µ…¹€‘ÉĞÈ¹%¹™¼¹MÑ…Ñ”€µ•Ä€ÍÕ•ÍÌœ¤íì]É¥Ñ”µ=ÕÑÁÕĞ€mMQ@ÍtI•½¹¹•Ğƒš"C–*|œì‰É•…¬õô4(€€€€€¥˜€ ‘ÉĞÈ€µ…¹€‘ÉĞÈ¹%¹™¼¹MÑ…Ñ”€µ•Ä€•ÉÉ½Èœ¤íì]É¥Ñ”µ=ÕÑÁÕĞ€ mMQ@ÍtI•½¹¹•Ğƒ–’Ç¢Ò”è€œ€¬€‘ÉĞÈ¹%¹™¼¹ÉÉ½È¹1½…±¥é•‘5•ÍÍ…”¤ì‰É•…¬õô4(€€€õô4(€õô4)õô4(ˆì4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”ÍÑÉ¥¹œ	Õ¥±‘•Á±½åMÉ¥ÁÑI•½¹™¥ÕÉ”¡¥Ñ¥½¹…ÉäñÍÑÉ¥¹œ°ÍÑÉ¥¹œøÙµ…Ñ„°ÍÑÉ¥¹œÙµ5½I•˜¤4(€€€€€€€ì4(€€€€€€€€€€€ÍÑÉ¥¹œÙµ¹…µ”€ô½µÁÕÑ•Yµ¹…µ”¡Ùµ…Ñ„¤ì4(€€€€€€€€€€€¥¹Ğ‘¥Í­…À€ôM…™•%¹Ğ¡Ùµ…Ñ„¹•ÑY…±Õ•=É•™…Õ±Ğ ‰¥Í­…Á…¥Ñåˆ°€ˆÀˆ¤°€À°€À°€ØÔÔÌÔ¤ì4(€€€€€€€€€€€ÍÑÉ¥¹œÍÉ¥ÁÑ	½‘ä€ô	Õ¥±‘I•½¹™¥MÉ¥ÁĞ¡Ùµ…Ñ„°Ùµ5½I•˜¤ì4(4(€€€€€€€€€€€¥˜€¡‘¥Í­…À€ø€À¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œ‘¥Í­MÉ¥ÁĞ€ô€‘ ˆ4(‘ÙµY¥•Ü€ô•ĞµY¥•Ü€µ%€íÍ…Á•AÍMÑÉ¥¹œ¡Ùµ5½I•˜¥ôœ€µAÉ½Á•ÉÑä½¹™¥œ¹!…É‘İ…É”¹•Ù¥”€µÉÉ½ÉÑ¥½¸MÑ½Àì4)¥˜€ µ¹½Ğ€‘ÙµY¥•Ü¤íìÑ¡É½Ü€Ÿšr«š&û–"Ã¢fkš.šrè5½I•˜èíÍ…Á•AÍMÑÉ¥¹œ¡Ùµ5½I•˜¥ôœõôì4(‘…±±¥Í­Ì€ô  ‘ÙµY¥•Ü¹½¹™¥œ¹!…É‘İ…É”¹•Ù¥”ğ]¡•É”µ=‰©•Ğíì€‘|€µ¥ÌmY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±¥Í­tõô¤ì4(‘…±±MÍ¤€ô  ‘ÙµY¥•Ü¹½¹™¥œ¹!…É‘İ…É”¹•Ù¥”ğ]¡•É”µ=‰©•Ğíì€‘|€µ¥ÌmY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±MM%½¹ÑÉ½±±•Étõô¤ì4)¥˜€ ‘…±±MÍ¤¹½Õ¹Ğ€µ•Ä€À¤íìÑ¡É½Ü€–œªæ‰¾åˆ°ä»¹/eHĞÔÒH9£©X‹nYšò!Y¥ÉÑÕ…±MM%½¹ÑÉ½±±•Èƒ–¶CÆï¾ò'¾ò3¢¾ßšš~—š¢‡švÿ†³’îØœõôì4(‘ÍÍ¥ÑÉ°€ô€‘…±±MÍ¤ğM½ÉĞµ=‰©•Ğ	ÕÍ9Õµ‰•È°-•äğM•±•Ğµ=‰©•Ğ€µ¥ÉÍĞ€Äì4(‘ÍåÍÑ•µ¥Í¬€ô€‘…±±¥Í­Ìğ]¡•É”µ=‰©•Ğíì€‘|¹½¹ÑÉ½±±•É-•ä€µ•Ä€‘ÍÍ¥ÑÉ°¹-•äõôğM•±•Ğµ=‰©•Ğ€µ¥ÉÍĞ€Äì4)¥˜€ µ¹½Ğ€‘ÍåÍÑ•µ¥Í¬¤íìÑ¡É½Ü€ ™€‰ä¸­çš„ SCSI æ¥b-¹fj
+Ù^OIÈ
+È	ØÜÚPİ›’Ù^H
+È	ÊH9."¹¥è9èàyææ	ÊH_NÃB‰\™Ù]Ø\]\ÈHÚ[^Ù\ÚĞØ\H
+ˆQĞÃB‰ÛÛ™šYÔÜXÈH™]ËSØš™Xİ“]Ø\™K•š[K•š\X[XXÚ[™PÛÛ™šYÔÜXÎÃB‰ØÜÚQ\ÚÜÈH
+	[\ÚÜÈÚ\™KSØš™XİŞÈ	ËÛÛ›Û\’Ù^HY\H	ØÜÚPİ›’Ù^H_JNÃB‰]Q\ÚÈHYˆ
+	ØÜÚQ\ÚÜËÛİ[YÙHŠHŞÈ	ØÜÚQ\ÚÜÖÌWH_H[ÙHŞÈ	[_NÃBšYˆ
+[›İ	]Q\ÚÊHŞÃBˆÜš]KRÜİ
+	ù¥l9£k¹ææ9.#ykf9g*;ï#9¥¬9nî¹ë+¹gezÎy¹ò#–ºç¦<è€œ€¬í‘¥Í­…Áô€¬€œ¾ò3š2MM$ƒš:Ÿ–"Û–f -•äôœ€¬€‘ÍÍ¥ÑÉ°¹-•ä€¬€Ÿ"IÊNÃBˆ	™]Ñ\ÚÈH™]ËSØš™Xİ“]Ø\™K•š[K•š\X[\ÚÎÃBˆ	™]Ñ\ÚË’Ù^HHLNÃBˆ	™]Ñ\ÚËÛÛ›Û\’Ù^HH	ØÜÚPİ›’Ù^NÃBˆ	\ÙY[š]ÈH
+	ØÜÚQ\ÚÜÈ›Ü‘XXÚSØš™XİŞÈÚ[IË•[š][X™\ˆ_JNÃBˆ	™^[š]HÈ›Ü™XXÚ
+	H[ˆ	\ÙY[š]ÊHŞÈYˆ
+	HYÙH	™^[š]
+HŞÈ	™^[š]H	H
+ÈH_H_NÃBˆ	™]Ñ\ÚË•[š][X™\ˆH	™^[š]ÃBˆ	™]Ñ\ÚËØ\XÚ]R[]\ÈH	\™Ù]Ø\]\ÎÃBˆ	˜XÚÚ[™ÈH™]ËSØš™Xİ“]Ø\™K•š[K•š\X[\ÚÑ›]™\Œ˜XÚÚ[™Ò[™›ÎÃBˆ	˜XÚÚ[™Ë‘\ÚÓ[ÙHHÕ“]Ø\™K•š[K•š\X[\ÚÓ[ÙWNœ\œÚ\İ[ÃBˆ	˜XÚÚ[™Ë•[”›İš\Ú[Û™YH	YNÃBˆ	˜XÚÚ[™Ë‘]\İÜ™HH	Ş\İ[Q\ÚË˜XÚÚ[™Ë‘]\İÜ™NÃBˆ	˜XÚÚ[™Ë‘š[S˜[YHH	ÉÎÃBˆ	™]Ñ\ÚË˜XÚÚ[™ÈH	˜XÚÚ[™ÎÃBˆ	\ÚÔÜXÈH™]ËSØš™Xİ“]Ø\™K•š[K•š\X[]šXÙPÛÛ™šYÔÜXÎÃBˆ	\ÚÔÜXË“Ü\˜][ÛˆHÕ“]Ø\™K•š[K•š\X[]šXÙPÛÛ™šYÔÜXÓÜ\˜][Û—N˜YÃBˆ	\ÚÔÜXË‘š[SÜ\˜][ÛˆHÕ“]Ø\™K•š[K•š\X[]šXÙPÛÛ™šYÔÜXÑš[SÜ\˜][Û—N˜Ü™X]NÃBˆ	\ÚÔÜXË‘]šXÙHH	™]Ñ\ÚÎÃBˆ	ÛÛ™šYÔÜXË‘]šXÙPÚ[™ÙH
+ÏH	\ÚÔÜXÎÃBˆ	\ÚÈH	›UšY]Ë”™XÛÛ™šYÕ“WÕ\ÚÊ	ÛÛ™šYÔÜXÊNÃBˆÚ[H
+	YJHŞÈİ\TÛY\TÙXÛÛ™ÈÎÈ	HÙ]UšY]ÈRY	\ÚÈT›Ü\H[™›Ë”İ]K[™›Ë‘\œ›ÜˆQ\œ›ÜXİ[ÛˆÚ[[PÛÛ[YNÈYˆ
+	[[™H	X[™	’[™›Ë”İ]HY\H	ÜİXØÙ\ÜÉÊHŞÈÜš]KRÜİ	ù¥l9£k¹ææ9b&ùnî¹k£9¢$	ÎÈœ™XZÈ_NÈYˆ
+	[[™H	X[™	’[™›Ë”İ]HY\H	Ù\œ›Ü‰ÊHŞÈ›İÈ
+	ik[»®z8y¹ZK‹JS¢r²GBä–æfòäW'&÷"äÆö6Æ—¦VDÖW76vR’×Ò×ĞĞ§×ÒVÇ6R·°Ğ¢FW†—7F–æt6Ò¶ÖF…Ó£¥&÷VæB…¶F÷V&ÆUÒFFFF—6²ä66—G”t"Â"“°Ğ¢w&—FRÔ†÷7B‚~i[hÚîy¹[{.ZÙYÊûÈ[Ù>X˜ŞZë˜xó¢r²FW†—7F–æt6²rt.ûÈ’r“°Ğ¢–b‡¶F—6´6ÒÖwBFW†—7F–æt6’·°Ğ¢w&—FRÔ†÷7B‚~hš[^i[hÚîy¹ˆ{3¢r²¶F—6´6Ò²rt"r“°Ğ¢FFFF—6²ä66—G”–ä'—FW2ÒGF&vWD6'—FW3°Ğ¢FF—6µ7V2ÒæWrÔö&¦V7Bd×v&Råf–Òåf—'GVÄFWf–6T6öæf–u7V3°Ğ¢FF—6µ7V2ä÷W&F–öâÒµd×v&Råf–Òåf—'GVÄFWf–6T6öæf–u7V4÷W&F–öåÓ£¦VF—C°Ğ¢FF—6µ7V2äFWf–6RÒFFFF—6³°Ğ¢F6öæf–u7V2äFWf–6T6†ævR³ÒFF—6µ7V3°Ğ¢GF6²ÒGfÕf–Wrå&V6öæf–udÕõF6²‚F6öæf–u7V2“°Ğ¢v†–ÆR‚GG'VR’·²7F'BÕ6ÆVWÕ6V6öæG23²GBÒvWBÕf–WrÔ–BGF6²Õ&÷W'G’–æfòå7FFRÄ–æfòäW'&÷"ÔW'&÷$7F–öâ6–ÆVçFÇ”6öçF–çVS²–b‚FçVÆÂÖæRGBÖæBGBä–æfòå7FFRÖWw7V66W72r’·²w&—FRÔ†÷7BZVÃš6»ncš&§–ºç–º3š"@œì‰É•…¬õôì¥˜€ ‘¹Õ±°€µ¹”€‘Ğ€µ…¹€‘Ğ¹%¹™¼¹MÑ…Ñ”€µ•Ä€•ÉÉ½Èœ¤íìÑ¡É½Ü€ Ÿš&§–ºçnc–’Ç¢Ò”è€œ€¬€‘Ğ¹%¹™¼¹ÉÉ½È¹1½…±¥é•‘5•ÍÍ…”¤õôõô4(€€€õô•±Í•¥˜€¡í‘¥Í­…Áô€µ±Ğ€‘•á¥ÍÑ¥¹…À¤íì4(€€€€€€€]É¥Ñ”µ!½ÍĞ€ —›®æ …k®zaã[Òê;–öE‰å®¹é‡ÈÎK‹®˜Ö7šVÃš6»’â‹–’Ç¼Œè·²/á{ÊZëi8ŞKÙÂrĞ¢×ÒVÇ6R·°Ğ¢w&—FRÔ†÷7B‚~yºîj~Zë˜xşKˆî[Ù>X˜ŞZë˜xşKˆˆ{NûÈÎiz™Èi8ŞKÙÂrĞ¢×ĞĞ§×ĞĞ¢#°Ğ¢&WGW&â67&—D&öG’²#²"²F—6µ67&—C°Ğ¢ĞĞ Ğ¢&WGW&â67&—D&öG“°Ğ¢ĞĞ Ğ¢&—fFR7G&–ær6ö×WFU6fT†÷7FæÖR„F–7F–öæ'“Ç7G&–ærÂ7G&–æpÙµ…Ñ„¤4(€€€€€€€ì4(€€€€€€€€€€€ÍÑÉ¥¹œ¹…µ•I…Ü€ôÙµ…Ñ„¹•ÑY…±Õ•=É•™…Õ±Ğ ‰9…µ”ˆ¤€üü€ˆˆì4(€€€€€€€€€€€ÍÑÉ¥¹œ¥ÁI…Ü€ôÙµ…Ñ„¹•ÑY…±Õ•=É•™…Õ±Ğ ‰%@ˆ¤€üü€ˆˆì4(4(€€€€€€€€€€€ÍÑÉ¥¹œ¥ÁMÕ™™¥à€ô€ˆˆì4(€€€€€€€€€€€¥˜€ …ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡¥ÁI…Ü¤¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Ù…ÈÁ…ÉÑÌ€ô¥ÁI…Ü¹MÁ±¥Ğ œ¸œ¤ì4(€€€€€€€€€€€€€€€¥˜€¡Á…ÉÑÌ¹1•¹Ñ €ø€À€˜˜¥¹Ğ¹QÉåA…ÉÍ”¡Á…ÉÑÍmÁ…ÉÑÌ¹1•¹Ñ €´€Åt°½ÕĞ¥¹ĞÍÕ™™¥à¤¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€¥ÁMÕ™™¥à€ôÍÕ™™¥à¹Q½MÑÉ¥¹œ ¤ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€ÍÑÉ¥¹œÍ…™•!½ÍÑ¹…µ”ì4(€€€€€€€€€€€¥˜€¡½¹Ñ…¥¹Í9½¹Í¥¤¡¹…µ•I…Ü¤¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œ•¹±¥Í¡A…ÉĞ€ôáÑÉ…Ñ¹±¥Í¡A…ÉĞ¡¹…µ•I…Ü¤ì4(€€€€€€€€€€€€€€€¥˜€¡ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡•¹±¥Í¡A…ÉĞ¤¤•¹±¥Í¡A…ÉĞ€ô€‰Ù´ˆì4(€€€€€€€€€€€€€€€Í…™•!½ÍÑ¹…µ”€ô€…ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡¥ÁMÕ™™¥à¤€ü€‰í•¹±¥Í¡A…ÉÑôµ%Aí¥ÁMÕ™™¥áôˆ€è•¹±¥Í¡A…ÉĞì4(€€€€€€€€€€€ô4(€€€€€€€€€€€•±Í”4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Í…™•!½ÍÑ¹…µ”€ôM…™•!½ÍÑ¹…µ”¡¹…µ•I…Ü¤ì4(€€€€€€€€€€€€€€€¥˜€¡Í…™•!½ÍÑ¹…µ”€ôô€‰Ù´ˆ¤Í…™•!½ÍÑ¹…µ”€ô€‰Ù´ˆì4(€€€€€€€€€€€€€€€•±Í”¥˜€ …ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡¥ÁMÕ™™¥à¤¤Í…™•!½ÍÑ¹…µ”€ô€‰íÍ…™•!½ÍÑ¹…µ•ôµ%Aí¥ÁMÕ™™¥áôˆì4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€¥˜€¡Í…™•!½ÍÑ¹…µ”¹1•¹Ñ € 15)
             {
                 if (!string.IsNullOrEmpty(ipSuffix))
                 {
@@ -859,122 +321,8 @@ if (-not $dataDisk) {{
                     safeHostname = SafeHostname(nameRaw).Substring(0, Math.Min(15, SafeHostname(nameRaw).Length));
                 }
                 safeHostname = safeHostname.TrimEnd('-');
-                if (safeHostname.Length > 15) safeHostname = safeHostname.Substring(0, 15);
-            }
-            return safeHostname;
-        }
-
-        private string BuildReconfigScript(Dictionary<string, string> vmData, string vmMoRef)
-        {
-            int cpu = SafeInt(vmData.GetValueOrDefault("CPU", "1"), 1, 1, 4096);
-            int memory = SafeInt(vmData.GetValueOrDefault("Memory", "1"), 1, 1, 65536);
-            string notes = EscapePsString(vmData.GetValueOrDefault("Description") ?? vmData.GetValueOrDefault("Name") ?? "");
-            string network = EscapePsString(vmData.GetValueOrDefault("Vlan") ?? "");
-            string vmMoRefPs = EscapePsString(vmMoRef);
-
-            string networkCond = !string.IsNullOrEmpty(network) ? $@"
-  if ($dev -is [VMware.Vim.VirtualEthernetCard]) {{
-    $ns = New-Object VMware.Vim.VirtualDeviceConfigSpec;
-    $ns.Operation = [VMware.Vim.VirtualDeviceConfigSpecOperation]::edit;
-    $ns.Device = $dev;
-    $pgName = '{network}';
-    $pgNameLower = $pgName.ToLower();
-    $dvPg = Get-View -ViewType DistributedVirtualPortgroup -ErrorAction SilentlyContinue | Where-Object {{ $_.Name.ToLower() -eq $pgNameLower }} | Select-Object -First 1;
-    $stdPg = $null;
-    if (-not $dvPg) {{
-      $stdPg = Get-View -ViewType Network -ErrorAction SilentlyContinue | Where-Object {{ $_.Name.ToLower() -eq $pgNameLower -and $_.MoRef.Type -eq 'Network' }} | Select-Object -First 1;
-    }};
-    if ($dvPg) {{
-      $backing = New-Object VMware.Vim.VirtualEthernetCardDistributedVirtualPortBackingInfo;
-      $backing.Port = New-Object VMware.Vim.DistributedVirtualSwitchPortConnection;
-      $backing.Port.PortgroupKey = $dvPg.MoRef.Value;
-      $switchUuid = $null;
-      if ($dvPg.DistributedVirtualSwitch -and $dvPg.DistributedVirtualSwitch.Value) {{
-        $dvsw = Get-View -Id $dvPg.DistributedVirtualSwitch -ErrorAction SilentlyContinue;
-        if ($dvsw) {{ $switchUuid = $dvsw.Uuid }}
-      }};
-      if (-not $switchUuid) {{
-        $dvSwitchList = Get-View -ViewType DistributedVirtualSwitch -ErrorAction SilentlyContinue;
-        foreach ($dvs in $dvSwitchList) {{
-          if ($dvs.Portgroup -and ($dvs.Portgroup | Where-Object {{ $_.Value -eq $dvPg.MoRef.Value }})) {{
-                    $switchUuid = $dvs.Uuid; break
-          }}
-        }}
-      }};
-      if ($switchUuid) {{ $backing.Port.SwitchUuid = $switchUuid }};
-      $ns.Device.Backing = $backing;
-    }} elseif ($stdPg) {{
-      $backing = New-Object VMware.Vim.VirtualEthernetCardNetworkBackingInfo;
-      $backing.DeviceName = $pgName;
-      $backing.Network = $stdPg.MoRef;
-      $ns.Device.Backing = $backing;
-    }} else {{
-      Write-Warning ('WARN æœªæ‰¾åˆ°ç«¯å£ç»„: ' + $pgName + ', è·³è¿‡ç½‘å¡åˆ‡æ¢');
-      continue;
-    }};
-    $ns.Device.Connectable = New-Object VMware.Vim.VirtualDeviceConnectInfo;
-    $ns.Device.Connectable.Connected = $true;
-    $ns.Device.Connectable.StartConnected = $true;
-    $ns.Device.Connectable.AllowGuestControl = $true;
-    $configSpec.DeviceChange += $ns;
-  }}" : "";
-
-            return $@"
-$ErrorActionPreference = 'Stop';
-$vmView = Get-View -Id '{vmMoRefPs}' -Property Config.Hardware.Device,Config.Annotation -ErrorAction Stop;
-if ($null -eq $vmView) {{ throw 'æœªæ‰¾åˆ°è™šæ‹Ÿæœº MoRef: {vmMoRefPs}' }};
-$configSpec = New-Object VMware.Vim.VirtualMachineConfigSpec;
-$configSpec.NumCPUs = {cpu};
-$configSpec.MemoryMB = {memory} * 1024;
-$configSpec.Annotation = '{notes}';
-foreach ($dev in $vmView.Config.Hardware.Device) {{{networkCond}
-}};
-$reconfigTask = $vmView.ReconfigVM_Task($configSpec);
-while ($true) {{
-  Start-Sleep -Seconds 3;
-  $t = Get-View -Id $reconfigTask -Property Info.State,Info.Error -ErrorAction SilentlyContinue;
-  if ($null -ne $t -and $t.Info.State -eq 'success') {{ break }}
-  if ($null -ne $t -and $t.Info.State -eq 'error') {{ throw ('ReconfigVM å¤±è´¥: ' + $t.Info.Error.LocalizedMessage) }}
-}}
-";
-        }
-
-        public static string BuildGuestOpsScript(Dictionary<string, string> vmData, string vmMoRef, string guestPassword, string? customDns = null, bool guestOpsMode = false, string? guestUser = null)
-        {
-            string ipRaw = vmData.GetValueOrDefault("IP") ?? "";
-            string gateway = vmData.GetValueOrDefault("Gateway") ?? "";
-            string mask = vmData.GetValueOrDefault("Mask") ?? "";
-            int prefixLen = ParsePrefixLenStatic(mask);
-            string rawHostname = vmData.GetValueOrDefault("Hostname") ?? "";
-            string vmNameRaw = vmData.GetValueOrDefault("Name") ?? "";
-
-            static int ParsePrefixLenStatic(string mask)
-            {
-                if (string.IsNullOrEmpty(mask)) return 24;
-                if (int.TryParse(mask, out int p) && p >= 0 && p <= 32) return p;
-                var parts = mask.Split('.');
-                if (parts.Length != 4) return 24;
-                int bits = 0;
-                foreach (var oct in parts)
-                {
-                    if (!int.TryParse(oct, out int v) || v < 0 || v > 255) return 24;
-                    while (v > 0) { bits += v & 1; v >>= 1; }
-                }
-                return bits > 0 ? bits : 24;
-            }
-
-            static string ComputeSafeHostnameStatic(string raw, string vmNameRaw)
-            {
-                string source = !string.IsNullOrEmpty(raw) ? raw : vmNameRaw;
-                if (string.IsNullOrEmpty(source)) return "";
-                var sb = new System.Text.StringBuilder();
-                foreach (char c in source)
-                {
-                    if (char.IsLetterOrDigit(c) || c == '-' || c == '_') sb.Append(c);
-                    else sb.Append('-');
-                }
-                string safe = sb.ToString();
-                if (safe.Length > 63) safe = safe.Substring(0, 63);
+                if (safeHostname.Length MJHØY™RÜİ˜[YHHØY™RÜİ˜[YK”İXœİš[™ÊMJNÃBˆCBˆ™]\›ˆØY™RÜİ˜[YNÃBˆCBƒBˆš]˜]Hİš[™ÈZ[™XÛÛ™šYÔØÜš\
+Xİ[Û˜\Oİš[™Ëİš[™ÂfÔFFÂ7G&–ærfÔÖõ&VbĞ¢°Ğ¢–çB7RÒ6fT–çB‡fÔFFävWEfÇVT÷$FVfVÇB‚$5R"Â#"’ÂÂÂC“b“°Ğ¢–çBÖVÖ÷'’Ò6fT–çB‡fÔFFävWEfÇVT÷$FVfVÇB‚$ÖVÖ÷'’"Â#"’ÂÂÂcSS3b“°Ğ¢7G&–æræ÷FW2ÒW66U57G&–ær‡fÔFFävWEfÇVT÷$FVfVÇB‚$FW67&—F–öâ"’óòfÔFFävWEfÇVT÷$FVfVÇB‚$æÖR"’óò""“°Ğ¢7G&–æræWGv÷&²ÒW66U57G&–ær‡fÔFFävWEfÇVT÷$FVfVÇB‚%fÆâ"’óò""“°Ğ¢7G&–ærfÔÖõ&Ve2ÒW66U57G&–ær‡fÔÖõ&Vb“°Ğ Ğ¢7G&–æræWGv÷&´6öæBÒ7G&–ærä—4çVÆÄ÷$V×G’†æWGv÷&²’òD Ğ¢–b‚FFWbÖ—2µd×v&Råf–Òåf—'GVÄWF†W&æWD6&EÒ’·°Ğ¢Fç2ÒæWrÔö&¦V7Bd×v&Råf–Òåf—'GVÄFWf–6T6öæf–u7V3°Ğ¢Fç2ä÷W&F–öâÒµd×v&Råf–Òåf—'GVÄFWf–6T6öæf–u7V4÷W&F–öåÓ£¦VF—C°Ğ¢Fç2äFWf–6RÒFFWc°Ğ¢GtæÖRÒw¶æWGv÷&·Òs°Ğ¢GtæÖTÆ÷vW"ÒGtæÖRåFôÆ÷vW"‚“°Ğ¢FGerÒvWBÕf–WrÕf–WuG—RF—7G&–'WFVEf—'GVÅ÷'Fw&÷WÔW'&÷$7F–öâ6–ÆVçFÇ”6öçF–çVRÂv†W&RÔö&¦V7B·²EòäæÖRåFôÆ÷vW"‚’ÖWGtæÖTÆ÷vW"×ÒÂ6VÆV7BÔö&¦V7BÔf—'7B°Ğ¢G7FErÒFçVÆÃ°Ğ¢–b‚Öæ÷BFGer’·°Ğ¢G7FErÒvWBÕf–WrÕf–WuG—RæWGv÷&²ÔW'&÷$7F–öâ6–ÆVçFÇ”6öçF–çVRÂv†W&RÔö&¦V7B·²EòäæÖRåFôÆ÷vW"‚’ÖWGtæÖTÆ÷vW"ÖæBEòäÖõ&VbåG—RÖWtæWGv÷&²r×ÒÂ6VÆV7BÔö&¦V7BÔf—'7B°Ğ¢×Ó°Ğ¢–b‚FGer’·°Ğ¢F&6¶–ærÒæWrÔö&¦V7Bd×v&Råf–Òåf—'GVÄWF†W&æWD6&DF—7G&–'WFVEf—'GVÅ÷'D&6¶–æt–æfó°Ğ¢F&6¶–ærå÷'BÒæWrÔö&¦V7Bd×v&Råf–ÒäF—7G&–'WFVEf—'GVÅ7v—F6…÷'D6öææV7F–öã°Ğ¢F&6¶–ærå÷'Bå÷'Fw&÷W¶W’ÒFGeräÖõ&VbåfÇVS°Ğ¢G7v—F6…WV–BÒFçVÆÃ°Ğ¢–b‚FGeräF—7G&–'WFVEf—'GVÅ7v—F6‚ÖæBFGeräF—7G&–'WFVEf—'GVÅ7v—F6‚åfÇVR’·°Ğ¢FGg7rÒvWBÕf–WrÔ–BFGeräF—7G&–'WFVEf—'GVÅ7v—F6‚ÔW'&÷$7F–öâ6–ÆVçFÇ”6öçF–çVS°Ğ¢–b‚FGg7r’·²G7v—F6…WV–BÒFGg7råWV–B×ĞĞ¢×Ó°Ğ¢–b‚Öæ÷BG7v—F6…WV–B’·°Ğ¢FGe7v—F6„Æ—7BÒvWBÕf–WrÕf–WuG—RF—7G&–'WFVEf—'GVÅ7v—F6‚ÔW'&÷$7F–öâ6–ÆVçFÇ”6öçF–çVS°Ğ¢f÷&V6‚‚FGg2–âFGe7v—F6„Æ—7B’·°Ğ¢–b‚FGg2å÷'Fw&÷WÖæB‚FGg2å÷'Fw&÷WÂv†W&RÔö&¦V7B·²EòåfÇVRÖWFGeräÖõ&VbåfÇVR×Ò’’·°Ğ¢G7v—F6…WV–BÒFGg2åWV–C²'&V°Ğ¢×ĞĞ¢×ĞĞ¢×Ó°Ğ¢–b‚G7v—F6…WV–B’·²F&6¶–ærå÷'Bå7v—F6…WV–BÒG7v—F6…WV–B×Ó°Ğ¢Fç2äFWf–6Rä&6¶–ærÒF&6¶–æs°Ğ¢×ÒVÇ6V–b‚G7FEr’·°Ğ¢F&6¶–ærÒæWrÔö&¦V7Bd×v&Råf–Òåf—'GVÄWF†W&æWD6&DæWGv÷&´&6¶–æt–æfó°Ğ¢F&6¶–æräFWf–6TæÖRÒGtæÖS°Ğ¢F&6¶–æräæWGv÷&²ÒG7FEräÖõ&Vc°Ğ¢Fç2äFWf–6Rä&6¶–ærÒF&6¶–æs°Ğ¢×ÒVÇ6R·°Ğ¢w&—FRÕv&æ–ær‚ut$âiÊ®h›îX‹zºşXú>{¸C¢r²GtæÖR²rÂ‹{>‹öG–6‡–"š6ˆœ¤ì4(€€€€€½¹Ñ¥¹Õ”ì4(€€€õôì4(€€€€‘¹Ì¹•Ù¥”¹½¹¹•Ñ…‰±”€ô9•Üµ=‰©•ĞY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±•Ù¥•½¹¹•Ñ%¹™¼ì4(€€€€‘¹Ì¹•Ù¥”¹½¹¹•Ñ…‰±”¹½¹¹•Ñ•€ô€‘ÑÉÕ”ì4(€€€€‘¹Ì¹•Ù¥”¹½¹¹•Ñ…‰±”¹MÑ…ÉÑ½¹¹•Ñ•€ô€‘ÑÉÕ”ì4(€€€€‘¹Ì¹•Ù¥”¹½¹¹•Ñ…‰±”¹±±½İÕ•ÍÑ½¹ÑÉ½°€ô€‘ÑÉÕ”ì4(€€€€‘½¹™¥MÁ•Œ¹•Ù¥•¡…¹”€¬ô€‘¹Ìì4(€õôˆ€è€ˆˆì4(4(€€€€€€€€€€€É•ÑÕÉ¸€‘ ˆ4(‘ÉÉ½ÉÑ¥½¹AÉ•™•É•¹”€ô€MÑ½Àœì4(‘ÙµY¥•Ü€ô•ĞµY¥•Ü€µ%€íÙµ5½I•™AÍôœ€µAÉ½Á•ÉÑä½¹™¥œ¹!…É‘İ…É”¹•Ù¥”±½¹™¥œ¹¹¹½Ñ…Ñ¥½¸€µÉÉ½ÉÑ¥½¸MÑ½Àì4)¥˜€ ‘¹Õ±°€µ•Ä€‘ÙµY¥•Ü¤íìÑ¡É½Ü€Ÿšr«š&û–"Ã¢fkš.šrè5½I•˜èíÙµ5½I•™AÍôœõôì4(‘½¹™¥MÁ•Œ€ô9•Üµ=‰©•ĞY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±5…¡¥¹•½¹™¥MÁ•Œì4(‘½¹™¥MÁ•Œ¹9ÕµAUÌ€ôíÁÕôì4(‘½¹™¥MÁ•Œ¹5•µ½Éå5€ôíµ•µ½Éåô€¨€ÄÀÈĞì4(‘½¹™¥MÁ•Œ¹¹¹½Ñ…Ñ¥½¸€ô€í¹½Ñ•Íôœì4)™½É•… € ‘‘•Ø¥¸€‘ÙµY¥•Ü¹½¹™¥œ¹!…É‘İ…É”¹•Ù¥”¤ííí¹•Ñİ½É­½¹‘ô4)õôì4(‘É•½¹™¥Q…Í¬€ô€‘ÙµY¥•Ü¹I•½¹™¥Y5}Q…Í¬ ‘½¹™¥MÁ•Œ¤ì4)İ¡¥±”€ ‘ÑÉÕ”¤íì4(€MÑ…ÉĞµM±••À€µM•½¹‘Ì€Ìì4(€€‘Ğ€ô•ĞµY¥•Ü€µ%€‘É•½¹™¥Q…Í¬€µAÉ½Á•ÉÑä%¹™¼¹MÑ…Ñ”±%¹™¼¹ÉÉ½È€µÉÉ½ÉÑ¥½¸M¥±•¹Ñ±å½¹Ñ¥¹Õ”ì4(€¥˜€ ‘¹Õ±°€µ¹”€‘Ğ€µ…¹€‘Ğ¹%¹™¼¹MÑ…Ñ”€µ•Ä€ÍÕ•ÍÌœ¤íì‰É•…¬õô4(€¥˜€ ‘¹Õ±°€µ¹”€‘Ğ€µ…¹€‘Ğ¹%¹™¼¹MÑ…Ñ”€µ•Ä€•ÉÉ½Èœ¤íìÑ¡É½Ü€ I•½¹™¥Y4ƒ–’Ç¢Ò”è€œ€¬€‘Ğ¹%¹™¼¹ÉÉ½È¹1½…±¥é•‘5•ÍÍ…”¤õô4)õô4(ˆì4(€€€€€€€ô4(4(€€€€€€€ÁÕ‰±¥ŒÍÑ…Ñ¥ŒÍÑÉ¥¹œ	Õ¥±‘Õ•ÍÑ=ÁÍMÉ¥ÁĞ¡¥Ñ¥½¹…ÉäñÍÑÉ¥¹œ°ÍÑÉ¥¹œøÙµ…Ñ„°ÍÑÉ¥¹œÙµ5½I•˜°ÍÑÉ¥¹œÕ•ÍÑA…ÍÍİ½É°ÍÑÉ¥¹œüÕÍÑ½µ¹Ì€ô¹Õ±°°‰½½°Õ•ÍÑ=ÁÍ5½‘”€ô™…±Í”°ÍÑÉ¥¹œüÕ•ÍÑUÍ•È€ô¹Õ±°¤4(€€€€€€€ì4(€€€€€€€€€€€ÍÑÉ¥¹œ¥ÁI…Ü€ôÙµ…Ñ„¹•ÑY…±Õ•=É•™…Õ±Ğ ‰%@ˆ¤€üü€ˆˆì4(€€€€€€€€€€€ÍÑÉ¥¹œ…Ñ•İ…ä€ôÙµ…Ñ„¹•ÑY…±Õ•=É•™…Õ±Ğ ‰…Ñ•İ…äˆ¤€üü€ˆˆì4(€€€€€€€€€€€ÍÑÉ¥¹œµ…Í¬€ôÙµ…Ñ„¹•ÑY…±Õ•=É•™…Õ±Ğ ‰5…Í¬ˆ¤€üü€ˆˆì4(€€€€€€€€€€€¥¹ĞÁÉ•™¥á1•¸€ôA…ÉÍ•AÉ•™¥á1•¹MÑ…Ñ¥Œ¡µ…Í¬¤ì4(€€€€€€€€€€€ÍÑÉ¥¹œÉ…İ!½ÍÑ¹…µ”€ôÙµ…Ñ„¹•ÑY…±Õ•=É•™…Õ±Ğ ‰!½ÍÑ¹…µ”ˆ¤€üü€ˆˆì4(€€€€€€€€€€€ÍÑÉ¥¹œÙµ9…µ•I…Ü€ôÙµ…Ñ„¹•ÑY…±Õ•=É•™…Õ±Ğ ‰9…µ”ˆ¤€üü€ˆˆì4(4(€€€€€€€€€€€ÍÑ…Ñ¥Œ¥¹ĞA…ÉÍ•AÉ•™¥á1•¹MÑ…Ñ¥Œ¡ÍÑÉ¥¹œµ…Í¬¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€¥˜€¡ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡µ…Í¬¤¤É•ÑÕÉ¸€ÈĞì4(€€€€€€€€€€€€€€€¥˜€¡¥¹Ğ¹QÉåA…ÉÍ”¡µ…Í¬°½ÕĞ¥¹ĞÀ¤€˜˜À€øô€À€˜˜À€ğô€ÌÈ¤É•ÑÕÉ¸Àì4(€€€€€€€€€€€€€€€Ù…ÈÁ…ÉÑÌ€ôµ…Í¬¹MÁ±¥Ğ œ¸œ¤ì4(€€€€€€€€€€€€€€€¥˜€¡Á…ÉÑÌ¹1•¹Ñ €„ô€Ğ¤É•ÑÕÉ¸€ÈĞì4(€€€€€€€€€€€€€€€¥¹Ğ‰¥ÑÌ€ô€Àì4(€€€€€€€€€€€€€€€™½É•… €¡Ù…È½Ğ¥¸Á…ÉÑÌ¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€¥˜€ …¥¹Ğ¹QÉåA…ÉÍ”¡½Ğ°½ÕĞ¥¹ĞØ¤ñğØ€ğ€ÀñğØ€ø€ÈÔÔ¤É•ÑÕÉ¸€ÈĞì4(€€€€€€€€€€€€€€€€€€€İ¡¥±”€¡Ø€ø€À¤ì‰¥ÑÌ€¬ôØ€˜€ÄìØ€øøô€Äìô4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€É•ÑÕÉ¸‰¥ÑÌ€ø€À€ü‰¥ÑÌ€è€ÈĞì4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€ÍÑ…Ñ¥ŒÍÑÉ¥¹œ½µÁÕÑ•M…™•!½ÍÑ¹…µ•MÑ…Ñ¥Œ¡ÍÑÉ¥¹œÉ…Ü°ÍÑÉ¥¹œÙµ9…µ•I…Ü¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œÍ½ÕÉ”€ô€…ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡É…Ü¤€üÉ…Ü€èÙµ9…µ•I…Üì4(€€€€€€€€€€€€€€€¥˜€¡ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡Í½ÕÉ”¤¤É•ÑÕÉ¸€ˆˆì4(€€€€€€€€€€€€€€€Ù…ÈÍˆ€ô¹•ÜMåÍÑ•´¹Q•áĞ¹MÑÉ¥¹	Õ¥±‘•È ¤ì4(€€€€€€€€€€€€€€€™½É•… €¡¡…ÈŒ¥¸Í½ÕÉ”¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€¥˜€¡¡…È¹%Í1•ÑÑ•É=É¥¥Ğ¡Œ¤ñğŒ€ôô€œ´œñğŒ€ôô€|œ¤Íˆ¹ÁÁ•¹¡Œ¤ì4(€€€€€€€€€€€€€€€€€€€•±Í”Íˆ¹ÁÁ•¹ œ´œ¤ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œÍ…™”€ôÍˆ¹Q½MÑÉ¥¹œ ¤ì4(€€€€€€€€€€€€€€€¥˜€¡Í…™”¹1•¹Ñ € 63) safe = safe.Substring(0, 63);
                 return safe;
             }
 
@@ -1047,191 +395,97 @@ while ($true) {{
             return $@"
 $ErrorActionPreference = 'Stop';
 Write-Host ('GuestOps Assembly=' + '{asmName}' + ' Scripts embedded=OK');
-Write-Host ('GuestOps GuestOS ä¿¡æ¯:');
-$vmView = $null;
-for ($i = 0; $i -lt 15; $i++) {{
-  $vmView = Get-View -Id '{vmMoRefPs}' -Property Guest,Config.GuestFullName -ErrorAction Stop;
-  if ($vmView.Guest -and ($vmView.Guest.GuestFamily -or $vmView.Guest.GuestFullName -or $vmView.Guest.IpAddress)) {{ break }}
-  Write-Host ('GuestOps Guest ä¿¡æ¯æœªå°±ç»ª, é‡è¯• ' + ($i+1) + '/15...');
-  Start-Sleep -Seconds 3;
-}}
-$isLinux = $false;
-if ($vmView.Guest -and $vmView.Guest.GuestFamily) {{
-  $isLinux = ($vmView.Guest.GuestFamily -eq 'linuxGuest');
-  Write-Host ('GuestOps GuestFamily: ' + $vmView.Guest.GuestFamily);
-}} else {{
-  Write-Host 'GuestOps GuestFamily ä¸ºç©º, å°è¯•ä» GuestFullName æ¨æ–­...';
-  $osName = '';
-  if ($vmView.Guest -and $vmView.Guest.GuestFullName) {{ $osName = $vmView.Guest.GuestFullName }}
-  if ([string]::IsNullOrEmpty($osName) -and $vmView.Config -and $vmView.Config.GuestFullName) {{ $osName = $vmView.Config.GuestFullName }}
-  Write-Host ('GuestOps OS Name: ' + $osName);
-  $isLinux = $osName -match 'linux|kylin|openEuler|centos|ubuntu|debian|redhat|suse|fedora|alibaba|neokylin|uos';
-  if (-not $isLinux -and $osName -and -not ($osName -match 'windows|Windows')) {{ $isLinux = $true; Write-Host 'GuestOps æœªåŒ¹é… Windowsï¼Œé»˜è®¤ä¸º Linux' }}
-  Write-Host ('GuestOps æ¨æ–­ isLinux=' + $isLinux);
-}}
-$scriptContent = if ($isLinux) {{ [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('{linuxB64}')) }} else {{ [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('{windowsB64}')) }};
-$userPsVal = '{userPs}';
-$user = if ($userPsVal) {{ $userPsVal }} else {{ if ($isLinux) {{ 'root' }} else {{ 'Administrator' }} }};
-$vi = Get-VM -Id '{vmMoRefPs}' -ErrorAction Stop;
-
-$localTmp = Join-Path $env:TEMP ('vmt_ops_' + [IO.Path]::GetRandomFileName());
-$guestTmp = if ($isLinux) {{ '/tmp/vmt_ops_' + [IO.Path]::GetRandomFileName() + '.sh' }} else {{ 'C:\Windows\Temp\vmt_ops_' + [IO.Path]::GetRandomFileName() + '.ps1' }};
-
-$utf8NoBom = [Text.UTF8Encoding]::new($false);
-$utf8Bom = [Text.UTF8Encoding]::new($true);
-$enc = if ($isLinux) {{ $utf8NoBom }} else {{ $utf8Bom }};
-try {{
-  Write-Host ('GuestOps æ¨é€è„šæœ¬åˆ° Guest...');
-  [IO.File]::WriteAllText($localTmp, $scriptContent, $enc);
-  Copy-VMGuestFile -VM $vi -Source $localTmp -Destination $guestTmp -LocalToGuest -GuestUser $user -GuestPassword '{pwPs}' -Force -ErrorAction Stop | Out-Null;
-  Write-Host ('GuestOps è„šæœ¬å·²æ¨é€: ' + $guestTmp);
-
-  if ($isLinux) {{
-    $runCmd = 'bash ' + $guestTmp;
-  }} else {{
-    $runCmd = 'powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File ' + $guestTmp;
-  }}
-  Write-Host ('GuestOps æ‰§è¡Œ: ' + $runCmd);
-  $result = Invoke-VMScript -VM $vi -ScriptText $runCmd -GuestUser $user -GuestPassword '{pwPs}' -ErrorAction SilentlyContinue;
-  Write-Host ('GuestOps ExitCode=' + $result.ExitCode + ' GuestOS=' + $result.GuestOS);
-  Write-Host ('GuestOps ScriptOutput:'); Write-Host $result.ScriptOutput;
-  if ($result.ScriptError) {{ Write-Host ('GuestOps ScriptError:'); Write-Host $result.ScriptError }};
-  if ($result.ExitCode -ne 0) {{ throw ('è„šæœ¬æ‰§è¡Œå¤±è´¥ ExitCode=' + $result.ExitCode) }}
-}} finally {{
-  Remove-Item $localTmp -Force -ErrorAction SilentlyContinue;
-}}
-Write-Host 'GuestOps ç½‘ç»œé…ç½®å®Œæˆ';
-";
-        }
-
-        private (bool isValid, string error) ValidateVmData(Dictionary<string, string> vmData, bool forNewVm = true)
-        {
-            var errors = new List<string>();
-            var unsafeChars = new HashSet<char>("$`\";&|{}<>");
-
-            void CheckField(string name, string value, bool allowEmpty = false)
-            {
-                string v = allowEmpty ? (value ?? "") : (value ?? "");
-                if (string.IsNullOrEmpty(v) && !allowEmpty)
+Write-Host ('GuestOps GuestOS ä¸y kÎ‰ÊNÃB‰›UšY]ÈH	[ÃB™›Üˆ
+	HHÈ	H[MNÈ	JÊÊHŞÃBˆ	›UšY]ÈHÙ]UšY]ÈRY	Şİ›S[Ô™Y”ßIÈT›Ü\HİY\İÛÛ™šYË‘İY\İ[˜[YHQ\œ›ÜXİ[ÛˆİÜÃBˆYˆ
+	›UšY]Ë‘İY\İX[™
+	›UšY]Ë‘İY\İ‘İY\İ˜[Z[H[Üˆ	›UšY]Ë‘İY\İ‘İY\İ[˜[YH[Üˆ	›UšY]Ë‘İY\İ’\Y™\ÜÊJHŞÈœ™XZÈ_CBˆÜš]KRÜİ
+	ÑİY\İÜÈİY\İ9/èy kù§*¹l,yîê‹:aãz+åH	È
+È
+	JÌJH
+È	ËÌMK‹‹‰ÊNÃBˆİ\TÛY\TÙXÛÛ™ÈÎÃBŸ_CB‰\Ó[^H	˜[ÙNÃBšYˆ
+	›UšY]Ë‘İY\İX[™	›UšY]Ë‘İY\İ‘İY\İ˜[Z[JHŞÃBˆ	\Ó[^H
+	›UšY]Ë‘İY\İ‘İY\İ˜[Z[HY\H	Û[^İY\İ	ÊNÃBˆÜš]KRÜİ
+	ÑİY\İÜÈİY\İ˜[Z[Nˆ	È
+È	›UšY]Ë‘İY\İ‘İY\İ˜[Z[JNÃBŸ_H[ÙHŞÃBˆÜš]KRÜİ	ÑİY\İÜÈİY\İ˜[Z[H9..¹ên‹9l'z+åy.ãˆİY\İ[˜[YH9£ª9¥«K‹‹‰ÎÃBˆ	ÜÓ˜[YHH	ÉÎÃBˆYˆ
+	›UšY]Ë‘İY\İX[™	›UšY]Ë‘İY\İ‘İY\İ[˜[YJHŞÈ	ÜÓ˜[YHH	›UšY]Ë‘İY\İ‘İY\İ[˜[YH_CBˆYˆ
+Üİš[™×N’\Ó[Ü‘[\J	ÜÓ˜[YJHX[™	›UšY]ËÛÛ™šYÈX[™	›UšY]ËÛÛ™šYË‘İY\İ[˜[YJHŞÈ	ÜÓ˜[YHH	›UšY]ËÛÛ™šYË‘İY\İ[˜[YH_CBˆÜš]KRÜİ
+	ÑİY\İÜÈÔÈ˜[YNˆ	È
+È	ÜÓ˜[YJNÃBˆ	\Ó[^H	ÜÓ˜[YH[X]Ú	Û[^Ş[[ŸÜ[‘][\ŸÙ[ÜßX[_XšX[Ÿ™Y]İ\Ù_™YÜ˜_[X˜X˜_™[ÚŞ[[Ÿ[ÜÉÎÃBˆYˆ
+[›İ	\Ó[^X[™	ÜÓ˜[YHX[™[›İ
+	ÜÓ˜[YH[X]Ú	İÚ[™İÜßÚ[™İÜÉÊJHŞÈ	\Ó[^H	YNÈÜš]KRÜİ	ÑİY\İÜÈ9§*¹c.zacHÚ[™İÜûï#:næ:+©9..ˆ[^	È_CBˆÜš]KRÜİ
+	ÑİY\İÜÈ9£ª9¥«H\Ó[^IÈ
+È	\Ó[^
+NÃBŸ_CB‰ØÜš\ÛÛ[HYˆ
+	\Ó[^
+HŞÈÔŞ\İ[K•^‘[˜ÛÙ[™×N•U‘Ù]İš[™ÊĞÛÛ™\N‘œ›ÛP˜\ÙMİš[™Ê	ŞÛ[^IÊJH_H[ÙHŞÈÔŞ\İ[K•^‘[˜ÛÙ[™×N•U‘Ù]İš[™ÊĞÛÛ™\N‘œ›ÛP˜\ÙMİš[™Ê	ŞİÚ[™İÜĞIÊJH_NÃB‰\Ù\”Õ˜[H	Şİ\Ù\”ßIÎÃB‰\Ù\ˆHYˆ
+	\Ù\”Õ˜[
+HŞÈ	\Ù\”Õ˜[_H[ÙHŞÈYˆ
+	\Ó[^
+HŞÈ	Ü›Ûİ	È_H[ÙHŞÈ	ĞYZ[š\İ˜]Ü‰È_H_NÃB‰šHHÙ]U“HRY	Şİ›S[Ô™Y”ßIÈQ\œ›ÜXİ[ÛˆİÜÃBƒB‰ØØ[\H›Ú[‹T]	[•ST
+	İ›]ÛÜ×ÉÈ
+ÈÒSË”]N‘Ù]˜[™ÛQš[S˜[YJ
+JNÃB‰İY\İ\HYˆ
+	\Ó[^
+HŞÈ	Ëİ\İ›]ÛÜ×ÉÈ
+ÈÒSË”]N‘Ù]˜[™ÛQš[S˜[YJ
+H
+È	ËœÚ	È_H[ÙHŞÈ	ĞÎ—Ú[™İÜ×[\›]ÛÜ×ÉÈ
+ÈÒSË”]N‘Ù]˜[™ÛQš[S˜[YJ
+H
+È	ËœÌIÈ_NÃBƒB‰]›Ğ›ÛHHÕ^•U[˜ÛÙ[™×N›™]Ê	˜[ÙJNÃB‰]›ÛHHÕ^•U[˜ÛÙ[™×N›™]Ê	YJNÃB‰[˜ÈHYˆ
+	\Ó[^
+HŞÈ	]›Ğ›ÛH_H[ÙHŞÈ	]›ÛH_NÃBHŞÃBˆÜš]KRÜİ
+	ÑİY\İÜÈ9£ª:` z!&¹§+9b,İY\İ‹‹‰ÊNÃBˆÒSË‘š[WN•Üš]P[^
+	ØØ[\	ØÜš\ÛÛ[	[˜ÊNÃBˆÛÜKU“QİY\İš[HU“H	šHTÛİ\˜ÙH	ØØ[\Q\İ[˜][Ûˆ	İY\İ\SØØ[ÑİY\İQİY\İ\Ù\ˆ	\Ù\ˆQİY\İ\ÜİÛÜ™	ŞÜÔßIÈQ›Ü˜ÙHQ\œ›ÜXİ[ÛˆİÜİ]S[ÃBˆÜš]KRÜİ
+	ÑİY\İÜÈ:!&¹§+9mì¹£ª:` Nˆ	È
+È	İY\İ\
+NÃBƒBˆYˆ
+	\Ó[^
+HŞÃBˆ	[ÛYH	Ø˜\Ú	È
+È	İY\İ\ÃBˆ_H[ÙHŞÃBˆ	[ÛYH	ÜİÙ\œÚ[™^HS›Ô›Ùš[HS›Û’[\˜Xİ]™HQ^Xİ][Û”ÛXŞH\\ÜÈQš[H	È
+È	İY\İ\ÃBˆ_CBˆÜš]KRÜİ
+	ÑİY\İÜÈ9¢iú(cˆ	È
+È	[ÛY
+NÃBˆ	™\İ[H[›ÚÙKU“TØÜš\U“H	šHTØÜš\^	[ÛYQİY\İ\Ù\ˆ	\Ù\ˆQİY\İ\ÜİÛÜ™	ŞÜÔßIÈQ\œ›ÜXİ[ÛˆÚ[[PÛÛ[YNÃBˆÜš]KRÜİ
+	ÑİY\İÜÈ^]ÛÙOIÈ
+È	™\İ[‘^]ÛÙH
+È	ÈİY\İÔÏIÈ
+È	™\İ[‘İY\İÔÊNÃBˆÜš]KRÜİ
+	ÑİY\İÜÈØÜš\İ]]‰ÊNÈÜš]KRÜİ	™\İ[”ØÜš\İ]]ÃBˆYˆ
+	™\İ[”ØÜš\\œ›ÜŠHŞÈÜš]KRÜİ
+	ÑİY\İÜÈØÜš\\œ›Ü‰ÊNÈÜš]KRÜİ	™\İ[”ØÜš\\œ›Üˆ_NÃBˆYˆ
+	™\İ[‘^]ÛÙH[™H
+HŞÈ›İÈ
+	ú!&¹§+9¢iú(c9i,z-)H^]ÛÙOIÈ
+È	™\İ[‘^]ÛÙJH_CBŸ_Hš[˜[HŞÃBˆ™[[İ™KR][H	ØØ[\Q›Ü˜ÙHQ\œ›ÜXİ[ÛˆÚ[[PÛÛ[YNÃBŸ_CB•Üš]KRÜİ	ÑİY\İÜÈ9ïdyîç:acyïk¹k£9¢$	ÎÃBˆÃBˆCBƒBˆš]˜]H
+›ÛÛ\Õ˜[Yİš[™È\œ›ÜŠH˜[Y]U›Q]JXİ[Û˜\Oİš[™Ëİš[™Ïˆ›Q]K›ÛÛ›Ü“™]Õ›HHYJCBˆÃBˆ˜\ˆ\œ›ÜœÈH™]È\İİš[™ÏŠ
+NÃBˆ˜\ˆ[œØY™PÚ\œÈH™]È\ÚÙ]Ú\‚‚"FÂ#²gÇ·ÓÃâ"“°Ğ Ğ¢fö–B6†V6´f–VÆB‡7G&–æræÖRÂ7G&–ærfÇVRÂ&ööÂÆÆ÷tV×G’ÒfÇ6RĞ¢°Ğ¢7G&–ærbÒÆÆ÷tV×G’ò‡fÇVRóò""’¢‡fÇVRóò""“°Ğ¢–b‡7G&–ærä—4çVÆÄ÷$V×G’‡b’bbÆÆ÷tV×G’Ğ¢°Ğ¢W'&÷'2äFB‚B'¶æÖWÒKˆŞˆ;ŞK‹®z›¢"“°Ğ¢&WGW&ã°Ğ¢ĞĞ¢f÷&V6‚†6†"6‚–âbĞ¢°Ğ¢–çBòÒ†–çB–6ƒ°Ğ¢–b†òÂƒ#ÇÂòÓÒƒtbĞ¢°Ğ¢W'&÷'2äFB‚B'¶æÖWÒXÈ^Y
+¾hê~X‹nZÙ~zÊnûÈKˆŞXXŠëûÈ’"“°Ğ¢&WGW&ã°Ğ¢ĞĞ¢–b‡Vç6fT6†'2ä6öçF–ç2†6‚’Ğ¢°Ğ¢W'&÷'2äFB‚B'¶æÖWÒXÈ^Y
+¾™Ùîk9^ZÙ~zÊbw¶6‡Ò~ûÈKˆŞXXŠë‚B[É^Xûr²bÂzØûÈ’"“°Ğ¢&WGW&ã°Ğ¢ĞĞ¢ĞĞ¢ĞĞ Ğ¢7G&–æræÖRÒ‡fÔFFävWEfÇVT÷$FVfVÇB‚$æÖR"’óò""’åG&–Ò‚“°Ğ¢7G&–ær—Ò‡fÔFFävWEfÇVT÷$FVfVÇB‚$•"’óò""’åG&–Ò‚“°Ğ¢6†V6´f–VÆB‚$æÖR"ÂæÖR“°Ğ¢6†V6´f–VÆB‚$•"Â—“°Ğ¢–b‚7G&–ærä—4çVÆÄ÷$V×G’†—’Ğ¢°Ğ¢f"'G2Ò—å7Æ—B‚râr“°Ğ¢–b‡'G2äÆVæwF‚ÒBÇÂ'G2äÆÂ‡Óâ–çBåG'•'6R‡Â÷WB–çBâ’bbâãÒbbâÃÒ#SR’Ğ¢°Ğ¢W'&÷'2äFB‚$•jÎ[ÈşKˆŞjÚ>zîûÈ[©NK‹¢‚ç‚ç‚çûÈ’"“°Ğ¢ĞĞ¢ĞĞ Ğ¢–b†f÷$æWufÒĞ¢°Ğ¢7G&–ærFV×ÆFRÒ‡fÔFFävWEfÇVT÷$FVfVÇB‚%FV×ÆFR"’óò""’åG&–Ò‚“°Ğ¢6†V6´f–VÆB‚%FV×ÆFR"ÂFV×ÆFR“°Ğ¢ĞĞ¢G'Ğ¢°Ğ¢–çB7UfÂÒ6fT–çB‡fÔFFävWEfÇVT÷$FVfVÇB‚$5R"Â#"’ÂÂÂC“b“°Ğ¢–b†7UfÂÃÒ’W'&÷'2äFB‚$5R[ø^š–’”º 0");
+                if (cpuVal MŠH\œ›ÜœËY
+ÔH9¥l9`/:/áùi)ÈŠNÃBˆCBˆØ]ÚÈ\œ›ÜœËY
+ÔH9oázhniŠÚVÓšVÀˆ¤ìô4(4(€€€€€€€€€€€ÑÉä4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€¥¹Ğµ•µY…°€ôM…™•%¹Ğ¡Ùµ…Ñ„¹•ÑY…±Õ•=É•™…Õ±Ğ ‰5•µ½Éäˆ°€ˆÄˆ¤°€Ä°€Ä°€ØÔÔÌØ¤ì4(€€€€€€€€€€€€€€€¥˜€¡µ•µY…°€ğô€À¤•ÉÉ½ÉÌ¹‘ ‰5•µ½Éäƒ–ş¦†å¤¥.£ˆŠNÃBˆYˆ
+Y[U˜[cSS3b’W'&÷'2äFB‚$ÖVÖ÷'’i[XÎ‹–’œˆ¤ì4(€€€€€€€€€€€ô4(€€€€€€€€€€€…Ñ ì•ÉÉ½ÉÌ¹‘ ‰5•µ½Éäƒ–ş¦†ïšb¿šVÓšVÀˆ¤ìô4(4(€€€€€€€€€€€ÍÑÉ¥¹œÙ±…¸€ô€¡Ùµ…Ñ„¹•ÑY…±Õ•=É•™…Õ±Ğ ‰Y±…¸ˆ¤€üü€ˆˆ¤¹QÉ¥´ ¤ì4(€€€€€€€€€€€¡•­¥•± ‰Y±…¸ˆ°Ù±…¸¤ì4(€€€€€€€€€€€ÍÑÉ¥¹œ…Ñ•İ…ä€ô€¡Ùµ…Ñ„¹•ÑY…±Õ•=É•™…Õ±Ğ ‰…Ñ•İ…äˆ¤€üü€ˆˆ¤¹QÉ¥´ ¤ì4(€€€€€€€€€€€¥˜€ …ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡…Ñ•İ…ä¤¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€¡•­¥•± ‰…Ñ•İ…äˆ°…Ñ•İ…ä¤ì4(€€€€€€€€€€€€€€€Ù…ÈÁ…ÉÑÌ€ô…Ñ•İ…ä¹MÁ±¥Ğ œ¸œ¤ì4(€€€€€€€€€€€€€€€¥˜€¡Á…ÉÑÌ¹1•¹Ñ €„ô€Ğñğ€…Á…ÉÑÌ¹±°¡À€ô int.TryParse(p, out int n) && n >= 0 && n <= 255))
                 {
-                    errors.Add($"{name} ä¸èƒ½ä¸ºç©º");
-                    return;
-                }
-                foreach (char ch in v)
-                {
-                    int o = (int)ch;
-                    if (o < 0x20 || o == 0x7F)
-                    {
-                        errors.Add($"{name} åŒ…å«æ§åˆ¶å­—ç¬¦ï¼ˆä¸å…è®¸ï¼‰");
-                        return;
-                    }
-                    if (unsafeChars.Contains(ch))
-                    {
-                        errors.Add($"{name} åŒ…å«éæ³•å­—ç¬¦ '{ch}'ï¼ˆä¸å…è®¸ $ ` å¼•å· ; & | ç­‰ï¼‰");
-                        return;
-                    }
-                }
-            }
-
-            string name = (vmData.GetValueOrDefault("Name") ?? "").Trim();
-            string ip = (vmData.GetValueOrDefault("IP") ?? "").Trim();
-            CheckField("Name", name);
-            CheckField("IP", ip);
-            if (!string.IsNullOrEmpty(ip))
-            {
-                var parts = ip.Split('.');
-                if (parts.Length != 4 || !parts.All(p => int.TryParse(p, out int n) && n >= 0 && n <= 255))
-                {
-                    errors.Add("IP æ ¼å¼ä¸æ­£ç¡®ï¼ˆåº”ä¸º x.x.x.xï¼‰");
-                }
-            }
-
-            if (forNewVm)
-            {
-                string template = (vmData.GetValueOrDefault("Template") ?? "").Trim();
-                CheckField("Template", template);
-            }
-            try
-            {
-                int cpuVal = SafeInt(vmData.GetValueOrDefault("CPU", "1"), 1, 1, 4096);
-                if (cpuVal <= 0) errors.Add("CPU å¿…é¡»å¤§äº 0");
-                if (cpuVal > 4096) errors.Add("CPU æ•°å€¼è¿‡å¤§");
-            }
-            catch { errors.Add("CPU å¿…é¡»æ˜¯æ•´æ•°"); }
-
-            try
-            {
-                int memVal = SafeInt(vmData.GetValueOrDefault("Memory", "1"), 1, 1, 65536);
-                if (memVal <= 0) errors.Add("Memory å¿…é¡»å¤§äº 0");
-                if (memVal > 65536) errors.Add("Memory æ•°å€¼è¿‡å¤§");
-            }
-            catch { errors.Add("Memory å¿…é¡»æ˜¯æ•´æ•°"); }
-
-            string vlan = (vmData.GetValueOrDefault("Vlan") ?? "").Trim();
-            CheckField("Vlan", vlan);
-            string gateway = (vmData.GetValueOrDefault("Gateway") ?? "").Trim();
-            if (!string.IsNullOrEmpty(gateway))
-            {
-                CheckField("Gateway", gateway);
-                var parts = gateway.Split('.');
-                if (parts.Length != 4 || !parts.All(p => int.TryParse(p, out int n) && n >= 0 && n <= 255))
-                {
-                    errors.Add("Gateway æ ¼å¼ä¸æ­£ç¡®");
-                }
-            }
-            string mask = (vmData.GetValueOrDefault("Mask") ?? "").Trim();
-            if (!string.IsNullOrEmpty(mask)) CheckField("Mask", mask);
-
-            try
-            {
-                int disk = SafeInt(vmData.GetValueOrDefault("DiskCapacityGB", "0"), 0, 0, 65535);
-                if (disk < 0) errors.Add("DiskCapacityGB ä¸èƒ½ä¸ºè´Ÿæ•°");
-                if (disk > 65535) errors.Add("DiskCapacityGB æ•°å€¼è¿‡å¤§");
-            }
-            catch { errors.Add("DiskCapacityGB å¿…é¡»æ˜¯æ•´æ•°"); }
-
-            string host = (vmData.GetValueOrDefault("Host") ?? "").Trim();
-            if (!string.IsNullOrEmpty(host)) CheckField("Host", host);
-            string datastore = (vmData.GetValueOrDefault("Datastore") ?? "").Trim();
-            if (!string.IsNullOrEmpty(datastore)) CheckField("Datastore", datastore);
-            string desc = (vmData.GetValueOrDefault("Description") ?? "").Trim();
-            if (!string.IsNullOrEmpty(desc)) CheckField("Description", desc);
-
-            if (errors.Count > 0)
-            {
-                return (false, string.Join("; ", errors));
-            }
-            return (true, "");
-        }
-
-        private string ComputeVmname(Dictionary<string, string> vmData)
-        {
-            string nameRaw = (vmData.GetValueOrDefault("Name") ?? "").Trim();
-            string ipRaw = (vmData.GetValueOrDefault("IP") ?? "").Trim();
-            if (string.IsNullOrEmpty(nameRaw)) nameRaw = "vm";
-
-            string ipSuffix = "x";
-            if (!string.IsNullOrEmpty(ipRaw))
-            {
-                var parts = ipRaw.Split('.');
-                string last = parts.Length > 0 ? parts[parts.Length - 1] : "";
-                if (!string.IsNullOrEmpty(last) && int.TryParse(last, out _))
-                {
-                    ipSuffix = last;
-                }
-            }
-
-            string safeName = SafeName(nameRaw, 50);
-            return $"{safeName}-IP{ipSuffix}";
-        }
-
-        private string SafeName(string s, int maxLen = 64)
-        {
-            if (string.IsNullOrEmpty(s)) return "default";
-            string text = s.Trim();
-            if (string.IsNullOrEmpty(text)) return "default";
-
-            var outChars = new List<char>();
+                    errors.Add("Gateway æ ¼å¼.#y«hzâ"“°Ğ¢ĞĞ¢ĞĞ¢7G&–ærÖ6²Ò‡fÔFFävWEfÇVT÷$FVfVÇB‚$Ö6²"’óò""’åG&–Ò‚“°Ğ¢–b‚7G&–ærä—4çVÆÄ÷$V×G’†Ö6²’’6†V6´f–VÆB‚$Ö6²"ÂÖ6²“°Ğ Ğ¢G'Ğ¢°Ğ¢–çBF—6²Ò6fT–çB‡fÔFFävWEfÇVT÷$FVfVÇB‚$F—6´66—G”t""Â#"’ÂÂÂcSS3R“°Ğ¢–b†F—6²Â’W'&÷'2äFB‚$F—6´66—G”t"KˆŞˆ;ŞK‹®‹Işi["“°Ğ¢–b†F—6²âcSS3R’W'&÷'2äFB‚$F—6´66—G”t"i[XÎ‹–’œˆ¤ì4(€€€€€€€€€€€ô4(€€€€€€€€€€€…Ñ ì•ÉÉ½ÉÌ¹‘ ‰¥Í­…Á…¥Ñåƒ–ş¦†æ˜­¥m9¥lŠNÈCBƒBˆİš[™ÈÜİH
+›Q]K‘Ù]˜[YSÜ‘Y˜][
+’ÜİŠHÏÈˆŠK•š[J
+NÃBˆYˆ
+\İš[™Ë’\Ó[Ü‘[\JÜİ
+JHÚXÚÑšY[
+’Üİ‹Üİ
+NÃBˆİš[™È]\İÜ™HH
+›Q]K‘Ù]˜[YSÜ‘Y˜][
+‘]\İÜ™HŠHÏÈˆŠK•š[J
+NÃBˆYˆ
+\İš[™Ë’\Ó[Ü‘[\J]\İÜ™JJHÚXÚÑšY[
+‘]\İÜ™H‹]\İÜ™JNÃBˆİš[™È\ØÈH
+›Q]K‘Ù]˜[YSÜ‘Y˜][
+‘\ØÜš\[ÛˆŠHÏÈˆŠK•š[J
+NÃBˆYˆ
+\İš[™Ë’\Ó[Ü‘[\J\ØÊJHÚXÚÑšY[
+‘\ØÜš\[Ûˆ‹\ØÊNÃBƒBˆYˆ
+\œ›ÜœËÛİ[Ğ¢°Ğ¢&WGW&â†fÇ6RÂ7G&–ærä¦ö–â‚#²"ÂW'&÷'2’“°Ğ¢ĞĞ¢&WGW&â‡G'VRÂ""“°Ğ¢ĞĞ Ğ¢&—fFR7G&–ær6ö×WFUfÖæÖR„F–7F–öæ'“Ç7G&–ærÂ7G&–æsâfÔFFĞ¢°Ğ¢7G&–æræÖU&rÒ‡fÔFFävWEfÇVT÷$FVfVÇB‚$æÖR"’óò""’åG&–Ò‚“°Ğ¢7G&–ær—&rÒ‡fÔFFävWEfÇVT÷$FVfVÇB‚$•"’óò""’åG&–Ò‚“°Ğ¢–b‡7G&–ærä—4çVÆÄ÷$V×G’†æÖU&r’’æÖU&rÒ'fÒ#°Ğ Ğ¢7G&–ær—7Vff—‚Ò'‚#°Ğ¢–b‚7G&–ærä—4çVÆÄ÷$V×G’†—&r’Ğ¢°Ğ¢f"'G2Ò—&rå7Æ—B‚râr“°Ğ¢7G&–ærÆ7BÒ'G2äÆVæwF‚ €À€üÁ…ÉÑÍmÁ…ÉÑÌ¹1•¹Ñ €´€Åt€è€ˆˆì4(€€€€€€€€€€€€€€€¥˜€ …ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡±…ÍĞ¤€˜˜¥¹Ğ¹QÉåA…ÉÍ”¡±…ÍĞ°½ÕĞ|¤¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€¥ÁMÕ™™¥à€ô±…ÍĞì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€ÍÑÉ¥¹œÍ…™•9…µ”€ôM…™•9…µ”¡¹…µ•I…Ü°€ÔÀ¤ì4(€€€€€€€€€€€É•ÑÕÉ¸€‰íÍ…™•9…µ•ôµ%Aí¥ÁMÕ™™¥áôˆì4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”ÍÑÉ¥¹œM…™•9…µ”¡ÍÑÉ¥¹œÌ°¥¹Ğµ…á1•¸€ô€ØĞ¤4(€€€€€€€ì4(€€€€€€€€€€€¥˜€¡ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡Ì¤¤É•ÑÕÉ¸€‰‘•™…Õ±Ğˆì4(€€€€€€€€€€€ÍÑÉ¥¹œÑ•áĞ€ôÌ¹QÉ¥´ ¤ì4(€€€€€€€€€€€¥˜€¡ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡Ñ•áĞ¤¤É•ÑÕÉ¸€‰‘•™…Õ±Ğˆì4(4(€€€€€€€€€€€Ù…È½ÕÑ¡…ÉÌ€ô¹•Ü1¥ÍĞñ¡…È();
             foreach (char ch in text)
             {
                 if (_safeNamePattern.Contains(ch))
@@ -1241,219 +495,59 @@ Write-Host 'GuestOps ç½‘ç»œé…ç½®å®Œæˆ';
                 else
                 {
                     int o = (int)ch;
-                    if (o >= 0x4E00 && o <= 0x9FFF)
-                    {
-                        outChars.Add(ch);
-                    }
-                    else
-                    {
-                        outChars.Add('_');
-                    }
-                }
-            }
-
-            string result = new string(outChars.ToArray()).Trim('.', '_');
-            if (string.IsNullOrEmpty(result)) result = "default";
-            if (result.Length > maxLen) result = result.Substring(0, maxLen);
-            return result;
-        }
-
-        private string SafeHostname(string s)
-        {
-            if (string.IsNullOrEmpty(s)) return "vm";
-            string text = s.Trim();
-            if (string.IsNullOrEmpty(text)) return "vm";
-
-            var outChars = new List<char>();
-            foreach (char ch in text)
-            {
-                if (char.IsLetterOrDigit(ch) || ch == '-')
-                {
-                    outChars.Add(ch);
-                }
-            }
-
-            string result = new string(outChars.ToArray());
-            if (string.IsNullOrEmpty(result)) return "vm";
-            result = result.Trim('-');
-            if (result.Length > 15)
-            {
-                result = result.Substring(0, 15).TrimEnd('-');
-                if (string.IsNullOrEmpty(result)) result = "vm";
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// æ£€æµ‹å­—ç¬¦ä¸²æ˜¯å¦åŒ…å«éASCIIå­—ç¬¦ï¼ˆå¦‚ä¸­æ–‡ï¼‰
-        /// </summary>
-        private bool ContainsNonAscii(string s)
-        {
-            if (string.IsNullOrEmpty(s)) return false;
-            foreach (char ch in s)
-            {
-                if (ch > 127) return true;
-            }
-            return false;
-        }
-
-        /// <summary>
+                    if (o HL	‰ˆÈHQ‘‘ŠCBˆÃBˆİ]Ú\œËY
+Ú
+NÃBˆCBˆ[ÙCBˆÃBˆİ]Ú\œËY
+	×ÉÊNÃBˆCBˆCBˆCBƒBˆİš[™È™\İ[H™]Èİš[™Êİ]Ú\œË•Ğ\œ˜^J
+JK•š[J	Ë‰Ë	×ÉÊNÃBˆYˆ
+İš[™Ë’\Ó[Ü‘[\J™\İ[
+JH™\İ[H™Y˜][ÃBˆYˆ
+™\İ[“[™İÖ„ÆVâ’&W7VÇBÒ&W7VÇBå7V'7G&–ærƒÂÖ„ÆVâ“°Ğ¢&WGW&â&W7VÇC°Ğ¢ĞĞ Ğ¢&—fFR7G&–ær6fT†÷7FæÖR‡7G&–ær2Ğ¢°Ğ¢–b‡7G&–ærä—4çVÆÄ÷$V×G’‡2’’&WGW&â'fÒ#°Ğ¢7G&–ærFW‡BÒ2åG&–Ò‚“°Ğ¢–b‡7G&–ærä—4çVÆÄ÷$V×G’‡FW‡B’’&WGW&â'fÒ#°Ğ Ğ¢f"÷WD6†'2ÒæWrÆ—7CÆ6†#â‚“°Ğ¢f÷&V6‚†6†"6‚–âFW‡BĞ¢°Ğ¢–b†6†"ä—4ÆWGFW$÷$F–v—B†6‚’ÇÂ6‚ÓÒrÒrĞ¢°Ğ¢÷WD6†'2äFB†6‚“°Ğ¢ĞĞ¢ĞĞ Ğ¢7G&–ær&W7VÇBÒæWr7G&–ær†÷WD6†'2åFô'&’‚’“°Ğ¢–b‡7G&–ærä—4çVÆÄ÷$V×G’‡&W7VÇB’’&WGW&â'fÒ#°Ğ¢&W7VÇBÒ&W7VÇBåG&–Ò‚rÒr“°Ğ¢–b‡&W7VÇBäÆVæwF‚âRĞ¢°Ğ¢&W7VÇBÒ&W7VÇBå7V'7G&–ærƒÂR’åG&–ÔVæB‚rÒr“°Ğ¢–b‡7G&–ærä—4çVÆÄ÷$V×G’‡&W7VÇB’’&W7VÇBÒ'fÒ#°Ğ¢ĞĞ¢&WGW&â&W7VÇC°Ğ¢ĞĞ Ğ¢òòòÇ7VÖÖ'“àĞ¢òòòj8kX¾ZÙ~zÊnK‹.iŠşY
+nXÈ^Y
+¾™Ùä44”ZÙ~zÊnûÈZh.KŠŞih~ûÈĞ¢òòòÂ÷7VÖÖ'“àĞ¢&—fFR&ööÂ6öçF–ç4æöä66–’‡7G&–ær2Ğ¢°Ğ¢–b‡7G&–ærä—4çVÆÄ÷$V×G’‡2’’&WGW&âfÇ6S°Ğ¢f÷&V6‚†6†"6‚–â2Ğ¢°Ğ¢–b†6‚ €ÄÈÜ¤É•ÑÕÉ¸ÑÉÕ”ì4(€€€€€€€€€€€ô4(€€€€€€€€€€€É•ÑÕÉ¸™…±Í”ì4(€€€€€€€ô4(4(€€€€€€€€¼¼¼€ñÍÕµµ…Éä
         /// ä»æ··åˆå­—ç¬¦ä¸²ä¸­æå–è‹±æ–‡éƒ¨åˆ†ï¼ˆè½¬å°å†™ï¼‰
-        /// ä¾‹å¦‚ï¼šæµé˜³ä¸­åŒ»é™¢NGINX â†’ nginx
-        /// </summary>
-        private string ExtractEnglishPart(string s)
+        /// ä¢Zh.òkšÖ9˜±.+yc.™š$ät”å‚(i"æv–ç€Ğ¢òòòÂ÷7VÖÖ'“àĞ¢&—fFR7G&–ærW‡G&7DVævÆ—6…'B‡7G&–ær2Ğ¢°Ğ¢–b‡7G&–ærä—4çVÆÄ÷$V×G’‡2’’&WGW&â"#°Ğ¢ Ğ¢f"÷WD6†'2ÒæWrÆ—7CÆ6†#â‚“°Ğ¢f÷&V6‚†6†"6‚–â2Ğ¢°Ğ¢òòXú®KùŞyYˆ»ihV¶V¯å’Œæ•°å­—
+                if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch H	Ì	È	‰ˆÚH	ÎIÊJCBˆÃBˆİ]Ú\œËY
+Ú\‹•ÓİÙ\ŠÚ
+JNÃBˆCBˆCBˆBˆİš[™È™\İ[H™]Èİš[™Êİ]Ú\œË•Ğ\œ˜^J
+JNÃBˆËÈ9c®úfi:i¥¹l/¹æ¡:/ç¹keùë)¹d£9¥l9keûï"9i ¹§§9§"yæ¡:+ç{ï"CBˆ™\İ[H™\İ[•š[Tİ\
+	Ì	Ë	ÌIË	Ì‰Ë	ÌÉË	Í	Ë	ÍIË	Í‰Ë	ÍÉË	Î	Ë	ÎIË	ËIÊNÃBˆ™\İ[H™\İ[•š[Q[™
+	ËIÊNÃBˆBˆ™]\›ˆ™\İ[ÃBˆCBƒBˆš]˜]H[ØY™R[
+İš[™È˜[[Y˜][˜[YHHK[Z[•˜[HK[X^˜[HMLÍŠCBˆÃBˆYˆ
+İš[™Ë’\Ó[Ü‘[\J˜[
+JH™]\›ˆY˜][˜[YNÃBˆCBˆÃBˆ[ˆH
+[
+YİX›K”\œÙJ˜[
+NÃBˆYˆ
+ˆZ[•˜[
+H™]\›ˆZ[•˜[ÃBˆYˆ
+ˆˆX^˜[
+H™]\›ˆX^˜[ÃBˆ™]\›ˆÃBˆCBˆØ]ÚBˆÃBˆ™]\›ˆY˜][˜[YNÃBˆCBˆCBƒBˆš]˜]H[\œÙT™Yš^[Šİš[™ÈX\ÚÊCBˆÃBˆYˆ
+İš[™Ë’\Ó[Ü‘[\JX\ÚÊJH™]\›ˆÃBˆYˆ
+[•T\œÙJX\ÚËİ][
+H	‰ˆH	‰ˆHÌŠH™]\›ˆÃBˆ˜\ˆ\ÈHX\ÚË”Ü]
+	Ë‰ÊNÃBˆYˆ
+\Ë“[™İOH
+H™]\›ˆÃBˆ[š]ÈHÃBˆ›Ü™XXÚ
+˜\ˆ\[ˆ\ÊCBˆÃBˆYˆ
+Z[•T\œÙJ\İ][ŠHˆˆˆMJH™]\›ˆÃBˆš]È
+ÏHÛÛ™\•Ôİš[™Ê‹ŠKÛİ[
+ÈOˆÈOH	ÌIÊNÃBˆCBˆ™]\›ˆš]ÎÃBˆCBƒBˆš]˜]Hİš[™ÈÚY•Ó™]X\ÚÊİš[™ÈX\ÚÊCBˆÃBˆYˆ
+İš[™Ë’\Ó[Ü‘[\JX\ÚÊJH™]\›ˆŒMKŒMKŒMKŒÃBˆYˆ
+X\ÚËÛÛZ[œÊ	Ë‰ÊJH™]\›ˆX\ÚÎÃBˆYˆ
+[•T\œÙJX\ÚËİ][ÚYŠH	‰ˆÚYˆH	‰ˆÚYˆHÌŠCBˆÃBˆZ[™]X\ÚÈHÚYˆOHÈˆ‘‘‘‘‘‘‘ˆ
+ÌˆHÚYŠNÃBˆ™]\›ˆ	Ê™]X\ÚÈˆ
+H	ˆ‘ŸKÊ™]X\ÚÈ‚b’b„dgÒç²†æWFÖ6² ø€à¤€˜€Ááô¹í¹•Ñµ…Í¬€˜€Ááôˆì4(€€€€€€€€€€€ô4(€€€€€€€€€€€É•ÑÕÉ¸€ˆÈÔÔ¸ÈÔÔ¸ÈÔÔ¸Àˆì4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”ÍÑÉ¥¹œÍ…Á•AÍMÑÉ¥¹œ¡ÍÑÉ¥¹œÌ¤4(€€€€€€€ì4(€€€€€€€€€€€¥˜€¡ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡Ì¤¤É•ÑÕÉ¸€ˆˆì4(€€€€€€€€€€€Ù…È±•…¹¡…ÉÌ€ô¹•Ü1¥ÍĞñ¡…Èø ¤ì4(€€€€€€€€€€€™½É•… €¡¡…È ¥¸Ì¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€¥¹Ğ¼€ô€¡¥¹Ğ¥ ì4(€€€€€€€€€€€€€€€¥˜€¡¼€ğ€ÁàÈÀñğ¼€ôô€Áàİ¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€±•…¹¡…ÉÌ¹‘ œ€œ¤ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€•±Í”4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€±•…¹¡…ÉÌ¹‘¡ ¤ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€ô4(€€€€€€€€€€€ÍÑÉ¥¹œÑ•áĞ€ô¹•ÜÍÑÉ¥¹œ¡±•…¹¡…ÉÌ¹Q½ÉÉ…ä ¤¤ì4(€€€€€€€€€€€É•ÑÕÉ¸Ñ•áĞ¹I•Á±…” ˆœˆ°€ˆœœˆ¤ì4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”1¥ÍĞñ¥Ñ¥½¹…ÉäñÍÑÉ¥¹œ°ÍÑÉ¥¹œ> LoadCsv(string filePath)
         {
-            if (string.IsNullOrEmpty(s)) return "";
-            
-            var outChars = new List<char>();
-            foreach (char ch in s)
-            {
-                // åªä¿ç•™è‹±æ–‡å­—æ¯å’Œæ•°å­—
-                if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9'))
-                {
-                    outChars.Add(char.ToLower(ch));
-                }
-            }
-            
-            string result = new string(outChars.ToArray());
-            // å»é™¤é¦–å°¾çš„è¿å­—ç¬¦å’Œæ•°å­—ï¼ˆå¦‚æœæœ‰çš„è¯ï¼‰
-            result = result.TrimStart('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-');
-            result = result.TrimEnd('-');
-            
-            return result;
-        }
-
-        private int SafeInt(string val, int defaultValue = 1, int minVal = 1, int maxVal = 65536)
-        {
-            if (string.IsNullOrEmpty(val)) return defaultValue;
-            try
-            {
-                int v = (int)double.Parse(val);
-                if (v < minVal) return minVal;
-                if (v > maxVal) return maxVal;
-                return v;
-            }
-            catch
-            {
-                return defaultValue;
-            }
-        }
-
-        private int ParsePrefixLen(string mask)
-        {
-            if (string.IsNullOrEmpty(mask)) return 24;
-            if (int.TryParse(mask, out int p) && p >= 0 && p <= 32) return p;
-            var parts = mask.Split('.');
-            if (parts.Length != 4) return 24;
-            int bits = 0;
-            foreach (var part in parts)
-            {
-                if (!int.TryParse(part, out int b) || b < 0 || b > 255) return 24;
-                bits += Convert.ToString(b, 2).Count(c => c == '1');
-            }
-            return bits;
-        }
-
-        private string CidrToNetmask(string mask)
-        {
-            if (string.IsNullOrEmpty(mask)) return "255.255.255.0";
-            if (mask.Contains('.')) return mask;
-            if (int.TryParse(mask, out int cidr) && cidr >= 0 && cidr <= 32)
-            {
-                uint netmask = cidr == 0 ? 0 : 0xFFFFFFFF << (32 - cidr);
-                return $"{(netmask >> 24) & 0xFF}.{(netmask >> 16) & 0xFF}.{(netmask >> 8) & 0xFF}.{netmask & 0xFF}";
-            }
-            return "255.255.255.0";
-        }
-
-        private string EscapePsString(string s)
-        {
-            if (string.IsNullOrEmpty(s)) return "";
-            var cleanChars = new List<char>();
-            foreach (char ch in s)
-            {
-                int o = (int)ch;
-                if (o < 0x20 || o == 0x7F)
-                {
-                    cleanChars.Add(' ');
-                }
-                else
-                {
-                    cleanChars.Add(ch);
-                }
-            }
-            string text = new string(cleanChars.ToArray());
-            return text.Replace("'", "''");
-        }
-
-        private List<Dictionary<string, string>> LoadCsv(string filePath)
-        {
-            var result = new List<Dictionary<string, string>>();
-            using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            using var reader = new StreamReader(stream, true);
-            
-            string? headerLine = reader.ReadLine();
-            if (string.IsNullOrEmpty(headerLine)) return result;
-            
-            var headers = headerLine.Split(',');
-
-            while (!reader.EndOfStream)
-            {
-                string? line = reader.ReadLine();
-                if (string.IsNullOrEmpty(line)) continue;
-
-                var fields = line.Split(',');
-                var row = new Dictionary<string, string>();
-                for (int i = 0; i < headers.Length; i++)
-                {
-                    string key = headers[i].Trim();
-                    string value = i < fields.Length ? fields[i].Trim() : "";
-                    row[key] = value;
-                }
-
-                // è¿‡æ»¤æ‰€æœ‰å­—æ®µå‡ä¸ºç©ºçš„è¡Œï¼ˆç¼–è¾‘åˆ—è¡¨ä¸­çš„ç©ºè¡Œï¼‰
-                bool hasAnyValue = false;
-                foreach (var kvp in row)
-                {
-                    if (!string.IsNullOrEmpty(kvp.Value))
-                    {
-                        hasAnyValue = true;
-                        break;
-                    }
-                }
-                if (!hasAnyValue) continue;
-
-                result.Add(row);
-            }
-
-            return result;
-        }
-
-        private void LogStageHeader(string message)
-        {
-            _logCallback("info", new string('=', 60));
-            _logCallback("info", message);
-            _logCallback("info", new string('=', 60));
-        }
-
-        private void LogVmHeader(int vmIndex, int vmTotal, string label)
-        {
-            _logCallback("info", "");
-            _logCallback("info", $"[{vmIndex}/{vmTotal}] å¼€å§‹å¤„ç†: {label}");
-            _logCallback("info", new string('-', 40));
-        }
-
-        private void LogVmStep(string message)
-        {
-            _logCallback("info", $"  {message}");
-        }
-
-        private void LogVmResult(string message)
-        {
-            _logCallback("info", $"  {message}");
-        }
-
-        private void LogVmListPreview(List<Dictionary<string, string>> vmList)
+            var result = new List<Dictionary<string, stringŠ
+NÃBˆ\Ú[™È˜\ˆİ™X[HH™]Èš[Tİ™X[Jš[T]š[S[ÙK“Ü[‹š[PXØÙ\ÜË”™XYš[TÚ\™K”™XYÜš]JNÃBˆ\Ú[™È˜\ˆ™XY\ˆH™]Èİ™X[T™XY\Šİ™X[KYJNÃBˆBˆİš[™ÏÈXY\“[™HH™XY\‹”™XY[™J
+NÃBˆYˆ
+İš[™Ë’\Ó[Ü‘[\JXY\“[™JJH™]\›ˆ™\İ[ÃBˆBˆ˜\ˆXY\œÈHXY\“[™K”Ü]
+	Ë	ÊNÃBƒBˆÚ[H
+\™XY\‹‘[™Ù”İ™X[JCBˆÃBˆİš[™ÏÈ[™HH™XY\‹”™XY[™J
+NÃBˆYˆ
+İš[™Ë’\Ó[Ü‘[\J[™JJHÛÛ[YNÃBƒBˆ˜\ˆšY[ÈH[™K”Ü]
+	Ë	ÊNÃBˆ˜\ˆ›İÈH™]ÈXİ[Û˜\Oİš[™Ëİš[™Â‚“°Ğ¢f÷"†–çB’Ò²’Â†VFW'2äÆVæwFƒ²’²²Ğ¢°Ğ¢7G&–ær¶W’Ò†VFW'5¶•ÒåG&–Ò‚“°Ğ¢7G&–ærfÇVRÒ’Âf–VÆG2äÆVæwF‚òf–VÆG5¶•ÒåG&–Ò‚’¢"#°Ğ¢&÷u¶¶W•ÒÒfÇVS°Ğ¢ĞĞ Ğ¢òò‹ø~kºNh˜iÈZÙ~jë^YØ~K‹®z›®y¨NŠÎûÈ{Én‹éX‰~ŠKŠŞy¨Nz›®ŠÎûÈĞ¢&ööÂ†4ç•fÇVRÒfÇ6S°Ğ¢f÷&V6‚‡f"·g–â&÷rĞ¢°Ğ¢–b‚7G&–ærä—4çVÆÄ÷$V×G’†·gåfÇVR’Ğ¢°Ğ¢†4ç•fÇVRÒG'VS°Ğ¢'&V³°Ğ¢ĞĞ¢ĞĞ¢–b‚†4ç•fÇVR’6öçF–çVS°Ğ Ğ¢&W7VÇBäFB‡&÷r“°Ğ¢ĞĞ Ğ¢&WGW&â&W7VÇC°Ğ¢ĞĞ Ğ¢&—fFRfö–BÆöu7FvT†VFW"‡7G&–ærÖW76vRĞ¢°Ğ¢öÆöt6ÆÆ&6²‚&–æfò"ÂæWr7G&–ær‚sÒrÂc’“°Ğ¢öÆöt6ÆÆ&6²‚&–æfò"ÂÖW76vR“°Ğ¢öÆöt6ÆÆ&6²‚&–æfò"ÂæWr7G&–ær‚sÒrÂc’“°Ğ¢ĞĞ Ğ¢&—fFRfö–BÆöufÔ†VFW"†–çBfÔ–æFW‚Â–çBfÕF÷FÂÂ7G&–ærÆ&VÂĞ¢°Ğ¢öÆöt6ÆÆ&6²‚&–æfò"Â""“°Ğ¢öÆöt6ÆÆ&6²‚&–æfò"ÂB%··fÔ–æFW‡Ò÷·fÕF÷FÇÕÒ[ÈZx–’Bèí±…‰•±ôˆ¤ì4(€€€€€€€€€€€}±½…±±‰…¬ ‰¥¹™¼ˆ°¹•ÜÍÑÉ¥¹œ œ´œ°€ĞÀ¤¤ì4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥1½YµMÑ•À¡ÍÑÉ¥¹œµ•ÍÍ…”¤4(€€€€€€€ì4(€€€€€€€€€€€}±½…±±‰…¬ ‰¥¹™¼ˆ°€ˆ€íµ•ÍÍ…•ôˆ¤ì4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥1½YµI•ÍÕ±Ğ¡ÍÑÉ¥¹œµ•ÍÍ…”¤4(€€€€€€€ì4(€€€€€€€€€€€}±½…±±‰…¬ ‰¥¹™¼ˆ°€ˆ€íµ•ÍÍ…•ôˆ¤ì4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥1½Yµ1¥ÍÑAÉ•Ù¥•Ü¡1¥ÍĞñ¥Ñ¥½¹…ÉäñÍÑÉ¥¹œ°ÍÑÉ¥¹œø vmList)
         {
             _logCallback("info", $"å¾…éƒ¨ç½²è™šæ‹Ÿæœºåˆ—è¡¨:");
             for (int i = 0; i < Math.Min(vmList.Count, 5); i++)
@@ -1465,27 +559,12 @@ Write-Host 'GuestOps ç½‘ç»œé…ç½®å®Œæˆ';
             }
             if (vmList.Count > 5)
             {
-                _logCallback("info", $"  ... åŠå…¶ä»– {vmList.Count - 5} å°");
-            }
-        }
-
-        private void LogSummaryTable(List<DeployResult> results, TimeSpan elapsed, bool cancelled = false)
-        {
-            _logCallback("info", "");
-            _logCallback("info", new string('=', 60));
-            _logCallback("info", cancelled ? "éƒ¨ç½²å·²ç»ˆæ­¢" : "éƒ¨ç½²å®Œæˆæ‘˜è¦");
-            _logCallback("info", new string('=', 60));
-            
-            int successCount = results.Count(r => r.Success);
-            int failCount = results.Count - successCount;
-            
-            if (cancelled)
-            {
-                _logCallback("info", $"å·²ç»ˆæ­¢: å…± {results.Count} å° | æˆåŠŸ: {successCount} å° | å¤±è´¥: {failCount} å°");
-            }
-            else
-            {
-                _logCallback("info", $"æ€»è®¡: {results.Count} å° | æˆåŠŸ: {successCount} å° | å¤±è´¥: {failCount} å°");
+                _logCallback("info", $"  ... åŠå…¶ä»– {vmList.Count - 5} åŒŠNÃBˆCBˆCBƒBˆš]˜]H›ÚYÙÔİ[[X\UX›J\İ\ŞT™\İ[ˆ™\İ[Ë[YTÜ[ˆ[\ÙY›ÛÛØ[˜Ù[YH˜[ÙJCBˆÃBˆÛÙĞØ[˜XÚÊš[™›È‹ˆŠNÃBˆÛÙĞØ[˜XÚÊš[™›È‹™]Èİš[™Ê	ÏIËŒ
+JNÃBˆÛÙĞØ[˜XÚÊš[™›È‹Ø[˜Ù[YÈº`ê9ïl¹mì¹îâ9«hˆˆˆº`ê9ïl¹k£9¢$9¤f:) HŠNÃBˆÛÙĞØ[˜XÚÊš[™›È‹™]Èİš[™Ê	ÏIËŒ
+JNÃBˆBˆ[İXØÙ\ÜĞÛİ[H™\İ[ËÛİ[
+ˆOˆ‹”İXØÙ\ÜÊNÃBˆ[˜Z[Ûİ[H™\İ[ËÛİ[HİXØÙ\ÜĞÛİ[ÃBˆBˆYˆ
+Ø[˜Ù[Y
+CBˆÃBˆÛÙĞØ[˜XÚÊš[™›È‹	¹mì¹îâ9«hˆ9alHÜ™\İ[ËÛİ[H9cì9¢$9b§ÎˆÜİXØÙ\ÜĞÛİ[H9cÂZK‹JS¢¶f–Ä6÷VçGÒXû"“°Ğ¢ĞĞ¢VÇ6PĞ¢°Ğ¢öÆöt6ÆÆ&6²‚&–æfò"ÂB.h¢º„èíÉ•ÍÕ±ÑÌ¹½Õ¹Ñôƒ–>Àğƒš"C–*|èíÍÕ•ÍÍ½Õ¹Ñôƒ–0 | å¤±è´¥: {failCount} å°");
             }
             _logCallback("info", $"æ€»è€—æ—¶: {FormatDuration((int)elapsed.TotalSeconds)}");
             _logCallback("info", "");
