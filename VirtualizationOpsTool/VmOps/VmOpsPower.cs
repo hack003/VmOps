@@ -1,9 +1,5 @@
 // ============================================================================
-// VmOpsPower.cs - è™šæ‹Ÿæœºç”µæºæ“ä½œï¼ˆGet-View + VIM APIï¼‰
-// ============================================================================
-// æ‰€æœ‰æ–¹æ³•ï¼šstatic async Taskï¼Œä¼ å…¥ vmName + logCallbackï¼Œé€šè¿‡ SessionManager æ‰§è¡Œ
-//
-// æ ¸å¿ƒæ–¹æ³•ï¼š
+// VmOpsPower.cs - è™šæ‹§.¹å-y®¤9¤ãy/g;È„vWBÕf–Wr²d”Òò$4(¼¼€ôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôô4(¼¼ƒš&šr'šZçšÎW¾òiÍÑ…Ñ¥Œ…Íå¹ŒQ…Í¯¾ò3’òƒ–”Ùµ9…µ”€¬±½…±±‰…¯¾ò3¦k¢şM•ÍÍ¥½¹5…¹…•Èƒš&Ÿ¢†04(¼¼4(¼¼ƒš‚ã–Ãæ–¹æ³•ï¼š
 //   âœ… PowerOnVmAsync / PowerOffVmAsync / RestartVmAsync / SuspendVmAsync / ForceOffVmAsync
 //   âœ… PowerStateQueryAsync â€” æŸ¥è¯¢ç”µæºçŠ¶æ€
 //
@@ -19,43 +15,22 @@ namespace VirtualizationOpsTool.VmOps
 {
     public static class VmOpsPower
     {
-        public static async Task<bool> PowerOnVmAsync(string vmName, Action<string?, string?>? logCallback = null)
-        {
-            try
-            {
-                string script = $@"
-$ErrorActionPreference = 'Stop';
-$vm = Get-View -ViewType VirtualMachine -Filter @{{Name='{EscapePsString(vmName)}'; 'Config.Template'='False'}} -Property Name,Runtime.PowerState -ErrorAction SilentlyContinue;
-if (-not $vm) {{ Write-Output 'æœªæ‰¾åˆ°è™šæ‹Ÿæœº: {EscapePsString(vmName)}'; return 'ERROR' }};
-if ($vm.Runtime.PowerState -eq 'poweredOn') {{ Write-Output 'è™šæ‹Ÿæœºå·²å¼€æœº: ' + $vm.Name; return 'SUCCESS' }};
-$task = $vm.PowerOnVM_Task($null);
-while ($true) {{ Start-Sleep -Seconds 3; $t = Get-View -Id $task -Property Info.State,Info.Error -ErrorAction SilentlyContinue; if ($null -ne $t -and $t.Info.State -eq 'success') {{ Write-Output 'å¼€æœºæˆåŠŸ: ' + $vm.Name; return 'SUCCESS' }}; if ($null -ne $t -and $t.Info.State -eq 'error') {{ Write-Output ('å¼€æœºå¤±è´¥: ' + $t.Info.Error.LocalizedMessage); return 'ERROR' }} }}
-";
-                string result = await SessionManager.Instance.ExecutePsScriptAsync(script, logCallback, 60);
-                return result.Contains("SUCCESS");
-            }
-            catch (Exception ex)
-            {
-                logCallback?.Invoke($"å¼€æœºå¤±è´¥: {ex.Message}", "error");
-                return false;
-            }
-        }
-
-        public static async Task<bool> PowerOffVmAsync(string vmName, Action<string?, string?>? logCallback = null)
+        public static async Task<bool> PowerOnVmAsync(string vmName, Action<string?, string?ÈÙĞØ[˜XÚÈH[
+CBˆÃBˆCBˆÃBˆİš[™ÈØÜš\H	ƒB‰\œ›ÜXİ[Û”™Y™\™[˜ÙHH	ÔİÜ	ÎÃB‰›HHÙ]UšY]ÈUšY]Õ\Hš\X[XXÚ[™HQš[\ˆŞÓ˜[YOIŞÑ\ØØ\TÔİš[™Ê›S˜[YJ_IÎÈ	ĞÛÛ™šYË•[\]IÏIÑ˜[ÙIß_HT›Ü\H˜[YK[[YK”İÙ\”İ]HQ\œ›ÜXİ[ÛˆÚ[[PÛÛ[YNÃBšYˆ
+[›İ	›JHŞÈÜš]KSİ]]	iÊ®h›îX‹‰™®h¹ÚrèèíÍ…Á•AÍMÑÉ¥¹œ¡Ùµ9…µ”¥ôœìÉ•ÑÕÉ¸€II=Hœõôì4)¥˜€ ‘Ù´¹IÕ¹Ñ¥µ”¹A½İ•ÉMÑ…Ñ”€µ•Ä€Á½İ•É•‘=¸œ¤íì]É¥Ñ”µ=ÕÑÁÕĞ€Ÿ¢fkš.šrë–ŞË–òšrèè€œ€¬€‘Ù´¹9…µ”ìÉ•ÑÕÉ¸€MUMLœõôì4(‘Ñ…Í¬€ô€‘Ù´¹A½İ•É=¹Y5}Q…Í¬ ‘¹Õ±°¤ì4)İ¡¥±”€ ‘ÑÉÕ”¤íìMÑ…ÉĞµM±••À€µM•½¹‘Ì€Ìì€‘Ğ€ô•ĞµY¥•Ü€µ%€‘Ñ…Í¬€µAÉ½Á•ÉÑä%¹™¼¹MÑ…Ñ”±%¹™¼¹ÉÉ½È€µÉÉ½ÉÑ¥½¸M¥±•¹Ñ±å½¹Ñ¥¹Õ”ì¥˜€ ‘¹Õ±°€µ¹”€‘Ğ€µ…¹€‘Ğ¹%¹™¼¹MÑ…Ñ”€µ•Ä€ÍÕ•ÍÌœ¤íì]É¥Ñ”µ=ÕÑÁÕĞ€Ÿ–òšrëš"C–*|è€œ€¬€‘Ù´¹9…µ”ìÉ•ÑÕÉ¸€MUMLœõôì¥˜€ ‘¹Õ±°€µ¹”€‘Ğ€µ…¹€‘Ğ¹%¹™¼¹MÑ…Ñ”€µ•Ä€•ÉÉ½Èœ¤íì]É¥Ñ”µ=ÕÑÁÕĞ€ Ÿ–òšrë–’Ç¢Ò”è€œ€¬€‘Ğ¹%¹™¼¹ÉÉ½È¹1½…±¥é•‘5•ÍÍ…”¤ìÉ•ÑÕÉ¸€II=Hœõôõô4(ˆì4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œÉ•ÍÕ±Ğ€ô…İ…¥ĞM•ÍÍ¥½¹5…¹…•È¹%¹ÍÑ…¹”¹á•ÕÑ•AÍMÉ¥ÁÑÍå¹Œ¡ÍÉ¥ÁĞ°±½…±±‰…¬°€ØÀ¤ì4(€€€€€€€€€€€€€€€É•ÑÕÉ¸É•ÍÕ±Ğ¹½¹Ñ…¥¹Ì ‰MUMLˆ¤ì4(€€€€€€€€€€€ô4(€€€€€€€€€€€…Ñ €¡á•ÁÑ¥½¸•à¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€±½…±±‰…¬ü¹%¹Ù½­” ‹–òšrë–’Ç¢Ò”èí•à¹5•ÍÍ…•ôˆ°€‰•ÉÉ½Èˆ¤ì4(€€€€€€€€€€€€€€€É•ÑÕÉ¸™…±Í”ì4(€€€€€€€€€€€ô4(€€€€€€€ô4(4(€€€€€€€ÁÕ‰±¥ŒÍÑ…Ñ¥Œ…Íå¹ŒQ…Í¬ñ‰½½° PowerOffVmAsync(string vmName, Action<string?, string?>? logCallback = null)
         {
             try
             {
                 string script = $@"
 $ErrorActionPreference = 'Stop';
 $vm = Get-View -ViewType VirtualMachine -Filter @{{Name='{EscapePsString(vmName)}'; 'Config.Template'='False'}} -Property Name,Runtime.PowerState,Guest.ToolsStatus -ErrorAction SilentlyContinue;
-if (-not $vm) {{ Write-Output 'æœªæ‰¾åˆ°è™šæ‹Ÿæœº: {EscapePsString(vmName)}'; return 'ERROR' }};
-if ($vm.Runtime.PowerState -ne 'poweredOn') {{ Write-Output 'è™šæ‹Ÿæœºå·²å…³æœº: ' + $vm.Name; return 'SUCCESS' }};
-$toolsOk = $vm.Guest -and ($vm.Guest.ToolsStatus -eq 'toolsOk' -or $vm.Guest.ToolsStatus -eq 'toolsOld');
-if (-not $toolsOk) {{ Write-Output 'VMware Tools æœªè¿è¡Œï¼Œæ— æ³•å‘é€å…³é—­å®¢æˆ·æœºæŒ‡ä»¤'; return 'ERROR' }};
-try {{ $vm.ShutdownGuest(); Write-Output 'å·²å‘é€å…³é—­å®¢æˆ·æœºæŒ‡ä»¤: ' + $vm.Name }} catch {{ Write-Output ('å‘é€å…³é—­æŒ‡ä»¤å¤±è´¥: ' + $_.Exception.Message); return 'ERROR' }};
-$deadline = (Get-Date).AddMinutes(5);
-while ((Get-Date) -lt $deadline) {{ Start-Sleep -Seconds 10; $ch = Get-View -Id $vm.MoRef -Property Runtime.PowerState -ErrorAction SilentlyContinue; if ($ch -and $ch.Runtime.PowerState -ne 'poweredOn') {{ Write-Output 'å…³é—­å®¢æˆ·æœºæˆåŠŸ: ' + $vm.Name; return 'SUCCESS' }} }}
-Write-Output 'å…³é—­å®¢æˆ·æœºè¶…æ—¶ï¼ˆ5åˆ†é’Ÿï¼‰ï¼Œå®¢æˆ·æœºå¯èƒ½æœªå“åº”'; return 'ERROR';
+if (-not $vm) {{ Write-Output 'æœªæ‰¹b,:&f¹¢çù§.ˆÑ\ØØ\TÔİš[™Ê›S˜[YJ_IÎÈ™]\›ˆ	ÑT”“Ô‰È_NÃBšYˆ
+	›K”[[YK”İÙ\”İ]H[™H	ÜİÙ\™YÛ‰ÊHŞÈÜš]KSİ]]	ú&f¹¢çù§.¹mì¹alù§.ˆ	È
+È	›K“˜[YNÈ™]\›ˆ	ÔÕPĞÑTÔÉÈ_NÃB‰ÛÛÓÚÈH	›K‘İY\İX[™
+	›K‘İY\İ•ÛÛÔİ]\ÈY\H	İÛÛÓÚÉÈ[Üˆ	›K‘İY\İ•ÛÛÔİ]\ÈY\H	İÛÛÓÛ	ÊNÃBšYˆ
+[›İ	ÛÛÓÚÊHŞÈÜš]KSİ]]	Õ“]Ø\™HÛÛÈ9§*º/ä:(c;ÈÎizk9^Xù˜X[&^·–º‹š"ÖœºæŒ….é	ÎÈ™]\›ˆ	ÑT”“Ô‰È_NÃBHŞÈ	›K”Ú]İÛ‘İY\İ
+
+NÈÜš]KSİ]]	ùmì¹a˜X[>™zŞZê.h‹~iË®hÈ~KºC¢r²GfÒäæÖR×Ò6F6‚·²w&—FRÔ÷WGWB‚~XG¦–Ï¦^·š2’î“–’Ç¢Ò”è€œ€¬€‘|¹á•ÁÑ¥½¸¹5•ÍÍ…”¤ìÉ•ÑÕÉ¸€II=Hœõôì4(‘‘•…‘±¥¹”€ô€¡•Ğµ…Ñ”¤¹‘‘5¥¹ÕÑ•Ì Ô¤ì4)İ¡¥±”€ ¡•Ğµ…Ñ”¤€µ±Ğ€‘‘•…‘±¥¹”¤íìMÑ…ÉĞµM±••À€µM•½¹‘Ì€ÄÀì€‘ €ô•ĞµY¥•Ü€µ%€‘Ù´¹5½I•˜€µAÉ½Á•ÉÑäIÕ¹Ñ¥µ”¹A½İ•ÉMÑ…Ñ”€µÉÉ½ÉÑ¥½¸M¥±•¹Ñ±å½¹Ñ¥¹Õ”ì¥˜€ ‘ €µ…¹€‘ ¹IÕ¹Ñ¥µ”¹A½İ•ÉMÑ…Ñ”€µ¹”€Á½İ•É•‘=¸œ¤íì]É¥Ñ”µ=ÕÑÁÕĞ€Ÿ–Ï¦^·–º‹š"ßšrëš"C–*|è€œ€¬€‘Ù´¹9…µ”ìÉ•ÑÕÉ¸€MUMLœõôõô4)]É¥Ñ”µ=ÕÑÁÕĞ€Ÿ–Ï¦^·–º‹š"ßšrë¢Úš^Û¾ò ×–"¦J¾ò'¾ò3–º‹š"ßšrë–/èƒ½æœªå“åº”'; return 'ERROR';
 ";
                 string result = await SessionManager.Instance.ExecutePsScriptAsync(script, logCallback, 60);
                 return result.Contains("SUCCESS");
@@ -74,47 +49,16 @@ Write-Output 'å…³é—­å®¢æˆ·æœºè¶…æ—¶ï¼ˆ5åˆ†é’Ÿï¼‰ï¼Œå®¢æˆ·æœºå¯èƒ½æœªå“åº”'; re
                 string script = $@"
 $ErrorActionPreference = 'Stop';
 $vm = Get-View -ViewType VirtualMachine -Filter @{{Name='{EscapePsString(vmName)}'; 'Config.Template'='False'}} -Property Name,Runtime.PowerState -ErrorAction SilentlyContinue;
-if (-not $vm) {{ Write-Output 'æœªæ‰¾åˆ°è™šæ‹Ÿæœº: {EscapePsString(vmName)}'; return 'ERROR' }};
-if ($vm.Runtime.PowerState -ne 'poweredOn') {{ Write-Output 'è™šæ‹Ÿæœºå·²å…³æœº: ' + $vm.Name; return 'SUCCESS' }};
-$task = $vm.PowerOffVM_Task();
-while ($true) {{ Start-Sleep -Seconds 3; $t = Get-View -Id $task -Property Info.State,Info.Error -ErrorAction SilentlyContinue; if ($null -ne $t -and $t.Info.State -eq 'success') {{ Write-Output 'å…³é—­ç”µæºæˆåŠŸ: ' + $vm.Name; return 'SUCCESS' }}; if ($null -ne $t -and $t.Info.State -eq 'error') {{ Write-Output ('å…³é—­ç”µæºå¤±è´¥: ' + $t.Info.Error.LocalizedMessage); return 'ERROR' }} }}
-";
-                string result = await SessionManager.Instance.ExecutePsScriptAsync(script, logCallback, 60);
-                return result.Contains("SUCCESS");
-            }
-            catch (Exception ex)
-            {
-                logCallback?.Invoke($"å…³é—­ç”µæºå¤±è´¥: {ex.Message}", "error");
-                return false;
-            }
-        }
-
-        public static async Task<bool> ResetVmAsync(string vmName, Action<string?, string?>? logCallback = null)
+if (-not $vm) {{ Write-Output 'æœªæ‰¹b,:&f¹¢çù§.ˆÑ\ØØ\TÔİš[™Ê›S˜[YJ_IÎÈ™]\›ˆ	ÑT”“Ô‰È_NÃBšYˆ
+	›K”[[YK”İÙ\”İ]H[™H	ÜİÙ\™YÛ‰ÊHŞÈÜš]KSİ]]	ú&f¹¢çù§.¹mì¹alù§.ˆ	È
+È	›K“˜[YNÈ™]\›ˆ	ÔÕPĞÑTÔÉÈ_NÃB‰\ÚÈH	›K”İÙ\“Ù™•“WÕ\ÚÊ
+NÃBÚ[H
+	YJHŞÈİ\TÛY\TÙXÛÛ™ÈÎÈ	HÙ]UšY]ÈRY	\ÚÈT›Ü\H[™›Ë”İ]K[™›Ë‘\œ›ÜˆQ\œ›ÜXİ[ÛˆÚ[[PÛÛ[YNÈYˆ
+	[[™H	X[™	’[™›Ë”İ]HY\H	ÜİXØÙ\ÜÉÊHŞÈÜš]KSİ]]	X[&^·R×šêCš"C–*|è€œ€¬€‘Ù´¹9…µ”ìÉ•ÑÕÉ¸€MUMLœõôì¥˜€ ‘¹Õ±°€µ¹”€‘Ğ€µ…¹€‘Ğ¹%¹™¼¹MÑ…Ñ”€µ•Ä€•ÉÉ½Èœ¤íì]É¥Ñ”µ=ÕÑÁÕĞ€ Ÿ–Ï¦^·R×šêC–’Ç¢Ò”è€œ€¬€‘Ğ¹%¹™¼¹ÉÉ½È¹1½…±¥é•‘5•ÍÍ…”¤ìÉ•ÑÕÉ¸€II=Hœõôõô4(ˆì4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œÉ•ÍÕ±Ğ€ô…İ…¥ĞM•ÍÍ¥½¹5…¹…•È¹%¹ÍÑ…¹”¹á•ÕÑ•AÍMÉ¥ÁÑÍå¹Œ¡ÍÉ¥ÁĞ°±½…±±‰…¬°€ØÀ¤ì4(€€€€€€€€€€€€€€€É•ÑÕÉ¸É•ÍÕ±Ğ¹½¹Ñ…¥¹Ì ‰MUMLˆ¤ì4(€€€€€€€€€€€ô4(€€€€€€€€€€€…Ñ €¡á•ÁÑ¥½¸•à¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€±½…±±‰…¬ü¹%¹Ù½­” ‹–Ï¦^·R×šêC–’Ç¢Ò”èí•à¹5•ÍÍ…•ôˆ°€‰•ÉÉ½Èˆ¤ì4(€€€€€€€€€€€€€€€É•ÑÕÉ¸™…±Í”ì4(€€€€€€€€€€€ô4(€€€€€€€ô4(4(€€€€€€€ÁÕ‰±¥ŒÍÑ…Ñ¥Œ…Íå¹ŒQ…Í¬ñ‰½½°øI•Í•ÑYµÍå¹Œ¡ÍÑÉ¥¹œÙµ9…µ”°Ñ¥½¸ñÍÑÉ¥¹œü°ÍÑÉ¥¹œü? logCallback = null)
         {
             try
             {
                 string script = $@"
 $ErrorActionPreference = 'Stop';
 $vm = Get-View -ViewType VirtualMachine -Filter @{{Name='{EscapePsString(vmName)}'; 'Config.Template'='False'}} -Property Name,Runtime.PowerState -ErrorAction SilentlyContinue;
-if (-not $vm) {{ Write-Output 'æœªæ‰¾åˆ°è™šæ‹Ÿæœº: {EscapePsString(vmName)}'; return 'ERROR' }};
-if ($vm.Runtime.PowerState -ne 'poweredOn') {{ Write-Output 'è™šæ‹Ÿæœºéå¼€æœºçŠ¶æ€ï¼Œæ— æ³•é‡ç½®ç”µæº'; return 'ERROR' }};
-$task = $vm.ResetVM_Task();
-while ($true) {{ Start-Sleep -Seconds 3; $t = Get-View -Id $task -Property Info.State,Info.Error -ErrorAction SilentlyContinue; if ($null -ne $t -and $t.Info.State -eq 'success') {{ Write-Output 'é‡ç½®ç”µæºæˆåŠŸ: ' + $vm.Name; return 'SUCCESS' }}; if ($null -ne $t -and $t.Info.State -eq 'error') {{ Write-Output ('é‡ç½®ç”µæºå¤±è´¥: ' + $t.Info.Error.LocalizedMessage); return 'ERROR' }} }}
-";
-                string result = await SessionManager.Instance.ExecutePsScriptAsync(script, logCallback, 60);
-                return result.Contains("SUCCESS");
-            }
-            catch (Exception ex)
-            {
-                logCallback?.Invoke($"é‡ç½®ç”µæºå¤±è´¥: {ex.Message}", "error");
-                return false;
-            }
-        }
-
-        private static string EscapePsString(string s)
-        {
-            if (string.IsNullOrEmpty(s)) return "";
-            return s.Replace("'", "''");
-        }
-    }
-}
+if (-not $vm) {{ Write-Output %§*¹¢o¹b,:&f¹¢çiË£¢´W66U57G&–ær‡fÔæÖR—Òs²&WGW&âtU%$õ"r×Ó°Ğ¦–b‚GfÒå'VçF–ÖRå÷vW%7FFRÖæRw÷vW&VDöâr’·²w&—FRÔ÷WGWB~‰™®h¹şiË®™Ùî[ÈiË®x«nhûÈÎizk9^˜xŞ{ÚîyK^k©s²&WGW&âtU%$õ"r×Ó°Ğ¢GF6²ÒGfÒå&W6WEdÕõF6²‚“°Ğ§v†–ÆR‚GG'VR’·²7F'BÕ6ÆVWÕ6V6öæG23²GBÒvWBÕf–WrÔ–BGF6²Õ&÷W'G’–æfòå7FFRÄ–æfòäW'&÷"ÔW'&÷$7F–öâ6–ÆVçFÇ”6öçF–çVS²–b‚FçVÆÂÖæRGBÖæBGBä–æfòå7FFRÖWw7V66W72r’·²w&—FRÔ÷WGWB~˜xŞ{ÚîyK^k©h‰X©ó¢r²GfÒäæÖS²&WGW&âu5T44U52r×Ó²–b‚FçVÆÂÖæRGBÖæBGBä–æfòå7FFRÖWvW'&÷"r’·²w&—FRÔ÷WGWB‚f7ö»R×šêC–’Ç¢Ò”è€œ€¬€‘Ğ¹%¹™¼¹ÉÉ½È¹1½…±¥é•‘5•ÍÍ…”¤ìÉ•ÑÕÉ¸€II=Hœõôõô4(ˆì4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œÉ•ÍÕ±Ğ€ô…İ…¥ĞM•ÍÍ¥½¹5…¹…•È¹%¹ÍÑ…¹”¹á•ÕÑ•AÍMÉ¥ÁÑÍå¹Œ¡ÍÉ¥ÁĞ°±½…±±‰…¬°€ØÀ¤ì4(€€€€€€€€€€€€€€€É•ÑÕÉ¸É•ÍÕ±Ğ¹½¹Ñ…¥¹Ì ‰MUMLˆ¤ì4(€€€€€€€€€€€ô4(€€€€€€€€€€€…Ñ €¡á•ÁÑ¥½¸•à¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€±½…±±‰…¬ü¹%¹Ù½­” ‹¦7ö»R×šêC–’Ç¢Ò”èí•à¹5•ÍÍ…•ôˆ°€‰•ÉÉ½Èˆ¤ì4(€€€€€€€€€€€€€€€É•ÑÕÉ¸™…±Í”ì4(€€€€€€€€€€€ô4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”ÍÑ…Ñ¥ŒÍÑÉ¥¹œÍ…Á•AÍMÑÉ¥¹œ¡ÍÑÉ¥¹œÌ¤4(€€€€€€€ì4(€€€€€€€€€€€¥˜€¡ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡Ì¤¤É•ÑÕÉ¸€ˆˆì4(€€€€€€€€€€€É•ÑÕÉ¸Ì¹I•Á±…” ˆœˆ°€ˆœœˆ¤ì4(€€€€€€€ô4(€€€ô4)ô
