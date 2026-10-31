@@ -1,102 +1,11 @@
 // ============================================================================
-// OVFToolTab.cs - OVF å·¥å…· Tabï¼ˆå°è£… ovftool.exe å­è¿›ç¨‹ï¼‰
-// ============================================================================
-// ä¸‰ç§æ“ä½œæ¨¡å¼ï¼š
-//   âœ… å¯¼å‡º OVF/OVA â€” æŒ‡å®š VC + VM â†’ è°ƒç”¨ OvfToolRunner æ‰§è¡Œ ovftool
-//   âœ… å¯¼å…¥ OVF â€” æŒ‡å®šæœ¬åœ° OVF + VC ç›®æ ‡ â†’ æ‰§è¡Œ ovftool import
-//   âœ… OVF è½¬æ¢ â€” OVF â†” OVA äº’è½¬
-//
-// æ ¸å¿ƒåŠŸèƒ½ï¼š
-//   åŠ¨æ€è¡¨å•ï¼ˆRadioButton åˆ‡æ¢æ¨¡å¼æ—¶é‡å»ºå­—æ®µï¼‰/ å‘½ä»¤é¢„è§ˆ / å¤åˆ¶å‘½ä»¤ / ç¯å¢ƒç¼“å­˜
-//
-// ä¾èµ–ï¼šOvfToolRunnerï¼ˆCore ç›®å½•ï¼Œè¿›ç¨‹æ‰§è¡Œå™¨ï¼‰
-// ============================================================================
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using VirtualizationOpsTool.Core;
-using VirtualizationOpsTool.Utils;
-
-namespace VirtualizationOpsTool.UI
-{
-    public class OVFToolTab
-    {
-        private readonly TabPage _parent;
-        private readonly Form _root;
-        private RadioButton? _rbExport;
-        private RadioButton? _rbImport;
-        private RadioButton? _rbConvert;
-        private string _operationType = "export";
-
-        private RadioButton? _rbVcsa;
-        private RadioButton? _rbEsxi;
-        private string _targetType = "vcsa";
-        private FlowLayoutPanel? _targetTypeFrame;
-        private Dictionary<string, Control> _currentFields = new Dictionary<string, Control>();
-
-        // è¡¨å•å®¹å™¨
-        private Panel? _formFrame;
-        private TableLayoutPanel? _setupFrame;
-        private GroupBox? _commandFrame;
-        private TextBox? _commandText;
-        private Panel? _optionsFrame;
-
-        // å¯¼å‡ºæ¨¡å¼å­—æ®µ
-        private ComboBox? _cmbVcsaHost;
-        private ComboBox? _cmbEsxiHost;
-        private ComboBox? _cmbUserDomain;
-        private ComboBox? _cmbVmName;
-        private ComboBox? _cmbExportPath;
-        private Button? _btnBrowseExportPath;
-        private CheckBox? _chkOverwrite;
-        private CheckBox? _chkNoNvram;
-        private CheckBox? _chkNoSslVerify;
-        private CheckBox? _chkNoImageFiles;
-        private TextBox? _txtOvaName;
-
-        // å¯¼å…¥æ¨¡å¼å­—æ®µ
-        private ComboBox? _cmbOvaFile;
-        private Button? _btnBrowseOva;
-        private ComboBox? _cmbVcsaTargetHost;
-        private TextBox? _txtImportVmName;
-        private ComboBox? _cmbTargetHost;
-        private ComboBox? _cmbDatastore;
-        private ComboBox? _cmbTargetDomain;
-        private ComboBox? _cmbDiskMode;
-        private ComboBox? _cmbNetSrc;
-        private ComboBox? _cmbNetDst;
-        private CheckBox? _chkNetMapping;
-        private CheckBox? _chkImportAsTemplate;
-
-        // è½¬æ¢æ¨¡å¼å­—æ®µ
-        private ComboBox? _cmbSrcType;
-        private ComboBox? _cmbSrcPath;
-        private Button? _btnBrowseSrc;
-        private ComboBox? _cmbDstType;
-        private ComboBox? _cmbDstPath;
-        private Button? _btnBrowseDst;
-
-        // æ‰§è¡Œå‘½ä»¤æŒ‰é’®å¼•ç”¨ï¼ˆç”¨äºæ ¹æ®è¿æ¥çŠ¶æ€æ§åˆ¶å¯ç”¨æ€§ï¼‰
-        private Button? _btnExecute;
-        private Dictionary<string, object> _envCache = new Dictionary<string, object>();
+// OVFToolTab.cs - OVF å·¥å…· Tabï¼ˆå°è£… ovftool.exe å­è¿™ê"ò$4(¼¼€ôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôô4(¼¼ƒ’â'7šN7’ösš¢‡–ò?¾òh4(¼¼€€ƒŠrƒ–¾ó–è=Y½=YƒŠPƒš2–ºhY€¬Y4ƒŠHƒ¢Â”¨ OvfToolRunner æ‰¦(cİ™ÛÛB‹ËÈ8§!H9kï9aiHÕ‘ˆ8 %9£!ùk¦¹§+9g,Õ‘ˆ
+ÈÈ9æë¹¨!È8¡¤ˆ9¢iú(cİ™ÛÛ[\ÜB‹ËÈ8§!HÕ‘ˆ:/k9£hˆ8 %Õ‘ˆ8¡¥ÕH9.¤º/kB‹ËÃB‹ËÈ9¨.9oàX©â÷¼š
+//   åŠ¨æ€è¡¨å•ï¼ˆRadioButton åˆ‡æ¢æ¨¡å¼æ—¶é‡å»ºå­—æ®µï¼‰/ å‘½ä»¤é¢„è§ˆ / å¤åˆ¶å‘½ä»¤ / ç­h {É¶`4(¼¼4(¼¼ƒ’èµ–ï&“İ™•ÛÛ[›™\»ï"ÛÜ™H9æë¹oe{ÈÎ‹ù¢&‰¦(c9fj;ÈĞ¢òòÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓĞĞ§W6–ær7—7FVÓ°Ğ§W6–ær7—7FVÒä6öÆÆV7F–öç2ävVæW&–3°Ğ§W6–ær7—7FVÒäG&v–æs°Ğ§W6–ær7—7FVÒä”ó°Ğ§W6–ær7—7FVÒäÆ–ç°Ğ§W6–ær7—7FVÒåF‡&VF–æråF6·3°Ğ§W6–ær7—7FVÒåv–æF÷w2äf÷&×3°Ğ§W6–ærf—'GVÆ—¦F–öä÷5FööÂä6÷&S°Ğ§W6–ærf—'GVÆ—¦F–öä÷5FööÂåWF–Ç3°Ğ Ğ¦æÖW76Rf—'GVÆ—¦F–öä÷5FööÂåTĞ§°Ğ¢V&Æ–26Æ72õdeFööÅF Ğ¢°Ğ¢&—fFR&VFöæÇ’F%vR÷&VçC°Ğ¢&—fFR&VFöæÇ’f÷&Ò÷&ö÷C°Ğ¢&—fFR&F–ô'WGFöãò÷&$W‡÷'C°Ğ¢&—fFR&F–ô'WGFöãò÷&$–×÷'C°Ğ¢&—fFR&F–ô'WGFöãò÷&$6öçfW'C°Ğ¢&—fFR7G&–ærö÷W&F–öåG—RÒ&W‡÷'B#°Ğ Ğ¢&—fFR&F–ô'WGFöãò÷&%f76°Ğ¢&—fFR&F–ô'WGFöãò÷&$W7†“°Ğ¢&—fFR7G&–ær÷F&vWEG—RÒ'f76#°Ğ¢&—fFRfÆ÷tÆ–÷WEæVÃò÷F&vWEG—Tg&ÖS°Ğ¢&—fFRF–7F–öæ'“Ç7G&–ærÂ6öçG&öÃâö7W'&VçDf–VÆG2ÒæWrF–7F–öæ'“Ç7G&–ærÂ6öçG&öÃâ‚“°Ğ Ğ¢òòŠXÙ^ZëYš€Ğ¢&—fFRæVÃòöf÷&Ôg&ÖS°Ğ¢&—fFRF&ÆTÆ–÷WEæVÃò÷6WGWg&ÖS°Ğ¢&—fFRw&÷W&÷ƒòö6öÖÖæDg&ÖS°Ğ¢&—fFRFW‡D&÷ƒòö6öÖÖæEFW‡C°Ğ¢&—fFRæVÃòö÷F–öç4g&ÖS°Ğ Ğ¢òòZó–ëš¢‡–ò?–¶_šºÔ4(€€€€€€€ÁÉ¥Ù…Ñ”½µ‰½	½àü}µ‰YÍ…!½ÍĞì4(€€€€€€€ÁÉ¥Ù…Ñ”½µ‰½	½àü}µ‰Íá¥!½ÍĞì4(€€€€€€€ÁÉ¥Ù…Ñ”½µ‰½	½àü}µ‰UÍ•É½µ…¥¸ì4(€€€€€€€ÁÉ¥Ù…Ñ”½µ‰½	½àü}µ‰Yµ9…µ”ì4(€€€€€€€ÁÉ¥Ù…Ñ”½µ‰½	½àü}µ‰áÁ½ÉÑA…Ñ ì4(€€€€€€€ÁÉ¥Ù…Ñ”	ÕÑÑ½¸ü}‰Ñ¹	É½İÍ•áÁ½ÉÑA…Ñ ì4(€€€€€€€ÁÉ¥Ù…Ñ”¡•­	½àü}¡­=Ù•ÉİÉ¥Ñ”ì4(€€€€€€€ÁÉ¥Ù…Ñ”¡•­	½àü}¡­9½9ÙÉ…´ì4(€€€€€€€ÁÉ¥Ù…Ñ”¡•­	½àü}¡­9½MÍ±Y•É¥™äì4(€€€€€€€ÁÉ¥Ù…Ñ”¡•­	½àü}¡­9½%µ…•¥±•Ìì4(€€€€€€€ÁÉ¥Ù…Ñ”Q•áÑ	½àü}ÑáÑ=Ù…9…µ”ì4(4(€€€€€€€€¼¼ƒ–¾ó–—š¢‡–ò?–¶_šºÔ4(€€€€€€€ÁÉ¥Ù…Ñ”½µ‰½	½àü}µ‰=Ù…¥±”ì4(€€€€€€€ÁÉ¥Ù…Ñ”	ÕÑÑ½¸ü}‰Ñ¹	É½İÍ•=Ù„ì4(€€€€€€€ÁÉ¥Ù…Ñ”½µ‰½	½àü}µ‰YÍ…Q…É•Ñ!½ÍĞì4(€€€€€€€ÁÉ¥Ù…Ñ”Q•áÑ	½àü}ÑáÑ%µÁ½ÉÑYµ9…µ”ì4(€€€€€€€ÁÉ¥Ù…Ñ”½µ‰½	½àü}µ‰Q…É•Ñ!½ÍĞì4(€€€€€€€ÁÉ¥Ù…Ñ”½µ‰½	½àü}µ‰…Ñ…ÍÑ½É”ì4(€€€€€€€ÁÉ¥Ù…Ñ”½µ‰½	½àü}µ‰Q…É•Ñ½µ…¥¸ì4(€€€€€€€ÁÉ¥Ù…Ñ”½µ‰½	½àü}µ‰¥Í­5½‘”ì4(€€€€€€€ÁÉ¥Ù…Ñ”½µ‰½	½àü}µ‰9•ÑMÉŒì4(€€€€€€€ÁÉ¥Ù…Ñ”½µ‰½	½àü}µ‰9•ÑÍĞì4(€€€€€€€ÁÉ¥Ù…Ñ”¡•­	½àü}¡­9•Ñ5…ÁÁ¥¹œì4(€€€€€€€ÁÉ¥Ù…Ñ”¡•­	½àü}¡­%µÁ½ÉÑÍQ•µÁ±…Ñ”ì4(4(€€€€€€€€¼¼ƒ¢ö³š6‹š¢‡–ò5­•«­CBˆš]˜]HÛÛX›Ğ›ŞÈØÛX”Ü˜Õ\NÃBˆš]˜]HÛÛX›Ğ›ŞÈØÛX”Ü˜Ô]ÃBˆš]˜]H]ÛÈØœ›İÜÙTÜ˜ÎÃBˆš]˜]HÛÛX›Ğ›ŞÈØÛX‘İ\NÃBˆš]˜]HÛÛX›Ğ›ŞÈØÛX‘İ]ÃBˆš]˜]H]ÛÈØœ›İÜÙQİÃBƒBˆËÈ9¢iŠÎYŞKºNhÈ™*î[É^yJò#R£’ê;š‚çš6»¢ş{š:—*Ûšš:•ˆ¶å­å*9 )ò$4(€€€€€€€ÁÉ¥Ù…Ñ”	ÕÑÑ½¸ü}‰Ñ¹á•ÕÑ”ì4(€€€€€€€ÁÉ¥Ù…Ñ”¥Ñ¥½¹…ÉäñÍÑÉ¥¹œ°½‰©•Ğø}•¹Ù…¡”€ô¹•Ü¥Ñ¥½¹…ÉäñÍÑÉ¥¹œ°½‰©•Ğ();
 
         // è™šæ‹Ÿæœºåç§°å®Œæ•´åˆ—è¡¨ï¼ˆç”¨äºè¾“å…¥ç­›é€‰ï¼‰
-        private List<string> _vmNameFullList = new List<string>();
-        // æ ‡è®°æ˜¯å¦æ­£åœ¨ä»ä¸‹æ‹‰åˆ—è¡¨é€‰ä¸­ï¼ˆé¿å…é€‰ä¸­æ—¶è§¦å‘ç­›é€‰ï¼‰
-        private bool _vmNameSelecting = false;
-
-        public OVFToolTab(TabPage parent, Form root, Control app)
-        {
-            _parent = parent;
-            _root = root;
-            BuildUI();
-            InitCache();
-            UpdateForm();
-            // ä¿®å¤ï¼šå‘å¸ƒç‰ˆæœ¬ä¸­çª—å£å¥æŸ„å¯èƒ½æœªåˆ›å»ºï¼Œéœ€ç­‰å¾…å¥æŸ„åˆ›å»ºåå†è°ƒç”¨ BeginInvoke
+        private List<stringİ›S˜[YQ[\İH™]È\İİš[™ÏŠ
+NÃBˆËÈ9¨!ú+¬9¦+ùd)¹«hùg*9.ã¹."ù¢âyb%ú(j:`"y.+{ï":`oùacz`"y.+y¥íº)é¹azÙ¾˜ûÈĞ¢&—fFR&ööÂ÷fÔæÖU6VÆV7F–ærÒfÇ6S°Ğ Ğ¢V&Æ–2õdeFööÅF"…F%vR&VçBÂf÷&Ò&ö÷BÂ6öçG&öÂĞ¢°Ğ¢÷&VçBÒ&VçC°Ğ¢÷&ö÷BÒ&ö÷C°Ğ¢'V–ÆET’‚“°Ğ¢–æ—D66†R‚“°Ğ¢WFFTf÷&Ò‚“°Ğ¢òòKúîZHŞòk–>G–â‰ˆæœ¬ä¸­çª•cèXú^iøNXúâ÷šr«–"e»ºï#:g 9ëbyh^Xú^iøNX‰–îë–B;–7¢Â”¨ BeginInvoke
             if (_root.IsHandleCreated)
             {
                 _root.BeginInvoke(new Action(BindInputContextMenus));
@@ -117,13 +26,9 @@ namespace VirtualizationOpsTool.UI
                 Padding = new Padding(6)
             };
 
-            // =========== ä¸»å¸ƒå±€ï¼šå‚ç›´ä¸‰æ®µå¼ï¼ˆ20% + 40% + 40%ï¼‰==========
-            var mainLayout = new TableLayoutPanel
-            {
-                Dock = DockStyle.Fill, CellBorderStyle = TableLayoutPanelCellBorderStyle.None, ColumnCount = 1, RowCount = 3,
-                Padding = new Padding(0)
-            };
-            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 15));  // åŸºç¡€è®¾ç½® 15%
+            // =========== ä¸¹n [òk–znÓ’â'šº×–ò?"Œ	H
+È	H
+È	{È“ÓÓÓÓÓÓÓÓÓĞĞ¢f"Ö–äÆ–÷WBÒæWrF&ÆTÆ–÷WEæVÀĞ¢°Ğ¢Fö6²ÒFö6µ7G–ÆRäf–ÆÂÂ6VÆÄ&÷&FW%7G–ÆRÒF&ÆTÆ–÷WEæVÄ6VÆÄ&÷&FW%7G–ÆRäæöæRÂ6öÇVÖä6÷VçBÒÂ&÷t6÷VçBÒ2ÀĞ¢FF–ærÒæWrFF–ærƒĞ¢Ó°Ğ¢Ö–äÆ–÷WBå&÷u7G–ÆW2äFB†æWr&÷u7G–ÆR…6—¦UG—RåW&6VçBÂR’“²òòYë†¢ºç½® 15%
             mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 45));  // åŠ¨æ€è¡¨å• 45%
             mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 40));  // å‘½ä»¤é¢„è§ˆ 40%
 
@@ -149,7 +54,7 @@ namespace VirtualizationOpsTool.UI
             _setupFrame.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             setupWrapper.Controls.Add(_setupFrame);
 
-            // å·¦ä¾§ï¼šæ“ä½œç±»å‹
+            // å·¦ä©òkšN7’ösÆå‹
             var operationPanel = new FlowLayoutPanel
             {
                 AutoSize = true, FlowDirection = FlowDirection.LeftToRight, WrapContents = false,
@@ -168,148 +73,48 @@ namespace VirtualizationOpsTool.UI
 
             _rbExport = new RadioButton
             {
-                Text = "å¯¼å‡ºè™šæ‹Ÿæœº",
-                AutoSize = true,
-                Checked = true,
-                Margin = new Padding(0, 4, 8, 0)
-            };
-            _rbExport.CheckedChanged += (s, e) => { if (_rbExport.Checked) { _operationType = "export"; UpdateForm(); } };
-            operationPanel.Controls.Add(_rbExport);
-
-            _rbImport = new RadioButton
-            {
-                Text = "å¯¼å…¥è™šæ‹Ÿæœº",
-                AutoSize = true,
-                Margin = new Padding(0, 4, 8, 0)
-            };
-            _rbImport.CheckedChanged += (s, e) => { if (_rbImport.Checked) { _operationType = "import"; UpdateForm(); } };
+                Text = "å¯9aîº&f¹¢çù§.ˆ‹Bˆ]]ÔÚ^™HHYKBˆÚXÚÙYHYKBˆX\™Ú[ˆH™]ÈY[™Ê
+CBˆNÃBˆÜ˜‘^ÜÚXÚÙYÚ[™ÙY
+ÏH
+ËJHB²–b…÷&$W‡÷'Bä6†V6¶VB’²ö÷W&F–öåG—RÒ&W‡÷'B#²WFFTf÷&Ò‚“²ÒÓ°Ğ¢÷W&F–öåæVÂä6öçG&öÇ2äFB…÷&$W‡÷'B“°Ğ Ğ¢÷&$–×÷'BÒæWr&F–ô'WGFöàĞ¢°Ğ¢FW‡BÒ.Zó–—¢fkš.šrèˆ°4(€€€€€€€€€€€€€€€ÕÑ½M¥é”€ôÑÉÕ”°4(€€€€€€€€€€€€€€€5…É¥¸€ô¹•ÜA…‘‘¥¹œ À°€Ğ°€à°€À¤4(€€€€€€€€€€€ôì4(€€€€€€€€€€€}É‰%µÁ½ÉĞ¹¡•­•‘¡…¹•€¬ô€¡Ì°”¤€ô { if (_rbImport.Checked) { _operationType = "import"; UpdateForm(); } };
             operationPanel.Controls.Add(_rbImport);
 
             _rbConvert = new RadioButton
             {
-                Text = "è™šæ‹Ÿæœºè½¬æ¢",
-                AutoSize = true,
-                Margin = new Padding(0, 4, 8, 0)
-            };
-            _rbConvert.CheckedChanged += (s, e) => { if (_rbConvert.Checked) { _operationType = "convert"; UpdateForm(); } };
-            operationPanel.Controls.Add(_rbConvert);
-
-            _setupFrame.Controls.Add(operationPanel, 0, 0);
-
-            // ä¸­é—´ç«–çº¿åˆ†éš”
-            var sepPanel = new Panel
-            {
-                BackColor = ColorTranslator.FromHtml("#CCCCCC"),
-                Dock = DockStyle.Fill,
-                Margin = Padding.Empty
-            };
-            _setupFrame.Controls.Add(sepPanel, 1, 0);
-
-            // å³ä¾§ï¼šç›®æ ‡ç±»å‹ï¼ˆä»… export/import æ—¶æ˜¾ç¤ºï¼‰
-            var targetPanel = new FlowLayoutPanel
-            {
-                AutoSize = true,
-                FlowDirection = FlowDirection.LeftToRight,
-                WrapContents = false,
-                Dock = DockStyle.Fill,
-                Margin = Padding.Empty,
-                Padding = new Padding(0, 2, 0, 0)
-            };
-
-            var lblTarget = new Label
-            {
-                Text = "ç›®æ ‡:",
-                AutoSize = true,
-                Margin = new Padding(0, 6, 8, 0)
-            };
-            targetPanel.Controls.Add(lblTarget);
-
-            _targetTypeFrame = new FlowLayoutPanel
-            {
-                AutoSize = true,
-                FlowDirection = FlowDirection.LeftToRight,
-                WrapContents = false,
-                Margin = new Padding(0)
-            };
-
-            _rbVcsa = new RadioButton
-            {
-                Text = "VCSA",
-                AutoSize = true,
-                Checked = true,
-                Margin = new Padding(0, 4, 8, 0)
-            };
-            _rbVcsa.CheckedChanged += (s, e) => { if (_rbVcsa.Checked) { _targetType = "vcsa"; UpdateForm(); } };
-            _targetTypeFrame.Controls.Add(_rbVcsa);
-
-            _rbEsxi = new RadioButton
-            {
-                Text = "ESXiä¸»æœº",
-                AutoSize = true,
-                Margin = new Padding(0, 4, 0, 0)
-            };
-            _rbEsxi.CheckedChanged += (s, e) => { if (_rbEsxi.Checked) { _targetType = "esxi"; UpdateForm(); } };
-            _targetTypeFrame.Controls.Add(_rbEsxi);
-
-            targetPanel.Controls.Add(_targetTypeFrame);
-            _setupFrame.Controls.Add(targetPanel, 2, 0);
-
-            mainLayout.Controls.Add(setupWrapper, 0, 0);
-
-            // =========== å‚æ•°è®¾ç½®åŒºï¼ˆæ°´å¹³ 70% è®¾ç½® + 30% é€‰é¡¹ï¼‰==========
-            var formLayout = new GroupBox
-            {
-                Text = "  å‚æ•°è®¾ç½®  ",
-                Font = new Font("Microsoft YaHei", 9, FontStyle.Bold),
-                Dock = DockStyle.Fill,
-                Padding = new Padding(4)
-            };
-
-            var formSplit = new TableLayoutPanel
-            {
-                Dock = DockStyle.Fill, CellBorderStyle = TableLayoutPanelCellBorderStyle.None, ColumnCount = 2, RowCount = 1,
-                Padding = new Padding(0)
-            };
-            formSplit.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70));  // è®¾ç½® 70%
-            formSplit.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30));  // é€‰é¡¹ 30%
-
-            _formFrame = new Panel
-            {
-                Dock = DockStyle.Fill,
-                Padding = new Padding(4)
-            };
-            formSplit.Controls.Add(_formFrame, 0, 0);
-
-            _optionsFrame = new Panel
-            {
-                Dock = DockStyle.Fill, Padding = new Padding(4)
-            };
-            formSplit.Controls.Add(_optionsFrame, 1, 0);
-
-            formLayout.Controls.Add(formSplit);
-            mainLayout.Controls.Add(formLayout, 0, 1);
-
-            // =========== å‘½ä»¤é¢„è§ˆåŒºï¼ˆåº•éƒ¨ï¼‰==========
-            _commandFrame = new GroupBox
-            {
-                Text = "  å‘½ä»¤é¢„è§ˆ  ",
-                Font = new Font("Microsoft YaHei", 9, FontStyle.Bold),
-                Dock = DockStyle.Fill,
-                Padding = new Padding(0)
-            };
-
-            // ç”¨ TableLayoutPanel ç¡®ä¿æŒ‰é’®è¡Œå’Œæ–‡æœ¬æ¡†æ­£ç¡®åˆ†å±‚
-            var cmdLayout = new TableLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                ColumnCount = 1,
-                RowCount = 2,
-                Padding = new Padding(6), CellBorderStyle = TableLayoutPanelCellBorderStyle.None
-            };
-            cmdLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, DpiUtils.Px(28)));   // æŒ‰é’®è¡Œï¼šå›ºå®šé«˜åº¦
-            cmdLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); // æ–‡æœ¬æ¡†ï¼šå æ®å‰©ä½™ç©ºé—´
-
-            // æŒ‰é’®è¡Œï¼ˆä½¿ç”¨ TableLayoutPanel ç¡®ä¿æŒ‰é’®ä¸¥æ ¼å¯¹é½ï¼‰
+                Text = "è™šæ‹§.º/k9£hˆ‹Bˆ]]ÔÚ^™HHYKBˆX\™Ú[ˆH™]ÈY[™Ê
+CBˆNÃBˆÜ˜ÛÛ™\ÚXÚÙYÚ[™ÙY
+ÏH
+ËJHOˆÈYˆ
+Ü˜ÛÛ™\ÚXÚÙY
+HÈÛÜ\˜][Û•\HH˜ÛÛ™\È\]Q›Ü›J
+NÈHNÃBˆÜ\˜][Û”[™[ÛÛ›ÛËY
+Ü˜ÛÛ™\
+NÃBƒBˆÜÙ]\œ˜[YKÛÛ›ÛËY
+Ü\˜][Û”[™[
+NÃBƒBˆËÈ9.+zeí9êå¹î¯ùb!ºf¥Bˆ˜\ˆÙ\[™[H™]È[™[BˆÃBˆ˜XÚĞÛÛÜˆHÛÛÜ•˜[œÛ]Ü‹‘œ›ÛR[
+ˆĞĞĞĞĞĞÈŠKBˆØÚÈHØÚÔİ[K‘š[BˆX\™Ú[ˆHY[™Ë‘[\CBˆNÃBˆÜÙ]\œ˜[YKÛÛ›ÛËY
+Ù\[™[K
+NÃBƒBˆËÈ9cìJŸ&¹æë¹¨!{–z/"9.áH^ÜÚ[\Ü9¥í¹¦/¹é.»ÈĞ¢f"F&vWEæVÂÒæWrfÆ÷tÆ–÷WEæVÀĞ¢°Ğ¢WFõ6—¦RÒG'VRÀĞ¢fÆ÷tF—&V7F–öâÒfÆ÷tF—&V7F–öâäÆVgEFõ&–v‡BÀĞ¢w&6öçFVçG2ÒfÇ6RÀĞ¢Fö6²ÒFö6µ7G–ÆRäf–ÆÂÀĞ¢Ö&v–âÒFF–æräV×G’ÀĞ¢FF–ærÒæWrFF–ærƒÂ"ÂÂĞ¢Ó°Ğ Ğ¢f"Æ&ÅF&vWBÒæWrÆ&VÀĞ¢°Ğ¢FW‡BÒ.yºîjs¢"ÀĞ¢WFõ6—¦RÒG'VRÀĞ¢Ö&v–âÒæWrFF–ærƒÂbÂ‚ÂĞ¢Ó°Ğ¢F&vWEæVÂä6öçG&öÇ2äFB†Æ&ÅF&vWB“°Ğ Ğ¢÷F&vWEG—Tg&ÖRÒæWrfÆ÷tÆ–÷WEæVÀĞ¢°Ğ¢WFõ6—¦RÒG'VRÀĞ¢fÆ÷tF—&V7F–öâÒfÆ÷tF—&V7F–öâäÆVgEFõ&–v‡BÀĞ¢w&6öçFVçG2ÒfÇ6RÀĞ¢Ö&v–âÒæWrFF–ærƒĞ¢Ó°Ğ Ğ¢÷&%f76ÒæWr&F–ô'WGFöàĞ¢°Ğ¢FW‡BÒ%d54"ÀĞ¢WFõ6—¦RÒG'VRÀĞ¢6†V6¶VBÒG'VRÀĞ¢Ö&v–âÒæWrFF–ærƒÂBÂ‚ÂĞ¢Ó°Ğ¢÷&%f76ä6†V6¶VD6†ævVB³Ò‡2ÂR’Óâ²–b…÷&%f76ä6†V6¶VB’²÷F&vWEG—RÒ'f76#²WFFTf÷&Ò‚“²ÒÓ°Ğ¢÷F&vWEG—Tg&ÖRä6öçG&öÇ2äFB…÷&%f76“°Ğ Ğ¢÷&$W7†’ÒæWr&F–ô'WGFöàĞ¢°Ğ¢FW‡BÒ$U5†K‹¾iË¢"ÀĞ¢WFõ6—¦RÒG'VRÀĞ¢Ö&v–âÒæWrFF–ærƒÂBÂÂĞ¢Ó°Ğ¢÷&$W7†’ä6†V6¶VD6†ævVB³Ò‡2ÂR’Óâ²–b…÷&$W7†’ä6†V6¶VB’²÷F&vWEG—RÒ&W7†’#²WFFTf÷&Ò‚“²ÒÓ°Ğ¢÷F&vWEG—Tg&ÖRä6öçG&öÇ2äFB…÷&$W7†’“°Ğ Ğ¢F&vWEæVÂä6öçG&öÇ2äFB…÷F&vWEG—Tg&ÖR“°Ğ¢÷6WGWg&ÖRä6öçG&öÇ2äFB‡F&vWEæVÂÂ"Â“°Ğ Ğ¢Ö–äÆ–÷WBä6öçG&öÇ2äFB‡6WGWw&W"ÂÂ“°Ğ Ğ¢òòÓÓÓÓÓÓÓÓÓÓÒXø.i[Šëî{ÚîXË®ò#šÂÓ–æÌ€ÜÀ”ƒ¢ºç½® + 30% é€‰é¡¹ï"OOOOOOOOOOCBˆ˜\ˆ›Ü›S^[İ]H™]ÈÜ›İ\›ŞBˆÃBˆ^Hˆ9cà¹¥l:+¯¹ïkˆ‹Bˆ›ÛH™]È›Û
+“ZXÜ›ÜÛÙXRZH‹K›Ûİ[K›Û
+KBˆØÚÈHØÚÔİ[K‘š[BˆY[™ÈH™]ÈY[™Ê
+CBˆNÃBƒBˆ˜\ˆ›Ü›TÜ]H™]ÈX›S^[İ][™[BˆÃBˆØÚÈHØÚÔİ[K‘š[Ù[›Ü™\”İ[HHX›S^[İ][™[Ù[›Ü™\”İ[K“›Û™KÛÛ[[Ûİ[H‹›İĞÛİ[HKBˆY[™ÈH™]ÈY[™Ê
+CBˆNÃBˆ›Ü›TÜ]ÛÛ[[”İ[\ËY
+™]ÈÛÛ[[”İ[JÚ^™U\K”\˜Ù[Ì
+JNÈËÈ:+¯¹ïkˆÌ	CBˆ›Ü›TÜ]ÛÛ[[”İ[\ËY
+™]ÈÛÛ[[”İ[JÚ^™U\K”\˜Ù[Ì
+JNÈËÈ:`"zhnHÌ	CBƒBˆÙ›Ü›Qœ˜[YHH™]È[™[BˆÃBˆØÚÈHØÚÔİ[K‘š[BˆY[™ÈH™]ÈY[™Ê
+CBˆNÃBˆ›Ü›TÜ]ÛÛ›ÛËY
+Ù›Ü›Qœ˜[YK
+NÃBƒBˆÛÜ[ÛœÑœ˜[YHH™]È[™[BˆÃBˆØÚÈHØÚÔİ[K‘š[Y[™ÈH™]ÈY[™Ê
+CBˆNÃBˆ›Ü›TÜ]ÛÛ›ÛËY
+ÛÜ[ÛœÑœ˜[YKK
+NÃBƒBˆ›Ü›S^[İ]ÛÛ›ÛËY
+›Ü›TÜ]
+NÃBˆXZ[“^[İ]ÛÛ›ÛËY
+›Ü›S^[İ]JNÃBƒBˆËÈOOOOOOOOOOH9doy.é:h¡:)â9c.»È[©^˜:ò$ôôôôôôôôôô4(€€€€€€€€€€€}½µµ…¹‘É…µ”€ô¹•ÜÉ½ÕÁ	½à4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Q•áĞ€ô€ˆ€ƒ–F÷’î“¦Š¢ €€ˆ°4(€€€€€€€€€€€€€€€½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ä°½¹ÑMÑå±”¹	½±¤°4(€€€€€€€€€€€€€€€½¬€ô½­MÑå±”¹¥±°°4(€€€€€€€€€€€€€€€A…‘‘¥¹œ€ô¹•ÜA…‘‘¥¹œ À¤4(€€€€€€€€€€€ôì4(4(€€€€€€€€€€€€¼¼ƒR Q…‰±•1…å½ÕÑA…¹•°ƒ†»’şwš2'¦J»¢†3–J3šZœ¬æ¡†æ­¡èk¹b!¹l`ƒBˆ˜\ˆÛY^[İ]H™]ÈX›S^[İ][™[BˆÃBˆØÚÈHØÚÔİ[K‘š[BˆÛÛ[[Ûİ[HKBˆ›İĞÛİ[H‹BˆY[™ÈH™]ÈY[™ÊŠKÙ[›Ü™\”İ[HHX›S^[İ][™[Ù[›Ü™\”İ[K“›Û™CBˆNÃBˆÛY^[İ]”›İÔİ[\ËY
+™]È›İÔİ[JÚ^™U\KXœÛÛ]KU][Ë”
+
+JJNÈËÈ9£"zd«º(c;É®Y»®Zé®š¹[ª`Ğ¢6ÖDÆ–÷WBå&÷u7G–ÆW2äFB†æWr&÷u7G–ÆR…6—¦UG—RåW&6VçBÂ’“²òòih~iÊÎjnûÉ®XÚhÚîXšKÙz›®™{@Ğ Ğ¢òòhÈ™*îŠÎûÈKÛşyJ‚F&ÆTÆ–÷WEæVÂzîKwš2'¦J»’â—š‚ó–¹é½ï¼‰
             var btnPanel = new TableLayoutPanel
             {
                 Dock = DockStyle.Fill,
@@ -324,39 +129,10 @@ namespace VirtualizationOpsTool.UI
 
             var btnGenerate = new Button
             {
-                Text = "ç”Ÿæˆå‘½ä»¤",
-                Size = new Size(90, 28),
-                Margin = Padding.Empty,
-                Anchor = AnchorStyles.Top | AnchorStyles.Left,
-                FlatStyle = FlatStyle.Standard,
-                TextAlign = ContentAlignment.MiddleCenter
-            };
-            btnGenerate.Click += (s, e) => GenerateCommand();
-            btnPanel.Controls.Add(btnGenerate, 0, 0);
-
-            var btnCopy = new Button
-            {
-                Text = "å¤åˆ¶å‘½ä»¤",
-                Size = new Size(90, 28),
-                Margin = Padding.Empty,
-                Anchor = AnchorStyles.Top | AnchorStyles.Left,
-                FlatStyle = FlatStyle.Standard,
-                TextAlign = ContentAlignment.MiddleCenter
-            };
-            btnCopy.Click += (s, e) => CopyCommand();
-            btnPanel.Controls.Add(btnCopy, 1, 0);
-
-            _btnExecute = new Button
-            {
-                Text = "æ‰§è¡Œå‘½ä»¤",
-                Size = new Size(90, 28),
-                Margin = Padding.Empty,
-                Anchor = AnchorStyles.Top | AnchorStyles.Left,
-                FlatStyle = FlatStyle.Standard,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Enabled = SessionManager.Instance.IsConnected
-            };
-            _btnExecute.Click += async (s, e) => await ExecuteCommandAsync();
+                Text = "ç”¢$9doy.é‹BˆÚ^™HH™]ÈÚ^™JL
+KBˆX\™Ú[ˆHY[™Ë‘[\KBˆ[˜ÚÜˆH[˜ÚÜ”İ[\Ë•Ü[˜ÚÜ”İ[\Ë“YBˆ›]İ[HH›]İ[K”İ[™\™Bˆ^[YÛˆHÛÛ[[YÛ›Y[“ZYPÙ[\ƒBˆNÃBˆ‘Ù[™\˜]KÛXÚÈ
+ÏH
+ËJHBvVæW&FT6öÖÖæB‚“°Ğ¢'FåæVÂä6öçG&öÇ2äFB†'FävVæW&FRÂÂ“°Ğ Ğ¢f"'Fä6÷’ÒæWr'WGFöàĞ¢°Ğ¢FW‡BÒ.ZHŞX‹nYŞKºB"ÀĞ¢6—¦RÒæWr6—¦Rƒ“Â#‚’ÀĞ¢Ö&v–âÒFF–æräV×G’ÀĞ¢æ6†÷"Òæ6†÷%7G–ÆW2åF÷Âæ6†÷%7G–ÆW2äÆVgBÀĞ¢fÆE7G–ÆRÒfÆE7G–ÆRå7FæF&BÀĞ¢FW‡DÆ–vâÒ6öçFVçDÆ–væÖVçBäÖ–FFÆT6VçFW Ğ¢Ó°Ğ¢'Fä6÷’ä6Æ–6²³Ò‡2ÂR’Ğ½Áå½µµ…¹ ¤ì4(€€€€€€€€€€€‰Ñ¹A…¹•°¹½¹ÑÉ½±Ì¹‘¡‰Ñ¹½Áä°€Ä°€À¤ì4(4(€€€€€€€€€€€}‰Ñ¹á•ÕÑ”€ô¹•Ü	ÕÑÑ½¸4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Q•áĞ€ô€‹š&Ÿ¢†3–F÷’îˆ°4(€€€€€€€€€€€€€€€M¥é”€ô¹•ÜM¥é” äÀ°€Èà¤°4(€€€€€€€€€€€€€€€5…É¥¸€ôA…‘‘¥¹œ¹µÁÑä°4(€€€€€€€€€€€€€€€¹¡½È€ô¹¡½ÉMÑå±•Ì¹Q½Àğ¹¡½ÉMÑå±•Ì¹1•™Ğ°4(€€€€€€€€€€€€€€€±…ÑMÑå±”€ô±…ÑMÑå±”¹MÑ…¹‘…É°4(€€€€€€€€€€€€€€€Q•áÑ±¥¸€ô½¹Ñ•¹Ñ±¥¹µ•¹Ğ¹5¥‘‘±••¹Ñ•È°4(€€€€€€€€€€€€€€€¹…‰±•€ôM•ÍÍ¥½¹5…¹…•È¹%¹ÍÑ…¹”¹%Í½¹¹•Ñ•4(€€€€€€€€€€€ôì4(€€€€€€€€€€€}‰Ñ¹á•ÕÑ”¹±¥¬€¬ô…Íå¹Œ€¡Ì°”¤€ô await ExecuteCommandAsync();
             btnPanel.Controls.Add(_btnExecute, 2, 0);
 
             cmdLayout.Controls.Add(btnPanel, 0, 0);
@@ -375,100 +151,25 @@ namespace VirtualizationOpsTool.UI
             cmdContextMenu.Items.Add(new ToolStripSeparator());
             cmdContextMenu.Items.Add("å…¨é€‰").Click += (s, e) => SelectAllCommand();
             cmdContextMenu.Items.Add(new ToolStripSeparator());
-            cmdContextMenu.Items.Add("æ¸…ç©º").Click += (s, e) => ClearCommand();
-            _commandText.ContextMenuStrip = cmdContextMenu;
+            cmdContextMenu.Items.Add("æ¸…ç©º").Click += (s, e) =ÛX\ÛÛ[X[™
 
-            cmdLayout.Controls.Add(_commandText, 0, 1);
-            _commandFrame.Controls.Add(cmdLayout);
-
-            mainLayout.Controls.Add(_commandFrame, 0, 2);
-
-            mainPanel.Controls.Add(mainLayout);
-            _parent.Controls.Add(mainPanel);
-        }
-        private void UpdateForm()
-        {
-            // æ˜¾ç¤º/éšè—ç›®æ ‡ç±»å‹é€‰æ‹©
-            if (_targetTypeFrame != null)
-            {
-                _targetTypeFrame.Visible = (_operationType == "export" || _operationType == "import");
-            }
-
-            // æ¸…é™¤æ—§è¡¨å•
-            _formFrame?.Controls.Clear();
-            _optionsFrame?.Controls.Clear();
-            _currentFields.Clear();
-
-            // åˆ·æ–°ç¼“å­˜
-            RefreshEnvCache();
-
-            // æ ¹æ®æ“ä½œç±»å‹åˆ›å»ºè¡¨å•
-            switch (_operationType)
-            {
-                case "export":
-                    CreateExportForm();
-                    break;
-                case "import":
-                    CreateImportForm();
-                    break;
-                case "convert":
-                    CreateConvertForm();
-                    break;
-            }
-
-            // è¡¨å•åˆ›å»ºå®Œæˆåï¼Œç”¨æœ€æ–°ç¼“å­˜å¡«å……ä¸‹æ‹‰æ¡†
+NÃBˆØÛÛ[X[™^ÛÛ^Y[Tİš\HÛYÛÛ^Y[NÃBƒBˆÛY^[İ]ÛÛ›ÛËY
+ØÛÛ[X[™^JNÃBˆØÛÛ[X[™œ˜[YKÛÛ›ÛËY
+ÛY^[İ]
+NÃBƒBˆXZ[“^[İ]ÛÛ›ÛËY
+ØÛÛ[X[™œ˜[YKŠNÃBƒBˆXZ[”[™[ÛÛ›ÛËY
+XZ[“^[İ]
+NÃBˆÜ\™[ÛÛ›ÛËY
+XZ[”[™[
+NÃBˆCBˆš]˜]H›ÚY\]Q›Ü›J
+CBˆÃBˆËÈ9¦.zK¢æjC¢^7›®æ …ìnYè¦'š.¤4(€€€€€€€€€€€¥˜€¡}Ñ…É•ÑQåÁ•É…µ”€„ô¹Õ±°¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€}Ñ…É•ÑQåÁ•É…µ”¹Y¥Í¥‰±”€ô€¡}½Á•É…Ñ¥½¹QåÁ”€ôô€‰•áÁ½ÉĞˆñğ}½Á•É…Ñ¥½¹QåÁ”€ôô€‰¥µÁ½ÉĞˆ¤ì4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€€¼¼ƒšâ¦f“š^Ÿ¢†£–6T4(€€€€€€€€€€€}™½ÉµÉ…µ”ü¹½¹ÑÉ½±Ì¹±•…È ¤ì4(€€€€€€€€€€€}½ÁÑ¥½¹ÍÉ…µ”ü¹½¹ÑÉ½±Ì¹±•…È ¤ì4(€€€€€€€€€€€}ÕÉÉ•¹Ñ¥•±‘Ì¹±•…È ¤ì4(4(€€€€€€€€€€€€¼¼ƒ–"ßšZÃòO–¶`4(€€€€€€€€€€€I•™É•Í¡¹Ù…¡” ¤ì4(4(€€€€€€€€€€€€¼¼ƒš‚çš6»šN7’ösÆï–z/–"o–îë¢†£–6T4(€€€€€€€€€€€Íİ¥Ñ €¡}½Á•É…Ñ¥½¹QåÁ”¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€…Í”€‰•áÁ½ÉĞˆè4(€€€€€€€€€€€€€€€€€€€É•…Ñ•áÁ½ÉÑ½É´ ¤ì4(€€€€€€€€€€€€€€€€€€€‰É•…¬ì4(€€€€€€€€€€€€€€€…Í”€‰¥µÁ½ÉĞˆè4(€€€€€€€€€€€€€€€€€€€É•…Ñ•%µÁ½ÉÑ½É´ ¤ì4(€€€€€€€€€€€€€€€€€€€‰É•…¬ì4(€€€€€€€€€€€€€€€…Í”€‰½¹Ù•ÉĞˆè4(€€€€€€€€€€€€€€€€€€€É•…Ñ•½¹Ù•ÉÑ½É´ ¤ì4(€€€€€€€€€€€€€€€€€€€‰É•…¬ì4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€€¼¼ƒ¢†£–6W–"e»ºå®Œæˆåï#9å*9§ 9¥¬9ï$ZÙZ–’â&‹‰æ¡†
             ReloadFromEnvCache();
         }
 
-        // =========== è¡¨å•å¸ƒå±€è¾…åŠ©æ–¹æ³•ï¼ˆTableLayoutPanel è‡ªé€‚åº”ï¼Œæ”¯æŒ DPI ç¼©æ”¾ï¼‰===========
-
-        /// <summary>
-        /// åˆ›å»ºè¡¨å•å¸ƒå±€ï¼ˆTableLayoutPanelï¼Œä¸¤åˆ—ï¼šæ ‡ç­¾ + æ§ä»¶ï¼‰
-        /// </summary>
-        private static TableLayoutPanel CreateFormLayout(int labelWidth = 90)
-        {
-            var layout = new TableLayoutPanel
-            {
-                Dock = DockStyle.Top,
-                ColumnCount = 2,
-                RowCount = 0,
-                AutoSize = true
-            };
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, labelWidth));
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-            return layout;
-        }
-
-        /// <summary>
-        /// æ·»åŠ ä¸€è¡Œï¼šæ ‡ç­¾ + æ§ä»¶
-        /// </summary>
-        private static void AddFormRow(TableLayoutPanel layout, string labelText, Control control, int controlHeight = 0)
-        {
-            int row = layout.RowCount++;
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, DpiUtils.Px(38)));
-
-            var lbl = new Label
-            {
-                Text = labelText,
-                TextAlign = ContentAlignment.MiddleLeft,
-                Padding = new Padding(0, 0, 2, 0),
-                Margin = Padding.Empty,
-                AutoSize = false,
-                AutoEllipsis = false,
-                Width = layout.ColumnStyles[0].Width > 1 ? (int)layout.ColumnStyles[0].Width - 2 : 88,
-                Height = 22,
-                Anchor = AnchorStyles.Top | AnchorStyles.Left
-            };
-            layout.Controls.Add(lbl, 0, row);
-
-            if (controlHeight > 0)
-                control.Height = controlHeight;
-            control.Margin = Padding.Empty;
-            control.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            layout.Controls.Add(control, 1, row);
-        }
-
-        /// <summary>
+        // =========== è¡¨å•å¸ƒå±€è¾…åŠ©æ–¹æ³•ï¼ˆTableLayoutPanel è‡ªé€‚åº”ï#9¥+hÈE’{ÊiK¾ò$ôôôôôôôôôôô4(4(€€€€€€€€¼¼¼€ñÍÕµµ…Éä
+        /// åˆ›å»ºè¡¨å•å¸ƒå±€ï¼ˆTableLayoutPanelï¼Œä¸¤åˆ—ï¼šæ ‡ç­ˆ
+È9£©ù.í»ï"CBˆËËÈÜİ[[X\@Ğ¢&—fFR7FF–2F&ÆTÆ–÷WEæVÂ7&VFTf÷&ÔÆ–÷WB†–çBÆ&VÅv–GF‚Ò“Ğ¢°Ğ¢f"Æ–÷WBÒæWrF&ÆTÆ–÷WEæVÀĞ¢°Ğ¢Fö6²ÒFö6µ7G–ÆRåF÷ÀĞ¢6öÇVÖä6÷VçBÒ"ÀĞ¢&÷t6÷VçBÒÀĞ¢WFõ6—¦RÒG'VPĞ¢Ó°Ğ¢Æ–÷WBä6öÇVÖå7G–ÆW2äFB†æWr6öÇVÖå7G–ÆR…6—¦UG—Rä'6öÇWFRÂÆ&VÅv–GF‚’“°Ğ¢Æ–÷WBä6öÇVÖå7G–ÆW2äFB†æWr6öÇVÖå7G–ÆR…6—¦UG—RåW&6VçBÂ’“°Ğ¢&WGW&âÆ–÷WC°Ğ¢ĞĞ Ğ¢òòòÇ7VÖÖ'“àĞ¢òòòk{–*ƒ’â¢†3¼šæ …ëoˆ
+È9£©K»`Ğ¢òòòÂ÷7VÖÖ'“àĞ¢&—fFR7FF–2fö–BFDf÷&Õ&÷r…F&ÆTÆ–÷WEæVÂÆ–÷WBÂ7G&–ærÆ&VÅFW‡BÂ6öçG&öÂ6öçG&öÂÂ–çB6öçG&öÄ†V–v‡BÒĞ¢°Ğ¢–çB&÷rÒÆ–÷WBå&÷t6÷VçB²³°Ğ¢Æ–÷WBå&÷u7G–ÆW2äFB†æWr&÷u7G–ÆR…6—¦UG—Rä'6öÇWFRÂG•WF–Ç2å‚ƒ3‚’’“°Ğ Ğ¢f"Æ&ÂÒæWrÆ&VÀĞ¢°Ğ¢FW‡BÒÆ&VÅFW‡BÀĞ¢FW‡DÆ–vâÒ6öçFVçDÆ–væÖVçBäÖ–FFÆTÆVgBÀĞ¢FF–ærÒæWrFF–ærƒÂÂ"Â’ÀĞ¢Ö&v–âÒFF–æräV×G’ÀĞ¢WFõ6—¦RÒfÇ6RÀĞ¢WFôVÆÆ—6—2ÒfÇ6RÀĞ¢v–GF‚ÒÆ–÷WBä6öÇVÖå7G–ÆW5³Òåv–GF‚âò†–çB–Æ–÷WBä6öÇVÖå7G–ÆW5³Òåv–GF‚Ò"¢ƒ‚ÀĞ¢†V–v‡BÒ#"ÀĞ¢æ6†÷"Òæ6†÷%7G–ÆW2åF÷Âæ6†÷%7G–ÆW2äÆVg@Ğ¢Ó°Ğ¢Æ–÷WBä6öçG&öÇ2äFB†Æ&ÂÂÂ&÷r“°Ğ Ğ¢–b†6öçG&öÄ†V–v‡B €À¤4(€€€€€€€€€€€€€€€½¹ÑÉ½°¹!•¥¡Ğ€ô½¹ÑÉ½±!•¥¡Ğì4(€€€€€€€€€€€½¹ÑÉ½°¹5…É¥¸€ôA…‘‘¥¹œ¹µÁÑäì4(€€€€€€€€€€€½¹ÑÉ½°¹¹¡½È€ô¹¡½ÉMÑå±•Ì¹Q½Àğ¹¡½ÉMÑå±•Ì¹1•™Ğğ¹¡½ÉMÑå±•Ì¹I¥¡Ğì4(€€€€€€€€€€€±…å½ÕĞ¹½¹ÑÉ½±Ì¹‘¡½¹ÑÉ½°°€Ä°É½Ü¤ì4(€€€€€€€ô4(4(€€€€€€€€¼¼¼€ñÍÕµµ…Éä
         /// æ·»åŠ ä¸€è¡Œï¼šæ ‡ç­¾ + ä¸¤ä¸ªæ§ä»¶ï¼ˆå·¦å³å¹¶æ’ï¼Œå¦‚ ComboBox + Buttonï¼‰
         /// </summary>
         private static void AddFormRowTwoControls(TableLayoutPanel layout, string labelText, Control leftControl, Control rightControl, int rightWidth = 55)
@@ -516,7 +217,7 @@ namespace VirtualizationOpsTool.UI
         }
 
         /// <summary>
-        /// åˆ›å»ºå¸¦ä¸¤åˆ—å­å¸ƒå±€çš„å®¹å™¨ï¼ˆå·¦ï¼šè®¾ç½®åŒº | å³ï¼šé€‰é¡¹åŒºï¼‰
+        /// åˆ™nî¹n)¹.)9b%ZÙ[ˆÆj–ºç–f£¼ˆå·¦ï&º+¯¹ïk¹c.ˆ9cìòk¦'¦†ç–2ë¼‰
         /// </summary>
         private static TableLayoutPanel CreateTwoColumnPanel(int leftPercent = 70, int rightPercent = 30)
         {
@@ -534,246 +235,48 @@ namespace VirtualizationOpsTool.UI
         }
 
         /// <summary>
-        /// åˆ›å»º CheckBox åˆ—è¡¨ï¼ˆç”¨äºé€‰é¡¹åŒºï¼‰
-        /// </summary>
-        private static Panel CreateOptionsPanel(params CheckBox[] checkBoxes)
-        {
-            var panel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(4) };
-            int y = 0;
-            foreach (var cb in checkBoxes)
-            {
-                cb.Location = new Point(0, y);
-                cb.AutoSize = true;
-                panel.Controls.Add(cb);
-                y += 28;
-            }
-            return panel;
-        }
-        private void CreateExportForm()
-        {
-            var vcHostCandidates = BuildCandidatesFromAllSources("vc_host");
-            var hostCandidates = BuildCandidatesFromAllSources("host");
-            var vmCandidates = BuildCandidatesFromAllSources("vm");
-            var domainCandidates = BuildCandidatesFromAllSources("user_domain");
-
-            if (_targetType == "vcsa")
-            {
-                // ===== è¿æ¥ä¿¡æ¯ï¼ˆä½¿ç”¨ TableLayoutPanel è‡ªé€‚åº”å¸ƒå±€ï¼‰=====
-                var connLayout = CreateFormLayout(95);
-
-                // VCSA IP
-                _cmbVcsaHost = new ComboBox { DropDownStyle = ComboBoxStyle.DropDown };
-                _cmbVcsaHost.Items.AddRange(vcHostCandidates.ToArray());
-                if (vcHostCandidates.Count > 0) _cmbVcsaHost.Text = vcHostCandidates[0];
-                _currentFields["vcsa_host"] = _cmbVcsaHost;
-                AddFormRow(connLayout, "VCSA IP:", _cmbVcsaHost);
-
-                // ç”¨æˆ·åŸŸ
-                _cmbUserDomain = new ComboBox { DropDownStyle = ComboBoxStyle.DropDown };
-                _cmbUserDomain.Items.AddRange(domainCandidates.ToArray());
-                string defaultDomain = SessionManager.Instance.CurrentDomain
-                    ?? (_envCache.TryGetValue("user_domain", out var ud) ? ud.ToString() : null)
-                    ?? "vsphere.local";
-                _cmbUserDomain.Text = defaultDomain;
-                _currentFields["user_domain"] = _cmbUserDomain;
-                AddFormRow(connLayout, "ç”¨æˆ·åŸŸ:", _cmbUserDomain);
+        /// åˆ›å»º CheckBox åˆ–(j;ÈyJK¨î˜šXË®ò$4(€€€€€€€€¼¼¼€ğ½ÍÕµµ…Éäø4(€€€€€€€ÁÉ¥Ù…Ñ”ÍÑ…Ñ¥ŒA…¹•°É•…Ñ•=ÁÑ¥½¹ÍA…¹•°¡Á…É…µÌ¡•­	½ámt¡•­	½á•Ì¤4(€€€€€€€ì4(€€€€€€€€€€€Ù…ÈÁ…¹•°€ô¹•ÜA…¹•°ì½¬€ô½­MÑå±”¹¥±°°A…‘‘¥¹œ€ô¹•ÜA…‘‘¥¹œ Ğ¤ôì4(€€€€€€€€€€€¥¹Ğä€ô€Àì4(€€€€€€€€€€€™½É•… €¡Ù…Èˆ¥¸¡•­	½á•Ì¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€ˆ¹1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ À°ä¤ì4(€€€€€€€€€€€€€€€ˆ¹ÕÑ½M¥é”€ôÑÉÕ”ì4(€€€€€€€€€€€€€€€Á…¹•°¹½¹ÑÉ½±Ì¹‘¡ˆ¤ì4(€€€€€€€€€€€€€€€ä€¬ô€Èàì4(€€€€€€€€€€€ô4(€€€€€€€€€€€É•ÑÕÉ¸Á…¹•°ì4(€€€€€€€ô4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥É•…Ñ•áÁ½ÉÑ½É´ ¤4(€€€€€€€ì4(€€€€€€€€€€€Ù…ÈÙ!½ÍÑ…¹‘¥‘…Ñ•Ì€ô	Õ¥±‘…¹‘¥‘…Ñ•ÍÉ½µ±±M½ÕÉ•Ì ‰Ù}¡½ÍĞˆ¤ì4(€€€€€€€€€€€Ù…È¡½ÍÑ…¹‘¥‘…Ñ•Ì€ô	Õ¥±‘…¹‘¥‘…Ñ•ÍÉ½µ±±M½ÕÉ•Ì ‰¡½ÍĞˆ¤ì4(€€€€€€€€€€€Ù…ÈÙµ…¹‘¥‘…Ñ•Ì€ô	Õ¥±‘…¹‘¥‘…Ñ•ÍÉ½µ±±M½ÕÉ•Ì ‰Ù´ˆ¤ì4(€€€€€€€€€€€Ù…È‘½µ…¥¹…¹‘¥‘…Ñ•Ì€ô	Õ¥±‘…¹‘¥‘…Ñ•ÍÉ½µ±±M½ÕÉ•Ì ‰ÕÍ•É}‘½µ…¥¸ˆ¤ì4(4(€€€€€€€€€€€¥˜€¡}Ñ…É•ÑQåÁ”€ôô€‰ÙÍ„ˆ¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€¼¼€ôôôôôƒ¢ş{š:—’ş‡š¿¾ò#’öÿR Q…‰±•1…å½ÕÑA…¹•°ƒ¢«¦–êS–â–Æ¾ò$ôôôôô4(€€€€€€€€€€€€€€€Ù…È½¹¹1…å½ÕĞ€ôÉ•…Ñ•½Éµ1…å½ÕĞ äÔ¤ì4(4(€€€€€€€€€€€€€€€€¼¼YM%@4(€€€€€€€€€€€€€€€}µ‰YÍ…!½ÍĞ€ô¹•Ü½µ‰½	½àìÉ½Á½İ¹MÑå±”€ô½µ‰½	½áMÑå±”¹É½Á½İ¸ôì4(€€€€€€€€€€€€€€€}µ‰YÍ…!½ÍĞ¹%Ñ•µÌ¹‘‘I…¹”¡Ù!½ÍÑ…¹‘¥‘…Ñ•Ì¹Q½ÉÉ…ä ¤¤ì4(€€€€€€€€€€€€€€€¥˜€¡Ù!½ÍÑ…¹‘¥‘…Ñ•Ì¹½Õ¹Ğ€ø€À¤}µ‰YÍ…!½ÍĞ¹Q•áĞ€ôÙ!½ÍÑ…¹‘¥‘…Ñ•ÍlÁtì4(€€€€€€€€€€€€€€€}ÕÉÉ•¹Ñ¥•±‘Íl‰ÙÍ…}¡½ÍĞ‰t€ô}µ‰YÍ…!½ÍĞì4(€€€€€€€€€€€€€€€‘‘½ÉµI½Ü¡½¹¹1…å½ÕĞ°€‰YM%@èˆ°}µ‰YÍ…!½ÍĞ¤ì4(4(€€€€€€€€€€€€€€€€¼¼ƒR£š"ß–~|4(€€€€€€€€€€€€€€€}µ‰UÍ•É½µ…¥¸€ô¹•Ü½µ‰½	½àìÉ½Á½İ¹MÑå±”€ô½µ‰½	½áMÑå±”¹É½Á½İ¸ôì4(€€€€€€€€€€€€€€€}µ‰UÍ•É½µ…¥¸¹%Ñ•µÌ¹‘‘I…¹”¡‘½µ…¥¹…¹‘¥‘…Ñ•Ì¹Q½ÉÉ…ä ¤¤ì4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œ‘•™…Õ±Ñ½µ…¥¸€ôM•ÍÍ¥½¹5…¹…•È¹%¹ÍÑ…¹”¹ÕÉÉ•¹Ñ½µ…¥¸4(€€€€€€€€€€€€€€€€€€€€üü€¡}•¹Ù…¡”¹QÉå•ÑY…±Õ” ‰ÕÍ•É}‘½µ…¥¸ˆ°½ÕĞÙ…ÈÕ¤€üÕ¹Q½MÑÉ¥¹œ ¤€è¹Õ±°¤4(€€€€€€€€€€€€€€€€€€€€üü€‰ÙÍÁ¡•É”¹±½…°ˆì4(€€€€€€€€€€€€€€€}µ‰UÍ•É½µ…¥¸¹Q•áĞ€ô‘•™…Õ±Ñ½µ…¥¸ì4(€€€€€€€€€€€€€€€}ÕÉÉ•¹Ñ¥•±‘Íl‰ÕÍ•É}‘½µ…¥¸‰t€ô}µ‰UÍ•É½µ…¥¸ì4(€€€€€€€€€€€€€€€‘‘½ÉµI½Ü¡½¹¹1…å½ÕĞ°€‹R£š"ÕŸŸ:", _cmbUserDomain);
 
                 // è™šæ‹Ÿæœºåç§°
                 _cmbVmName = new ComboBox { DropDownStyle = ComboBoxStyle.DropDown };
-                _vmNameFullList = new List<string>(vmCandidates);
-                _cmbVmName.Items.AddRange(vmCandidates.ToArray());
-                if (vmCandidates.Count > 0) _cmbVmName.Text = vmCandidates[0];
-                AttachVmNameFilter(_cmbVmName);
-                _currentFields["vm_name"] = _cmbVmName;
-                AddFormRow(connLayout, "è™šæ‹Ÿæœºåç§°:", _cmbVmName);
+                _vmNameFullList = new List<string
+›PØ[™Y]\ÊNÃBˆØÛX•›S˜[YK’][\ËY˜[™ÙJ›PØ[™Y]\Ë•Ğ\œ˜^J
+JNÃBˆYˆ
+›PØ[™Y]\ËÛİ[ˆ
+HØÛX•›S˜[YK•^H›PØ[™Y]\ÖÌNÃBˆ]XÚ›S˜[YQš[\ŠØÛX•›S˜[YJNÃBˆØİ\œ™[šY[ÖÈ›WÛ˜[YH—HHØÛX•›S˜[YNÃBˆY›Ü›T›İÊÛÛ›“^[İ]º&f¹¢çù§.¹d#yéìˆ‹ØÛX•›S˜[YJNÃBƒBˆËÈ9/çykf:-ëùo¡
+È9­cú)â9£"zd«ƒBˆØÛX‘^Ü]H™]ÈÛÛX›Ğ›ŞÈ›ÜİÛ”İ[HHÛÛX›Ğ›Şİ[K‘›ÜİÛˆNÃBˆØœ›İÜÙQ^Ü]H™]È]ÛƒBˆÃBˆ^H¹­cŠx‚"ÀĞ¢fÆE7G–ÆRÒfÆE7G–ÆRå7FæF&BÀĞ¢FW‡DÆ–vâÒ6öçFVçDÆ–væÖVçBäÖ–FFÆT6VçFW Ğ¢Ó°Ğ¢ö'Fä'&÷w6TW‡÷'EF‚ä6Æ–6²³Ò‡2ÂR’Óâ'&÷w6TW‡÷'EF‚‚“°Ğ¢ö7W'&VçDf–VÆG5²&W‡÷'E÷F‚%ÒÒö6Ö$W‡÷'EFƒ°Ğ¢FDf÷&Õ&÷uGvô6öçG&öÇ2†6öæäÆ–÷WBÂ.KùŞZÙ‹zÖ„:", _cmbExportPath, _btnBrowseExportPath, 55);
 
-                // ä¿å­˜è·¯å¾„ + æµè§ˆæŒ‰é’®
-                _cmbExportPath = new ComboBox { DropDownStyle = ComboBoxStyle.DropDown };
-                _btnBrowseExportPath = new Button
-                {
-                    Text = "æµè§ˆ",
-                    FlatStyle = FlatStyle.Standard,
-                    TextAlign = ContentAlignment.MiddleCenter
-                };
-                _btnBrowseExportPath.Click += (s, e) => BrowseExportPath();
-                _currentFields["export_path"] = _cmbExportPath;
-                AddFormRowTwoControls(connLayout, "ä¿å­˜è·¯å¾„:", _cmbExportPath, _btnBrowseExportPath, 55);
-
-                // OVAåç§°ï¼ˆé»˜è®¤ä½¿ç”¨è™šæ‹Ÿæœºåï¼Œå¯æ‰‹åŠ¨ä¿®æ”¹ï¼‰
-                _txtOvaName = new TextBox();
-                _txtOvaName.Text = _cmbVmName?.Text ?? "";
-                _currentFields["ova_name"] = _txtOvaName;
-                AddFormRow(connLayout, "OVAåç§°:", _txtOvaName);
-
-                // ===== å¯¼å‡ºé€‰é¡¹ =====
-                _chkOverwrite = new CheckBox { Text = "è¦†ç›–", AutoSize = true, Checked = true };
-                _chkNoNvram = new CheckBox { Text = "å¿½ç•¥NVRAM", AutoSize = true, Checked = true };
-                _chkNoSslVerify = new CheckBox { Text = "å¿½ç•¥SSL", AutoSize = true, Checked = true };
-                _chkNoImageFiles = new CheckBox { Text = "å¿½ç•¥é•œåƒæ–‡ä»¶", AutoSize = true, Checked = true };
-                var optionsPanel = CreateOptionsPanel(_chkOverwrite, _chkNoNvram, _chkNoSslVerify, _chkNoImageFiles);
-
-                // ===== ç»„è£…åˆ°å·¦å³åˆ†æ  =====
-                var split = CreateTwoColumnPanel(70, 30);
-                var connWrap = new Panel { Dock = DockStyle.Fill, Padding = new Padding(6) };
-                connWrap.Controls.Add(connLayout);
-                split.Controls.Add(connWrap, 0, 0);
-                var optWrap = new Panel { Dock = DockStyle.Fill, Padding = new Padding(6) };
-                optWrap.Controls.Add(optionsPanel);
-                split.Controls.Add(optWrap, 1, 0);
-
-                _formFrame?.Controls.Add(split);
-            }
-            else
-            {
-                // ESXiæ¨¡å¼
-                var connLayout = CreateFormLayout(100);
-
-                // ESXiä¸»æœºIP
+                // OVAåç§°ï":næ:+©9/oyJ‰™®h¹Úrë–B7¼Œå­¢bXªKúîiKò$4(€€€€€€€€€€€€€€€}ÑáÑ=Ù…9…µ”€ô¹•ÜQ•áÑ	½à ¤ì4(€€€€€€€€€€€€€€€}ÑáÑ=Ù…9…µ”¹Q•áĞ€ô}µ‰Yµ9…µ”ü¹Q•áĞ€üü€ˆˆì4(€€€€€€€€€€€€€€€}ÕÉÉ•¹Ñ¥•±‘Íl‰½Ù…}¹…µ”‰t€ô}ÑáÑ=Ù…9…µ”ì4(€€€€€€€€€€€€€€€‘‘½ÉµI½Ü¡½¹¹1…å½ÕĞ°€‰=Y–B7Àèˆ°}ÑáÑ=Ù…9…µ”¤ì4(4(€€€€€€€€€€€€€€€€¼¼€ôôôôôƒ–¾ó–ë¦'¦†ä€ôôôôô4(€€€€€€€€€€€€€€€}¡­=Ù•ÉİÉ¥Ñ”€ô¹•Ü¡•­	½àìQ•áĞ€ô€‹¢šnXˆ°ÕÑ½M¥é”€ôÑÉÕ”°¡•­•€ôÑÉÕ”ôì4(€€€€€€€€€€€€€€€}¡­9½9ÙÉ…´€ô¹•Ü¡•­	½àìQ•áĞ€ô€‹–ş÷V•9YI4ˆ°ÕÑ½M¥é”€ôÑÉÕ”°¡•­•€ôÑÉÕ”ôì4(€€€€€€€€€€€€€€€}¡­9½MÍ±Y•É¥™ä€ô¹•Ü¡•­	½àìQ•áĞ€ô€‹–ıç•¥SSL", AutoSize = true, Checked = true };
+                _chkNoImageFiles = new CheckBox { Text = "å¿½ç•¥é•œåƒ¥¡K»b"ÂWFõ6—¦RÒG'VRÂ6†V6¶VBÒG'VRÓ°Ğ¢f"÷F–öç5æVÂÒ7&VFT÷F–öç5æVÂ…ö6†´÷fW'w&—FRÂö6†´æôçg&ÒÂö6†´æõ76ÅfW&–g’Âö6†´æô–ÖvTf–ÆW2“°Ğ Ğ¢òòÓÓÓÓÒ{¸NŠ8^X‹[znXÏ–"š‚<€ôôôôô4(€€€€€€€€€€€€€€€Ù…ÈÍÁ±¥Ğ€ôÉ•…Ñ•Qİ½½±Õµ¹A…¹•° ÜÀ°€ÌÀ¤ì4(€€€€€€€€€€€€€€€Ù…È½¹¹]É…À€ô¹•ÜA…¹•°ì½¬€ô½­MÑå±”¹¥±°°A…‘‘¥¹œ€ô¹•ÜA…‘‘¥¹œ Ø¤ôì4(€€€€€€€€€€€€€€€½¹¹]É…À¹½¹ÑÉ½±Ì¹‘¡½¹¹1…å½ÕĞ¤ì4(€€€€€€€€€€€€€€€ÍÁ±¥Ğ¹½¹ÑÉ½±Ì¹‘¡½¹¹]É…À°€À°€À¤ì4(€€€€€€€€€€€€€€€Ù…È½ÁÑ]É…À€ô¹•ÜA…¹•°ì½¬€ô½­MÑå±”¹¥±°°A…‘‘¥¹œ€ô¹•ÜA…‘‘¥¹œ Ø¤ôì4(€€€€€€€€€€€€€€€½ÁÑ]É…À¹½¹ÑÉ½±Ì¹‘¡½ÁÑ¥½¹ÍA…¹•°¤ì4(€€€€€€€€€€€€€€€ÍÁ±¥Ğ¹½¹ÑÉ½±Ì¹‘¡½ÁÑ]É…À°€Ä°€À¤ì4(4(€€€€€€€€€€€€€€€}™½ÉµÉ…µ”ü¹½¹ÑÉ½±Ì¹‘¡ÍÁ±¥Ğ¤ì4(€€€€€€€€€€€ô4(€€€€€€€€€€€•±Í”4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€¼¼Ma§š¢‡–ò<4(€€€€€€€€€€€€€€€Ù…È½¹¹1…å½ÕĞ€ôÉ•…Ñ•½Éµ1…å½ÕĞ ÄÀÀ¤ì4(4(€€€€€€€€€€€€€€€€¼¼Ma§’âæœºIP
                 _cmbEsxiHost = new ComboBox { DropDownStyle = ComboBoxStyle.DropDown };
                 _cmbEsxiHost.Items.AddRange(hostCandidates.ToArray());
                 if (hostCandidates.Count > 0) _cmbEsxiHost.Text = hostCandidates[0];
                 _currentFields["esxi_host"] = _cmbEsxiHost;
                 AddFormRow(connLayout, "ESXiä¸»æœºIP:", _cmbEsxiHost);
 
-                // è™šæ‹Ÿæœºåç§°
-                _cmbVmName = new ComboBox { DropDownStyle = ComboBoxStyle.DropDown };
-                _vmNameFullList = new List<string>(vmCandidates);
-                _cmbVmName.Items.AddRange(vmCandidates.ToArray());
-                if (vmCandidates.Count > 0) _cmbVmName.Text = vmCandidates[0];
-                AttachVmNameFilter(_cmbVmName);
-                _currentFields["vm_name"] = _cmbVmName;
-                AddFormRow(connLayout, "è™šæ‹Ÿæœºåç§°:", _cmbVmName);
+                // è™šæ‹§.¹d#yéìBˆØÛX•›S˜[YHH™]ÈÛÛX›Ğ›ŞÈ›ÜİÛ”İ[HHÛÛX›Ğ›Şİ[K‘›ÜİÛˆNÃBˆİ›S˜[YQ[\İH™]È\İİš[™ÏŠ›PØ[™Y]\ÊNÃBˆØÛX•›S˜[YK’][\ËY˜[™ÙJ›PØ[™Y]\Ë•Ğ\œ˜^J
+JNÃBˆYˆ
+›PØ[™Y]\ËÛİ[ˆ
+HØÛX•›S˜[YK•^H›PØ[™Y]\ÖÌNÃBˆ]XÚ›S˜[YQš[\ŠØÛX•›S˜[YJNÃBˆØİ\œ™[šY[ÖÈ›WÛ˜[YH—HHØÛX•›S˜[YNÃBˆY›Ü›T›İÊÛÛ›“^[İ]º&f¹¢çiË®YŞz{¢"Âö6Ö%fÔæÖR“°Ğ Ğ¢òòKùŞZÙ‹zÖ„ + æµ)â9£"zd«ƒBˆØÛX‘^Ü]H™]ÈÛÛX›Ğ›ŞÈ›ÜİÛ”İ[HHÛÛX›Ğ›Şİ[K‘›ÜİÛˆNÃBˆØœ›İÜÙQ^Ü]H™]È]ÛƒBˆÃBˆ^H¹­cú)â‹Bˆ›]İ[HH›]İ[K”İ[™\™Bˆ^[YÛˆHÛÛ[[YÛ›Y[“ZYPÙ[\ƒBˆNÃBˆØœ›İÜÙQ^Ü]ÛXÚÈ
+ÏH
+ËJHB'&÷w6TW‡÷'EF‚‚“°Ğ¢ö7W'&VçDf–VÆG5²&W‡÷'E÷F‚%ÒÒö6Ö$W‡÷'EFƒ°Ğ¢FDf÷&Õ&÷uGvô6öçG&öÇ2†6öæäÆ–÷WBÂ.Kw–¶c¢Ş¿–úèˆ°}µ‰áÁ½ÉÑA…Ñ °}‰Ñ¹	É½İÍ•áÁ½ÉÑA…Ñ °€ÔÔ¤ì4(4(€€€€€€€€€€€€€€€€¼¼=Y–B7Ã¾ò#¦îc¢º“’öÿR£¢fkš.šrë–B7¾ò3–/æ‰‹åŠ¨ä»¹¥.{ï"CBˆİİ˜S˜[YHH™]È^›Ş
 
-                // ä¿å­˜è·¯å¾„ + æµè§ˆæŒ‰é’®
-                _cmbExportPath = new ComboBox { DropDownStyle = ComboBoxStyle.DropDown };
-                _btnBrowseExportPath = new Button
-                {
-                    Text = "æµè§ˆ",
+NÃBˆİİ˜S˜[YK•^HØÛX•›S˜[YOË•^ÏÈˆÃBˆØİ\œ™[šY[ÖÈ›İ˜WÛ˜[YH—HHİİ˜S˜[YNÃBˆY›Ü›T›İÊÛÛ›“^[İ]“Õyd#yéìˆ‹İİ˜S˜[YJNÃBƒBˆËÈ9kï9aîº`"zhnCBˆØÚÓİ™\Üš]HH™]ÈÚXÚĞ›ŞÈ^Hº)¡¹æåˆ‹]]ÔÚ^™HHYKÚXÚÙYHYHNÃBˆØÚÓ›Óœ˜[HH™]ÈÚXÚĞ›ŞÈ^H¹oŞyZTåe$Ò"ÂWFõ6—¦RÒG'VRÂ6†V6¶VBÒG'VRÓ°Ğ¢ö6†´æõ76ÅfW&–g’ÒæWr6†V6´&÷‚²FW‡BÒ.[ûŞyZU54Â"ÂWFõ6—¦RÒG'VRÂ6†V6¶VBÒG'VRÓ°Ğ¢ö6†´æô–ÖvTf–ÆW2ÒæWr6†V6´&÷‚²FW‡BÒ.[÷V—¦Vs–?šZ’îØˆ°ÕÑ½M¥é”€ôÑÉÕ”°¡•­•€ôÑÉÕ”ôì4(€€€€€€€€€€€€€€€Ù…È½ÁÑ¥½¹ÍA…¹•°€ôÉ•…Ñ•=ÁÑ¥½¹ÍA…¹•°¡}¡­=Ù•ÉİÉ¥Ñ”°}¡­9½9ÙÉ…´°}¡­9½MÍ±Y•É¥™ä°}¡­9½%µ…•¥±•Ì¤ì4(4(€€€€€€€€€€€€€€€Ù…ÈÍÁ±¥Ğ€ôÉ•…Ñ•Qİ½½±Õµ¹A…¹•° ÜÀ°€ÌÀ¤ì4(€€€€€€€€€€€€€€€Ù…È½¹¹]É…À€ô¹•ÜA…¹•°ì½¬€ô½­MÑå±”¹¥±°°A…‘‘¥¹œ€ô¹•ÜA…‘‘¥¹œ Ø¤ôì4(€€€€€€€€€€€€€€€½¹¹]É…À¹½¹ÑÉ½±Ì¹‘¡½¹¹1…å½ÕĞ¤ì4(€€€€€€€€€€€€€€€ÍÁ±¥Ğ¹½¹ÑÉ½±Ì¹‘¡½¹¹]É…À°€À°€À¤ì4(€€€€€€€€€€€€€€€Ù…È½ÁÑ]É…À€ô¹•ÜA…¹•°ì½¬€ô½­MÑå±”¹¥±°°A…‘‘¥¹œ€ô¹•ÜA…‘‘¥¹œ Ø¤ôì4(€€€€€€€€€€€€€€€½ÁÑ]É…À¹½¹ÑÉ½±Ì¹‘¡½ÁÑ¥½¹ÍA…¹•°¤ì4(€€€€€€€€€€€€€€€ÍÁ±¥Ğ¹½¹ÑÉ½±Ì¹‘¡½ÁÑ]É…À°€Ä°€À¤ì4(4(€€€€€€€€€€€€€€€}™½ÉµÉ…µ”ü¹½¹ÑÉ½±Ì¹‘¡ÍÁ±¥Ğ¤ì4(€€€€€€€€€€€ô4(€€€€€€€ô4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥É•…Ñ•%µÁ½ÉÑ½É´ ¤4(€€€€€€€ì4(€€€€€€€€€€€Ù…ÈÙ!½ÍÑ…¹‘¥‘…Ñ•Ì€ô	Õ¥±‘…¹‘¥‘…Ñ•ÍÉ½µ±±M½ÕÉ•Ì ‰Ù}¡½ÍĞˆ¤ì4(€€€€€€€€€€€Ù…È¡½ÍÑ…¹‘¥‘…Ñ•Ì€ô	Õ¥±‘…¹‘¥‘…Ñ•ÍÉ½µ±±M½ÕÉ•Ì ‰¡½ÍĞˆ¤ì4(€€€€€€€€€€€Ù…È‘…Ñ…ÍÑ½É•…¹‘¥‘…Ñ•Ì€ô	Õ¥±‘…¹‘¥‘…Ñ•ÍÉ½µ±±M½ÕÉ•Ì ‰‘…Ñ…ÍÑ½É”ˆ¤ì4(€€€€€€€€€€€Ù…È‘½µ…¥¹…¹‘¥‘…Ñ•Ì€ô	Õ¥±‘…¹‘¥‘…Ñ•ÍÉ½µ±±M½ÕÉ•Ì ‰ÕÍ•É}‘½µ…¥¸ˆ¤ì4(4(€€€€€€€€€€€¥˜€¡}Ñ…É•ÑQåÁ”€ôô€‰ÙÍ„ˆ¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€¼¼€ôôôôôYMš¢‡–ò?&¹méº+¯¹ïk¹c.»ÈƒNŠÌ9s.X‰~XøÎX‰~[ˆ>[ûÈ’²Xû>˜šXË¢ÓÓÓÓĞĞ¢f"&Ôw&–BÒæWrF&ÆTÆ–÷WEæVÀĞ¢°Ğ¢Fö6²ÒFö6µ7G–ÆRåF÷ÀĞ¢6öÇVÖä6÷VçBÒ"ÀĞ¢&÷t6÷VçBÒBÀĞ¢WFõ6—¦RÒG'VRÀĞ¢FF–ærÒæWrFF–ærƒ’ÀĞ¢Ö&v–âÒæWrFF–ærƒĞ¢Ó°Ğ¢&Ôw&–Bä6öÇVÖå7G–ÆW2äFB†æWr6öÇVÖå7G–ÆR…6—¦UG—RåW&6VçBÂSb’“°Ğ¢&Ôw&–Bä6öÇVÖå7G–ÆW2äFB†æWr6öÇVÖå7G–ÆR…6—¦UG—RåW&6VçBÂSb’“°Ğ¢f÷"†–çB"Ò²"ÂC²"²²Ğ¢&Ôw&–Bå&÷u7G–ÆW2äFB†æWr&÷u7G–ÆR…6—¦UG—Rä'6öÇWFRÂG•WF–Ç2å‚ƒ3‚’’“°Ğ Ğ¢òòÒÒÒÒzÊÃŠÎ[znûÉ¤õd‹zş[èB²kXşŠxhÈ™*âÒÒÒĞĞ¢ö6Ö$÷ff–ÆRÒæWr6öÖ&ô&÷‚²G&÷F÷vå7G–ÆRÒ6öÖ&ô&÷…7G–ÆRäG&÷F÷vâÓ°Ğ¢ö6Ö$÷ff–ÆRåFW‡D6†ævVB³Ò‡2ÂR’Ğ=¹=Ù…¥±•¡…¹” ¤ì4(€€€€€€€€€€€€€€€}‰Ñ¹	É½İÍ•=Ù„€ô¹•Ü	ÕÑÑ½¸4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€Q•áĞ€ô€‹šÖ8§ˆ",
                     FlatStyle = FlatStyle.Standard,
                     TextAlign = ContentAlignment.MiddleCenter
                 };
-                _btnBrowseExportPath.Click += (s, e) => BrowseExportPath();
-                _currentFields["export_path"] = _cmbExportPath;
-                AddFormRowTwoControls(connLayout, "ä¿å­˜è·¯å¾„:", _cmbExportPath, _btnBrowseExportPath, 55);
-
-                // OVAåç§°ï¼ˆé»˜è®¤ä½¿ç”¨è™šæ‹Ÿæœºåï¼Œå¯æ‰‹åŠ¨ä¿®æ”¹ï¼‰
-                _txtOvaName = new TextBox();
-                _txtOvaName.Text = _cmbVmName?.Text ?? "";
-                _currentFields["ova_name"] = _txtOvaName;
-                AddFormRow(connLayout, "OVAåç§°:", _txtOvaName);
-
-                // å¯¼å‡ºé€‰é¡¹
-                _chkOverwrite = new CheckBox { Text = "è¦†ç›–", AutoSize = true, Checked = true };
-                _chkNoNvram = new CheckBox { Text = "å¿½ç•¥NVRAM", AutoSize = true, Checked = true };
-                _chkNoSslVerify = new CheckBox { Text = "å¿½ç•¥SSL", AutoSize = true, Checked = true };
-                _chkNoImageFiles = new CheckBox { Text = "å¿½ç•¥é•œåƒæ–‡ä»¶", AutoSize = true, Checked = true };
-                var optionsPanel = CreateOptionsPanel(_chkOverwrite, _chkNoNvram, _chkNoSslVerify, _chkNoImageFiles);
-
-                var split = CreateTwoColumnPanel(70, 30);
-                var connWrap = new Panel { Dock = DockStyle.Fill, Padding = new Padding(6) };
-                connWrap.Controls.Add(connLayout);
-                split.Controls.Add(connWrap, 0, 0);
-                var optWrap = new Panel { Dock = DockStyle.Fill, Padding = new Padding(6) };
-                optWrap.Controls.Add(optionsPanel);
-                split.Controls.Add(optWrap, 1, 0);
-
-                _formFrame?.Controls.Add(split);
-            }
-        }
-        private void CreateImportForm()
-        {
-            var vcHostCandidates = BuildCandidatesFromAllSources("vc_host");
-            var hostCandidates = BuildCandidatesFromAllSources("host");
-            var datastoreCandidates = BuildCandidatesFromAllSources("datastore");
-            var domainCandidates = BuildCandidatesFromAllSources("user_domain");
-
-            if (_targetType == "vcsa")
-            {
-                // ===== VCSAæ¨¡å¼ï¼šå·¦è®¾ç½®åŒºï¼ˆ4è¡ŒÃ—2åˆ—åŒåˆ—å¸ƒå±€ï¼‰ + å³é€‰é¡¹åŒº =====
-                var paramGrid = new TableLayoutPanel
-                {
-                    Dock = DockStyle.Top,
-                    ColumnCount = 2,
-                    RowCount = 4,
-                    AutoSize = true,
-                    Padding = new Padding(0),
-                    Margin = new Padding(0)
-                };
-                paramGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-                paramGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-                for (int r = 0; r < 4; r++)
-                    paramGrid.RowStyles.Add(new RowStyle(SizeType.Absolute, DpiUtils.Px(38)));
-
-                // ---- ç¬¬0è¡Œå·¦ï¼šOVAè·¯å¾„ + æµè§ˆæŒ‰é’® ----
-                _cmbOvaFile = new ComboBox { DropDownStyle = ComboBoxStyle.DropDown };
-                _cmbOvaFile.TextChanged += (s, e) => OnOvaFileChange();
-                _btnBrowseOva = new Button
-                {
-                    Text = "æµè§ˆ",
-                    FlatStyle = FlatStyle.Standard,
-                    TextAlign = ContentAlignment.MiddleCenter
-                };
-                _btnBrowseOva.Click += (s, e) => BrowseOvaFile();
-                var row0Left = CreateFormLayout(85);
-                AddFormRowTwoControls(row0Left, "OVAè·¯å¾„:", _cmbOvaFile, _btnBrowseOva, 55);
-                paramGrid.Controls.Add(row0Left, 0, 0);
-
-                // ---- ç¬¬0è¡Œå³ï¼šVMåç§° ----
-                _txtImportVmName = new TextBox();
-                _currentFields["import_vm_name"] = _txtImportVmName;
-                var row0Right = CreateFormLayout(85);
-                AddFormRow(row0Right, "VMåç§°:", _txtImportVmName);
-                paramGrid.Controls.Add(row0Right, 1, 0);
-
-                // ---- ç¬¬1è¡Œå·¦ï¼šVCSA IP ----
-                _cmbVcsaTargetHost = new ComboBox { DropDownStyle = ComboBoxStyle.DropDown };
-                _cmbVcsaTargetHost.Items.AddRange(vcHostCandidates.ToArray());
-                if (vcHostCandidates.Count > 0) _cmbVcsaTargetHost.Text = vcHostCandidates[0];
-                _currentFields["vcsa_target_host"] = _cmbVcsaTargetHost;
-                var row1Left = CreateFormLayout(85);
-                AddFormRow(row1Left, "VCSA IP:", _cmbVcsaTargetHost);
-                paramGrid.Controls.Add(row1Left, 0, 1);
-
-                // ---- ç¬¬1è¡Œå³ï¼šESXi IP ----
-                _cmbTargetHost = new ComboBox { DropDownStyle = ComboBoxStyle.DropDown };
-                _cmbTargetHost.Items.AddRange(hostCandidates.ToArray());
-                if (hostCandidates.Count > 0) _cmbTargetHost.Text = hostCandidates[0];
-                _currentFields["target_host"] = _cmbTargetHost;
-                var row1Right = CreateFormLayout(85);
-                AddFormRow(row1Right, "ESXi IP:", _cmbTargetHost);
-                paramGrid.Controls.Add(row1Right, 1, 1);
-
-                // ---- ç¬¬2è¡Œå·¦ï¼šå­˜å‚¨ ----
-                _cmbDatastore = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList };
-                _cmbDatastore.Items.AddRange(datastoreCandidates.ToArray());
-                if (datastoreCandidates.Count > 0) _cmbDatastore.Text = datastoreCandidates[0];
-                else _cmbDatastore.Text = "vsanDatastore";
-                _currentFields["datastore"] = _cmbDatastore;
-                var row2Left = CreateFormLayout(85);
-                AddFormRow(row2Left, "å­˜å‚¨:", _cmbDatastore);
-                paramGrid.Controls.Add(row2Left, 0, 2);
-
-                // ---- ç¬¬2è¡Œå³ï¼šç”¨æˆ·åŸŸ ----
-                _cmbTargetDomain = new ComboBox { DropDownStyle = ComboBoxStyle.DropDown };
-                _cmbTargetDomain.Items.AddRange(domainCandidates.ToArray());
-                string defaultTargetDomain = SessionManager.Instance.CurrentDomain
-                    ?? (_envCache.TryGetValue("user_domain", out var ud2) ? ud2.ToString() : null)
-                    ?? "vsphere.local";
-                _cmbTargetDomain.Text = defaultTargetDomain;
-                _currentFields["target_domain"] = _cmbTargetDomain;
-                var row2Right = CreateFormLayout(85);
-                AddFormRow(row2Right, "ç”¨æˆ·åŸŸ:", _cmbTargetDomain);
+                _btnBrowseOva.Click += (s, e) =œ›İÜÙSİ˜Qš[J
+NÃBˆ˜\ˆ›İÌYHÜ™X]Q›Ü›S^[İ]
+JNÃBˆY›Ü›T›İÕÛĞÛÛ›ÛÊ›İÌY“Õz-ëùo¡ˆ‹ØÛX“İ˜Qš[KØœ›İÜÙSİ˜KMJNÃBˆ\˜[QÜšYÛÛ›ÛËY
+›İÌY
+NÃBƒBˆËÈKKKH9ë+:(c9cìòiY7–B7À€´´´´4(€€€€€€€€€€€€€€€}ÑáÑ%µÁ½ÉÑYµ9…µ”€ô¹•ÜQ•áÑ	½à ¤ì4(€€€€€€€€€€€€€€€}ÕÉÉ•¹Ñ¥•±‘Íl‰¥µÁ½ÉÑ}Ùµ}¹…µ”‰t€ô}ÑáÑ%µÁ½ÉÑYµ9…µ”ì4(€€€€€€€€€€€€€€€Ù…ÈÉ½ÜÁI¥¡Ğ€ôÉ•…Ñ•½Éµ1…å½ÕĞ àÔ¤ì4(€€€€€€€€€€€€€€€‘‘½ÉµI½Ü¡É½ÜÁI¥¡Ğ°€‰Y7–B7Àèˆ°}ÑáÑ%µÁ½ÉÑYµ9…µ”¤ì4(€€€€€€€€€€€€€€€Á…É…µÉ¥¹½¹ÑÉ½±Ì¹‘¡É½ÜÁI¥¡Ğ°€Ä°€À¤ì4(4(€€€€€€€€€€€€€€€€¼¼€´´´´ƒ²°Ç¢†3–Ş›¾òiYM%@€´´´´4(€€€€€€€€€€€€€€€}µ‰YÍ…Q…É•Ñ!½ÍĞ€ô¹•Ü½µ‰½	½àìÉ½Á½İ¹MÑå±”€ô½µ‰½	½áMÑå±”¹É½Á½İ¸ôì4(€€€€€€€€€€€€€€€}µ‰YÍ…Q…É•Ñ!½ÍĞ¹%Ñ•µÌ¹‘‘I…¹”¡Ù!½ÍÑ…¹‘¥‘…Ñ•Ì¹Q½ÉÉ…ä ¤¤ì4(€€€€€€€€€€€€€€€¥˜€¡Ù!½ÍÑ…¹‘¥‘…Ñ•Ì¹½Õ¹Ğ€ø€À¤}µ‰YÍ…Q…É•Ñ!½ÍĞ¹Q•áĞ€ôÙ!½ÍÑ…¹‘¥‘…Ñ•ÍlÁtì4(€€€€€€€€€€€€€€€}ÕÉÉ•¹Ñ¥•±‘Íl‰ÙÍ…}Ñ…É•Ñ}¡½ÍĞ‰t€ô}µ‰YÍ…Q…É•Ñ!½ÍĞì4(€€€€€€€€€€€€€€€Ù…ÈÉ½ÜÅ1•™Ğ€ôÉ•…Ñ•½Éµ1…å½ÕĞ àÔ¤ì4(€€€€€€€€€€€€€€€‘‘½ÉµI½Ü¡É½ÜÅ1•™Ğ°€‰YM%@èˆ°}µ‰YÍ…Q…É•Ñ!½ÍĞ¤ì4(€€€€€€€€€€€€€€€Á…É…µÉ¥¹½¹ÑÉ½±Ì¹‘¡É½ÜÅ1•™Ğ°€À°€Ä¤ì4(4(€€€€€€€€€€€€€€€€¼¼€´´´´ƒ²°Ç¢†3–>Ï&‘TÖHTKKKCBˆØÛX•\™Ù]ÜİH™]ÈÛÛX›Ğ›ŞÈ›ÜİÛ”İ[HHÛÛX›Ğ›Şİ[K‘›ÜİÛˆNÃBˆØÛX•\™Ù]Üİ’][\ËY˜[™ÙJÜİØ[™Y]\Ë•Ğ\œ˜^J
+JNÃBˆYˆ
+ÜİØ[™Y]\ËÛİ[’ö6Ö%F&vWD†÷7BåFW‡BÒ†÷7D6æF–FFW5³Ó°Ğ¢ö7W'&VçDf–VÆG5²'F&vWEö†÷7B%ÒÒö6Ö%F&vWD†÷7C°Ğ¢f"&÷s&–v‡BÒ7&VFTf÷&ÔÆ–÷WBƒƒR“°Ğ¢FDf÷&Õ&÷r‡&÷s&–v‡BÂ$U5†’•¢"Âö6Ö%F&vWD†÷7B“°Ğ¢&Ôw&–Bä6öçG&öÇ2äFB‡&÷s&–v‡BÂÂ“°Ğ Ğ¢òòÒÒÒÒzÊÃ.ŠÎ[znòk–¶c–
+ €´´´´4(€€€€€€€€€€€€€€€}µ‰…Ñ…ÍÑ½É”€ô¹•Ü½µ‰½	½àìÉ½Á½İ¹MÑå±”€ô½µ‰½	½áMÑå±”¹É½Á½İ¹1¥ÍĞôì4(€€€€€€€€€€€€€€€}µ‰…Ñ…ÍÑ½É”¹%Ñ•µÌ¹‘‘I…¹”¡‘…Ñ…ÍÑ½É•…¹‘¥‘…Ñ•Ì¹Q½ÉÉ…ä ¤¤ì4(€€€€€€€€€€€€€€€¥˜€¡‘…Ñ…ÍÑ½É•…¹‘¥‘…Ñ•Ì¹½Õ¹Ğ€ø€À¤}µ‰…Ñ…ÍÑ½É”¹Q•áĞ€ô‘…Ñ…ÍÑ½É•…¹‘¥‘…Ñ•ÍlÁtì4(€€€€€€€€€€€€€€€•±Í”}µ‰…Ñ…ÍÑ½É”¹Q•áĞ€ô€‰ÙÍ…¹…Ñ…ÍÑ½É”ˆì4(€€€€€€€€€€€€€€€}ÕÉÉ•¹Ñ¥•±‘Íl‰‘…Ñ…ÍÑ½É”‰t€ô}µ‰…Ñ…ÍÑ½É”ì4(€€€€€€€€€€€€€€€Ù…ÈÉ½ÜÉ1•™Ğ€ôÉ•…Ñ•½Éµ1…å½ÕĞ àÔ¤ì4(€€€€€€€€€€€€€€€‘‘½ÉµI½Ü¡É½ÜÉ1•™Ğ°€‹–¶c–
+ èˆ°}µ‰…Ñ…ÍÑ½É”¤ì4(€€€€€€€€€€€€€€€Á…É…µÉ¥¹½¹ÑÉ½±Ì¹‘¡É½ÜÉ1•™Ğ°€À°€È¤ì4(4(€€€€€€€€€€€€€€€€¼¼€´´´´ƒ²°Ë¢†3–>Ï¾òkR£š"ß–~|€´´´´4(€€€€€€€€€€€€€€€}µ‰Q…É•Ñ½µ…¥¸€ô¹•Ü½µ‰½	½àìÉ½Á½İ¹MÑå±”€ô½µ‰½	½áMÑå±”¹É½Á½İ¸ôì4(€€€€€€€€€€€€€€€}µ‰Q…É•Ñ½µ…¥¸¹%Ñ•µÌ¹‘‘I…¹”¡‘½µ…¥¹…¹‘¥‘…Ñ•Ì¹Q½ÉÉ…ä ¤¤ì4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œ‘•™…Õ±ÑQ…É•Ñ½µ…¥¸€ôM•ÍÍ¥½¹5…¹…•È¹%¹ÍÑ…¹”¹ÕÉÉ•¹Ñ½µ…¥¸4(€€€€€€€€€€€€€€€€€€€€üü€¡}•¹Ù…¡”¹QÉå•ÑY…±Õ” ‰ÕÍ•É}‘½µ…¥¸ˆ°½ÕĞÙ…ÈÕÈ¤€üÕÈ¹Q½MÑÉ¥¹œ ¤€è¹Õ±°¤4(€€€€€€€€€€€€€€€€€€€€üü€‰ÙÍÁ¡•É”¹±½…°ˆì4(€€€€€€€€€€€€€€€}µ‰Q…É•Ñ½µ…¥¸¹Q•áĞ€ô‘•™…Õ±ÑQ…É•Ñ½µ…¥¸ì4(€€€€€€€€€€€€€€€}ÕÉÉ•¹Ñ¥•±‘Íl‰Ñ…É•Ñ}‘½µ…¥¸‰t€ô}µ‰Q…É•Ñ½µ…¥¸ì4(€€€€€€€€€€€€€€€Ù…ÈÉ½ÜÉI¥¡Ğ€ôÉ•…Ñ•½Éµ1…å½ÕĞ àÔ¤ì4(€€€€€€€€€€€€€€€‘‘½ÉµI½Ü¡É½ÜÉI¥¡Ğ°€‹R£š"ß–_:", _cmbTargetDomain);
                 paramGrid.Controls.Add(row2Right, 1, 2);
 
-                // ---- ç¬¬3è¡Œå·¦ï¼šæºç½‘å¡ ----
-                _cmbNetSrc = new ComboBox { DropDownStyle = ComboBoxStyle.DropDown };
-                _cmbNetSrc.Items.AddRange(new object[] { "bridged", "nat", "Host-Only", "VMnet0", "VMnet1", "VMnet2" });
-                _cmbNetSrc.Text = "bridged";
-                var row3Right = CreateFormLayout(85);
-                AddFormRow(row3Right, "æºç½‘å¡:", _cmbNetSrc);
-                paramGrid.Controls.Add(row3Right, 0, 3);
-
-                // ---- ç¬¬3è¡Œå³ï¼šç›®æ ‡ç½‘å¡ï¼ˆè¿½åŠ è¡Œï¼Œè¶…å‡º4è¡Œéœ€æ‰©å±•ï¼‰ ----
+                // ---- ç¬¬2(c9mé»É®k©{ÙXÚÒÒÒĞĞ¢ö6Ö$æWE7&2ÒæWr6öÖ&ô&÷‚²G&÷F÷vå7G–ÆRÒ6öÖ&ô&÷…7G–ÆRäG&÷F÷vâÓ°Ğ¢ö6Ö$æWE7&2ä—FV×2äFE&ævR†æWrö&¦V7EµÒ²&'&–FvVB"Â&æB"Â$†÷7BÔöæÇ’"Â%dÖæWC"Â%dÖæWC"Â%dÖæWC""Ò“°Ğ¢ö6Ö$æWE7&2åFW‡BÒ&'&–FvVB#°Ğ¢f"&÷s5&–v‡BÒ7&VFTf÷&ÔÆ–÷WBƒƒR“°Ğ¢FDf÷&Õ&÷r‡&÷s5&–v‡BÂ.k©{ÙXÚ¢"Âö6Ö$æWE7&2“°Ğ¢&Ôw&–Bä6öçG&öÇ2äFB‡&÷s5&–v‡BÂÂ2“°Ğ Ğ¢òòÒÒÒÒzÊÃ"†3–>Ï&¹æë¹¨!{ÙXÚò#¢ş÷–*ƒ¢†3¼Œè¶…å‡º4è¡Œéœ€æ‰©å±•ï¼‰ ----
                 paramGrid.RowCount = 5;
                 paramGrid.RowStyles.Add(new RowStyle(SizeType.Absolute, DpiUtils.Px(38)));
                 _cmbNetDst = new ComboBox { DropDownStyle = ComboBoxStyle.DropDown };
@@ -794,223 +297,43 @@ namespace VirtualizationOpsTool.UI
                 AddFormRow(row3Left, "ç£ç›˜æ¨¡å¼:", _cmbDiskMode);
                 paramGrid.Controls.Add(row3Left, 0, 4);
 
-                // å¯¼å…¥é€‰é¡¹
-                _chkNetMapping = new CheckBox { Text = "æŒ‡å®šç½‘å¡", AutoSize = true };
-                _chkNetMapping.CheckedChanged += (s, e) => UpdateNetMappingState();
-                _chkImportAsTemplate = new CheckBox { Text = "å¯¼å…¥ä¸ºæ¨¡æ¿", AutoSize = true };
-                var optionsPanel = CreateOptionsPanel(_chkNetMapping, _chkImportAsTemplate);
-
-                UpdateNetMappingState();
-
-                // å‚æ•°åŒºç›´æ¥æ”¾å…¥ _formFrameï¼ˆå å¤–å±‚ 70%ï¼‰
+                // å¯9aiz`"zhnCBˆØÚÓ™]X\[™ÈH™]ÈÚXÚĞ›ŞÈ^H¹£!Zé®{ÙXÚ"ÂWFõ6—¦RÒG'VRÓ°Ğ¢ö6†´æWDÖ–ærä6†V6¶VD6†ævVB³Ò‡2ÂR’ÓâWFFTæWDÖ–æu7FFR‚“°Ğ¢ö6†´–×÷'D5FV×ÆFRÒæWr6†V6´&÷‚²FW‡BÒ.Zó–—’âëš¢‡švüˆ°ÕÑ½M¥é”€ôÑÉÕ”ôì4(€€€€€€€€€€€€€€€Ù…È½ÁÑ¥½¹ÍA…¹•°€ôÉ•…Ñ•=ÁÑ¥½¹ÍA…¹•°¡}¡­9•Ñ5…ÁÁ¥¹œ°}¡­%µÁ½ÉÑÍQ•µÁ±…Ñ”¤ì4(4(€€€€€€€€€€€€€€€UÁ‘…Ñ•9•Ñ5…ÁÁ¥¹MÑ…Ñ” ¤ì4(4(€€€€€€€€€€€€€€€€¼¼ƒ–>šVÃ–2ënÓš:—šRû–”}™½ÉµÉ…µ—¼ˆå å¤–å±‚ 70%ï¼‰
                 var connWrap = new Panel { Dock = DockStyle.Fill, Padding = new Padding(6), AutoScroll = true };
                 connWrap.Controls.Add(paramGrid);
                 _formFrame?.Controls.Add(connWrap);
 
-                // é€‰é¡¹åŒºç›´æ¥æ”¾å…¥ _optionsFrameï¼ˆå å¤–å±‚ 30%ï¼‰
-                var optWrap = new Panel { Dock = DockStyle.Fill, Padding = new Padding(6) };
-                optWrap.Controls.Add(optionsPanel);
-                _optionsFrame?.Controls.Add(optWrap);
-            }
-            else
-            {
-                // ESXiæ¨¡å¼ï¼šå•åˆ—å¸ƒå±€
-                var connLayout = CreateFormLayout(85);
+                // é€‰é¡¹åŒºç›´æ¥æ”¹aiHÛÜ[ÛœÑœ˜[Y{ï"9ch9i%¹l`ˆÌ	{ï"CBˆ˜\ˆÜÜ˜\H™]È[™[ÈØÚÈHØÚÔİ[K‘š[Y[™ÈH™]ÈY[™ÊŠHNÃBˆÜÜ˜\ÛÛ›ÛËY
+Ü[ÛœÔ[™[
+NÃBˆÛÜ[ÛœÑœ˜[YOËÛÛ›ÛËY
+ÜÜ˜\
+NÃBˆCBˆ[ÙCBˆÃBˆËÈTÖyª(yo#ûï&¹ceyb%ùn ùl`Bˆ˜\ˆÛÛ›“^[İ]HÜ™X]Q›Ü›S^[İ]
+JNÃBƒBˆËÈÕz-ëùo¡
+È9­cú)â9£"zd«ƒBˆØÛX“İ˜Qš[HH™]ÈÛÛX›Ğ›ŞÈ›ÜİÛ”İ[HHÛÛX›Ğ›Şİ[K‘›ÜİÛˆNÃBˆØÛX“İ˜Qš[K•^Ú[™ÙY
+ÏH
+ËJHOˆÛ“İ˜Qš[PÚ[™ÙJ
+NÃBˆØœ›İÜÙSİ˜HH™]È]ÛƒBˆÃBˆ^H¹­cú)â‹Bˆ›]İ[HH›]İ[K”İ[™\™Bˆ^[YÛˆHÛÛ[[YÛ›Y[“ZYPÙ[\ƒBˆNÃBˆØœ›İÜÙSİ˜KÛXÚÈ
+ÏH
+ËJHOˆœ›İÜÙSİ˜Qš[J
+NÃBˆY›Ü›T›İÕÛĞÛÛ›ÛÊÛÛ›“^[İ]“Õz-ëùo¡ˆ‹ØÛX“İ˜Qš[KØœ›İÜÙSİ˜KMJNÃBƒBˆËÈTÖHTBˆØÛX•\™Ù]ÜİH™]ÈÛÛX›Ğ›ŞÈ›ÜİÛ”İ[HHÛÛX›Ğ›Şİ[K‘›ÜİÛˆNÃBˆØÛX•\™Ù]Üİ’][\ËY˜[™ÙJÜİØ[™Y]\Ë•Ğ\œ˜^J
+JNÃBˆYˆ
+ÜİØ[™Y]\ËÛİ[ˆ
+HØÛX•\™Ù]Üİ•^HÜİØ[™Y]\ÖÌNÃBˆØİ\œ™[šY[ÖÈ\™Ù]ÚÜİ—HHØÛX•\™Ù]ÜİÃBˆY›Ü›T›İÊÛÛ›“^[İ]‘TÖHTˆ‹ØÛX•\™Ù]Üİ
+NÃBƒBˆËÈ“yd#yéìBˆİ[\Ü›S˜[YHH™]È^›Ş
 
-                // OVAè·¯å¾„ + æµè§ˆæŒ‰é’®
-                _cmbOvaFile = new ComboBox { DropDownStyle = ComboBoxStyle.DropDown };
-                _cmbOvaFile.TextChanged += (s, e) => OnOvaFileChange();
-                _btnBrowseOva = new Button
-                {
-                    Text = "æµè§ˆ",
-                    FlatStyle = FlatStyle.Standard,
-                    TextAlign = ContentAlignment.MiddleCenter
-                };
-                _btnBrowseOva.Click += (s, e) => BrowseOvaFile();
-                AddFormRowTwoControls(connLayout, "OVAè·¯å¾„:", _cmbOvaFile, _btnBrowseOva, 55);
-
-                // ESXi IP
-                _cmbTargetHost = new ComboBox { DropDownStyle = ComboBoxStyle.DropDown };
-                _cmbTargetHost.Items.AddRange(hostCandidates.ToArray());
-                if (hostCandidates.Count > 0) _cmbTargetHost.Text = hostCandidates[0];
-                _currentFields["target_host"] = _cmbTargetHost;
-                AddFormRow(connLayout, "ESXi IP:", _cmbTargetHost);
-
-                // VMåç§°
-                _txtImportVmName = new TextBox();
-                _currentFields["import_vm_name"] = _txtImportVmName;
-                AddFormRow(connLayout, "VMåç§°:", _txtImportVmName);
-
-                // å­˜å‚¨
-                _cmbDatastore = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList };
-                _cmbDatastore.Items.AddRange(datastoreCandidates.ToArray());
-                if (datastoreCandidates.Count > 0) _cmbDatastore.Text = datastoreCandidates[0];
-                else _cmbDatastore.Text = "vsanDatastore";
-                _currentFields["datastore"] = _cmbDatastore;
-                AddFormRow(connLayout, "å­˜å‚¨:", _cmbDatastore);
-
-                // ç£ç›˜æ¨¡å¼
-                _cmbDiskMode = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList };
-                _cmbDiskMode.Items.AddRange(new object[] { "thin", "thick", "eagerZeroedThick" });
-                _cmbDiskMode.Text = "thin";
-                _currentFields["disk_mode"] = _cmbDiskMode;
-                AddFormRow(connLayout, "ç£ç›˜æ¨¡å¼:", _cmbDiskMode);
-
-                var wrap = new Panel { Dock = DockStyle.Fill, Padding = new Padding(6) };
-                wrap.Controls.Add(connLayout);
-                _formFrame?.Controls.Add(wrap);
-            }
-        }
-        private void CreateConvertForm()
-        {
-            var connLayout = CreateFormLayout(85);
-
-            // æºç±»å‹
-            _cmbSrcType = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList };
-            _cmbSrcType.Items.AddRange(new object[] { "ovf", "ova", "vmx" });
-            _cmbSrcType.Text = "ovf";
-            AddFormRow(connLayout, "æºç±»å‹:", _cmbSrcType);
-
-            // æºè·¯å¾„ + æµè§ˆæŒ‰é’®
-            _cmbSrcPath = new ComboBox { DropDownStyle = ComboBoxStyle.DropDown };
-            _btnBrowseSrc = new Button
-            {
-                Text = "æµè§ˆ",
-                FlatStyle = FlatStyle.Standard,
-                TextAlign = ContentAlignment.MiddleCenter
-            };
-            _btnBrowseSrc.Click += (s, e) => BrowseSrcPath();
-            AddFormRowTwoControls(connLayout, "æºè·¯å¾„:", _cmbSrcPath, _btnBrowseSrc, 55);
-
-            // ç›®æ ‡ç±»å‹
-            _cmbDstType = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList };
-            _cmbDstType.Items.AddRange(new object[] { "ovf", "ova", "vmx" });
-            _cmbDstType.Text = "ova";
-            AddFormRow(connLayout, "ç›®æ ‡ç±»å‹:", _cmbDstType);
-
-            // ç›®æ ‡è·¯å¾„ + æµè§ˆæŒ‰é’®
-            _cmbDstPath = new ComboBox { DropDownStyle = ComboBoxStyle.DropDown };
-            _btnBrowseDst = new Button
-            {
-                Text = "æµè§ˆ",
-                FlatStyle = FlatStyle.Standard,
-                TextAlign = ContentAlignment.MiddleCenter
-            };
-            _btnBrowseDst.Click += (s, e) => BrowseDstPath();
-            AddFormRowTwoControls(connLayout, "ç›®æ ‡è·¯å¾„:", _cmbDstPath, _btnBrowseDst, 55);
-
-            var wrap = new Panel { Dock = DockStyle.Fill, Padding = new Padding(6) };
-            wrap.Controls.Add(connLayout);
-            _formFrame?.Controls.Add(wrap);
-        }
-        private void BrowseExportPath()
-        {
-            var dlg = new FolderBrowserDialog();
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                if (_cmbExportPath != null)
-                    _cmbExportPath.Text = dlg.SelectedPath;
-            }
-        }
-        private void BrowseOvaFile()
-        {
-            var dlg = new OpenFileDialog
-            {
-                Filter = "OVA/OVF æ–‡ä»¶|*.ova;*.ovf|æ‰€æœ‰æ–‡ä»¶|*.*",
-                Title = "é€‰æ‹© OVA/OVF æ–‡ä»¶"
-            };
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                if (_cmbOvaFile != null)
-                {
-                    _cmbOvaFile.Text = dlg.FileName;
-                    OnOvaFileChange();
-                }
-            }
-        }
-        private void BrowseSrcPath()
-        {
-            string ext = _cmbSrcType?.Text ?? "ovf";
-            var dlg = new OpenFileDialog
-            {
-                Filter = $"{ext.ToUpper()} æ–‡ä»¶|*.{ext}|æ‰€æœ‰æ–‡ä»¶|*.*",
-                Title = "é€‰æ‹©æºæ–‡ä»¶"
-            };
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                if (_cmbSrcPath != null)
-                    _cmbSrcPath.Text = dlg.FileName;
-            }
-        }
-        private void BrowseDstPath()
-        {
-            string dstType = _cmbDstType?.Text ?? "ova";
-            string srcPath = _cmbSrcPath?.Text ?? "";
-
-            if (dstType == "ovf" || dstType == "ova")
-            {
-                string defaultName = "";
-                if (!string.IsNullOrEmpty(srcPath))
-                {
-                    string baseName = Path.GetFileNameWithoutExtension(srcPath);
-                    defaultName = $"{baseName}.{dstType}";
-                }
-
-                var dlg = new SaveFileDialog
-                {
-                    Filter = $"{dstType.ToUpper()} æ–‡ä»¶|*.{dstType}",
-                    DefaultExt = dstType,
-                    FileName = defaultName
-                };
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
-                    if (_cmbDstPath != null)
-                        _cmbDstPath.Text = dlg.FileName;
-                }
-            }
-            else
-            {
-                var dlg = new FolderBrowserDialog();
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
-                    if (_cmbDstPath != null)
-                        _cmbDstPath.Text = dlg.SelectedPath;
-                }
-            }
-        }
-        private void OnOvaFileChange()
-        {
-            string ovaFile = _cmbOvaFile?.Text.Trim() ?? "";
-            if (!string.IsNullOrEmpty(ovaFile) && _txtImportVmName != null)
-            {
-                string vmName = Path.GetFileNameWithoutExtension(ovaFile);
-                _txtImportVmName.Text = vmName;
-            }
-        }
-        private void UpdateNetMappingState()
-        {
-            bool enabled = _chkNetMapping?.Checked ?? false;
-            if (_cmbNetSrc != null) _cmbNetSrc.Enabled = enabled;
-            if (_cmbNetDst != null) _cmbNetDst.Enabled = enabled;
-        }
-        private void GenerateCommand()
-        {
-            try
-            {
-                string cmd = "";
-                switch (_operationType)
-                {
-                    case "export":
-                        cmd = BuildExportCommand();
-                        break;
-                    case "import":
-                        cmd = BuildImportCommand();
-                        break;
-                    case "convert":
-                        cmd = BuildConvertCommand();
-                        break;
-                    default:
-                        cmd = "# æœªçŸ¥æ“ä½œç±»å‹";
+NÃBˆØİ\œ™[šY[ÖÈš[\Üİ›WÛ˜[YH—HHİ[\Ü›S˜[YNÃBˆY›Ü›T›İÊÛÛ›“^[İ]•“yd#yéìˆ‹İ[\Ü›S˜[YJNÃBƒBˆËÈ9kf9`ªBˆØÛX‘]\İÜ™HH™]ÈÛÛX›Ğ›ŞÈ›ÜİÛ”İ[HHÛÛX›Ğ›Şİ[K‘›ÜİÛ“\İNÃBˆØÛX‘]\İÜ™K’][\ËY˜[™ÙJ]\İÜ™PØ[™Y]\Ë•Ğ\œ˜^J
+JNÃBˆYˆ
+]\İÜ™PØ[™Y]\ËÛİ[ˆ
+HØÛX‘]\İÜ™K•^H]\İÜ™PØ[™Y]\ÖÌNÃBˆ[ÙHØÛX‘]\İÜ™K•^HœØ[‘]\İÜ™HÃBˆØİ\œ™[šY[ÖÈ™]\İÜ™H—HHØÛX‘]\İÜ™NÃBˆY›Ü›T›İÊÛÛ›“^[İ]¹kf9`ªˆ‹ØÛX‘]\İÜ™JNÃBƒBˆËÈ9èàyææ9ª(yo#ÃBˆØÛX‘\ÚÓ[ÙHH™]ÈÛÛX›Ğ›ŞÈ›ÜİÛ”İ[HHÛÛX›Ğ›Şİ[K‘›ÜİÛ“\İNÃBˆØÛX‘\ÚÓ[ÙK’][\ËY˜[™ÙJ™]ÈØš™Xİ×HÈ[ˆ‹XÚÈ‹™XYÙ\–™\›ÙYXÚÈˆJNÃBˆØÛX‘\ÚÓ[ÙK•^H[ˆÃBˆØİ\œ™[šY[ÖÈ™\Ú×Û[ÙH—HHØÛX‘\ÚÓ[ÙNÃBˆY›Ü›T›İÊÛÛ›“^[İ]¹èàyææ9ª(yo#Îˆ‹ØÛX‘\ÚÓ[ÙJNÃBƒBˆ˜\ˆÜ˜\H™]È[™[ÈØÚÈHØÚÔİ[K‘š[Y[™ÈH™]ÈY[™ÊŠHNÃBˆÜ˜\ÛÛ›ÛËY
+ÛÛ›“^[İ]
+NÃBˆÙ›Ü›Qœ˜[YOËÛÛ›ÛËY
+Ü˜\
+NÃBˆCBˆCBˆš]˜]H›ÚYÜ™X]PÛÛ™\›Ü›J
+CBˆÃBˆ˜\ˆÛÛ›“^[İ]HÜ™X]Q›Ü›S^[İ]
+JNÃBƒBˆËÈ9®¤9ìnYè°Ğ¢ö6Ö%7&5G—RÒæWr6öÖ&ô&÷‚²G&÷F÷vå7G–ÆRÒ6öÖ&ô&÷…7G–ÆRäG&÷F÷väÆ—7BÓ°Ğ¢ö6Ö%7&5G—Rä—FV×2äFE&ævR†æWrö&¦V7EµÒ²&÷fb"Â&÷f"Â'f×‚"Ò“°Ğ¢ö6Ö%7&5G—RåFW‡BÒ&÷fb#°Ğ¢FDf÷&Õ&÷r†6öæäÆ–÷WBÂ.k©{¾Yè³¢"Âö6Ö%7&5G—R“°Ğ Ğ¢òòk©‹zş[èB²kXşŠxhÈ™*àĞ¢ö6Ö%7&5F‚ÒæWr6öÖ&ô&÷‚²G&÷F÷vå7G–ÆRÒ6öÖ&ô&÷…7G–ÆRäG&÷F÷vâÓ°Ğ¢ö'Fä'&÷w6U7&2ÒæWr'WGFöàĞ¢°Ğ¢FW‡BÒ.kXşŠx‚"ÀĞ¢fÆE7G–ÆRÒfÆE7G–ÆRå7FæF&BÀĞ¢FW‡DÆ–vâÒ6öçFVçDÆ–væÖVçBäÖ–FFÆT6VçFW Ğ¢Ó°Ğ¢ö'Fä'&÷w6U7&2ä6Æ–6²³Ò‡2ÂR’Ğ	É½İÍ•MÉA…Ñ  ¤ì4(€€€€€€€€€€€‘‘½ÉµI½İQİ½½¹ÑÉ½±Ì¡½¹¹1…å½ÕĞ°€‹šêC¢Ş¿–úèˆ°}µ‰MÉA…Ñ °}‰Ñ¹	É½İÍ•MÉŒ°€ÔÔ¤ì4(4(€€€€€€€€€€€€¼¼ƒn»š‚±¹g¢ÃBˆØÛX‘İ\HH™]ÈÛÛX›Ğ›ŞÈ›ÜİÛ”İ[HHÛÛX›Ğ›Şİ[K‘›ÜİÛ“\İNÃBˆØÛX‘İ\K’][\ËY˜[™ÙJ™]ÈØš™Xİ×HÈ›İ™ˆ‹›İ˜H‹›^ˆJNÃBˆØÛX‘İ\K•^H›İ˜HÃBˆY›Ü›T›İÊÛÛ›“^[İ]¹æë¹¨!ùìnùg¢Îˆ‹ØÛX‘İ\JNÃBƒBˆËÈ9æë¹¨!ú-ëùo¡
+È9­cú)â9£"zd«ƒBˆØÛX‘İ]H™]ÈÛÛX›Ğ›ŞÈ›ÜİÛ”İ[HHÛÛX›Ğ›Şİ[K‘›ÜİÛˆNÃBˆØœ›İÜÙQİH™]È]ÛƒBˆÃBˆ^H¹­cú)â‹Bˆ›]İ[HH›]İ[K”İ[™\™Bˆ^[YÛˆHÛÛ[[YÛ›Y[“ZYPÙ[\ƒBˆNÃBˆØœ›İÜÙQİÛXÚÈ
+ÏH
+ËJHB'&÷w6TG7EF‚‚“°Ğ¢FDf÷&Õ&÷uGvô6öçG&öÇ2†6öæäÆ–÷WBÂ.yºîj~‹zş[èC¢"Âö6Ö$G7EF‚Âö'Fä'&÷w6TG7BÂSR“°Ğ Ğ¢f"w&ÒæWræVÂ²Fö6²ÒFö6µ7G–ÆRäf–ÆÂÂFF–ærÒæWrFF–ærƒb’Ó°Ğ¢w&ä6öçG&öÇ2äFB†6öæäÆ–÷WB“°Ğ¢öf÷&Ôg&ÖSòä6öçG&öÇ2äFB‡w&“°Ğ¢ĞĞ¢&—fFRfö–B'&÷w6TW‡÷'EF‚‚Ğ¢°Ğ¢f"FÆrÒæWrföÆFW$'&÷w6W$F–Æör‚“°Ğ¢–b†FÆrå6†÷tF–Æör‚’ÓÒF–Æöu&W7VÇBäô²Ğ¢°Ğ¢–b…ö6Ö$W‡÷'EF‚ÒçVÆÂĞ¢ö6Ö$W‡÷'EF‚åFW‡BÒFÆrå6VÆV7FVEFƒ°Ğ¢ĞĞ¢ĞĞ¢&—fFRfö–B'&÷w6T÷ff–ÆR‚Ğ¢°Ğ¢f"FÆrÒæWr÷Väf–ÆTF–ÆöpĞ¢°Ğ¢f–ÇFW"Ò$õdôõdbihRîÙğ¨¹½Ù„ì¨¹½Ù™óš&šr'šZ’îÙğ¨¸¨ˆ°4(€€€€€€€€€€€€€€€Q¥Ñ±”€ô€‹¦'š.¤=Y½=YƒšZ’îØˆ4(€€€€€€€€€€€ôì4(€€€€€€€€€€€¥˜€¡‘±œ¹M¡½İ¥…±½œ ¤€ôô¥…±½I•ÍÕ±Ğ¹=,¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€¥˜€¡}µ‰=Ù…¥±”€„ô¹Õ±°¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€}µ‰=Ù…¥±”¹Q•áĞ€ô‘±œ¹¥±•9…µ”ì4(€€€€€€€€€€€€€€€€€€€=¹=Ù…¥±•¡…¹” ¤ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€ô4(€€€€€€€ô4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥	É½İÍ•MÉA…Ñ  ¤4(€€€€€€€ì4(€€€€€€€€€€€ÍÑÉ¥¹œ•áĞ€ô}µ‰MÉQåÁ”ü¹Q•áĞ€üü€‰½Ù˜ˆì4(€€€€€€€€€€€Ù…È‘±œ€ô¹•Ü=Á•¹¥±•¥…±½œ4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€¥±Ñ•È€ô€‰í•áĞ¹Q½UÁÁ•È ¥ôƒšZ»¶|*.{ext}|æ‰€æœ‰æ–….íŸ
+‹Šˆ‹Bˆ]HHº`"y¢êy®¤9¥¡K»b Ğ¢Ó°Ğ¢–b†FÆrå6†÷tF–Æör‚’ÓÒF–Æöu&W7VÇBäô²Ğ¢°Ğ¢–b…ö6Ö%7&5F‚ÒçVÆÂĞ¢ö6Ö%7&5F‚åFW‡BÒFÆräf–ÆTæÖS°Ğ¢ĞĞ¢ĞĞ¢&—fFRfö–B'&÷w6TG7EF‚‚Ğ¢°Ğ¢7G&–ærG7EG—RÒö6Ö$G7EG—SòåFW‡Bóò&÷f#°Ğ¢7G&–ær7&5F‚Òö6Ö%7&5FƒòåFW‡Bóò"#°Ğ Ğ¢–b†G7EG—RÓÒ&÷fb"ÇÂG7EG—RÓÒ&÷f"Ğ¢°Ğ¢7G&–ærFVfVÇDæÖRÒ"#°Ğ¢–b‚7G&–ærä—4çVÆÄ÷$V×G’‡7&5F‚’Ğ¢°Ğ¢7G&–ær&6TæÖRÒF‚ävWDf–ÆTæÖUv—F†÷WDW‡FVç6–öâ‡7&5F‚“°Ğ¢FVfVÇDæÖRÒB'¶&6TæÖWÒç¶G7EG—WÒ#°Ğ¢ĞĞ Ğ¢f"FÆrÒæWr6fTf–ÆTF–ÆöpĞ¢°Ğ¢f–ÇFW"ÒB'¶G7EG—RåFõWW"‚—ÒihRîÙğ¨¹í‘ÍÑQåÁ•ôˆ°4(€€€€€€€€€€€€€€€€€€€•™…Õ±ÑáĞ€ô‘ÍÑQåÁ”°4(€€€€€€€€€€€€€€€€€€€¥±•9…µ”€ô‘•™…Õ±Ñ9…µ”4(€€€€€€€€€€€€€€€ôì4(€€€€€€€€€€€€€€€¥˜€¡‘±œ¹M¡½İ¥…±½œ ¤€ôô¥…±½I•ÍÕ±Ğ¹=,¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€¥˜€¡}µ‰ÍÑA…Ñ €„ô¹Õ±°¤4(€€€€€€€€€€€€€€€€€€€€€€€}µ‰ÍÑA…Ñ ¹Q•áĞ€ô‘±œ¹¥±•9…µ”ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€ô4(€€€€€€€€€€€•±Í”4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Ù…È‘±œ€ô¹•Ü½±‘•É	É½İÍ•É¥…±½œ ¤ì4(€€€€€€€€€€€€€€€¥˜€¡‘±œ¹M¡½İ¥…±½œ ¤€ôô¥…±½I•ÍÕ±Ğ¹=,¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€¥˜€¡}µ‰ÍÑA…Ñ €„ô¹Õ±°¤4(€€€€€€€€€€€€€€€€€€€€€€€}µ‰ÍÑA…Ñ ¹Q•áĞ€ô‘±œ¹M•±•Ñ•‘A…Ñ ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€ô4(€€€€€€€ô4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥=¹=Ù…¥±•¡…¹” ¤4(€€€€€€€ì4(€€€€€€€€€€€ÍÑÉ¥¹œ½Ù…¥±”€ô}µ‰=Ù…¥±”ü¹Q•áĞ¹QÉ¥´ ¤€üü€ˆˆì4(€€€€€€€€€€€¥˜€ …ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡½Ù…¥±”¤€˜˜}ÑáÑ%µÁ½ÉÑYµ9…µ”€„ô¹Õ±°¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œÙµ9…µ”€ôA…Ñ ¹•Ñ¥±•9…µ•]¥Ñ¡½ÕÑáÑ•¹Í¥½¸¡½Ù…¥±”¤ì4(€€€€€€€€€€€€€€€}ÑáÑ%µÁ½ÉÑYµ9…µ”¹Q•áĞ€ôÙµ9…µ”ì4(€€€€€€€€€€€ô4(€€€€€€€ô4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥UÁ‘…Ñ•9•Ñ5…ÁÁ¥¹MÑ…Ñ” ¤4(€€€€€€€ì4(€€€€€€€€€€€‰½½°•¹…‰±•€ô}¡­9•Ñ5…ÁÁ¥¹œü¹¡•­•€üü™…±Í”ì4(€€€€€€€€€€€¥˜€¡}µ‰9•ÑMÉŒ€„ô¹Õ±°¤}µ‰9•ÑMÉŒ¹¹…‰±•€ô•¹…‰±•ì4(€€€€€€€€€€€¥˜€¡}µ‰9•ÑÍĞ€„ô¹Õ±°¤}µ‰9•ÑÍĞ¹¹…‰±•€ô•¹…‰±•ì4(€€€€€€€ô4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥•¹•É…Ñ•½µµ…¹ ¤4(€€€€€€€ì4(€€€€€€€€€€€ÑÉä4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œµ€ô€ˆˆì4(€€€€€€€€€€€€€€€Íİ¥Ñ €¡}½Á•É…Ñ¥½¹QåÁ”¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€…Í”€‰•áÁ½ÉĞˆè4(€€€€€€€€€€€€€€€€€€€€€€€µ€ô	Õ¥±‘áÁ½ÉÑ½µµ…¹ ¤ì4(€€€€€€€€€€€€€€€€€€€€€€€‰É•…¬ì4(€€€€€€€€€€€€€€€€€€€…Í”€‰¥µÁ½ÉĞˆè4(€€€€€€€€€€€€€€€€€€€€€€€µ€ô	Õ¥±‘%µÁ½ÉÑ½µµ…¹ ¤ì4(€€€€€€€€€€€€€€€€€€€€€€€‰É•…¬ì4(€€€€€€€€€€€€€€€€€€€…Í”€‰½¹Ù•ÉĞˆè4(€€€€€€€€€€€€€€€€€€€€€€€µ€ô	Õ¥±‘½¹Ù•ÉÑ½µµ…¹ ¤ì4(€€€€€€€€€€€€€€€€€€€€€€€‰É•…¬ì4(€€€€€€€€€€€€€€€€€€€‘•™…Õ±Ğè4(€€€€€€€€€€€€€€€€€€€€€€€µ€ô€ˆŒƒšr«eæ“ä½œç±»å‹";
                         break;
                 }
 
@@ -1022,28 +345,19 @@ namespace VirtualizationOpsTool.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"ç”Ÿæˆå‘½ä»¤æ—¶å‡ºé”™: {ex.Message}", "é”™è¯¯", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private string BuildExportCommand()
-        {
-            // æ ¹æ®è¿æ¥çŠ¶æ€å†³å®šæ˜¯å¦åŠ å…¥å¯†ç ï¼šå·²è¿æ¥åˆ™åŠ å…¥ï¼Œæœªè¿æ¥åˆ™ä¸åŠ å…¥
-            bool isConnected = SessionManager.Instance.IsConnected;
-            var cred = SessionManager.Instance.CurrentCredentials;
-            string password = isConnected ? (cred?.Password ?? "") : "";
+                MessageBox.Show($"ç”Ÿæˆå‘½ä»¤æ—¶å‡ºé”™: {ex.Message}", "é”™è«È‹Y\ÜØYÙP›Ş]ÛœË“ÒËY\ÜØYÙP›ŞXÛÛ‹‘\œ›ÜŠNÃBˆCBˆCBˆš]˜]Hİš[™ÈZ[^ÜÛÛ[X[™
 
-            if (_targetType == "vcsa")
-            {
-                string vcsaHost = _cmbVcsaHost?.Text.Trim() ?? "";
-                string domain = _cmbUserDomain?.Text.Trim() ?? "";
-                string userVal = !string.IsNullOrEmpty(domain) ? $"administrator@{domain}" : "";
-                string vmName = _cmbVmName?.Text.Trim() ?? "";
-                string exportPath = _cmbExportPath?.Text.Trim() ?? "";
-
-                if (string.IsNullOrEmpty(vcsaHost) || string.IsNullOrEmpty(userVal) ||
-                    string.IsNullOrEmpty(vmName) || string.IsNullOrEmpty(exportPath))
-                {
-                    return "# è¯·å¡«å†™æ‰€æœ‰å¿…éœ€å­—æ®µ";
+CBˆÃBˆËÈ9¨.y£kº/ç¹£©yâ­¹  ya¬ùk¦¹¦+ùd)¹b¨9aiyká¹è {ï&¹mìº/ç¹£©yb&yb¨9ai{ï#9§*º/ç¹£©yb&y.#yb¨9aiCBˆ›ÛÛ\ĞÛÛ›™XİYHÙ\ÜÚ[Û“X[˜YÙ\‹’[œİ[˜ÙK’\ĞÛÛ›™XİYÃBˆ˜\ˆÜ™YHÙ\ÜÚ[Û“X[˜YÙ\‹’[œİ[˜ÙKİ\œ™[Ü™Y[X[ÎÃBˆİš[™È\ÜİÛÜ™H\ĞÛÛ›™XİYÈ
+Ü™YË”\ÜİÛÜ™ÏÈˆŠHˆˆÃBƒBˆYˆ
+İ\™Ù]\HOH˜ÜØHŠCBˆÃBˆİš[™È˜ÜØRÜİHØÛX•˜ÜØRÜİË•^•š[J
+HÏÈˆÃBˆİš[™ÈÛXZ[ˆHØÛX•\Ù\‘ÛXZ[Ë•^•š[J
+HÏÈˆÃBˆİš[™È\Ù\•˜[H\İš[™Ë’\Ó[Ü‘[\JÛXZ[ŠHÈ	˜YZ[š\İ˜]ÜÙÛXZ[ŸHˆˆˆÃBˆİš[™È›S˜[YHHØÛX•›S˜[YOË•^•š[J
+HÏÈˆÃBˆİš[™È^Ü]HØÛX‘^Ü]Ë•^•š[J
+HÏÈˆÃBƒBˆYˆ
+İš[™Ë’\Ó[Ü‘[\J˜ÜØRÜİ
+Hİš[™Ë’\Ó[Ü‘[\J\Ù\•˜[
+HBˆİš[™Ë’\Ó[Ü‘[\J›S˜[YJHİš[™Ë’\Ó[Ü‘[\J^Ü]
+JCBˆÃBˆ™]\›ˆˆÈ:+íZ–gš&šr'–ş¦r–¶V®µ";
                 }
 
                 var cmdParts = new List<string> { "ovftool" };
@@ -1142,145 +456,7 @@ namespace VirtualizationOpsTool.UI
 
                 if (string.IsNullOrEmpty(vcsaHost) || string.IsNullOrEmpty(esxiHost) || string.IsNullOrEmpty(user))
                 {
-                    return "# è¯·å¡«å†™æ‰€æœ‰å¿…éœ€å­—æ®µ";
-                }
-
-                if (_chkNetMapping?.Checked == true)
-                {
-                    string netSrc = _cmbNetSrc?.Text.Trim() ?? "";
-                    string netDst = _cmbNetDst?.Text.Trim() ?? "";
-                    if (!string.IsNullOrEmpty(netSrc) && !string.IsNullOrEmpty(netDst))
-                    {
-                        cmdParts.Add($"--net:{netSrc}=\"{netDst}\"");
-                    }
-                }
-
-                cmdParts.Add($"-dm={diskMode}");
-                cmdParts.Add("--noSSLVerify");
-                if (_chkImportAsTemplate?.Checked == true) cmdParts.Add("--importAsTemplate");
-
-                string userEncoded = Uri.EscapeDataString(user);
-                string target;
-                if (isConnected && !string.IsNullOrEmpty(password))
-                {
-                    string pwEncoded = Uri.EscapeDataString(password);
-                    target = $"\"vi://{userEncoded}:{pwEncoded}@{vcsaHost}/?ip={esxiHost}\"";
-                }
-                else
-                {
-                    target = $"\"vi://{userEncoded}@{vcsaHost}/?ip={esxiHost}\"";
-                }
-                cmdParts.Add($"\"{ovaFile}\"");
-                cmdParts.Add(target);
-            }
-            else
-            {
-                string host = _cmbTargetHost?.Text.Trim() ?? "";
-                string user = "root";
-                if (string.IsNullOrEmpty(host))
-                {
-                    return "# è¯·å¡«å†™æ‰€æœ‰å¿…éœ€å­—æ®µ";
-                }
-                cmdParts.Add($"-dm={diskMode}");
-                cmdParts.Add("--noSSLVerify");
-                string target;
-                if (isConnected && !string.IsNullOrEmpty(password))
-                {
-                    string pwEncoded = Uri.EscapeDataString(password);
-                    target = $"vi://{user}:{pwEncoded}@{host}";
-                }
-                else
-                {
-                    target = $"vi://{user}@{host}";
-                }
-                cmdParts.Add($"\"{ovaFile}\"");
-                cmdParts.Add(target);
-            }
-
-            return string.Join(" ", cmdParts);
-        }
-        private string BuildConvertCommand()
-        {
-            string srcPath = _cmbSrcPath?.Text.Trim() ?? "";
-            string dstPath = _cmbDstPath?.Text.Trim() ?? "";
-
-            if (string.IsNullOrEmpty(srcPath) || string.IsNullOrEmpty(dstPath))
-            {
-                return "# è¯·å¡«å†™æºè·¯å¾„å’Œç›®æ ‡è·¯å¾„";
-            }
-
-            return $"ovftool \"{srcPath}\" \"{dstPath}\"";
-        }
-        private void CopyCommand()
-        {
-            string command = _commandText?.Text.Trim() ?? "";
-            if (!string.IsNullOrEmpty(command))
-            {
-                Clipboard.SetText(command);
-                ShowCopySuccess();
-            }
-        }
-        private void CopySelectedCommand()
-        {
-            if (_commandText != null && !string.IsNullOrEmpty(_commandText.SelectedText))
-            {
-                Clipboard.SetText(_commandText.SelectedText);
-            }
-        }
-
-        private void CopyAllCommand()
-        {
-            if (_commandText != null && !string.IsNullOrEmpty(_commandText.Text))
-            {
-                Clipboard.SetText(_commandText.Text);
-            }
-        }
-
-        private void SelectAllCommand()
-        {
-            if (_commandText != null)
-            {
-                _commandText.SelectAll();
-            }
-        }
-
-        private void ClearCommand()
-        {
-            if (_commandText != null)
-            {
-                _commandText.Text = "";
-            }
-        }
-        private void ShowCopySuccess()
-        {
-            var toast = new Form
-            {
-                FormBorderStyle = FormBorderStyle.None,
-                StartPosition = FormStartPosition.Manual,
-                ShowInTaskbar = false,
-                TopMost = true,
-                BackColor = Color.FromArgb(76, 175, 80),
-                Size = new Size(200, 35)
-            };
-
-            var label = new Label
-            {
-                Text = "å‘½ä»¤å·²å¤åˆ¶åˆ°å‰ªè´´æ¿ï¼",
-                ForeColor = Color.White,
-                Font = new Font("Microsoft YaHei", 10), Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleCenter
-            };
-            toast.Controls.Add(label);
-
-            int x = _root.Location.X + (_root.Width - toast.Width) / 2;
-            int y = _root.Location.Y + _root.Height - 80;
-            toast.Location = new Point(x, y);
-
-            toast.Show();
-
-            var timer = new System.Windows.Forms.Timer();
-            timer.Interval = 800;
-            timer.Tick += (s, e) =>
+                    return "# è­ùhjùa¦y¢`9§"yl^™ÈZÙ~jëR#°Ğ¢ĞĞ Ğ¢–b…ö6†´æWDÖ–æsòä6†V6¶VBÓÒG'VRĞ¢°Ğ¢7G&–æræWE7&2Òö6Ö$æWE7&3òåFW‡BåG&–Ò‚’óò"#°Ğ¢7G&–æræWDG7BÒö6Ö$æWDG7CòåFW‡BåG&–Ò‚’óò"#°Ğ¢–b‚7G&–ærä—4çVÆÄ÷$V×G’†æWE7&2’bb7G&–ærä—4çVÆÄ÷$V×G’†æWDG7B’Ğ¢°Ğ¢6ÖE'G2äFB‚B"ÒÖæWC§¶æWE7&7ÓÕÂ'¶æWDG7GÕÂ""“°Ğ¢ĞĞ¢ĞĞ Ğ¢6ÖE'G2äFB‚B"ÖFÓ×¶F—6´ÖöFWÒ"“°Ğ¢6ÖE'G2äFB‚"ÒÖæõ54ÅfW&–g’"“°Ğ¢–b…ö6†´–×÷'D5FV×ÆFSòä6†V6¶VBÓÒG'VR’6ÖE'G2äFB‚"ÒÖ–×÷'D5FV×ÆFR"“°Ğ Ğ¢7G&–ærW6W$Væ6öFVBÒW&’äW66TFF7G&–ær‡W6W"“°Ğ¢7G&–ærF&vWC°Ğ¢–b†—46öææV7FVBbb7G&–ærä—4çVÆÄ÷$V×G’‡77v÷&B’Ğ¢°Ğ¢7G&–ærtVæ6öFVBÒW&’äW66TFF7G&–ær‡77v÷&B“°Ğ¢F&vWBÒB%Â'f“¢ò÷·W6W$Væ6öFVGÓ§·tVæ6öFVGÔ·f76†÷7GÒóö—×¶W7†”†÷7GÕÂ"#°Ğ¢ĞĞ¢VÇ6PĞ¢°Ğ¢F&vWBÒB%Â'f“¢ò÷·W6W$Væ6öFVGÔ·f76†÷7GÒóö—×¶W7†”†÷7GÕÂ"#°Ğ¢ĞĞ¢6ÖE'G2äFB‚B%Â'¶÷ff–ÆWÕÂ""“°Ğ¢6ÖE'G2äFB‡F&vWB“°Ğ¢ĞĞ¢VÇ6PĞ¢°Ğ¢7G&–ær†÷7BÒö6Ö%F&vWD†÷7CòåFW‡BåG&–Ò‚’óò"#°Ğ¢7G&–ærW6W"Ò'&ö÷B#°Ğ¢–b‡7G&–ærä—4çVÆÄ÷$V×G’††÷7B’Ğ¢°Ğ¢&WGW&â"2Šû~Z¾Xih˜iÈ[ø^™ÈZÙ~jëR#°Ğ¢ĞĞ¢6ÖE'G2äFB‚B"ÖFÓ×¶F—6´ÖöFWÒ"“°Ğ¢6ÖE'G2äFB‚"ÒÖæõ54ÅfW&–g’"“°Ğ¢7G&–ærF&vWC°Ğ¢–b†—46öææV7FVBbb7G&–ærä—4çVÆÄ÷$V×G’‡77v÷&B’Ğ¢°Ğ¢7G&–ærtVæ6öFVBÒW&’äW66TFF7G&–ær‡77v÷&B“°Ğ¢F&vWBÒB'f“¢ò÷·W6W'Ó§·tVæ6öFVGÔ¶†÷7GÒ#°Ğ¢ĞĞ¢VÇ6PĞ¢°Ğ¢F&vWBÒB'f“¢ò÷·W6W'Ô¶†÷7GÒ#°Ğ¢ĞĞ¢6ÖE'G2äFB‚B%Â'¶÷ff–ÆWÕÂ""“°Ğ¢6ÖE'G2äFB‡F&vWB“°Ğ¢ĞĞ Ğ¢&WGW&â7G&–ærä¦ö–â‚""Â6ÖE'G2“°Ğ¢ĞĞ¢&—fFR7G&–ær'V–ÆD6öçfW'D6öÖÖæB‚Ğ¢°Ğ¢7G&–ær7&5F‚Òö6Ö%7&5FƒòåFW‡BåG&–Ò‚’óò"#°Ğ¢7G&–ærG7EF‚Òö6Ö$G7EFƒòåFW‡BåG&–Ò‚’óò"#°Ğ Ğ¢–b‡7G&–ærä—4çVÆÄ÷$V×G’‡7&5F‚’ÇÂ7G&–ærä—4çVÆÄ÷$V×G’†G7EF‚’Ğ¢°Ğ¢&WGW&â"2Šß–†¯–gšêC¢Ş¿–ú–J3n»š‚¢Ş¿–úˆì4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€É•ÑÕÉ¸€‰½Ù™Ñ½½°p‰íÍÉA…Ñ¡õpˆp‰í‘ÍÑA…Ñ¡õpˆˆì4(€€€€€€€ô4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥½Áå½µµ…¹ ¤4(€€€€€€€ì4(€€€€€€€€€€€ÍÑÉ¥¹œ½µµ…¹€ô}½µµ…¹‘Q•áĞü¹Q•áĞ¹QÉ¥´ ¤€üü€ˆˆì4(€€€€€€€€€€€¥˜€ …ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡½µµ…¹¤¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€±¥Á‰½…É¹M•ÑQ•áĞ¡½µµ…¹¤ì4(€€€€€€€€€€€€€€€M¡½İ½ÁåMÕ•ÍÌ ¤ì4(€€€€€€€€€€€ô4(€€€€€€€ô4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥½ÁåM•±•Ñ•‘½µµ…¹ ¤4(€€€€€€€ì4(€€€€€€€€€€€¥˜€¡}½µµ…¹‘Q•áĞ€„ô¹Õ±°€˜˜€…ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡}½µµ…¹‘Q•áĞ¹M•±•Ñ•‘Q•áĞ¤¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€±¥Á‰½…É¹M•ÑQ•áĞ¡}½µµ…¹‘Q•áĞ¹M•±•Ñ•‘Q•áĞ¤ì4(€€€€€€€€€€€ô4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥½Áå±±½µµ…¹ ¤4(€€€€€€€ì4(€€€€€€€€€€€¥˜€¡}½µµ…¹‘Q•áĞ€„ô¹Õ±°€˜˜€…ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡}½µµ…¹‘Q•áĞ¹Q•áĞ¤¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€±¥Á‰½…É¹M•ÑQ•áĞ¡}½µµ…¹‘Q•áĞ¹Q•áĞ¤ì4(€€€€€€€€€€€ô4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥M•±•Ñ±±½µµ…¹ ¤4(€€€€€€€ì4(€€€€€€€€€€€¥˜€¡}½µµ…¹‘Q•áĞ€„ô¹Õ±°¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€}½µµ…¹‘Q•áĞ¹M•±•Ñ±° ¤ì4(€€€€€€€€€€€ô4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥±•…É½µµ…¹ ¤4(€€€€€€€ì4(€€€€€€€€€€€¥˜€¡}½µµ…¹‘Q•áĞ€„ô¹Õ±°¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€}½µµ…¹‘Q•áĞ¹Q•áĞ€ô€ˆˆì4(€€€€€€€€€€€ô4(€€€€€€€ô4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥M¡½İ½ÁåMÕ•ÍÌ ¤4(€€€€€€€ì4(€€€€€€€€€€€Ù…ÈÑ½…ÍĞ€ô¹•Ü½É´4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€½Éµ	½É‘•ÉMÑå±”€ô½Éµ	½É‘•ÉMÑå±”¹9½¹”°4(€€€€€€€€€€€€€€€MÑ…ÉÑA½Í¥Ñ¥½¸€ô½ÉµMÑ…ÉÑA½Í¥Ñ¥½¸¹5…¹Õ…°°4(€€€€€€€€€€€€€€€M¡½İ%¹Q…Í­‰…È€ô™…±Í”°4(€€€€€€€€€€€€€€€Q½Á5½ÍĞ€ôÑÉÕ”°4(€€€€€€€€€€€€€€€	…­½±½È€ô½±½È¹É½µÉˆ ÜØ°€ÄÜÔ°€àÀ¤°4(€€€€€€€€€€€€€€€M¥é”€ô¹•ÜM¥é” ÈÀÀ°€ÌÔ¤4(€€€€€€€€€€€ôì4(4(€€€€€€€€€€€Ù…È±…‰•°€ô¹•Ü1…‰•°4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Q•áĞ€ô€‹–F÷’î“–ŞË–’7–"Û–"Ã–&«¢ÒÓšvÿ¾òˆ°4(€€€€€€€€€€€€€€€½É•½±½È€ô½±½È¹]¡¥Ñ”°4(€€€€€€€€€€€€€€€½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ÄÀ¤°½¬€ô½­MÑå±”¹¥±°°4(€€€€€€€€€€€€€€€Q•áÑ±¥¸€ô½¹Ñ•¹Ñ±¥¹µ•¹Ğ¹5¥‘‘±••¹Ñ•È4(€€€€€€€€€€€ôì4(€€€€€€€€€€€Ñ½…ÍĞ¹½¹ÑÉ½±Ì¹‘¡±…‰•°¤ì4(4(€€€€€€€€€€€¥¹Ğà€ô}É½½Ğ¹1½…Ñ¥½¸¹`€¬€¡}É½½Ğ¹]¥‘Ñ €´Ñ½…ÍĞ¹]¥‘Ñ ¤€¼€Èì4(€€€€€€€€€€€¥¹Ğä€ô}É½½Ğ¹1½…Ñ¥½¸¹d€¬}É½½Ğ¹!•¥¡Ğ€´€àÀì4(€€€€€€€€€€€Ñ½…ÍĞ¹1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ¡à°ä¤ì4(4(€€€€€€€€€€€Ñ½…ÍĞ¹M¡½Ü ¤ì4(4(€€€€€€€€€€€Ù…ÈÑ¥µ•È€ô¹•ÜMåÍÑ•´¹]¥¹‘½İÌ¹½ÉµÌ¹Q¥µ•È ¤ì4(€€€€€€€€€€€Ñ¥µ•È¹%¹Ñ•ÉÙ…°€ô€àÀÀì4(€€€€€€€€€€€Ñ¥µ•È¹Q¥¬€¬ô€¡Ì°”¤€ô
             {
                 timer.Stop();
                 toast.Close();
@@ -1321,67 +497,7 @@ namespace VirtualizationOpsTool.UI
                 }
             }
 
-            // ä»ç¼“å­˜è¯»å–
-            if (_envCache != null)
-            {
-                switch (fieldKind)
-                {
-                    case "vc_host":
-                        if (_envCache.TryGetValue("vc_host", out var vc) && vc is string vcStr && !string.IsNullOrEmpty(vcStr))
-                            AddIfNew(vcStr.Trim());
-                        break;
-                    case "host":
-                        foreach (var item in GetListFromCache("host_names")) AddIfNew(item);
-                        foreach (var item in GetListFromCache("hosts")) AddIfNew(item);
-                        foreach (var item in GetListFromCache("host_ips")) AddIfNew(item);
-                        break;
-                    case "vm":
-                        foreach (var item in GetListFromCache("vm_names")) AddIfNew(item);
-                        foreach (var item in GetListFromCache("vms")) AddIfNew(item);
-                        break;
-                    case "datastore":
-                        foreach (var item in GetListFromCache("datastore_names")) AddIfNew(item);
-                        foreach (var item in GetListFromCache("datastores")) AddIfNew(item);
-                        break;
-                    case "user_domain":
-                        if (_envCache.TryGetValue("user_domain", out var ud))
-                        {
-                            if (ud is string udStr && !string.IsNullOrEmpty(udStr))
-                            {
-                                string clean = udStr.Trim();
-                                if (clean.Contains("@"))
-                                    clean = clean.Split('@')[1].Trim();
-                                if (!string.IsNullOrEmpty(clean))
-                                    AddIfNew(clean);
-                            }
-                        }
-                        break;
-                    case "network":
-                        foreach (var item in GetListFromCache("network_names")) AddIfNew(item);
-                        foreach (var item in GetListFromCache("portgroups")) AddIfNew(item);
-                        foreach (var item in GetListFromCache("networks")) AddIfNew(item);
-                        break;
-                }
-            }
-
-            // ç¡¬ç¼–ç å…œåº•
-            var fallback = new Dictionary<string, List<string>>
-            {
-                { "datastore", new List<string> { "vsanDatastore", "datastore1" } },
-                { "user_domain", new List<string> { "vsphere.local", "local.net" } },
-                { "network", new List<string> { "VM Network", "Management Network" } }
-            };
-
-            if (fallback.TryGetValue(fieldKind, out var fbList))
-            {
-                foreach (var item in fbList)
-                    AddIfNew(item);
-            }
-
-            return result;
-        }
-
-        private List<string> GetListFromCache(string key)
+            // ä»ç¼‘kf:+îXù`Ğ¢–b…öVçd66†RÒçVÆÂĞ¢°Ğ¢7v—F6‚†f–VÆD¶–æBĞ¢°Ğ¢66R'f5ö†÷7B# Ğ¢–b…öVçd66†RåG'”vWEfÇVR‚'f5ö†÷7B"Â÷WBf"f2’bbf2—27G&–ærf57G"bb7G&–ærä—4çVÆÄ÷$V×G’‡f57G"’Ğ¢FD–dæWr‡f57G"åG&–Ò‚’“°Ğ¢'&V³°Ğ¢66R&†÷7B# Ğ¢f÷&V6‚‡f"—FVÒ–âvWDÆ—7Dg&öÔ66†R‚&†÷7EöæÖW2"’’FD–dæWr†—FVÒ“°Ğ¢f÷&V6‚‡f"—FVÒ–âvWDÆ—7Dg&öÔ66†R‚&†÷7G2"’’FD–dæWr†—FVÒ“°Ğ¢f÷&V6‚‡f"—FVÒ–âvWDÆ—7Dg&öÔ66†R‚&†÷7Eö—2"’’FD–dæWr†—FVÒ“°Ğ¢'&V³°Ğ¢66R'fÒ# Ğ¢f÷&V6‚‡f"—FVÒ–âvWDÆ—7Dg&öÔ66†R‚'fÕöæÖW2"’’FD–dæWr†—FVÒ“°Ğ¢f÷&V6‚‡f"—FVÒ–âvWDÆ—7Dg&öÔ66†R‚'f×2"’’FD–dæWr†—FVÒ“°Ğ¢'&V³°Ğ¢66R&FF7F÷&R# Ğ¢f÷&V6‚‡f"—FVÒ–âvWDÆ—7Dg&öÔ66†R‚&FF7F÷&UöæÖW2"’’FD–dæWr†—FVÒ“°Ğ¢f÷&V6‚‡f"—FVÒ–âvWDÆ—7Dg&öÔ66†R‚&FF7F÷&W2"’’FD–dæWr†—FVÒ“°Ğ¢'&V³°Ğ¢66R'W6W%öFöÖ–â# Ğ¢–b…öVçd66†RåG'”vWEfÇVR‚'W6W%öFöÖ–â"Â÷WBf"VB’Ğ¢°Ğ¢–b‡VB—27G&–ærVE7G"bb7G&–ærä—4çVÆÄ÷$V×G’‡VE7G"’Ğ¢°Ğ¢7G&–ær6ÆVâÒVE7G"åG&–Ò‚“°Ğ¢–b†6ÆVâä6öçF–ç2‚$"’Ğ¢6ÆVâÒ6ÆVâå7Æ—B‚tr•³ÒåG&–Ò‚“°Ğ¢–b‚7G&–ærä—4çVÆÄ÷$V×G’†6ÆVâ’Ğ¢FD–dæWr†6ÆVâ“°Ğ¢ĞĞ¢ĞĞ¢'&V³°Ğ¢66R&æWGv÷&²# Ğ¢f÷&V6‚‡f"—FVÒ–âvWDÆ—7Dg&öÔ66†R‚&æWGv÷&µöæÖW2"’’FD–dæWr†—FVÒ“°Ğ¢f÷&V6‚‡f"—FVÒ–âvWDÆ—7Dg&öÔ66†R‚'÷'Fw&÷W2"’’FD–dæWr†—FVÒ“°Ğ¢f÷&V6‚‡f"—FVÒ–âvWDÆ—7Dg&öÔ66†R‚&æWGv÷&·2"’’FD–dæWr†—FVÒ“°Ğ¢'&V³°Ğ¢ĞĞ¢ĞĞ Ğ¢òòzÎ{ÉnzXYÎ[©PĞ¢f"fÆÆ&6²ÒæWrF–7F–öæ'“Ç7G&–ærÂÆ—7CÇ7G&–æsà4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€ì€‰‘…Ñ…ÍÑ½É”ˆ°¹•Ü1¥ÍĞñÍÑÉ¥¹œøì€‰ÙÍ…¹…Ñ…ÍÑ½É”ˆ°€‰‘…Ñ…ÍÑ½É”Äˆôô°4(€€€€€€€€€€€€€€€ì€‰ÕÍ•É}‘½µ…¥¸ˆ°¹•Ü1¥ÍĞñÍÑÉ¥¹œøì€‰ÙÍÁ¡•É”¹±½…°ˆ°€‰±½…°¹¹•Ğˆôô°4(€€€€€€€€€€€€€€€ì€‰¹•Ñİ½É¬ˆ°¹•Ü1¥ÍĞñÍÑÉ¥¹œøì€‰Y49•Ñİ½É¬ˆ°€‰5…¹…•µ•¹Ğ9•Ñİ½É¬ˆôô4(€€€€€€€€€€€ôì4(4(€€€€€€€€€€€¥˜€¡™…±±‰…¬¹QÉå•ÑY…±Õ”¡™¥•±‘-¥¹°½ÕĞÙ…È™‰1¥ÍĞ¤¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€™½É•… €¡Ù…È¥Ñ•´¥¸™‰1¥ÍĞ¤4(€€€€€€€€€€€€€€€€€€€‘‘%™9•Ü¡¥Ñ•´¤ì4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€É•ÑÕÉ¸É•ÍÕ±Ğì4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”1¥ÍĞñÍÑÉ¥¹œ GetListFromCache(string key)
         {
             var result = new List<string>();
             if (_envCache.TryGetValue(key, out var val))
@@ -1423,23 +539,10 @@ namespace VirtualizationOpsTool.UI
             var datastoreCandidates = BuildCandidatesFromAllSources("datastore");
             var domainCandidates = BuildCandidatesFromAllSources("user_domain");
 
-            void EnsureCachedValue(ComboBox? cmb, List<string> defaultList)
-            {
-                if (cmb == null) return;
-                var currentItems = new HashSet<string>(cmb.Items.Cast<string>());
-                foreach (var item in defaultList)
-                {
-                    if (!currentItems.Contains(item))
-                        cmb.Items.Add(item);
-                }
-
-                if (string.IsNullOrEmpty(cmb.Text) && defaultList.Count > 0)
-                {
-                    cmb.Text = defaultList[0];
-                }
-            }
-
-            // å¯¼å‡ºæ¨¡å¼
+            void EnsureCachedValue(ComboBox? cmb, List<stringY˜][\İ
+CBˆÃBˆYˆ
+ÛXˆOH[
+H™]\›ÃBˆ˜\ˆİ\œ™[][\ÈH™]È\ÚÙ]İš[™Â†6Ö"ä—FV×2ä67CÇ7G&–æsâ‚’“°Ğ¢f÷&V6‚‡f"—FVÒ–âFVfVÇDÆ—7BĞ¢°Ğ¢–b‚7W'&VçD—FV×2ä6öçF–ç2†—FVÒ’Ğ¢6Ö"ä—FV×2äFB†—FVÒ“°Ğ¢ĞĞ Ğ¢–b‡7G&–ærä—4çVÆÄ÷$V×G’†6Ö"åFW‡B’bbFVfVÇDÆ—7Bä6÷VçB €À¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€µˆ¹Q•áĞ€ô‘•™…Õ±Ñ1¥ÍÑlÁtì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€€¼¼ƒ–¼å‡ºæ¨¡å¼
             if (_cmbVcsaHost != null) EnsureCachedValue(_cmbVcsaHost, vcHostCandidates);
             if (_cmbEsxiHost != null) EnsureCachedValue(_cmbEsxiHost, hostCandidates);
             if (_cmbVmName != null) EnsureCachedValue(_cmbVmName, vmCandidates);
@@ -1454,124 +557,7 @@ namespace VirtualizationOpsTool.UI
             if (_cmbNetSrc != null) EnsureCachedValue(_cmbNetSrc, networkCandidates);
             if (_cmbNetDst != null) EnsureCachedValue(_cmbNetDst, networkCandidates);
         }
-        // ä¸ºæ‰€æœ‰è¾“å…¥æ¡†ï¼ˆComboBox/TextBoxï¼‰ç»‘å®šå³é”®èœå•
-        private void BindInputContextMenus()
-        {
-            if (_parent == null) return;
-            BindContextMenuRecursive(_parent);
-        }
-
-        private void BindContextMenuRecursive(Control parent)
-        {
-            foreach (Control ctrl in parent.Controls)
-            {
-                if (ctrl is ComboBox || ctrl is TextBox)
-                {
-                    AttachInputContextMenu(ctrl);
-                }
-                if (ctrl.HasChildren)
-                {
-                    BindContextMenuRecursive(ctrl);
-                }
-            }
-        }
-
-        private void AttachInputContextMenu(Control ctrl)
-        {
-            var menu = new ContextMenuStrip();
-            menu.Items.Add("å‰ªåˆ‡").Click += (s, e) => CutText(ctrl);
-            menu.Items.Add("å¤åˆ¶").Click += (s, e) => CopyText(ctrl);
-            menu.Items.Add("ç²˜è´´").Click += (s, e) => PasteText(ctrl);
-            menu.Items.Add(new ToolStripSeparator());
-            menu.Items.Add("å…¨é€‰").Click += (s, e) => SelectAllText(ctrl);
-            menu.Items.Add(new ToolStripSeparator());
-            menu.Items.Add("æ¸…ç©º").Click += (s, e) => ClearText(ctrl);
-            ctrl.ContextMenuStrip = menu;
-        }
-
-        private void CutText(Control ctrl)
-        {
-            if (ctrl is TextBox tb && !string.IsNullOrEmpty(tb.SelectedText))
-            {
-                Clipboard.SetText(tb.SelectedText);
-                tb.SelectedText = "";
-            }
-            else if (ctrl is ComboBox cmb && !string.IsNullOrEmpty(cmb.SelectedText))
-            {
-                Clipboard.SetText(cmb.SelectedText);
-                int start = cmb.SelectionStart;
-                cmb.Text = cmb.Text.Remove(start, cmb.SelectionLength);
-                cmb.SelectionStart = start;
-            }
-        }
-
-        private void CopyText(Control ctrl)
-        {
-            if (ctrl is TextBox tb && !string.IsNullOrEmpty(tb.SelectedText))
-            {
-                Clipboard.SetText(tb.SelectedText);
-            }
-            else if (ctrl is ComboBox cmb && !string.IsNullOrEmpty(cmb.SelectedText))
-            {
-                Clipboard.SetText(cmb.SelectedText);
-            }
-        }
-
-        private void PasteText(Control ctrl)
-        {
-            string clipText = Clipboard.GetText();
-            if (string.IsNullOrEmpty(clipText)) return;
-
-            if (ctrl is TextBox tb)
-            {
-                if (!string.IsNullOrEmpty(tb.SelectedText))
-                    tb.SelectedText = clipText;
-                else
-                {
-                    int pos = tb.SelectionStart;
-                    tb.Text = tb.Text.Insert(pos, clipText);
-                    tb.SelectionStart = pos + clipText.Length;
-                }
-            }
-            else if (ctrl is ComboBox cmb)
-            {
-                if (!string.IsNullOrEmpty(cmb.SelectedText))
-                {
-                    int start = cmb.SelectionStart;
-                    cmb.Text = cmb.Text.Remove(start, cmb.SelectionLength).Insert(start, clipText);
-                    cmb.SelectionStart = start + clipText.Length;
-                }
-                else
-                {
-                    int pos = cmb.SelectionStart;
-                    cmb.Text = cmb.Text.Insert(pos, clipText);
-                    cmb.SelectionStart = pos + clipText.Length;
-                }
-            }
-        }
-
-        private void SelectAllText(Control ctrl)
-        {
-            if (ctrl is TextBox tb)
-                tb.SelectAll();
-            else if (ctrl is ComboBox cmb)
-            {
-                cmb.SelectAll();
-                cmb.Focus();
-            }
-        }
-
-        private void ClearText(Control ctrl)
-        {
-            if (ctrl is TextBox tb)
-                tb.Text = "";
-            else if (ctrl is ComboBox cmb)
-                cmb.Text = "";
-        }
-
-        /// <summary>
-        /// æ‰§è¡Œå‘½ä»¤ï¼ˆå¼‚æ­¥ï¼‰
-        /// </summary>
+        // ä¸ºæ‰€æœ‰è¾“å…¥æ¡†ï¼ˆComboBox/TextBoxï¼‰ç»‘å®šåŒúe+º!ÎXÙPĞ¢&—fFRfö–B&–æD–çWD6öçFW‡DÖVçW2‚Ğ¢°Ğ¢–b…÷&VçBÓÒçVÆÂ’&WGW&ã°Ğ¢&–æD6öçFW‡DÖVçU&V7W'6—fR…÷&VçB“°Ğ¢ĞĞ Ğ¢&—fFRfö–B&–æD6öçFW‡DÖVçU&V7W'6—fR„6öçG&öÂ&VçBĞ¢°Ğ¢f÷&V6‚„6öçG&öÂ7G&Â–â&VçBä6öçG&öÇ2Ğ¢°Ğ¢–b†7G&Â—26öÖ&ô&÷‚ÇÂ7G&Â—2FW‡D&÷‚Ğ¢°Ğ¢GF6„–çWD6öçFW‡DÖVçR†7G&Â“°Ğ¢ĞĞ¢–b†7G&Âä†46†–ÆG&VâĞ¢°Ğ¢&–æD6öçFW‡DÖVçU&V7W'6—fR†7G&Â“°Ğ¢ĞĞ¢ĞĞ¢ĞĞ Ğ¢&—fFRfö–BGF6„–çWD6öçFW‡DÖVçR„6öçG&öÂ7G&ÂĞ¢°Ğ¢f"ÖVçRÒæWr6öçFW‡DÖVçU7G&—‚“°Ğ¢ÖVçRä—FV×2äFB‚.Xš®Xˆr"’ä6Æ–6²³Ò‡2ÂR’Óâ7WEFW‡B†7G&Â“°Ğ¢ÖVçRä—FV×2äFB‚.ZHŞX‹b"’ä6Æ–6²³Ò‡2ÂR’Óâ6÷•FW‡B†7G&Â“°Ğ¢ÖVçRä—FV×2äFB‚.{)‹KB"’ä6Æ–6²³Ò‡2ÂR’Óâ7FUFW‡B†7G&Â“°Ğ¢ÖVçRä—FV×2äFB†æWrFööÅ7G&—6W&F÷"‚’“°Ğ¢ÖVçRä—FV×2äFB‚.XZ˜’"’ä6Æ–6²³Ò‡2ÂR’Óâ6VÆV7DÆÅFW‡B†7G&Â“°Ğ¢ÖVçRä—FV×2äFB†æWrFööÅ7G&—6W&F÷"‚’“°Ğ¢ÖVçRä—FV×2äFB‚.kˆ^z›¢"’ä6Æ–6²³Ò‡2ÂR’Ğ±•…ÉQ•áĞ¡ÑÉ°¤ì4(€€€€€€€€€€€ÑÉ°¹½¹Ñ•áÑ5•¹ÕMÑÉ¥À€ôµ•¹Ôì4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥ÕÑQ•áĞ¡½¹ÑÉ½°ÑÉ°¤4(€€€€€€€ì4(€€€€€€€€€€€¥˜€¡ÑÉ°¥ÌQ•áÑ	½àÑˆ€˜˜€…ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡Ñˆ¹M•±•Ñ•‘Q•áĞ¤¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€±¥Á‰½…É¹M•ÑQ•áĞ¡Ñˆ¹M•±•Ñ•‘Q•áĞ¤ì4(€€€€€€€€€€€€€€€Ñˆ¹M•±•Ñ•‘Q•áĞ€ô€ˆˆì4(€€€€€€€€€€€ô4(€€€€€€€€€€€•±Í”¥˜€¡ÑÉ°¥Ì½µ‰½	½àµˆ€˜˜€…ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡µˆ¹M•±•Ñ•‘Q•áĞ¤¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€±¥Á‰½…É¹M•ÑQ•áĞ¡µˆ¹M•±•Ñ•‘Q•áĞ¤ì4(€€€€€€€€€€€€€€€¥¹ĞÍÑ…ÉĞ€ôµˆ¹M•±•Ñ¥½¹MÑ…ÉĞì4(€€€€€€€€€€€€€€€µˆ¹Q•áĞ€ôµˆ¹Q•áĞ¹I•µ½Ù”¡ÍÑ…ÉĞ°µˆ¹M•±•Ñ¥½¹1•¹Ñ ¤ì4(€€€€€€€€€€€€€€€µˆ¹M•±•Ñ¥½¹MÑ…ÉĞ€ôÍÑ…ÉĞì4(€€€€€€€€€€€ô4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥½ÁåQ•áĞ¡½¹ÑÉ½°ÑÉ°¤4(€€€€€€€ì4(€€€€€€€€€€€¥˜€¡ÑÉ°¥ÌQ•áÑ	½àÑˆ€˜˜€…ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡Ñˆ¹M•±•Ñ•‘Q•áĞ¤¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€±¥Á‰½…É¹M•ÑQ•áĞ¡Ñˆ¹M•±•Ñ•‘Q•áĞ¤ì4(€€€€€€€€€€€ô4(€€€€€€€€€€€•±Í”¥˜€¡ÑÉ°¥Ì½µ‰½	½àµˆ€˜˜€…ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡µˆ¹M•±•Ñ•‘Q•áĞ¤¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€±¥Á‰½…É¹M•ÑQ•áĞ¡µˆ¹M•±•Ñ•‘Q•áĞ¤ì4(€€€€€€€€€€€ô4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥A…ÍÑ•Q•áĞ¡½¹ÑÉ½°ÑÉ°¤4(€€€€€€€ì4(€€€€€€€€€€€ÍÑÉ¥¹œ±¥ÁQ•áĞ€ô±¥Á‰½…É¹•ÑQ•áĞ ¤ì4(€€€€€€€€€€€¥˜€¡ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡±¥ÁQ•áĞ¤¤É•ÑÕÉ¸ì4(4(€€€€€€€€€€€¥˜€¡ÑÉ°¥ÌQ•áÑ	½àÑˆ¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€¥˜€ …ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡Ñˆ¹M•±•Ñ•‘Q•áĞ¤¤4(€€€€€€€€€€€€€€€€€€€Ñˆ¹M•±•Ñ•‘Q•áĞ€ô±¥ÁQ•áĞì4(€€€€€€€€€€€€€€€•±Í”4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€¥¹ĞÁ½Ì€ôÑˆ¹M•±•Ñ¥½¹MÑ…ÉĞì4(€€€€€€€€€€€€€€€€€€€Ñˆ¹Q•áĞ€ôÑˆ¹Q•áĞ¹%¹Í•ÉĞ¡Á½Ì°±¥ÁQ•áĞ¤ì4(€€€€€€€€€€€€€€€€€€€Ñˆ¹M•±•Ñ¥½¹MÑ…ÉĞ€ôÁ½Ì€¬±¥ÁQ•áĞ¹1•¹Ñ ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€ô4(€€€€€€€€€€€•±Í”¥˜€¡ÑÉ°¥Ì½µ‰½	½àµˆ¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€¥˜€ …ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡µˆ¹M•±•Ñ•‘Q•áĞ¤¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€¥¹ĞÍÑ…ÉĞ€ôµˆ¹M•±•Ñ¥½¹MÑ…ÉĞì4(€€€€€€€€€€€€€€€€€€€µˆ¹Q•áĞ€ôµˆ¹Q•áĞ¹I•µ½Ù”¡ÍÑ…ÉĞ°µˆ¹M•±•Ñ¥½¹1•¹Ñ ¤¹%¹Í•ÉĞ¡ÍÑ…ÉĞ°±¥ÁQ•áĞ¤ì4(€€€€€€€€€€€€€€€€€€€µˆ¹M•±•Ñ¥½¹MÑ…ÉĞ€ôÍÑ…ÉĞ€¬±¥ÁQ•áĞ¹1•¹Ñ ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€•±Í”4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€¥¹ĞÁ½Ì€ôµˆ¹M•±•Ñ¥½¹MÑ…ÉĞì4(€€€€€€€€€€€€€€€€€€€µˆ¹Q•áĞ€ôµˆ¹Q•áĞ¹%¹Í•ÉĞ¡Á½Ì°±¥ÁQ•áĞ¤ì4(€€€€€€€€€€€€€€€€€€€µˆ¹M•±•Ñ¥½¹MÑ…ÉĞ€ôÁ½Ì€¬±¥ÁQ•áĞ¹1•¹Ñ ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€ô4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥M•±•Ñ±±Q•áĞ¡½¹ÑÉ½°ÑÉ°¤4(€€€€€€€ì4(€€€€€€€€€€€¥˜€¡ÑÉ°¥ÌQ•áÑ	½àÑˆ¤4(€€€€€€€€€€€€€€€Ñˆ¹M•±•Ñ±° ¤ì4(€€€€€€€€€€€•±Í”¥˜€¡ÑÉ°¥Ì½µ‰½	½àµˆ¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€µˆ¹M•±•Ñ±° ¤ì4(€€€€€€€€€€€€€€€µˆ¹½ÕÌ ¤ì4(€€€€€€€€€€€ô4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥±•…ÉQ•áĞ¡½¹ÑÉ½°ÑÉ°¤4(€€€€€€€ì4(€€€€€€€€€€€¥˜€¡ÑÉ°¥ÌQ•áÑ	½àÑˆ¤4(€€€€€€€€€€€€€€€Ñˆ¹Q•áĞ€ô€ˆˆì4(€€€€€€€€€€€•±Í”¥˜€¡ÑÉ°¥Ì½µ‰½	½àµˆ¤4(€€€€€€€€€€€€€€€µˆ¹Q•áĞ€ô€ˆˆì4(€€€€€€€ô4(4(€€€€€€€€¼¼¼€ñÍÕµµ…Éäø4(€€€€€€€€¼¼¼ƒš&Ÿ¢†3–F÷’î“¾ò#–òš¶—¾ò$4(€€€€€€€€¼¼¼€ğ½ÍÕµµ…Éä
         private async Task ExecuteCommandAsync()
         {
             if (_commandText == null) return;
@@ -1579,23 +565,12 @@ namespace VirtualizationOpsTool.UI
             string cmd = _commandText.Text.Trim();
             if (string.IsNullOrEmpty(cmd) || cmd.StartsWith("#"))
             {
-                MessageBox.Show("è¯·å…ˆç”Ÿæˆå‘½ä»¤", "æç¤º", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
-            // æ‰€æœ‰æ¨¡å¼ç»Ÿä¸€ç›´æ¥æ‰§è¡Œç•Œé¢ä¸Šç”Ÿæˆçš„å‘½ä»¤
-            await ExecuteGenericAsync();
-        }
-
-        /// <summary>
-        /// æ‰§è¡Œé€šç”¨å‘½ä»¤ï¼ˆå¯¼å‡º/å¯¼å…¥/è½¬æ¢ç­‰æ¨¡å¼ï¼‰
-        /// </summary>
+                MessageBox.Show("è­ùab9å'ù¢$9doy.é‹¹£ä9é.ˆ‹Y\ÜØYÙP›Ş]ÛœË“ÒËY\ÜØYÙP›ŞXÛÛ‹’[™›Ü›X][ÛŠNÃBˆ™]\›ÃBˆCBƒBˆËÈ9¢`9§"yª(yo#ùîçù. 9æí9£©y¢iú(c9åc:gh¹."¹å'ù¢$9æ¡9doy.éBˆ]ØZ]^Xİ]QÙ[™\šXĞ\Ş[˜Ê
+NÃBˆCBƒBˆËËÈİ[[X\OƒBˆËËÈ9¢iŠÎ˜	®yJYŞKºNò#–¾ó–è¿–¾ó–”¿¢ö³š6‹¶'š¢‡–ò?¾ò$4(€€€€€€€€¼¼¼€ğ½ÍÕµµ…Éä
         private async Task ExecuteGenericAsync()
         {
             string cmd = _commandText.Text.Trim();
-            string modeName = _operationType == "export" ? "å¯¼å‡º" : (_operationType == "import" ? "å¯¼å…¥" : "è½¬æ¢");
-
-            // å»æ‰å¼€å¤´çš„ "ovftool " å‰ç¼€ï¼Œåªä¿ç•™å‚æ•°éƒ¨åˆ†
+            string modeName = _operationType == "export" ? "å¯¼å‡º" : (_operationType == "import" ? "å¯9aiHˆˆº/k9£hˆŠNÃBƒBˆËÈ9c®ù£¢yo 9i-9æ¡›İ™ÛÛˆ9bcyï ;ï#9b®KwVg–æ•°éƒ¨åˆ†
             // å› ä¸º OvfToolRunner å·²ç»çŸ¥é“å¯æ‰§è¡Œæ–‡ä»¶è·¯å¾„ï¼ŒArguments ä¸åº”åŒ…å«ç¨‹åºå
             string arguments = cmd;
             if (arguments.StartsWith("ovftool ", StringComparison.OrdinalIgnoreCase))
@@ -1607,56 +582,21 @@ namespace VirtualizationOpsTool.UI
                 arguments = "";
             }
 
-            // æ¸…ç©ºå‘½ä»¤é¢„è§ˆåŒºï¼ŒåŒæ—¶è¾“å‡ºåˆ°ä¸»æ—¥å¿—
-            _commandText.Text = "";
-            _commandText.ReadOnly = true;
-            AppendLogToMain($"[OVF{modeName}] å¼€å§‹æ‰§è¡Œ");
+            // æ¸…ç©ºå‘½ä»¤é¢„è§ˆåŒºï¼ŒåŒæ—¶è¾“å‡ºåˆ°ä¸»æ—¥åµÃBˆØÛÛ[X[™^•^HˆÃBˆØÛÛ[X[™^”™XYÛ›HHYNÃBˆ\[™ÙÕÓXZ[Š	–ÓÕ‘Û[ÙS˜[Y_WH9o 9iâù¢iú(cŠNÃBƒBˆ˜\ˆ[›™\ˆH™]Èİ™•ÛÛ[›™\Š
+NÃBˆ[›™\‹“Û“ÙÔ™XÙZ]™Y
+ÏH
+ÙÓ[™JHOƒBˆÃBˆÜ›Ûİ™YÚ[’[›ÚÙJ™]ÈXİ[ÛŠ
 
-            var runner = new OvfToolRunner();
-            runner.OnLogReceived += (logLine) =>
-            {
-                _root.BeginInvoke(new Action(() =>
-                {
-                    _commandText.AppendText(logLine + Environment.NewLine);
-                    _commandText.SelectionStart = _commandText.Text.Length;
-                    _commandText.ScrollToCaret();
-                    AppendLogToMain(logLine);
-                }));
-            };
-
-            try
-            {
-                var result = await runner.RunCommand(arguments);
-
-                _root.Invoke(new Action(() =>
-                {
-                    _commandText.AppendText(Environment.NewLine);
-                    if (result.IsSuccess)
-                    {
-                        _commandText.AppendText($"[æˆåŠŸ] {modeName}å®Œæˆï¼Œé€€å‡ºç : {result.ExitCode}" + Environment.NewLine);
-                        AppendLogToMain($"[OVF{modeName}] æˆåŠŸå®Œæˆï¼Œé€€å‡ºç : {result.ExitCode}", "success");
-                    }
-                    else
-                    {
-                        _commandText.AppendText($"[å¤±è´¥] {result.ErrorMessage}ï¼Œé€€å‡ºç : {result.ExitCode}" + Environment.NewLine);
-                        AppendLogToMain($"[OVF{modeName}] å¤±è´¥: {result.ErrorMessage}ï¼Œé€€å‡ºç : {result.ExitCode}", "error");
+H@Ğ¢°Ğ¢ö6öÖÖæEFW‡BäVæEFW‡B†ÆötÆ–æR²Vçf—&öæÖVçBäæWtÆ–æR“°Ğ¢ö6öÖÖæEFW‡Bå6VÆV7F–öå7F'BÒö6öÖÖæEFW‡BåFW‡BäÆVæwFƒ°Ğ¢ö6öÖÖæEFW‡Bå67&öÆÅFô6&WB‚“°Ğ¢VæDÆöuFôÖ–â†ÆötÆ–æR“°Ğ¢Ò’“°Ğ¢Ó°Ğ Ğ¢G'Ğ¢°Ğ¢f"&W7VÇBÒv—B'VææW"å'Vä6öÖÖæB†&wVÖVçG2“°Ğ Ğ¢÷&ö÷Bä–çfö¶R†æWr7F–öâ‚‚’ÓàĞ¢°Ğ¢ö6öÖÖæEFW‡BäVæEFW‡B„Vçf—&öæÖVçBäæWtÆ–æR“°Ğ¢–b‡&W7VÇBä—57V66W72Ğ¢°Ğ¢ö6öÖÖæEFW‡BäVæEFW‡B‚B%¾h‰X©õÒ¶ÖöFTæÖWŞZèÎh‰ûÈÎ˜X{®z¢·&W7VÇBäW†—D6öFWÒ"²Vçf—&öæÖVçBäæWtÆ–æR“°Ğ¢VæDÆöuFôÖ–â‚B%´õdg¶ÖöFTæÖWÕÒh‰X©şZèÎh‰ûÈÎ˜X{®z¢·&W7VÇBäW†—D6öFWÒ"Â'7V66W72"“°Ğ¢ĞĞ¢VÇ6PĞ¢°Ğ¢ö6öÖÖæEFW‡BäVæEFW‡B‚B%–’Ç¢Ò•tíÉ•ÍÕ±Ğ¹ÉÉ½É5•ÍÍ…•÷¾ò3¦–ë‚èíÉ•ÍÕ±Ğ¹á¥Ñ½‘•ôˆ€¬¹Ù¥É½¹µ•¹Ğ¹9•İ1¥¹”¤ì4(€€€€€€€€€€€€€€€€€€€€€€€ÁÁ•¹‘1½Q½5…¥¸ ‰m=Yíµ½‘•9…µ•õtƒ–’Ç¢Ò”èíÉ•ÍÕ±Ğ¹ÉÉ½É5•ÍÍ…•÷¼Œé€€å‡ºç : {result.ExitCode}", "error");
                     }
                     _commandText.ReadOnly = false;
                 }));
             }
             catch (Exception ex)
             {
-                _root.Invoke(new Action(() =>
-                {
-                    _commandText.AppendText($"[å¼‚å¸¸] {ex.Message}" + Environment.NewLine);
-                    AppendLogToMain($"[OVF{modeName}] å¼‚å¸¸: {ex.Message}", "error");
-                    _commandText.ReadOnly = false;
-                }));
-            }
-        }
-
-        /// <summary>
-        /// å°†æ—¥å¿—åŒæ—¶è¾“å‡ºåˆ°ä¸»ç¨‹åºæ—¥å¿—åŒº
+                _root.Invoke(new Action(() =BˆÃBˆØÛÛ[X[™^\[™^
+	–ùo ¹n.HÙ^“Y\ÜØYÙ_Hˆ
+È[š\›Û›Y[“™]Ó[™JNÃBˆ\[™ÙÕÓXZ[Š	–ÓÕ‘Û[ÙS˜[Y_WH9o ¹n.ˆÙ^“Y\ÜØYÙ_H‹™\œ›ÜˆŠNÃBˆØÛÛ[X[™^”™XYÛ›HH˜[ÙNÃBˆJJNÃBˆCBˆCBƒBˆËËÈİ[[X\OƒBˆËËÈ9l!¹¥éyoåYÎi{nŠE‡ºåˆ°ä¸¹ê"[¨Ú^—–şUŒº
         /// </summary>
         private void AppendLogToMain(string message, string level = "info")
         {
@@ -1671,33 +611,8 @@ namespace VirtualizationOpsTool.UI
         }
 
         /// <summary>
-        /// æ ¹æ®è¿æ¥çŠ¶æ€æ›´æ–°æ‰§è¡ŒæŒ‰é’®å¯ç”¨æ€§
-        /// </summary>
-        public void UpdateExecuteButtonState()
-        {
-            if (_btnExecute != null)
-            {
-                _btnExecute.Enabled = SessionManager.Instance.IsConnected;
-            }
-        }
-
-        /// <summary>
-        /// ç»™è™šæ‹Ÿæœºåç§°ComboBoxé™„åŠ è¾“å…¥ç­›é€‰åŠŸèƒ½
-        /// </summary>
-        private void AttachVmNameFilter(ComboBox cmb)
-        {
-            if (cmb == null) return;
-
-            cmb.TextUpdate += (s, e) =>
-            {
-                if (_vmNameSelecting) return;
-
-                string filter = cmb.Text ?? "";
-                int selStart = cmb.SelectionStart;
-
-                var filtered = string.IsNullOrEmpty(filter)
-                    ? _vmNameFullList
-                    : _vmNameFullList.Where(x => x.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
+        /// æ ¹æ®è¿æ¥çŠ¶æ€æ›´æ–°æ‰¦(c9£"zd«¹cëyJh
+pĞ¢òòòÂ÷7VÖÖ'“àĞ¢V&Æ–2fö–BWFFTW†V7WFT'WGFöå7FFR‚Ğ¢°Ğ¢–b…ö'FäW†V7WFRÒçVÆÂĞ¢°Ğ¢ö'FäW†V7WFRäVæ&ÆVBÒ6W76–öäÖævW"ä–ç7Fæ6Rä—46öææV7FVC°Ğ¢ĞĞ¢ĞĞ Ğ¢òòòÇ7VÖÖ'4(€€€€€€€€¼¼¼ƒîg¢fkš.šrë–B7Á½µ‰½	½ã¦f–*ƒ¢‘aiyëf˜X©âô4(€€€€€€€€¼¼¼€ğ½ÍÕµµ…Éäø4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥ÑÑ…¡Yµ9…µ•¥±Ñ•È¡½µ‰½	½àµˆ¤4(€€€€€€€ì4(€€€€€€€€€€€¥˜€¡µˆ€ôô¹Õ±°¤É•ÑÕÉ¸ì4(4(€€€€€€€€€€€µˆ¹Q•áÑUÁ‘…Ñ”€¬ô€¡Ì°”¤€ôø4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€¥˜€¡}Ùµ9…µ•M•±•Ñ¥¹œ¤É•ÑÕÉ¸ì4(4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œ™¥±Ñ•È€ôµˆ¹Q•áĞ€üü€ˆˆì4(€€€€€€€€€€€€€€€¥¹ĞÍ•±MÑ…ÉĞ€ôµˆ¹M•±•Ñ¥½¹MÑ…ÉĞì4(4(€€€€€€€€€€€€€€€Ù…È™¥±Ñ•É•€ôÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡™¥±Ñ•È¤4(€€€€€€€€€€€€€€€€€€€€ü}Ùµ9…µ•Õ±±1¥ÍĞ4(€€€€€€€€€€€€€€€€€€€€è}Ùµ9…µ•Õ±±1¥ÍĞ¹]¡•É”¡à€ô x.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
 
                 cmb.Items.Clear();
                 cmb.Items.AddRange(filtered.ToArray());
@@ -1706,31 +621,11 @@ namespace VirtualizationOpsTool.UI
                 cmb.SelectionStart = selStart;
                 cmb.SelectionLength = 0;
 
-                if (filtered.Count > 0 && cmb.DroppedDown == false)
-                {
-                    cmb.DroppedDown = true;
-                }
-
-                Cursor.Current = Cursors.Default;
-            };
-
-            cmb.SelectedIndexChanged += (s, e) =>
-            {
-                _vmNameSelecting = true;
-            };
-
-            cmb.DropDownClosed += (s, e) =>
-            {
-                _vmNameSelecting = false;
-            };
-        }
-
-        /// <summary>
-        /// çª—å£å…³é—­æ—¶è°ƒç”¨ï¼Œç”¨äºæ¸…ç†èµ„æº
-        /// </summary>
-        public void OnClosing()
-        {
-            // çª—å£å…³é—­æ—¶çš„æ¸…ç†é€»è¾‘
+                if (filtered.Count 	‰ˆÛX‹‘›ÜYİÛˆOH˜[ÙJCBˆÃBˆÛX‹‘›ÜYİÛˆHYNÃBˆCBƒBˆİ\œÛÜ‹İ\œ™[Hİ\œÛÜœË‘Y˜][ÃBˆNÃBƒBˆÛX‹”Ù[XİY[™^Ú[™ÙY
+ÏH
+ËJHOƒBˆÃBˆİ›S˜[YTÙ[Xİ[™ÈHYNÃBˆNÃBƒBˆÛX‹‘›ÜİÛÛÜÙY
+ÏH
+ËJHOƒBˆÃBˆİ›S˜[YTÙ[Xİ[™ÈH˜[ÙNÃBˆNÃBˆCBƒBˆËËÈİ[[X\OƒBˆËËÈ9ê¥ùb>X[>™zŞi{n‹>yJûÈÎyJK¨îkˆ^yn‹XNk© Ğ¢òòòÂ÷7VÖÖ'4(€€€€€€€ÁÕ‰±¥ŒÙ½¥=¹±½Í¥¹œ ¤4(€€€€€€€ì4(€€€€€€€€€€€€¼¼ƒªU¡al™zŞi{ny¨Nkˆ^yn˜¢‘
         }
     }
 }
