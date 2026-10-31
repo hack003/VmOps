@@ -1,163 +1,14 @@
 // ============================================================================
-// ResourceQueryTab.VmOpsDialog.cs - è™šæ‹Ÿæœºæ“ä½œå¯¹è¯æ¡†ä¸­å¿ƒ
-// ============================================================================
-// èŒè´£èŒƒå›´ï¼š
-//   âœ… ShowEditConfigDialog       - CPU/å†…å­˜/ç«¯å£ç»„ç¼–è¾‘å¯¹è¯æ¡†
-//   âœ… ShowDiskEditorDialog       - ç£ç›˜ç¼–è¾‘å¯¹è¯æ¡†
-//   âœ… ShowPortGroupDialog        - æ–°å»ºç«¯å£ç»„å¯¹è¯æ¡†
-//   âœ… ShowPortgroupEditDialog    - ç¼–è¾‘ç«¯å£ç»„å¯¹è¯æ¡†
-//   âœ… ShowMigrateHostDialog      - è¿ç§»ç›®æ ‡ä¸»æœºé€‰æ‹©
-//   âœ… ShowMigrateResourcePoolDialog - è¿ç§»ç›®æ ‡èµ„æºæ± é€‰æ‹©
-//   âœ… ShowMigrateDatastoreDialog - è¿ç§»ç›®æ ‡å­˜å‚¨é€‰æ‹©
-//   âœ… ShowCloneDialog            - å…‹éš†å‚æ•°å¯¹è¯æ¡†
-//   âœ… ShowNotesDialog            - ç¼–è¾‘å¤‡æ³¨å¯¹è¯æ¡†
-//   âœ… ShowGuestOpsNetworkDialog   - å®¢æˆ·æœºç½‘ç»œé…ç½®å¯¹è¯æ¡†
-//   âœ… ShowGuestOpsPasswordDialog  - å®¢æˆ·æœºå¯†ç é…ç½®å¯¹è¯æ¡†ï¼ˆç‹¬ç«‹è„šæœ¬ï¼Œä¸æ··ç”¨ DeployManagerï¼‰
-// ============================================================================
+// ResourceQueryTab.VmOpsDialog.cs - è™šæ‹§.¹¤ãy/g9kîz+çy¨a¹.+yoàÃB‹ËÈOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOCB‹ËÈ: c:-(ú# ùfí;ï&ƒB‹ËÈ8§!HÚİÑY]ÛÛ™šYÑX[ÙÈHÔKùa¡ykfùêëùb>{¸N{Én‹éZç¢æ¡†
+//   âœ… ShowDiskEditorDialog       - ç£ç›˜ç¼–è¤ykîz+çy¨aƒB‹ËÈ8§!HÚİÔÜÜ›İ\X[ÙÈH9¥¬9nî¹êëùcèùîá9kîz+çy¨aƒB‹ËÈ8§!HÚİÔÜÜ›İ\Y]X[ÙÈH9ï%º/¤yêëùb>{¸NZç¢æ¡†
+//   âœ… ShowMigrateHostDialog      - è¿ç§¹æë¹¨!K‹šrë¦'š.¤4(¼¼€€ƒŠrM¡½İ5¥É…Ñ•I•Í½ÕÉ•A½½±¥…±½œ€´ƒ¢şïn»š‚¢ÖšêCšÆƒ¦'š.¤4(¼¼€€ƒŠrM¡½İ5¥É…Ñ•…Ñ…ÍÑ½É•¥…±½œ€´ƒ¢Áç§»ç›®æ ‡å­˜å‚¨é€‰æ‹©
+//   âœ… ShowCloneDialog            - å…Šf¡¹cà¹¥l9kîz+çy¨aƒB‹ËÈ8§!HÚİÓ›İ\ÑX[ÙÈH9ï%º/¤yi!ù¬ê9kîz+çy¨aƒB‹ËÈ8§!HÚİÑİY\İÜÓ™]ÛÜšÑX[ÙÈH9k¨¹¢-iË®{Ù{¹Î˜XŞ{ÚîZûŠùŞj`Ğ¢òò)ÈR6†÷twVW7D÷577v÷&DF–ÆörÒZê.h‹~iË®Z‚¦7ö»–¹è§y¨a»ï"9âë9êâú!&¹§+;ï#9.#y­íùå*\ŞSX[˜YÙ\»ï"CB‹ËÈOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOCBƒB\Ú[™ÈŞ\İ[NÃB\Ú[™ÈŞ\İ[KÛÛXİ[ÛœË‘Ù[™\šXÎÃB\Ú[™ÈŞ\İ[K‘˜]Ú[™ÎÃB\Ú[™ÈŞ\İ[K’SÎÃB\Ú[™ÈŞ\İ[K“[œNÃB\Ú[™ÈŞ\İ[K•^ÃB\Ú[™ÈŞ\İ[K•™XY[™ÎÃB\Ú[™ÈŞ\İ[K•™XY[™Ë•\ÚÜÎÃB\Ú[™ÈŞ\İ[K•Ú[™İÜË‘›Ü›\ÎÃB\Ú[™Èš\X[^˜][Û“ÜÕÛÛÛÜ™NÃB\Ú[™Èš\X[^˜][Û“ÜÕÛÛ•][ÎÃBƒB›˜[Y\ÜXÙHš\X[^˜][Û“ÜÕÛÛ•RCBÃBˆX›XÈ\X[Û\ÜÈ™\Ûİ\˜ÙT]Y\UXƒBˆÃBˆš]˜]H›ÚYÚİÑY]ÛÛ™šYÑX[ÙÊ\İİš[™Â&÷rĞ¢°Ğ¢7G&–ærfÔÖõ&VbÒgVÆÅfÕ&Vb„vWEfÔ–Dg&öÕ&÷r‡&÷r’“°Ğ¢7G&–ærfÔæÖRÒvWEfÔæÖTg&öÕ&÷r‡&÷r“°Ğ¢–b‡7G&–ærä—4çVÆÄ÷$V×G’‡fÔæÖR’’&WGW&ã°Ğ Ğ¢–çB7W'&VçD7RÒvWD–çDg&öÕ&÷r‡&÷rÂ$çVÔ7R"“°Ğ¢–b†7W'&VçD7RÃÒ’7W'&VçD7RÒ#°Ğ Ğ¢–çB7W'&VçDÖVÒÒ°Ğ¢–çBÖVÔ–G‚Òö6öÇVÖç2äf–æD–æFW‚†2Óâ2äWVÇ2‚$ÖVÖ÷'”t""Â7G&–æt6ö×&—6öâä÷&F–æÄ–væ÷&T66R’“°Ğ¢–b†ÖVÔ–G‚ãÒbbÖVÔ–G‚Â&÷rä6÷VçBĞ¢°Ğ¢–çBåG'•'6R‡&÷u¶ÖVÔ–G…ÒåG&–Ò‚’Â÷WB7W'&VçDÖVÒ“°Ğ¢ĞĞ¢–b†7W'&VçDÖVÒÃÒ’7W'&VçDÖVÒÒC°Ğ Ğ¢7G&–ær7W'&VçE÷'Dw&÷WÒ"#°Ğ Ğ¢f"7U&W6WG2ÒæWuµÒ²#"Â#""Â#B"Â#‚"Â#b"Â#3""Â#C‚"Â#cB"Â#“b"Â##‚"Ó°Ğ¢f"ÖVÕ&W6WG2ÒæWuµÒ²#"Â#""Â#B"Â#‚"Â#b"Â#3""Â#cB"Â##‚"Â##Sb"Ó°Ğ¢f"t66†RÒæWrÆ—7CÇ7G&–æsâ‚“°Ğ Ğ¢W6–ærf"FÆrÒæWrf÷&ĞĞ¢°Ğ¢FW‡BÒB.{Én‹é˜XŞ{ÚâÒ·fÔæÖWÒ"ÀĞ¢–6öâÒ6÷&UWF–Ç2ävWD–6öâ‚’ÀĞ¢f÷&Ô&÷&FW%7G–ÆRÒf÷&Ô&÷&FW%7G–ÆRäf—†VDF–ÆörÀĞ¢7F'E÷6—F–öâÒf÷&Õ7F'E÷6—F–öâä6VçFW%&VçBÀĞ¢Ö†–Ö—¦T&÷‚ÒfÇ6RÀĞ¢Ö–æ–Ö—¦T&÷‚ÒfÇ6RÀĞ¢6†÷t–åF6¶&"ÒfÇ6RÀĞ¢föçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â’’ÀĞ¢WFõ66ÆTÖöFRÒWFõ66ÆTÖöFRäG’ÀĞ¢WFõ66ÆTF–ÖVç6–öç2ÒæWr6—¦Tbƒ“dbÂ“db’ÀĞ¢6—¦RÒæWr6—¦RƒcÂ3’ÀĞ¢Ö–æ–×VÕ6—¦RÒæWr6—¦RƒcÂ3Ğ¢Ó°Ğ Ğ¢f"6öæf–tw&–BÒæWrFFw&–Ef–WpĞ¢°Ğ¢Æö6F–öâÒæWrö–çBƒbÂb’ÀĞ¢6—¦RÒæWr6—¦RƒSSÂ#’ÀĞ¢æ6†÷"Òæ6†÷%7G–ÆW2åF÷Âæ6†÷%7G–ÆW2äÆVgBÂæ6†÷%7G–ÆW2å&–v‡BÀĞ¢Ö&v–âÒFF–æräV×G’ÀĞ¢WFõ6—¦T6öÇVÖç4ÖöFRÒFFw&–Ef–WtWFõ6—¦T6öÇVÖç4ÖöFRäæöæRÀĞ¢ÆÆ÷uW6W%FôFE&÷w2ÒfÇ6RÀĞ¢ÆÆ÷uW6W%FôFVÆWFU&÷w2ÒfÇ6RÀĞ¢ÆÆ÷uW6W%Fõ&W6—¦U&÷w2ÒfÇ6RÀĞ¢ÆÆ÷uW6W%Fõ&W6—¦T6öÇVÖç2ÒfÇ6RÀĞ¢&VDöæÇ’ÒfÇ6RÀĞ¢×VÇF•6VÆV7BÒfÇ6RÀĞ¢6VÆV7F–öäÖöFRÒFFw&–Ef–Wu6VÆV7F–öäÖöFRägVÆÅ&÷u6VÆV7BÀĞ¢&÷t†VFW'5f—6–&ÆRÒfÇ6RÀĞ¢&÷&FW%7G–ÆRÒ&÷&FW%7G–ÆRäf—†VE6–ævÆRÀĞ¢föçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â’Ğ¢Ó°Ğ Ğ¢6öæf–tw&–Bä6öÇVÖç2äFB‚&6öæf–t—FVÒ"Â.˜XŞ{Úîš’"“°Ğ¢6öæf–tw&–Bä6öÇVÖç2äFB‚&7W'&VçD6öæf–r"Â.[Ù&7¦7ö¸ˆ¤ì4(4(€€€€€€€€€€€Ù…È½µ‰½½°€ô¹•Ü…Ñ…É¥‘Y¥•İ½µ‰½	½á½±Õµ¸4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€9…µ”€ô€‰¹•İ½¹™¥œˆ°4(€€€€€€€€€€€€€€€!•…‘•ÉQ•áĞ€ô€‹šZÃ¦7ö¸ˆ°4(€€€€€€€€€€€€€€€]¥‘Ñ €ô€ÄÔÀ°4(€€€€€€€€€€€€€€€±…ÑMÑå±”€ô±…ÑMÑå±”¹MÑ…¹‘…É°4(€€€€€€€€€€€€€€€¥ÍÁ±…åMÑå±”€ô…Ñ…É¥‘Y¥•İ½µ‰½	½á¥ÍÁ±…åMÑå±”¹½µ‰½	½à°4(€€€€€€€€€€€€€€€¥ÍÁ±…åMÑå±•½ÉÕÉÉ•¹Ñ•±±=¹±ä€ôÑÉÕ”4(€€€€€€€€€€€ôì4(€€€€€€€€€€€€¼¼ƒšŞï–*ƒš&šr'–/èƒ½çš„å€¼åˆ° ComboBox åˆ—ÈÎzîKùŞ[Ù&7–ó¢÷š¶‡¡®æ˜¾ç¤º
+            var allComboItems = new List<string
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using VirtualizationOpsTool.Core;
-using VirtualizationOpsTool.Utils;
-
-namespace VirtualizationOpsTool.UI
-{
-    public partial class ResourceQueryTab
-    {
-        private void ShowEditConfigDialog(List<string> row)
-        {
-            string vmMoRef = FullVmRef(GetVmIdFromRow(row));
-            string vmName = GetVmNameFromRow(row);
-            if (string.IsNullOrEmpty(vmName)) return;
-
-            int currentCpu = GetIntFromRow(row, "NumCpu");
-            if (currentCpu <= 0) currentCpu = 2;
-
-            int currentMem = 0;
-            int memIdx = _columns.FindIndex(c => c.Equals("MemoryGB", StringComparison.OrdinalIgnoreCase));
-            if (memIdx >= 0 && memIdx < row.Count)
-            {
-                int.TryParse(row[memIdx].Trim(), out currentMem);
-            }
-            if (currentMem <= 0) currentMem = 4;
-
-            string currentPortGroup = "";
-
-            var cpuPresets = new[] { "1", "2", "4", "8", "16", "32", "48", "64", "96", "128" };
-            var memPresets = new[] { "1", "2", "4", "8", "16", "32", "64", "128", "256" };
-            var pgCache = new List<string>();
-
-            using var dlg = new Form
-            {
-                Text = $"ç¼–è¾‘é…ç½® - {vmName}",
-                Icon = CoreUtils.GetAppIcon(),
-                FormBorderStyle = FormBorderStyle.FixedDialog,
-                StartPosition = FormStartPosition.CenterParent,
-                MaximizeBox = false,
-                MinimizeBox = false,
-                ShowInTaskbar = false,
-                Font = new Font("Microsoft YaHei", 9),
-                AutoScaleMode = AutoScaleMode.Dpi,
-                AutoScaleDimensions = new SizeF(96F, 96F),
-                Size = new Size(600, 300),
-                MinimumSize = new Size(600, 300)
-            };
-
-            var configGrid = new DataGridView
-            {
-                Location = new Point(16, 16),
-                Size = new Size(550, 120),
-                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
-                Margin = Padding.Empty,
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None,
-                AllowUserToAddRows = false,
-                AllowUserToDeleteRows = false,
-                AllowUserToResizeRows = false,
-                AllowUserToResizeColumns = false,
-                ReadOnly = false,
-                MultiSelect = false,
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                RowHeadersVisible = false,
-                BorderStyle = BorderStyle.FixedSingle,
-                Font = new Font("Microsoft YaHei", 9)
-            };
-
-            configGrid.Columns.Add("configItem", "é…ç½®é¡¹");
-            configGrid.Columns.Add("currentConfig", "å½“å‰é…ç½®");
-
-            var comboCol = new DataGridViewComboBoxColumn
-            {
-                Name = "newConfig",
-                HeaderText = "æ–°é…ç½®",
-                Width = 150,
-                FlatStyle = FlatStyle.Standard,
-                DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox,
-                DisplayStyleForCurrentCellOnly = true
-            };
-            // æ·»åŠ æ‰€æœ‰å¯èƒ½çš„å€¼åˆ° ComboBox åˆ—ï¼Œç¡®ä¿å½“å‰å€¼èƒ½æ­£ç¡®æ˜¾ç¤º
-            var allComboItems = new List<string>();
-            allComboItems.AddRange(cpuPresets);
-            allComboItems.AddRange(memPresets);
-            // ç¡®ä¿å½“å‰å€¼ä¹Ÿåœ¨åˆ—è¡¨ä¸­ï¼Œé¿å…æ˜¾ç¤ºå¼‚å¸¸
-            if (!allComboItems.Contains(currentCpu.ToString()))
-                allComboItems.Add(currentCpu.ToString());
-            string currentMemStr = currentMem.ToString();
-            if (!allComboItems.Contains(currentMemStr))
-                allComboItems.Add(currentMemStr);
-            comboCol.Items.AddRange(allComboItems.ToArray());
-            configGrid.Columns.Add(comboCol);
-
-            configGrid.Columns.Add("description", "è¯´æ˜");
-
-            configGrid.Columns["configItem"].Width = 120;
-            configGrid.Columns["currentConfig"].Width = 120;
-            configGrid.Columns["description"].Width = 140;
-
-            configGrid.Columns["configItem"].ReadOnly = true;
-            configGrid.Columns["currentConfig"].ReadOnly = true;
-            configGrid.Columns["description"].ReadOnly = true;
-            configGrid.Columns["description"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
-            configGrid.Rows.Add("vCPU æ•°é‡", $"{currentCpu} æ ¸", currentCpu.ToString(), "èŒƒå›´: 1 ~ 128");
+NÃBˆ[ÛÛX›Ò][\ËY˜[™ÙJÜT™\Ù]ÊNÃBˆ[ÛÛX›Ò][\ËY˜[™ÙJY[T™\Ù]ÊNÃBˆËÈ9èk¹/çyodX˜ŞXÎK™Ör£–"X¡¨ä¸­ï#:`oXXŞi‹îzK®[È.[‹€Ğ¢–b‚ÆÄ6öÖ&ô—FV×2ä6öçF–ç2†7W'&VçD7RåFõ7G&–ær‚’’Ğ¢ÆÄ6öÖ&ô—FV×2äFB†7W'&VçD7RåFõ7G&–ær‚’“°Ğ¢7G&–ær7W'&VçDÖVÕ7G"Ò7W'&VçDÖVÒåFõ7G&–ær‚“°Ğ¢–b‚ÆÄ6öÖ&ô—FV×2ä6öçF–ç2†7W'&VçDÖVÕ7G"’Ğ¢ÆÄ6öÖ&ô—FV×2äFB†7W'&VçDÖVÕ7G"“°Ğ¢6öÖ&ô6öÂä—FV×2äFE&ævR†ÆÄ6öÖ&ô—FV×2åFô'&’‚’“°Ğ¢6öæf–tw&–Bä6öÇVÖç2äFB†6öÖ&ô6öÂ“°Ğ Ğ¢6öæf–tw&–Bä6öÇVÖç2äFB‚&FW67&—F–öâ"Â.ŠûNiˆâ"“°Ğ Ğ¢6öæf–tw&–Bä6öÇVÖç5²&6öæf–t—FVÒ%Òåv–GF‚Ò#°Ğ¢6öæf–tw&–Bä6öÇVÖç5²&7W'&VçD6öæf–r%Òåv–GF‚Ò#°Ğ¢6öæf–tw&–Bä6öÇVÖç5²&FW67&—F–öâ%Òåv–GF‚ÒC°Ğ Ğ¢6öæf–tw&–Bä6öÇVÖç5²&6öæf–t—FVÒ%Òå&VDöæÇ’ÒG'VS°Ğ¢6öæf–tw&–Bä6öÇVÖç5²&7W'&VçD6öæf–r%Òå&VDöæÇ’ÒG'VS°Ğ¢6öæf–tw&–Bä6öÇVÖç5²&FW67&—F–öâ%Òå&VDöæÇ’ÒG'VS°Ğ¢6öæf–tw&–Bä6öÇVÖç5²&FW67&—F–öâ%ÒäWFõ6—¦TÖöFRÒFFw&–Ef–WtWFõ6—¦T6öÇVÖäÖöFRäf–ÆÃ°Ğ Ğ¢6öæf–tw&–Bå&÷w2äFB‚'d5Ri[˜xò"ÂB'¶7W'&VçD7WÒj‚"Â7W'&VçD7RåFõ7G&–ær‚’Â.ˆÈnĞè€Ä 128");
             configGrid.Rows.Add("å†…å­˜å¤§å°", $"{currentMem} GB", currentMem.ToString(), "èŒƒå›´: 1 ~ 256 GB");
-            configGrid.Rows.Add("ç½‘ç»œç«¯å£ç»„", "åŠ è½½ä¸­...", currentPortGroup, "å¯é€‰: ç‚¹å‡»åŠ è½½åé€‰æ‹©");
-
-            var lblPresetHint = new Label
-            {
-                Text = "é¢„è®¾: 1, 2, 4, 8, 16, 32, 48, 64, 96, 128",
-                Location = new Point(16, 145),
-                AutoSize = true,
-                ForeColor = Color.Gray,
-                Font = new Font("Microsoft YaHei", 8),
-                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
-                Margin = Padding.Empty
-            };
-
-            var lblHint = new Label
-            {
-                Text = " è‹¥ä¸æ”¯æŒ Hot-Addï¼Œéœ€è¦å…ˆå…³æœº", Location = new Point(16, 165),
-                AutoSize = true,
-                ForeColor = ColorTranslator.FromHtml("#EF6C00"),
-                Font = new Font("Microsoft YaHei", 9),
-                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
-                Margin = Padding.Empty
-            };
-
-            var btnPanel = new FlowLayoutPanel
-            {
-                Dock = DockStyle.Bottom, Height = 44,
-                Padding = new Padding(0, 6, 0, 6),
-                BackColor = Color.FromArgb(240, 240, 240)
-            };
-            var btnApply = new Button { Text = "åº”ç”¨å˜æ›´", Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9), DialogResult = DialogResult.OK };
-            var btnCancel = new Button { Text = "å–æ¶ˆ", Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9), DialogResult = DialogResult.Cancel };
+            configGrid.Rows.Add("ç½‘ç»œç«­cè{¸B"Â.Xª‹ÛŞKŠÒâââ"Â7W'&VçE÷'Dw&÷WÂ.X¿¦$èƒ
+ç–ï–*ƒ¢ö÷–B;¦'š.¤ˆ¤ì4(4(€€€€€€€€€€€Ù…È±‰±AÉ•Í•Ñ!¥¹Ğ€ô¹•Ü1…‰•°4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Q•áĞ€ô€‹¦Š¢ºøè€Ä°€È°€Ğ°€à°€ÄØ°€ÌÈ°€Ğà°€ØĞ°€äØ°€ÄÈàˆ°4(€€€€€€€€€€€€€€€1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ ÄØ°€ÄĞÔ¤°4(€€€€€€€€€€€€€€€ÕÑ½M¥é”€ôÑÉÕ”°4(€€€€€€€€€€€€€€€½É•½±½È€ô½±½È¹É…ä°4(€€€€€€€€€€€€€€€½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€à¤°4(€€€€€€€€€€€€€€€¹¡½È€ô¹¡½ÉMÑå±•Ì¹Q½Àğ¹¡½ÉMÑå±•Ì¹1•™Ğğ¹¡½ÉMÑå±•Ì¹I¥¡Ğ°4(€€€€€€€€€€€€€€€5…É¥¸€ôA…‘‘¥¹œ¹µÁÑä4(€€€€€€€€€€€ôì4(4(€€€€€€€€€€€Ù…È±‰±!¥¹Ğ€ô¹•Ü1…‰•°4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Q•áĞ€ô€ˆƒ¢.—’â7šR¿š2!½Ğµ‘“¾ò3¦r¢š–#–Ïšrèˆ°1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ ÄØ°€ÄØÔ¤°4(€€€€€€€€€€€€€€€ÕÑ½M¥é”€ôÑÉÕ”°4(€€€€€€€€€€€€€€€½É•½±½È€ô½±½ÉQÉ…¹Í±…Ñ½È¹É½µ!Ñµ° ˆÙÀÀˆ¤°4(€€€€€€€€€€€€€€€½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ä¤°4(€€€€€€€€€€€€€€€¹¡½È€ô¹¡½ÉMÑå±•Ì¹Q½Àğ¹¡½ÉMÑå±•Ì¹1•™Ğğ¹¡½ÉMÑå±•Ì¹I¥¡Ğ°4(€€€€€€€€€€€€€€€5…É¥¸€ôA…‘‘¥¹œ¹µÁÑä4(€€€€€€€€€€€ôì4(4(€€€€€€€€€€€Ù…È‰Ñ¹A…¹•°€ô¹•Ü±½İ1…å½ÕÑA…¹•°4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€½¬€ô½­MÑå±”¹	½ÑÑ½´°!•¥¡Ğ€ô€ĞĞ°4(€€€€€€€€€€€€€€€A…‘‘¥¹œ€ô¹•ÜA…‘‘¥¹œ À°€Ø°€À°€Ø¤°4(€€€€€€€€€€€€€€€	…­½±½È€ô½±½È¹É½µÉˆ ÈĞÀ°€ÈĞÀ°€ÈĞÀ¤4(€€€€€€€€€€€ôì4(€€€€€€€€€€€Ù…È‰Ñ¹ÁÁ±ä€ô¹•Ü	ÕÑÑ½¸ìQ•áĞ€ô€‹–êSR£–>cšnĞˆ°M¥é”€ô¹•ÜM¥é” àÀ°€Èà¤°½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ä¤°¥…±½I•ÍÕ±Ğ€ô¥…±½I•ÍÕ±Ğ¹=,ôì4(€€€€€€€€€€€Ù…È‰Ñ¹…¹•°€ô¹•Ü	ÕÑÑ½¸ìQ•áĞ€ô€‹–æ¶ˆ", Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9), DialogResult = DialogResult.Cancel };
             btnPanel.Controls.Add(btnApply);
             btnPanel.Controls.Add(btnCancel);
 
@@ -168,120 +19,14 @@ namespace VirtualizationOpsTool.UI
             dlg.AcceptButton = btnApply;
             dlg.CancelButton = btnCancel;
 
-            configGrid.CellBeginEdit += (s, e) =>
-            {
-                if (e.ColumnIndex == 2 && e.RowIndex == 0)
-                {
-                    lblPresetHint.Text = "é¢„è®¾: 1, 2, 4, 8, 16, 32, 48, 64, 96, 128";
-                }
-                else if (e.ColumnIndex == 2 && e.RowIndex == 1)
-                {
-                    lblPresetHint.Text = "é¢„è®¾: 1, 2, 4, 8, 16, 32, 64, 128, 256 (GB)";
-                }
-                else if (e.ColumnIndex == 2 && e.RowIndex == 2)
-                {
-                    lblPresetHint.Text = "æç¤º: ç‚¹å‡»ä¸»ç•Œé¢\"æŸ¥çœ‹ç½‘ç»œ\"å¯è·å¾—å®Œæ•´ç«¯å£ç»„åˆ—è¡¨";
-                }
-            };
-
-            configGrid.EditingControlShowing += (s, e) =>
-            {
-                if (e.Control is ComboBox cb && configGrid.CurrentCell.ColumnIndex == 2)
-                {
-                    cb.DropDownStyle = ComboBoxStyle.DropDown;
-                    cb.Items.Clear();
-
-                    int rowIndex = configGrid.CurrentCell.RowIndex;
-                    if (rowIndex == 0)
-                    {
-                        cb.Items.AddRange(cpuPresets);
-                    }
-                    else if (rowIndex == 1)
-                    {
-                        cb.Items.AddRange(memPresets);
-                    }
-                    else if (rowIndex == 2)
-                    {
-                        if (pgCache.Count > 0)
-                        {
-                            cb.Items.AddRange(pgCache.ToArray());
-                        }
-                    }
-
-                    // è·å–å•å…ƒæ ¼å½“å‰å€¼ï¼ˆå¯èƒ½æ˜¯ç”¨æˆ·åˆšé€‰æ‹©çš„å€¼ï¼‰
-                    string currentVal = configGrid.CurrentCell.Value?.ToString() ?? "";
-                    if (!string.IsNullOrEmpty(currentVal) && !cb.Items.Contains(currentVal))
-                    {
-                        cb.Items.Add(currentVal);
-                    }
-
-                    // è®¾ç½®é»˜è®¤å€¼ä¸ºå½“å‰å€¼
-                    if (!string.IsNullOrEmpty(currentVal))
-                    {
-                        cb.Text = currentVal;
-                    }
-                }
-            };
-
-            // ç¼–è¾‘å®Œæˆåï¼Œç¡®ä¿é€‰ä¸­çš„å€¼ä¿ç•™åœ¨å•å…ƒæ ¼çš„ Value ä¸­
-            configGrid.CellEndEdit += (s, e) =>
-            {
-                if (e.ColumnIndex == 2)
-                {
-                    var cell = configGrid.Rows[e.RowIndex].Cells[2];
-                    string selectedVal = cell.Value?.ToString() ?? "";
-                    // ç¡®ä¿é€‰ä¸­çš„å€¼åœ¨ ComboBox åˆ—çš„ Items ä¸­ï¼Œé¿å…æ˜¾ç¤ºå¼‚å¸¸
-                    if (!string.IsNullOrEmpty(selectedVal) && !comboCol.Items.Contains(selectedVal))
-                    {
-                        comboCol.Items.Add(selectedVal);
-                    }
-                }
-            };
-
-            configGrid.DataError += (s, e) =>
-            {
-                e.ThrowException = false;
-            };
-
-            Task.Run(() =>
-            {
-                try
-                {
-                    var pgCacheLocal = UnifiedCache.GetCachedPortGroups();
-                    if (pgCacheLocal.Count == 0)
-                    {
-                        var result = SessionManager.Instance.ExecuteQueryAsync(
-                            "Get-VirtualNetwork -ErrorAction SilentlyContinue | Select-Object Name | Sort-Object Name -Unique",
-                            (msg, level) => { }
-                        ).Result;
-
-                        if (result != null && result.Count > 0)
-                        {
-                            foreach (var dict in result)
-                            {
-                                if (dict.TryGetValue("Name", out var nameObj))
-                                {
-                                    var name = nameObj?.ToString()?.Trim();
-                                    if (!string.IsNullOrEmpty(name))
-                                    {
-                                        pgCacheLocal.Add(name);
-                                    }
-                                }
-                            }
-                            if (pgCacheLocal.Count > 0)
-                            {
-                                UnifiedCache.UpdateResourceCache(portGroups: pgCacheLocal);
-                            }
-                        }
-                    }
-
-                    var vmResult = SessionManager.Instance.ExecuteQueryAsync(
-                        $"Get-View -Id '{vmMoRef}' -Property Config.Hardware.Device -ErrorAction Stop | ForEach-Object {{ $_.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetCard] }} | Select-Object -First 1 | ForEach-Object {{ if ($_.Backing -is [VMware.Vim.VirtualEthernetCardDistributedVirtualPortBackingInfo]){{[PSCustomObject]@{{NetworkName=$_.Backing.NetworkName}}}}else{{[PSCustomObject]@{{NetworkName=$_.Backing.DeviceName}}}} }} }}",
-                        (msg, level) => { }
-                    ).Result;
-
-                    string vmPg = "";
-                    if (vmResult != null && vmResult.Count > 0 && vmResult[0].TryGetValue("NetworkName", out var pgObj))
+            configGrid.CellBeginEdit += (s, e) =BˆÃBˆYˆ
+KÛÛ[[’[™^OHˆ	‰ˆK”›İÒ[™^OH
+CBˆÃBˆ›™\Ù][•^Hºh¡:+£¢Â"ÂBÂ‚ÂbÂ3"ÂC‚ÂcBÂ“bÂ#‚#°Ğ¢ĞĞ¢VÇ6R–b†Rä6öÇVÖä–æFW‚ÓÒ"bbRå&÷t–æFW‚ÓÒĞ¢°Ğ¢Æ&Å&W6WD†–çBåFW‡BÒ.š(NŠèè€Ä°€È°€Ğ°€à°€ÄØ°€ÌÈ°€ØĞ°€ÄÈà°€ÈÔØ€¡¤ˆì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€•±Í”¥˜€¡”¹½±Õµ¹%¹‘•à€ôô€È€˜˜”¹I½İ%¹‘•à€ôô€È¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€±‰±AÉ•Í•Ñ!¥¹Ğ¹Q•áĞ€ô€‹š>C’èèƒ
+ç–ä¸¹åc:gh—¹¦^yÈ¾{Ù{¹ÅÂ.Xúşˆë~[é~ZèÎi[NzºşXú>{¸NX‰~Š‚#°Ğ¢ĞĞ¢Ó°Ğ Ğ¢6öæf–tw&–BäVF—F–æt6öçG&öÅ6†÷v–ær³Ò‡2ÂR’ÓàĞ¢°Ğ¢–b†Rä6öçG&öÂ—26öÖ&ô&÷‚6"bb6öæf–tw&–Bä7W'&VçD6VÆÂä6öÇVÖä–æFW‚ÓÒ"Ğ¢°Ğ¢6"äG&÷F÷vå7G–ÆRÒ6öÖ&ô&÷…7G–ÆRäG&÷F÷vã°Ğ¢6"ä—FV×2ä6ÆV"‚“°Ğ Ğ¢–çB&÷t–æFW‚Ò6öæf–tw&–Bä7W'&VçD6VÆÂå&÷t–æFWƒ°Ğ¢–b‡&÷t–æFW‚ÓÒĞ¢°Ğ¢6"ä—FV×2äFE&ævR†7U&W6WG2“°Ğ¢ĞĞ¢VÇ6R–b‡&÷t–æFW‚ÓÒĞ¢°Ğ¢6"ä—FV×2äFE&ævR†ÖVÕ&W6WG2“°Ğ¢ĞĞ¢VÇ6R–b‡&÷t–æFW‚ÓÒ"Ğ¢°Ğ¢–b‡t66†Rä6÷VçBâĞ¢°Ğ¢6"ä—FV×2äFE&ævR‡t66†RåFô'&’‚’“°Ğ¢ĞĞ¢ĞĞ Ğ¢òòˆë~XùnXÙ^XX>jÎ[Ù>X˜ŞXÎûÈXúşˆ;ŞiŠşyJh‹~X‰®˜hºy¨NXÎûÈĞ¢7G&–ær7W'&VçEfÂÒ6öæf–tw&–Bä7W'&VçD6VÆÂåfÇVSòåFõ7G&–ær‚’óò"#°Ğ¢–b‚7G&–ærä—4çVÆÄ÷$V×G’†7W'&VçEfÂ’bb6"ä—FV×2ä6öçF–ç2†7W'&VçEfÂ’Ğ¢°Ğ¢6"ä—FV×2äFB†7W'&VçEfÂ“°Ğ¢ĞĞ Ğ¢òòŠëö»¦îc¢º“–ó’âë–öO–&7–ğ4(€€€€€€€€€€€€€€€€€€€¥˜€ …ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡ÕÉÉ•¹ÑY…°¤¤4(€€€€€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€€€€€ˆ¹Q•áĞ€ôÕÉÉ•¹ÑY…°ì4(€€€€€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€ôì4(4(€€€€€€€€€€€€¼¼ƒò[¢úG–º3š"C–B;¾ò3†»’İé€‰ä¸­çš„å€¼ä·yåfyg*9ceya`ù¨/9æ¡˜[YH9.+CBˆÛÛ™šYÑÜšYÙ[[™Y]
+ÏH
+ËJHOƒBˆÃBˆYˆ
+KÛÛ[[’[™^OHŠCBˆÃBˆ˜\ˆÙ[HÛÛ™šYÑÜšY”›İÜÖÙK”›İÒ[™^KÙ[ÖÌ—NÃBˆİš[™ÈÙ[XİY˜[HÙ[•˜[YOË•Ôİš[™Ê
+HÏÈˆÃBˆËÈ9èk¹/çz`"y.+yæ¡9`/9g*ÛÛX›Ğ›Ş9b%ùæ¡][\È9.+{ï#:`oùacy¦.zK®[È.[‹€Ğ¢–b‚7G&–ærä—4çVÆÄ÷$V×G’‡6VÆV7FVEfÂ’bb6öÖ&ô6öÂä—FV×2ä6öçF–ç2‡6VÆV7FVEfÂ’Ğ¢°Ğ¢6öÖ&ô6öÂä—FV×2äFB‡6VÆV7FVEfÂ“°Ğ¢ĞĞ¢ĞĞ¢Ó°Ğ Ğ¢6öæf–tw&–BäFFW'&÷"³Ò‡2ÂR’ÓàĞ¢°Ğ¢RåF‡&÷tW†6WF–öâÒfÇ6S°Ğ¢Ó°Ğ Ğ¢F6²å'Vâ‚‚’ÓàĞ¢°Ğ¢G'Ğ¢°Ğ¢f"t66†TÆö6ÂÒVæ–f–VD66†RävWD66†VE÷'Dw&÷W2‚“°Ğ¢–b‡t66†TÆö6Âä6÷VçBÓÒĞ¢°Ğ¢f"&W7VÇBÒ6W76–öäÖævW"ä–ç7Fæ6RäW†V7WFUVW'”7–æ2€Ğ¢$vWBÕf—'GVÄæWGv÷&²ÔW'&÷$7F–öâ6–ÆVçFÇ”6öçF–çVRÂ6VÆV7BÔö&¦V7BæÖRÂ6÷'BÔö&¦V7BæÖRÕVæ—VR"ÀĞ¢†×6rÂÆWfVÂ’Óâ²ĞĞ¢’å&W7VÇC°Ğ Ğ¢–b‡&W7VÇBÒçVÆÂbb&W7VÇBä6÷VçBâĞ¢°Ğ¢f÷&V6‚‡f"F–7B–â&W7VÇBĞ¢°Ğ¢–b†F–7BåG'”vWEfÇVR‚$æÖR"Â÷WBf"æÖTö&¢’Ğ¢°Ğ¢f"æÖRÒæÖTö&£òåFõ7G&–ær‚“òåG&–Ò‚“°Ğ¢–b‚7G&–ærä—4çVÆÄ÷$V×G’†æÖR’Ğ¢°Ğ¢t66†TÆö6ÂäFB†æÖR“°Ğ¢ĞĞ¢ĞĞ¢ĞĞ¢–b‡t66†TÆö6Âä6÷VçBâĞ¢°Ğ¢Væ–f–VD66†RåWFFU&W6÷W&6T66†R‡÷'Dw&÷W3¢t66†TÆö6Â“°Ğ¢ĞĞ¢ĞĞ¢ĞĞ Ğ¢f"fÕ&W7VÇBÒ6W76–öäÖævW"ä–ç7Fæ6RäW†V7WFUVW'”7–æ2€Ğ¢B$vWBÕf–WrÔ–Bw·fÔÖõ&VgÒrÕ&÷W'G’6öæf–rä†&Gv&RäFWf–6RÔW'&÷$7F–öâ7F÷Âf÷$V6‚Ôö&¦V7B·²Eòä6öæf–rä†&Gv&RäFWf–6RÂv†W&RÔö&¦V7B·²EòÖ—2µd×v&Råf–Òåf—'GVÄWF†W&æWD6&EÒ×ÒÂ6VÆV7BÔö&¦V7BÔf—'7BÂf÷$V6‚Ôö&¦V7B·²–b‚Eòä&6¶–ærÖ—2µd×v&Råf–Òåf—'GVÄWF†W&æWD6&DF—7G&–'WFVEf—'GVÅ÷'D&6¶–æt–æfõÒ—·µµ47W7FöÔö&¦V7EÔ·´æWGv÷&´æÖSÒEòä&6¶–æräæWGv÷&´æÖW×××ÖVÇ6W·µµ47W7FöÔö&¦V7EÔ·´æWGv÷&´æÖSÒEòä&6¶–æräFWf–6TæÖW×××Ò×Ò×Ò"ÀĞ¢†×6rÂÆWfVÂ’Ğìô4(€€€€€€€€€€€€€€€€€€€€¤¹I•ÍÕ±Ğì4(4(€€€€€€€€€€€€€€€€€€€ÍÑÉ¥¹œÙµAœ€ô€ˆˆì4(€€€€€€€€€€€€€€€€€€€¥˜€¡ÙµI•ÍÕ±Ğ€„ô¹Õ±°€˜˜ÙµI•ÍÕ±Ğ¹½Õ¹Ğ€ 0 && vmResult[0].TryGetValue("NetworkName", out var pgObj))
                     {
                         vmPg = pgObj?.ToString()?.Trim() ?? "";
                     }
@@ -291,18 +36,7 @@ namespace VirtualizationOpsTool.UI
                         currentPortGroup = vmPg;
                         pgCache = new List<string>(pgCacheLocal);
 
-                        configGrid.Rows[2].Cells[1].Value = string.IsNullOrEmpty(vmPg) ? "(æœªè·å–)" : vmPg;
-                        configGrid.Rows[2].Cells[2].Value = vmPg;
-
-                        // å°†å½“å‰ç«¯å£ç»„å€¼åŠ å…¥ ComboBox åˆ—çš„ Itemsï¼Œç¡®ä¿èƒ½æ­£ç¡®æ˜¾ç¤º
-                        if (!string.IsNullOrEmpty(vmPg) && !comboCol.Items.Contains(vmPg))
-                        {
-                            comboCol.Items.Add(vmPg);
-                        }
-
-                        if (pgCacheLocal.Count > 0)
-                        {
-                            configGrid.Rows[2].Cells[3].Value = "å¯é€‰: " + string.Join(", ", pgCacheLocal.Take(5)) + (pgCacheLocal.Count > 5 ? "..." : "");
+                        configGrid.Rows[2].Cells[1].Value = string.IsNullOrEmpty(vmPg) ? "(æœªè·å…ŠHˆˆ›TÎÃBˆÛÛ™šYÑÜšY”›İÜÖÌ—KÙ[ÖÌ—K•˜[YHH›TÎÃBƒBˆËÈ9l!¹odùbcyêëùb>{¸NXÎXªXZR6öÖ&ô&÷‚X‰^j%Ñ•µÏ#9èk¹/çz ïy«hzîi‹îzK Ğ¢–b‚7G&–ærä—4çVÆÄ÷$V×G’‡fÕr’bb6öÖ&ô6öÂä—FV×2ä6öçF–ç2‡fÕr’Ğ¢°Ğ¢6öÖ&ô6öÂä—FV×2äFB‡fÕr“°Ğ¢ĞĞ Ğ¢–b‡t66†TÆö6Âä6÷VçBâĞ¢°Ğ¢6öæf–tw&–Bå&÷w5³%Òä6VÆÇ5³5ÒåfÇVRÒ.X¿¦$è€ˆ€¬ÍÑÉ¥¹œ¹)½¥¸ ˆ°€ˆ°Á…¡•1½…°¹Q…­” Ô¤¤€¬€¡Á…¡•1½…°¹½Õ¹Ğ€ 5 ? "..." : "");
                         }
                     }));
                 }
@@ -322,75 +56,17 @@ namespace VirtualizationOpsTool.UI
                 string newPortGroup = "";
 
                 string cpuText = (configGrid.Rows[0].Cells[2].Value?.ToString() ?? "").Trim();
-                if (!int.TryParse(cpuText, out newCpu) || newCpu < 1 || newCpu > 128)
+                if (!int.TryParse(cpuText, out newCpu) || newCpu < 1 || newCpu L
+CBˆÃBˆY\ÜØYÙP›Ş”ÚİÊÔH9¥l:aãùoázhnù..ˆ_ŒL9.búeí9æ¡9¥m9¥l‹º)—¦Rg¢¾¼ˆ°5•ÍÍ…•	½á	ÕÑÑ½¹Ì¹=,°5•ÍÍ…•	½á%½¸¹]…É¹¥¹œ¤ì4(€€€€€€€€€€€€€€€€€€€É•ÑÕÉ¸ì4(€€€€€€€€€€€€€€€ô4(4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œµ•µQ•áĞ€ô€¡½¹™¥É¥¹I½İÍlÅt¹•±±ÍlÉt¹Y…±Õ”ü¹Q½MÑÉ¥¹œ ¤€üü€ˆˆ¤¹QÉ¥´ ¤ì4(€€€€€€€€€€€€€€€µ•µQ•áĞ€ôµ•µQ•áĞ¹I•Á±…” ‰ˆ°€ˆˆ¤¹I•Á±…” ‰ˆˆ°€ˆˆ¤¹I•Á±…” ‰ˆˆ°€ˆˆ¤¹QÉ¥´ ¤ì4(€€€€€€€€€€€€€€€¥˜€ …¥¹Ğ¹QÉåA…ÉÍ”¡µ•µQ•áĞ°½ÕĞ¹•İ5•´¤ñğ¹•İ5•´€ğ€Äñğ¹•İ5•´€ 256)
                 {
-                    MessageBox.Show("vCPU æ•°é‡å¿…é¡»ä¸º 1~128 ä¹‹é—´çš„æ•´æ•°", "è¾“å…¥é”™è¯¯", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    MessageBox.Show("å†…å­˜å¤§å°å±zhnù..ˆS#SbK˜¦^ÓjšVÓšVÀˆ°€‹¢úO–—¦Rg¢¾¼ˆ°5•ÍÍ…•	½á	ÕÑÑ½¹Ì¹=,°5•ÍÍ…•	½á%½¸¹]…É¹¥¹œ¤ì4(€€€€€€€€€€€€€€€€€€€É•ÑÕÉ¸ì4(€€€€€€€€€€€€€€€ô4(4(€€€€€€€€€€€€€€€¹•İA½ÉÑÉ½ÕÀ€ô€¡½¹™¥É¥¹I½İÍlÉt¹•±±ÍlÉt¹Y…±Õ”ü¹Q½MÑÉ¥¹œ ¤€üü€ˆˆ¤¹QÉ¥´ ¤ì4(4(€€€€€€€€€€€€€€€‰½½°ÁÕ¡…¹•€ô¹•İÁÔ€„ôÕÉÉ•¹ÑÁÔì4(€€€€€€€€€€€€€€€‰½½°µ•µ¡…¹•€ô¹•İ5•´€„ôÕÉÉ•¹Ñ5•´ì4(€€€€€€€€€€€€€€€‰½½°Á¡…¹•€ô€…ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡¹•İA½ÉÑÉ½ÕÀ¤€˜˜¹•İA½ÉÑÉ½ÕÀ€„ôÕÉÉ•¹ÑA½ÉÑÉ½ÕÀì4(4(€€€€€€€€€€€€€€€¥˜€ …ÁÕ¡…¹•€˜˜€…µ•µ¡…¹•€˜˜€…Á¡…¹•¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€Q½…ÍÑUÑ¥±Ì¹M¡½İQ½…ÍĞ¡‘±œ°€‹¦7ö»šr«–>GR–>c–2Xˆ¤ì4(€€€€€€€€€€€€€€€€€€€É•ÑÕÉ¸ì4(€€€€€€€€€€€€€€€ô4(4(€€€€€€€€€€€€€€€€¼¼ƒšfë¢÷–"“šZ·šbµ¦éœ€è¦å…±§.ƒBˆ›ÛÛ™YYÚ]İÛˆH˜[ÙNÃBˆ\İİš[™Â6‡WFF÷vå&V6öç2ÒæWrÆ—7CÇ7G&–æsâ‚“°Ğ Ğ¢òò5R‹>[ş[ø^š¾X[>iË Ğ¢–b†7T6†ævVBbbæWt7RÂ7W'&VçD7RĞ¢°Ğ¢æVVE6‡WFF÷vâÒG'VS°Ğ¢6‡WFF÷vå&V6öç2äFB‚B'd5R‹>[şûÈ‡¶7W'&VçD7WÒ(i"¶æWt7WŞò'¦r¢š–Æœº");
                 }
 
-                string memText = (configGrid.Rows[1].Cells[2].Value?.ToString() ?? "").Trim();
-                memText = memText.Replace("GB", "").Replace("gb", "").Replace("Gb", "").Trim();
-                if (!int.TryParse(memText, out newMem) || newMem < 1 || newMem > 256)
-                {
-                    MessageBox.Show("å†…å­˜å¤§å°å¿…é¡»ä¸º 1~256 ä¹‹é—´çš„æ•´æ•°", "è¾“å…¥é”™è¯¯", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                newPortGroup = (configGrid.Rows[2].Cells[2].Value?.ToString() ?? "").Trim();
-
-                bool cpuChanged = newCpu != currentCpu;
-                bool memChanged = newMem != currentMem;
-                bool pgChanged = !string.IsNullOrEmpty(newPortGroup) && newPortGroup != currentPortGroup;
-
-                if (!cpuChanged && !memChanged && !pgChanged)
-                {
-                    ToastUtils.ShowToast(dlg, "é…ç½®æœªå‘ç”Ÿå˜åŒ–");
-                    return;
-                }
-
-                // æ™ºèƒ½åˆ¤æ–­æ˜¯å¦éœ€è¦å…³æœº
-                bool needShutdown = false;
-                List<string> shutdownReasons = new List<string>();
-
-                // CPU è°ƒå°å¿…é¡»å…³æœº
-                if (cpuChanged && newCpu < currentCpu)
-                {
-                    needShutdown = true;
-                    shutdownReasons.Add($"vCPU è°ƒå°ï¼ˆ{currentCpu} â†’ {newCpu}ï¼‰éœ€è¦å…³æœº");
-                }
-
-                // å†…å­˜è°ƒå°å¿…é¡»å…³æœº
+                // å†…å­˜è°l#[ø^š–Æœº
                 if (memChanged && newMem < currentMem)
                 {
                     needShutdown = true;
-                    shutdownReasons.Add($"å†…å­˜è°ƒå°ï¼ˆ{currentMem} â†’ {newMem} GBï¼‰éœ€è¦å…³æœº");
-                }
-
-                // CPU/å†…å­˜è°ƒå¤§éœ€è¦æ£€æŸ¥ Hot-Add çŠ¶æ€
-                bool cpuNeedHotAdd = cpuChanged && newCpu > currentCpu;
-                bool memNeedHotAdd = memChanged && newMem > currentMem;
-
-                string hotAddStatus = "";
-                bool cpuHotAddEnabled = false;
-                bool memHotAddEnabled = false;
-
-                if (cpuNeedHotAdd || memNeedHotAdd)
-                {
-                    try
-                    {
-                        var hotAddResult = await SessionManager.Instance.ExecuteQueryAsync(
-                            $"Get-View -Id '{vmMoRef}' -Property Runtime.PowerState,Config.CpuHotAddEnabled,Config.MemoryHotAddEnabled -ErrorAction Stop | Select-Object @{{N='PowerState';E={{$_.Runtime.PowerState}}}}, @{{N='CpuHotAddEnabled';E={{$_.Config.CpuHotAddEnabled}}}}, @{{N='MemoryHotAddEnabled';E={{$_.Config.MemoryHotAddEnabled}}}}",
-                            (msg, level) => { }
-                        );
-
-                        if (hotAddResult != null && hotAddResult.Count > 0)
-                        {
-                            if (hotAddResult[0].TryGetValue("CpuHotAddEnabled", out var cpuHotObj))
-                                cpuHotAddEnabled = cpuHotObj?.ToString()?.Equals("True", StringComparison.OrdinalIgnoreCase) == true;
-                            if (hotAddResult[0].TryGetValue("MemoryHotAddEnabled", out var memHotObj))
-                                memHotAddEnabled = memHotObj?.ToString()?.Equals("True", StringComparison.OrdinalIgnoreCase) == true;
-
-                            hotAddStatus = $"CPU Hot-Add: {(cpuHotAddEnabled ? "å·²å¯ç”¨" : "æœªå¯ç”¨")} | å†…å­˜ Hot-Add: {(memHotAddEnabled ? "å·²å¯ç”¨" : "æœªå¯ç”¨")}";
+                    shutdownReasons.Add($"å†…å­˜è°ƒå°ï¼ˆ{currentMem} â†’ {newMem} GBï"zg :) yaliË¢"“°Ğ¢ĞĞ Ğ¢òò5RşXh^ZÙ‹>ZJ~™ÈŠhj8iúR†÷BÔFBx«nhĞ¢&ööÂ7TæVVD†÷DFBÒ7T6†ævVBbbæWt7R ÕÉÉ•¹ÑÁÔì4(€€€€€€€€€€€€€€€‰½½°µ•µ9••‘!½Ñ‘€ôµ•µ¡…¹•€˜˜¹•İ5•´€øÕÉÉ•¹Ñ5•´ì4(4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œ¡½Ñ‘‘MÑ…ÑÕÌ€ô€ˆˆì4(€€€€€€€€€€€€€€€‰½½°ÁÕ!½Ñ‘‘¹…‰±•€ô™…±Í”ì4(€€€€€€€€€€€€€€€‰½½°µ•µ!½Ñ‘‘¹…‰±•€ô™…±Í”ì4(4(€€€€€€€€€€€€€€€¥˜€¡ÁÕ9••‘!½Ñ‘ñğµ•µ9••‘!½Ñ‘¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€ÑÉä4(€€€€€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€€€€€Ù…È¡½Ñ‘‘I•ÍÕ±Ğ€ô…İ…¥ĞM•ÍÍ¥½¹5…¹…•È¹%¹ÍÑ…¹”¹á•ÕÑ•EÕ•ÉåÍå¹Œ 4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€‰•ĞµY¥•Ü€µ%€íÙµ5½I•™ôœ€µAÉ½Á•ÉÑäIÕ¹Ñ¥µ”¹A½İ•ÉMÑ…Ñ”±½¹™¥œ¹ÁÕ!½Ñ‘‘¹…‰±•±½¹™¥œ¹5•µ½Éå!½Ñ‘‘¹…‰±•€µÉÉ½ÉÑ¥½¸MÑ½ÀğM•±•Ğµ=‰©•Ğíí8ôA½İ•ÉMÑ…Ñ”œíõíì‘|¹IÕ¹Ñ¥µ”¹A½İ•ÉMÑ…Ñ•õõõô°íí8ôÁÕ!½Ñ‘‘¹…‰±•œíõíì‘|¹½¹™¥œ¹ÁÕ!½Ñ‘‘¹…‰±•‘õõõô°íí8ô5•µ½Éå!½Ñ‘‘¹…‰±•œíõíì‘|¹½¹™¥œ¹5•µ½Éå!½Ñ‘‘¹…‰±•‘õõõôˆ°4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€¡µÍœ°±•Ù•°¤€ôøìô4(€€€€€€€€€€€€€€€€€€€€€€€€¤ì4(4(€€€€€€€€€€€€€€€€€€€€€€€¥˜€¡¡½Ñ‘‘I•ÍÕ±Ğ€„ô¹Õ±°€˜˜¡½Ñ‘‘I•ÍÕ±Ğ¹½Õ¹Ğ€ø€À¤4(€€€€€€€€€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€¥˜€¡¡½Ñ‘‘I•ÍÕ±ÑlÁt¹QÉå•ÑY…±Õ” ‰ÁÕ!½Ñ‘‘¹…‰±•ˆ°½ÕĞÙ…ÈÁÕ!½Ñ=‰¨¤¤4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€ÁÕ!½Ñ‘‘¹…‰±•€ôÁÕ!½Ñ=‰¨ü¹Q½MÑÉ¥¹œ ¤ü¹ÅÕ…±Ì ‰QÉÕ”ˆ°MÑÉ¥¹½µÁ…É¥Í½¸¹=É‘¥¹…±%¹½É•…Í”¤€ôôÑÉÕ”ì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€¥˜€¡¡½Ñ‘‘I•ÍÕ±ÑlÁt¹QÉå•ÑY…±Õ” ‰5•µ½Éå!½Ñ‘‘¹…‰±•ˆ°½ÕĞÙ…Èµ•µ!½Ñ=‰¨¤¤4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€µ•µ!½Ñ‘‘¹…‰±•€ôµ•µ!½Ñ=‰¨ü¹Q½MÑÉ¥¹œ ¤ü¹ÅÕ…±Ì ‰QÉÕ”ˆ°MÑÉ¥¹½µÁ…É¥Í½¸¹=É‘¥¹…±%¹½É•…Í”¤€ôôÑÉÕ”ì4(4(€€€€€€€€€€€€€€€€€€€€€€€€€€€¡½Ñ‘‘MÑ…ÑÕÌ€ô€‰AT!½Ğµ‘èì¡ÁÕ!½Ñ‘‘¹…‰±•€ü€‹–ŞË–B¿R ˆ€è€‹šr«–B·”¨")} | å†…å­˜ Hot-Add: {(memHotAddEnabled ? "å·²å¯ç”¨" : "æœªå¯ç”¨")}";
                         }
                     }
                     catch (Exception)
@@ -398,42 +74,14 @@ namespace VirtualizationOpsTool.UI
                     }
                 }
 
-                // CPU è°ƒå¤§ä½†æœªå¯ç”¨ Hot-Addï¼Œéœ€è¦å…³æœº
-                if (cpuNeedHotAdd && !cpuHotAddEnabled)
-                {
-                    needShutdown = true;
-                    shutdownReasons.Add($"vCPU è°ƒå¤§ï¼ˆ{currentCpu} â†’ {newCpu}ï¼‰ä½†æœªå¯ç”¨ CPU Hot-Add");
+                // CPU è°ƒå¤§ä½†æœªå¯ç”¨ Hot-Addï#:g :) yaliË Ğ¢–b†7TæVVD†÷DFBbb7T†÷DFDVæ&ÆVBĞ¢°Ğ¢æVVE6‡WFF÷vâÒG'VS°Ğ¢6‡WFF÷vå&V6öç2äFB‚B'd5R‹>ZJ~ûÈ‡¶7W'&VçD7WÒ(i"¶æWt7WŞò'’öšr«–B·”¨ CPU Hot-Add");
                 }
 
-                // å†…å­˜è°ƒå¤§ä½†æœªå¯ç”¨ Hot-Addï¼Œéœ€è¦å…³æœº
-                if (memNeedHotAdd && !memHotAddEnabled)
-                {
-                    needShutdown = true;
-                    shutdownReasons.Add($"å†…å­˜è°ƒå¤§ï¼ˆ{currentMem} â†’ {newMem} GBï¼‰ä½†æœªå¯ç”¨å†…å­˜ Hot-Add");
-                }
-
-                // æ„å»ºç¡®è®¤æ¶ˆæ¯
-                string confirmMsg = $"ç¡®è®¤è¦å°† [{vmName}] çš„é…ç½®è°ƒæ•´ä¸ºï¼š\n\n";
-                if (cpuChanged)
-                    confirmMsg += $"â€¢ vCPU: {currentCpu} æ ¸ â†’ {newCpu} æ ¸\n";
-                if (memChanged)
-                    confirmMsg += $"â€¢ å†…å­˜: {currentMem} GB â†’ {newMem} GB\n";
-                if (pgChanged)
-                    confirmMsg += $"â€¢ ç«¯å£ç»„: {currentPortGroup} â†’ {newPortGroup}\n";
-
-                if (!string.IsNullOrEmpty(hotAddStatus))
-                    confirmMsg += $"\nğŸ“Š Hot-Add çŠ¶æ€ï¼š{hotAddStatus}";
-
-                if (needShutdown)
-                {
-                    confirmMsg += "\n\nâš  ä»¥ä¸‹æ“ä½œéœ€è¦å…³æœºï¼š\n";
-                    foreach (var reason in shutdownReasons)
-                        confirmMsg += $"  â€¢ {reason}\n";
-                    confirmMsg += "\nç³»ç»Ÿå°†è‡ªåŠ¨æ‰§è¡Œï¼šå…³æœº â†’ ä¿®æ”¹é…ç½® â†’ å¼€æœº";
-                }
-                else if (cpuNeedHotAdd || memNeedHotAdd)
-                {
-                    confirmMsg += "\n\nâœ… æ”¯æŒåœ¨çº¿å˜æ›´ï¼ˆHot-Add å·²å¯ç”¨ï¼‰ï¼Œæ— éœ€å…³æœº";
+                // å†…å­˜è°i)KØniÊ®Y
+ŞR !½Ğµ‘“¾ò3¦r¢š–Ïšrè4(€€€€€€€€€€€€€€€¥˜€¡µ•µ9••‘!½Ñ‘€˜˜€…µ•µ!½Ñ‘‘¹…‰±•¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€¹••‘M¡ÕÑ‘½İ¸€ôÑÉÕ”ì4(€€€€€€€€€€€€€€€€€€€Í¡ÕÑ‘½İ¹I•…Í½¹Ì¹‘ ‹––¶c¢Â–’Ÿ¾ò!íÕÉÉ•¹Ñ5•µôƒŠHí¹•İ5•µô¼‰ä½†æœªå­å*9a¡ykfİPYŠNÃBˆCBƒBˆËÈ9§¡9nî¹èkº+©9­¢9 kÃBˆİš[™ÈÛÛ™š\›S\ÙÈH	¹èkº+©:) yl!ˆŞİ›S˜[Y_WH9æ¡:acyïkº, i[NK‹®òiq¹q¸ˆì4(€€€€€€€€€€€€€€€¥˜€¡ÁÕ¡…¹•¤4(€€€€€€€€€€€€€€€€€€€½¹™¥Éµ5Íœ€¬ô€‹ŠˆÙATèíÕÉÉ•¹ÑÁÕôƒš‚àƒŠHí¹•İÁÕôƒš‚áq¸ˆì4(€€€€€€€€€€€€€€€¥˜€¡µ•µ¡…¹•¤4(€€€€€€€€€€€€€€€€€€€½¹™¥Éµ5Íœ€¬ô€‹Šˆƒ––¶`èíÕÉÉ•¹Ñ5•µôƒŠHí¹•İ5•µô	q¸ˆì4(€€€€€€€€€€€€€€€¥˜€¡Á¡…¹•¤4(€€€€€€€€€€€€€€€€€€€½¹™¥Éµ5Íœ€¬ô€‹Šˆƒ®¿–>îèíÕÉÉ•¹ÑA½ÉÑÉ½ÕÁôƒŠHí¹•İA½ÉÑÉ½ÕÁõq¸ˆì4(4(€€€€€€€€€€€€€€€¥˜€ …ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡¡½Ñ‘‘MÑ…ÑÕÌ¤¤4(€€€€€€€€€€€€€€€€€€€½¹™¥Éµ5Íœ€¬ô€‰q»Â~N(!½Ğµ‘ƒ*Ûš¾òií¡½Ñ‘‘MÑ…ÑÕÍôˆì4(4(€€€€€€€€€€€€€€€¥˜€¡¹••‘M¡ÕÑ‘½İ¸¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€½¹™¥Éµ5Íœ€¬ô€‰q¹q»Šj€ƒ’î—’â/šN7’ös¦r¢š–Ïšrë¾òiq¸ˆì4(€€€€€€€€€€€€€€€€€€€™½É•… €¡Ù…ÈÉ•…Í½¸¥¸Í¡ÕÑ‘½İ¹I•…Í½¹Ì¤4(€€€€€€€€€€€€€€€€€€€€€€€½¹™¥Éµ5Íœ€¬ô€ˆ€ƒŠˆíÉ•…Í½¹õq¸ˆì4(€€€€€€€€€€€€€€€€€€€½¹™¥Éµ5Íœ€¬ô€‰q»Îç»l!º!ê¹bª9¢iŠÎòk–Æœº â†’ ä»¹¥.zacyïkˆ8¡¤ˆ9o 9§.ˆÃBˆCBˆ[ÙHYˆ
+ÜS™YYİYY[S™YYİY
+CBˆÃBˆÛÛ™š\›S\ÙÈ
+ÏH——¸§!H9¥+hÈYÊ{«Ö>cšnÓ¼ˆHot-Add å·²å¯ç”¨ï¼‰ï¼Œæ— éœ€å…³æœº";
                 }
 
                 DialogResult confirmResult;
@@ -460,230 +108,61 @@ namespace VirtualizationOpsTool.UI
 
                     var lblTitle = new Label
                     {
-                        Text = "âš  é…ç½®å˜æ›´éœ€è¦å…³æœº",
-                        Location = new Point(20, 15),
-                        AutoSize = true,
-                        Font = new Font("Microsoft YaHei", 12, FontStyle.Bold),
-                        ForeColor = Color.FromArgb(211, 47, 47),
-                        Anchor = AnchorStyles.Top | AnchorStyles.Left,
-                        Margin = Padding.Empty
-                    };
-
-                    var lblContent = new Label
-                    {
-                        Text = confirmMsg,
-                        Location = new Point(20, 50),
-                        Size = new Size(460, 180),
-                        AutoSize = false,
-                        Font = new Font("Microsoft YaHei", 9), ForeColor = Color.FromArgb(50, 50, 50),
-                        Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom,
-                        Margin = Padding.Empty
-                    };
-
-                    var lblAutoAction = new Label
-                    {
-                        Text = "ğŸ”„ è‡ªåŠ¨æ“ä½œæµç¨‹ï¼š\n  1ï¸âƒ£ å…³é—­è™šæ‹Ÿæœº â†’ 2ï¸âƒ£ ä¿®æ”¹é…ç½® â†’ 3ï¸âƒ£ è‡ªåŠ¨å¼€æœº\n\n æ³¨ï¼šè‹¥è™šæ‹ŸæœºåŸä¸ºå…³æœºçŠ¶æ€ï¼Œä¿®æ”¹åä»ä¿æŒå…³æœº",
-                        Location = new Point(20, 240),
-                        Size = new Size(460, 60),
-                        AutoSize = false,
-                        Font = new Font("Microsoft YaHei", 9, FontStyle.Bold),
-                        ForeColor = Color.FromArgb(25, 118, 210),
-                        BackColor = Color.FromArgb(232, 245, 255),
-                        Padding = new Padding(10),
-                        TextAlign = ContentAlignment.MiddleLeft,
-                        Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
-                        Margin = Padding.Empty
-                    };
-
-                    var btnPanel = new FlowLayoutPanel
-                    {
-                        Dock = DockStyle.Bottom, Height = 44,
-                        Padding = new Padding(0, 6, 0, 6),
-                        BackColor = Color.FromArgb(240, 240, 240)
-                    };
-                    var btnConfirm = new Button
-                    {
-                        Text = "ç¡®è®¤å…³æœºå¹¶åº”ç”¨",
-                        DialogResult = DialogResult.OK,
-                        Size = new Size(150, 28),
-                        Font = new Font("Microsoft YaHei", 9, FontStyle.Bold),
-                        BackColor = Color.FromArgb(211, 47, 47),
-                        ForeColor = Color.White,
-                        FlatStyle = FlatStyle.Flat
-                    };
-                    btnConfirm.FlatAppearance.BorderSize = 0;
-                    var btnCancel = new Button
-                    {
-                        Text = "å–æ¶ˆ",
-                        DialogResult = DialogResult.Cancel,
-                        Size = new Size(80, 28),
-                        Font = new Font("Microsoft YaHei", 9)
-                    };
-                    btnPanel.Controls.Add(btnConfirm);
-                    btnPanel.Controls.Add(btnCancel);
-
-                    CenterFlowPanel(btnPanel);
-
-                    shutdownDlg.Controls.Add(btnPanel);
-                    shutdownDlg.Controls.AddRange(new Control[] { lblTitle, lblContent, lblAutoAction });
-                    shutdownDlg.AcceptButton = btnConfirm;
-                    shutdownDlg.CancelButton = btnCancel;
-
-                    confirmResult = shutdownDlg.ShowDialog(_root);
-                }
-                else
-                {
-                    confirmResult = MessageBox.Show(
-                        confirmMsg,
-                        "é…ç½®å˜æ›´ç¡®è®¤",
-                        MessageBoxButtons.OKCancel,
-                        MessageBoxIcon.Question);
-                }
-
-                if (confirmResult != DialogResult.OK) return;
-
-                dlg.DialogResult = DialogResult.OK;
-                dlg.Close();
-
-                // æ„å»º PowerShell è„šæœ¬
-                string script = $"$vm = Get-View -Id '{vmMoRef}' -ErrorAction Stop | Select-Object -First 1; ";
-
-                if (needShutdown)
-                {
-                    // éœ€è¦å…³æœºï¼šå…ˆå…³æœº â†’ ä¿®æ”¹é…ç½® â†’ å¼€æœº
-                    script += "$originalState = $vm.Runtime.PowerState; ";
-                    script += "if ($vm.Runtime.PowerState -eq 'poweredOn') { " +
-                              "  Write-Output 'ã€æ­£åœ¨å…³æœºã€‘è¯·ç¨å€™...'; " +
-                              "  $offTask = $vm.PowerOffVM_Task(); Wait-Task $offTask 'å…³æœº' " +
-                              "  Write-Output 'ã€å…³æœºå®Œæˆã€‘'; " +
-                              "} ";
-
-                    script += "Write-Output 'ã€ä¿®æ”¹é…ç½®ä¸­...ã€‘'; ";
+                        Text = "âš  é…ç½®å†9¦í:g :) yalù§.ˆ‹BˆØØ][ÛˆH™]ÈÚ[
+ŒMJKBˆ]]ÔÚ^™HHYKBˆ›ÛH™]È›Û
+“ZXÜ›ÜÛÙXRZH‹L‹›Ûİ[K›Û
+KBˆ›Ü™PÛÛÜˆHÛÛÜ‹‘œ›ÛP\™ØŠŒLKËÊKBˆ[˜ÚÜˆH[˜ÚÜ”İ[\Ë•Ü[˜ÚÜ”İ[\Ë“YBˆX\™Ú[ˆHY[™Ë‘[\CBˆNÃBƒBˆ˜\ˆ›ÛÛ[H™]ÈX™[BˆÃBˆ^HÛÛ™š\›S\ÙËBˆØØ][ÛˆH™]ÈÚ[
+ŒL
+KBˆÚ^™HH™]ÈÚ^™JŒN
+KBˆ]]ÔÚ^™HH˜[ÙKBˆ›ÛH™]È›Û
+“ZXÜ›ÜÛÙXRZH‹JK›Ü™PÛÛÜˆHÛÛÜ‹‘œ›ÛP\™ØŠLLL
+KBˆ[˜ÚÜˆH[˜ÚÜ”İ[\Ë•Ü[˜ÚÜ”İ[\Ë“Y[˜ÚÜ”İ[\Ë”šYÚ[˜ÚÜ”İ[\Ë›İÛKBˆX\™Ú[ˆHY[™Ë‘[\CBˆNÃBƒBˆ˜\ˆ›]]ĞXİ[ÛˆH™]ÈX™[BˆÃBˆ^H¼'å!:!ê¹bª9¤ãy/g9­`yê"òiq¸€€Ç¾â?ŠŒƒ–É—­è™šæ‹§.ˆ8¡¤ˆ»ˆÊŒƒ’ş»šRç¦7ö¸ƒŠH€Ï¾â?ŠŒƒ¢«–*£–òšréq¹q¸ƒšÎ£¾òk¢.—¢fkš.šrë–:’âë–Ïšrë*Ûš¾ò3’ş»šRç–B;’î7’şwš2–Ïšrèˆ°4(€€€€€€€€€€€€€€€€€€€€€€€1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ ÈÀ°€ÈĞÀ¤°4(€€€€€€€€€€€€€€€€€€€€€€€M¥é”€ô¹•ÜM¥é” ĞØÀ°€ØÀ¤°4(€€€€€€€€€€€€€€€€€€€€€€€ÕÑ½M¥é”€ô™…±Í”°4(€€€€€€€€€€€€€€€€€€€€€€€½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ä°½¹ÑMÑå±”¹	½±¤°4(€€€€€€€€€€€€€€€€€€€€€€€½É•½±½È€ô½±½È¹É½µÉˆ ÈÔ°€ÄÄà°€ÈÄÀ¤°4(€€€€€€€€€€€€€€€€€€€€€€€	…­½±½È€ô½±½È¹É½µÉˆ ÈÌÈ°€ÈĞÔ°€ÈÔÔ¤°4(€€€€€€€€€€€€€€€€€€€€€€€A…‘‘¥¹œ€ô¹•ÜA…‘‘¥¹œ ÄÀ¤°4(€€€€€€€€€€€€€€€€€€€€€€€Q•áÑ±¥¸€ô½¹Ñ•¹Ñ±¥¹µ•¹Ğ¹5¥‘‘±•1•™Ğ°4(€€€€€€€€€€€€€€€€€€€€€€€¹¡½È€ô¹¡½ÉMÑå±•Ì¹	½ÑÑ½´ğ¹¡½ÉMÑå±•Ì¹1•™Ğğ¹¡½ÉMÑå±•Ì¹I¥¡Ğ°4(€€€€€€€€€€€€€€€€€€€€€€€5…É¥¸€ôA…‘‘¥¹œ¹µÁÑä4(€€€€€€€€€€€€€€€€€€€ôì4(4(€€€€€€€€€€€€€€€€€€€Ù…È‰Ñ¹A…¹•°€ô¹•Ü±½İ1…å½ÕÑA…¹•°4(€€€€€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€€€€€½¬€ô½­MÑå±”¹	½ÑÑ½´°!•¥¡Ğ€ô€ĞĞ°4(€€€€€€€€€€€€€€€€€€€€€€€A…‘‘¥¹œ€ô¹•ÜA…‘‘¥¹œ À°€Ø°€À°€Ø¤°4(€€€€€€€€€€€€€€€€€€€€€€€	…­½±½È€ô½±½È¹É½µÉˆ ÈĞÀ°€ÈĞÀ°€ÈĞÀ¤4(€€€€€€€€€€€€€€€€€€€ôì4(€€€€€€€€€€€€€€€€€€€Ù…È‰Ñ¹½¹™¥É´€ô¹•Ü	ÕÑÑ½¸4(€€€€€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€€€€€Q•áĞ€ô€‹†»¢º“–Ïšrë–æÛ–êSR ˆ°4(€€€€€€€€€€€€€€€€€€€€€€€¥…±½I•ÍÕ±Ğ€ô¥…±½I•ÍÕ±Ğ¹=,°4(€€€€€€€€€€€€€€€€€€€€€€€M¥é”€ô¹•ÜM¥é” ÄÔÀ°€Èà¤°4(€€€€€€€€€€€€€€€€€€€€€€€½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ä°½¹ÑMÑå±”¹	½±¤°4(€€€€€€€€€€€€€€€€€€€€€€€	…­½±½È€ô½±½È¹É½µÉˆ ÈÄÄ°€ĞÜ°€ĞÜ¤°4(€€€€€€€€€€€€€€€€€€€€€€€½É•½±½È€ô½±½È¹]¡¥Ñ”°4(€€€€€€€€€€€€€€€€€€€€€€€±…ÑMÑå±”€ô±…ÑMÑå±”¹±…Ğ4(€€€€€€€€€€€€€€€€€€€ôì4(€€€€€€€€€€€€€€€€€€€‰Ñ¹½¹™¥É´¹±…ÑÁÁ•…É…¹”¹	½É‘•ÉM¥é”€ô€Àì4(€€€€€€€€€€€€€€€€€€€Ù…È‰Ñ¹…¹•°€ô¹•Ü	ÕÑÑ½¸4(€€€€€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€€€€€Q•áĞ€ô€‹–>[šÚ ˆ°4(€€€€€€€€€€€€€€€€€€€€€€€¥…±½I•ÍÕ±Ğ€ô¥…±½I•ÍÕ±Ğ¹…¹•°°4(€€€€€€€€€€€€€€€€€€€€€€€M¥é”€ô¹•ÜM¥é” àÀ°€Èà¤°4(€€€€€€€€€€€€€€€€€€€€€€€½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ä¤4(€€€€€€€€€€€€€€€€€€€ôì4(€€€€€€€€€€€€€€€€€€€‰Ñ¹A…¹•°¹½¹ÑÉ½±Ì¹‘¡‰Ñ¹½¹™¥É´¤ì4(€€€€€€€€€€€€€€€€€€€‰Ñ¹A…¹•°¹½¹ÑÉ½±Ì¹‘¡‰Ñ¹…¹•°¤ì4(4(€€€€€€€€€€€€€€€€€€€•¹Ñ•É±½İA…¹•°¡‰Ñ¹A…¹•°¤ì4(4(€€€€€€€€€€€€€€€€€€€Í¡ÕÑ‘½İ¹±œ¹½¹ÑÉ½±Ì¹‘¡‰Ñ¹A…¹•°¤ì4(€€€€€€€€€€€€€€€€€€€Í¡ÕÑ‘½İ¹±œ¹½¹ÑÉ½±Ì¹‘‘I…¹”¡¹•Ü½¹ÑÉ½±mtì±‰±Q¥Ñ±”°±‰±½¹Ñ•¹Ğ°±‰±ÕÑ½Ñ¥½¸ô¤ì4(€€€€€€€€€€€€€€€€€€€Í¡ÕÑ‘½İ¹±œ¹•ÁÑ	ÕÑÑ½¸€ô‰Ñ¹½¹™¥É´ì4(€€€€€€€€€€€€€€€€€€€Í¡ÕÑ‘½İ¹±œ¹…¹•±	ÕÑÑ½¸€ô‰Ñ¹…¹•°ì4(4(€€€€€€€€€€€€€€€€€€€½¹™¥ÉµI•ÍÕ±Ğ€ôÍ¡ÕÑ‘½İ¹±œ¹M¡½İ¥…±½œ¡}É½½Ğ¤ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€•±Í”4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€½¹™¥ÉµI•ÍÕ±Ğ€ô5•ÍÍ…•	½à¹M¡½Ü 4(€€€€€€€€€€€€€€€€€€€€€€€½¹™¥Éµ5Íœ°4(€€€€€€€€€€€€€€€€€€€€€€€€‹¦7ö»–>cšnÓ†»¢ºˆ°4(€€€€€€€€€€€€€€€€€€€€€€€5•ÍÍ…•	½á	ÕÑÑ½¹Ì¹=-…¹•°°4(€€€€€€€€€€€€€€€€€€€€€€€5•ÍÍ…•	½á%½¸¹EÕ•ÍÑ¥½¸¤ì4(€€€€€€€€€€€€€€€ô4(4(€€€€€€€€€€€€€€€¥˜€¡½¹™¥ÉµI•ÍÕ±Ğ€„ô¥…±½I•ÍÕ±Ğ¹=,¤É•ÑÕÉ¸ì4(4(€€€€€€€€€€€€€€€‘±œ¹¥…±½I•ÍÕ±Ğ€ô¥…±½I•ÍÕ±Ğ¹=,ì4(€€€€€€€€€€€€€€€‘±œ¹±½Í” ¤ì4(4(€€€€€€€€€€€€€€€€¼¼ƒšz–îèA½İ•ÉM¡•±°ƒ¢kšr°4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œÍÉ¥ÁĞ€ô€ˆ‘Ù´€ô•ĞµY¥•Ü€µ%€íÙµ5½I•™ôœ€µÉÉ½ÉÑ¥½¸MÑ½ÀğM•±•Ğµ=‰©•Ğ€µ¥ÉÍĞ€Äì€ˆì4(4(€€€€€€€€€€€€€€€¥˜€¡¹••‘M¡ÕÑ‘½İ¸¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€€¼¼ƒ¦r¢š–Æœºï&¹ab9aliË¢(i"K»šRç¦7ö¸ƒŠHƒ–òšrè4(€€€€€€€€€€€€€€€€€€€ÍÉ¥ÁĞ€¬ô€ˆ‘½É¥¥¹…±MÑ…Ñ”€ô€‘Ù´¹IÕ¹Ñ¥µ”¹A½İ•ÉMÑ…Ñ”ì€ˆì4(€€€€€€€€€€€€€€€€€€€ÍÉ¥ÁĞ€¬ô€‰¥˜€ ‘Ù´¹IÕ¹Ñ¥µ”¹A½İ•ÉMÑ…Ñ”€µ•Ä€Á½İ•É•‘=¸œ¤ì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€ˆ€]É¥Ñ”µ=ÕÑÁÕĞ€ŸCš¶–r£–ÏšrëG¢¾ß¢7–d¸¸¸œì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€ˆ€€‘½™™Q…Í¬€ô€‘Ù´¹A½İ•É=™™Y5}Q…Í¬ ¤ì]…¥ĞµQ…Í¬€‘½™™Q…Í¬€•…±§.‰Èˆ
+ÃBˆˆÜš]KSİ]]	8	X[rë–º3š"CDœì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€‰ô€ˆì4(4(€€€€€€€€€€€€€€€€€€€ÍÉ¥ÁĞ€¬ô€‰]É¥Ñ”µ=ÕÑÁÕĞ€ŸC’îæ”¹é…ç½®ä¸­...ã€‘'; ";
                     script += "$cfg = New-Object VMware.Vim.VirtualMachineConfigSpec; ";
 
                     if (cpuChanged)
-                        script += $"Write-Output 'ã€ä¿®æ”¹ vCPU: {currentCpu} â†’ {newCpu}ã€‘'; ";
-                    if (memChanged)
-                        script += $"Write-Output 'ã€ä¿®æ”¹å†…å­˜: {currentMem} â†’ {newMem} GBã€‘'; ";
-
-                    if (cpuChanged)
-                        script += $"$cfg.NumCPUs = {newCpu}; ";
-                    if (memChanged)
-                        script += $"$cfg.MemoryMB = {newMem * 1024}; ";
-
-                    if (pgChanged)
-                    {
-                        script += $"Write-Output 'ã€ä¿®æ”¹ç«¯å£ç»„: {currentPortGroup} â†’ {newPortGroup}ã€‘'; ";
-                        script += "$adapters = $vm.Config.Hardware.Device | Where-Object { $_ -is [VMware.Vim.VirtualEthernetCard] }; ";
-                        script += "$devSpecs = @(); ";
-                        script += $"$pgName = '{EscapePsString(newPortGroup)}'; ";
-                        script += "$pgNameLower = $pgName.ToLower(); ";
-                        script += "$dvPg = Get-View -ViewType DistributedVirtualPortgroup -ErrorAction Stop | Where-Object { $_.Name.ToLower() -eq $pgNameLower } | Select-Object -First 1; ";
-                        script += "$stdPg = $null; ";
-                        script += "if (-not $dvPg) { $stdPg = Get-View -ViewType Network -ErrorAction Stop | Where-Object { $_.Name.ToLower() -eq $pgNameLower -and $_.MoRef.Type -eq 'Network' } | Select-Object -First 1 }; ";
-                        script += "$switchUuid = $null; ";
-                        script += "if ($dvPg) { ";
-                        script += "  Write-Output ('â†’ DVPortgroup: ' + $dvPg.Name + ' (PGKey=' + $dvPg.MoRef.Value + ')'); ";
-                        script += "  $switch = Get-View -ViewType DistributedVirtualSwitch -ErrorAction Stop | Where-Object { $_.Portgroup -and ($_.Portgroup | Where-Object { $_.Value -eq $dvPg.MoRef.Value }) } | Select-Object -First 1; ";
-                        script += "  if ($switch) { $switchUuid = $switch.Uuid }; ";
-                        script += "} elseif ($stdPg) { ";
-                        script += "  Write-Output ('â†’ æ ‡å‡†ç«¯å£ç»„: ' + $stdPg.Name); ";
-                        script += "} else { throw ('æ‰¾ä¸åˆ°ç«¯å£ç»„: ' + $pgName) }; ";
-                        script += "foreach ($nic in $adapters) { ";
-                        script += "  if ($dvPg) { ";
-                        script += "    $nic.Backing = New-Object VMware.Vim.VirtualEthernetCardDistributedVirtualPortBackingInfo; ";
-                        script += "    $nic.Backing.Port = New-Object VMware.Vim.DistributedVirtualSwitchPortConnection; ";
-                        script += "    $nic.Backing.Port.PortgroupKey = $dvPg.MoRef.Value; ";
-                        script += "    if ($switchUuid) { $nic.Backing.Port.SwitchUuid = $switchUuid }; ";
-                        script += "  } else { ";
-                        script += "    $nic.Backing = New-Object VMware.Vim.VirtualEthernetCardNetworkBackingInfo; ";
-                        script += "    $nic.Backing.DeviceName = $stdPg.Name; ";
-                        script += "    $nic.Backing.Network = $stdPg.MoRef; ";
-                        script += "  }; ";
-                        script += "  $ds = New-Object VMware.Vim.VirtualDeviceConfigSpec; ";
-                        script += "  $ds.Operation = [VMware.Vim.VirtualDeviceConfigSpecOperation]::edit; ";
-                        script += "  $ds.Device = $nic; ";
-                        script += "  $devSpecs += $ds; ";
-                        script += "}; ";
-                        script += "$cfg.DeviceChange = $devSpecs; ";
-                    }
-
-                    script += "$task = $vm.ReconfigVM_Task($cfg); ";
-                    script += "Wait-Task $task 'é…ç½®ä¿®æ”¹'; ";
-
-                    script += "Write-Output 'ã€é…ç½®ä¿®æ”¹å®Œæˆã€‘'; ";
-                    script += "if ($originalState -eq 'poweredOn') { " +
-                              "  Write-Output 'ã€æ­£åœ¨å¼€æœºã€‘è¯·ç¨å€™...'; " +
-                              "  $onTask = $vm.PowerOnVM_Task($null); " +
-                              "  Wait-Task $onTask 'å¼€æœº'; " +
-                              "  Write-Output 'ã€å¼€æœºå®Œæˆã€‘'; " +
-                              "} ";
-                }
-                else
-                {
-                    // æ— éœ€å…³æœºï¼Œç›´æ¥ä¿®æ”¹
+                        script += $"Write-Output 'ã€ä»¹¥.HÔNˆØİ\œ™[Ü_H8¡¤ˆÛ™]ĞÜ_xà$IÎÈÃBˆYˆ
+Y[PÚ[™ÙY
+CBˆØÜš\
+ÏH	•Üš]KSİ]]	øà$9.îiKXh^ZÙƒ¢¶7W'&VçDÖV×Ò(i"¶æWtÖV×Òt.8	s²#°Ğ Ğ¢–b†7T6†ævVBĞ¢67&—B³ÒB"F6fräçVÔ5W2Ò¶æWt7WÓ²#°Ğ¢–b†ÖVÔ6†ævVBĞ¢67&—B³ÒB"F6fräÖVÖ÷'”Ô"Ò¶æWtÖVÒ¢#GÓ²#°Ğ Ğ¢–b‡t6†ævVBĞ¢°Ğ¢67&—B³ÒB%w&—FRÔ÷WGWB~8	KúîiKzºşXú>{¸C¢¶7W'&VçE÷'Dw&÷WÒ(i"¶æWu÷'Dw&÷WŞ8	s²#°Ğ¢67&—B³Ò"FFFW'2ÒGfÒä6öæf–rä†&Gv&RäFWf–6RÂv†W&RÔö&¦V7B²EòÖ—2µd×v&Råf–Òåf—'GVÄWF†W&æWD6&EÒÓ²#°Ğ¢67&—B³Ò"FFWe7V72Ò‚“²#°Ğ¢67&—B³ÒB"GtæÖRÒw´W66U57G&–ær†æWu÷'Dw&÷W—Òs²#°Ğ¢67&—B³Ò"GtæÖTÆ÷vW"ÒGtæÖRåFôÆ÷vW"‚“²#°Ğ¢67&—B³Ò"FGerÒvWBÕf–WrÕf–WuG—RF—7G&–'WFVEf—'GVÅ÷'Fw&÷WÔW'&÷$7F–öâ7F÷Âv†W&RÔö&¦V7B²EòäæÖRåFôÆ÷vW"‚’ÖWGtæÖTÆ÷vW"ÒÂ6VÆV7BÔö&¦V7BÔf—'7B²#°Ğ¢67&—B³Ò"G7FErÒFçVÆÃ²#°Ğ¢67&—B³Ò&–b‚Öæ÷BFGer’²G7FErÒvWBÕf–WrÕf–WuG—RæWGv÷&²ÔW'&÷$7F–öâ7F÷Âv†W&RÔö&¦V7B²EòäæÖRåFôÆ÷vW"‚’ÖWGtæÖTÆ÷vW"ÖæBEòäÖõ&VbåG—RÖWtæWGv÷&²rÒÂ6VÆV7BÔö&¦V7BÔf—'7BÓ²#°Ğ¢67&—B³Ò"G7v—F6…WV–BÒFçVÆÃ²#°Ğ¢67&—B³Ò&–b‚FGer’²#°Ğ¢67&—B³Ò"w&—FRÔ÷WGWB‚JHYA½ÉÑÉ½ÕÀè€œ€¬€‘‘ÙAœ¹9…µ”€¬€œ€¡A-•äôœ€¬€‘‘ÙAœ¹5½I•˜¹Y…±Õ”€¬€œ¤œ¤ì€ˆì4(€€€€€€€€€€€€€€€€€€€€€€€ÍÉ¥ÁĞ€¬ô€ˆ€€‘Íİ¥Ñ €ô•ĞµY¥•Ü€µY¥•İQåÁ”¥ÍÑÉ¥‰ÕÑ•‘Y¥ÉÑÕ…±Mİ¥Ñ €µÉÉ½ÉÑ¥½¸MÑ½Àğ]¡•É”µ=‰©•Ğì€‘|¹A½ÉÑÉ½ÕÀ€µ…¹€ ‘|¹A½ÉÑÉ½ÕÀğ]¡•É”µ=‰©•Ğì€‘|¹Y…±Õ”€µ•Ä€‘‘ÙAœ¹5½I•˜¹Y…±Õ”ô¤ôğM•±•Ğµ=‰©•Ğ€µ¥ÉÍĞ€Äì€ˆì4(€€€€€€€€€€€€€€€€€€€€€€€ÍÉ¥ÁĞ€¬ô€ˆ€¥˜€ ‘Íİ¥Ñ ¤ì€‘Íİ¥Ñ¡UÕ¥€ô€‘Íİ¥Ñ ¹UÕ¥ôì€ˆì4(€€€€€€€€€€€€€€€€€€€€€€€ÍÉ¥ÁĞ€¬ô€‰ô•±Í•¥˜€ ‘ÍÑ‘Aœ¤ì€ˆì4(€€€€€€€€€€€€€€€€€€€€€€€ÍÉ¥ÁĞ€¬ô€ˆ€]É¥Ñ”µ=ÕÑÁÕĞ€ ŸŠHƒš‚‡†ç«­cè{¸C¢r²G7FEräæÖR“²#°Ğ¢67&—B³Ò'ÒVÇ6R²F‡&÷r‚~h›îKˆŞX‹zºşXú>{¸C¢r²GtæÖR’Ó²#°Ğ¢67&—B³Ò&f÷&V6‚‚Fæ–2–âFFFW'2’²#°Ğ¢67&—B³Ò"–b‚FGer’²#°Ğ¢67&—B³Ò"Fæ–2ä&6¶–ærÒæWrÔö&¦V7Bd×v&Råf–Òåf—'GVÄWF†W&æWD6&DF—7G&–'WFVEf—'GVÅ÷'D&6¶–æt–æfó²#°Ğ¢67&—B³Ò"Fæ–2ä&6¶–ærå÷'BÒæWrÔö&¦V7Bd×v&Råf–ÒäF—7G&–'WFVEf—'GVÅ7v—F6…÷'D6öææV7F–öã²#°Ğ¢67&—B³Ò"Fæ–2ä&6¶–ærå÷'Bå÷'Fw&÷W¶W’ÒFGeräÖõ&VbåfÇVS²#°Ğ¢67&—B³Ò"–b‚G7v—F6…WV–B’²Fæ–2ä&6¶–ærå÷'Bå7v—F6…WV–BÒG7v—F6…WV–BÓ²#°Ğ¢67&—B³Ò"ÒVÇ6R²#°Ğ¢67&—B³Ò"Fæ–2ä&6¶–ærÒæWrÔö&¦V7Bd×v&Råf–Òåf—'GVÄWF†W&æWD6&DæWGv÷&´&6¶–æt–æfó²#°Ğ¢67&—B³Ò"Fæ–2ä&6¶–æräFWf–6TæÖRÒG7FEräæÖS²#°Ğ¢67&—B³Ò"Fæ–2ä&6¶–æräæWGv÷&²ÒG7FEräÖõ&Vc²#°Ğ¢67&—B³Ò"Ó²#°Ğ¢67&—B³Ò"FG2ÒæWrÔö&¦V7Bd×v&Råf–Òåf—'GVÄFWf–6T6öæf–u7V3²#°Ğ¢67&—B³Ò"FG2ä÷W&F–öâÒµd×v&Råf–Òåf—'GVÄFWf–6T6öæf–u7V4÷W&F–öåÓ£¦VF—C²#°Ğ¢67&—B³Ò"FG2äFWf–6RÒFæ–3²#°Ğ¢67&—B³Ò"FFWe7V72³ÒFG3²#°Ğ¢67&—B³Ò'Ó²#°Ğ¢67&—B³Ò"F6fräFWf–6T6†ævRÒFFWe7V73²#°Ğ¢ĞĞ Ğ¢67&—B³Ò"GF6²ÒGfÒå&V6öæf–udÕõF6²‚F6fr“²#°Ğ¢67&—B³Ò%v—BÕF6²GF6²~˜XŞ{ÚîKúîiK’s²#°Ğ Ğ¢67&—B³Ò%w&—FRÔ÷WGWB~8	˜XŞ{ÚîKúîiKZèÎh‰8	s²#°Ğ¢67&—B³Ò&–b‚F÷&–v–æÅ7FFRÖWw÷vW&VDöâr’²"°Ğ¢"w&—FRÔ÷WGWBNCš¶…œ¨å¼€æœºã€‘è¯µê#y`&K‹‹‰ÎÈˆ
+ÃBˆˆ	Û•\ÚÈH	›K”İÙ\“Û•“WÕ\ÚÊ	[
+NÈˆ
+ÃBˆˆØZ]U\ÚÈ	Û•\ÚÈ	[ÈiË¢s²"°Ğ¢"w&—FRÔ÷WGWB~8	[ÈiË®ZèÎh‰8	s²"°Ğ¢'Ò#°Ğ¢ĞĞ¢VÇ6PĞ¢°Ğ¢òòiz™ÈX[rë¼Œç›´æ¥ä¿®æ”¹
                     script += "$cfg = New-Object VMware.Vim.VirtualMachineConfigSpec; ";
 
                     if (cpuChanged)
                     {
-                        script += $"Write-Output 'ã€åœ¨çº¿ä¿®æ”¹ vCPU: {currentCpu} â†’ {newCpu}ã€‘'; ";
-                        script += $"$cfg.NumCPUs = {newCpu}; ";
-                    }
-                    if (memChanged)
-                    {
-                        script += $"Write-Output 'ã€åœ¨çº¿ä¿®æ”¹å†…å­˜: {currentMem} â†’ {newMem} GBã€‘'; ";
+                        script += $"Write-Output $à$9g*9î¯KúîiK’d5S¢¶7W'&VçD7WÒ(i"¶æWt7WŞ8	s²#°Ğ¢67&—B³ÒB"F6fräçVÔ5W2Ò¶æWt7WÓ²#°Ğ¢ĞĞ¢–b†ÖVÔ6†ævVBĞ¢°Ğ¢67&—B³ÒB%w&—FRÔ÷WGWBNC–r£êô¿®æ”¹å†…å­˜: {currentMem} â†’ {newMem} GBã€‘'; ";
                         script += $"$cfg.MemoryMB = {newMem * 1024}; ";
                     }
                     if (pgChanged)
                     {
-                        script += $"Write-Output 'ã€ä¿®æ”¹ç«¯å£ç»„: {currentPortGroup} â†’ {newPortGroup}ã€‘'; ";
-                        script += "$adapters = $vm.Config.Hardware.Device | Where-Object { $_ -is [VMware.Vim.VirtualEthernetCard] }; ";
-                        script += "$devSpecs = @(); ";
-                        script += $"$pgName = '{EscapePsString(newPortGroup)}'; ";
-                        script += "$pgNameLower = $pgName.ToLower(); ";
-                        script += "$dvPg = Get-View -ViewType DistributedVirtualPortgroup -ErrorAction Stop | Where-Object { $_.Name.ToLower() -eq $pgNameLower } | Select-Object -First 1; ";
-                        script += "$stdPg = $null; ";
-                        script += "if (-not $dvPg) { $stdPg = Get-View -ViewType Network -ErrorAction Stop | Where-Object { $_.Name.ToLower() -eq $pgNameLower -and $_.MoRef.Type -eq 'Network' } | Select-Object -First 1 }; ";
-                        script += "$switchUuid = $null; ";
-                        script += "if ($dvPg) { ";
-                        script += "  Write-Output ('â†’ DVPortgroup: ' + $dvPg.Name + ' (PGKey=' + $dvPg.MoRef.Value + ')'); ";
-                        script += "  $switch = Get-View -ViewType DistributedVirtualSwitch -ErrorAction Stop | Where-Object { $_.Portgroup -and ($_.Portgroup | Where-Object { $_.Value -eq $dvPg.MoRef.Value }) } | Select-Object -First 1; ";
-                        script += "  if ($switch) { $switchUuid = $switch.Uuid }; ";
-                        script += "} elseif ($stdPg) { ";
-                        script += "  Write-Output ('â†’ æ ‡å‡†ç«¯å£ç»„: ' + $stdPg.Name); ";
-                        script += "} else { throw ('æ‰¾ä¸åˆ°ç«¯å£ç»„: ' + $pgName) }; ";
-                        script += "foreach ($nic in $adapters) { ";
-                        script += "  if ($dvPg) { ";
-                        script += "    $nic.Backing = New-Object VMware.Vim.VirtualEthernetCardDistributedVirtualPortBackingInfo; ";
-                        script += "    $nic.Backing.Port = New-Object VMware.Vim.DistributedVirtualSwitchPortConnection; ";
-                        script += "    $nic.Backing.Port.PortgroupKey = $dvPg.MoRef.Value; ";
-                        script += "    if ($switchUuid) { $nic.Backing.Port.SwitchUuid = $switchUuid }; ";
-                        script += "  } else { ";
-                        script += "    $nic.Backing = New-Object VMware.Vim.VirtualEthernetCardNetworkBackingInfo; ";
-                        script += "    $nic.Backing.DeviceName = $stdPg.Name; ";
-                        script += "    $nic.Backing.Network = $stdPg.MoRef; ";
-                        script += "  }; ";
-                        script += "  $ds = New-Object VMware.Vim.VirtualDeviceConfigSpec; ";
-                        script += "  $ds.Operation = [VMware.Vim.VirtualDeviceConfigSpecOperation]::edit; ";
-                        script += "  $ds.Device = $nic; ";
-                        script += "  $devSpecs += $ds; ";
-                        script += "}; ";
-                        script += "$cfg.DeviceChange = $devSpecs; ";
-                    }
-
-                    script += "$task = $vm.ReconfigVM_Task($cfg); ";
-                    script += "Wait-Task $task 'é…ç½®ä¿®æ”¹'; ";
-                }
-
-                script += $"Write-Output 'ã€{EscapePsString(vmName)}ã€‘é…ç½®æ›´æ–°å®Œæˆ'";
-
-                ExecuteVmOperation(script, $"ç¼–è¾‘é…ç½®: {vmName}", vmName);
-            };
-
-            dlg.ShowDialog(_root);
-        }
-
-        private void ShowPortgroupEditDialog(string vmName, string vmMoRef, List<Dictionary<string, string>> nicList, List<string> pgCache)
+                        script += $"Write-Output 'ã€ä»¹¥.yêëùb>{¸C¢¶7W'&VçE÷'Dw&÷WÒ(i"¶æWu÷'Dw&÷WŞ8	s²#°Ğ¢67&—B³Ò"FFFW'2ÒGfÒä6öæf–rä†&Gv&RäFWf–6RÂv†W&RÔö&¦V7B²EòÖ—2µd×v&Råf–Òåf—'GVÄWF†W&æWD6&EÒÓ²#°Ğ¢67&—B³Ò"FFWe7V72Ò‚“²#°Ğ¢67&—B³ÒB"GtæÖRÒw´W66U57G&–ær†æWu÷'Dw&÷W—Òs²#°Ğ¢67&—B³Ò"GtæÖTÆ÷vW"ÒGtæÖRåFôÆ÷vW"‚“²#°Ğ¢67&—B³Ò"FGerÒvWBÕf–WrÕf–WuG—RF—7G&–'WFVEf—'GVÅ÷'Fw&÷WÔW'&÷$7F–öâ7F÷Âv†W&RÔö&¦V7B²EòäæÖRåFôÆ÷vW"‚’ÖWGtæÖTÆ÷vW"ÒÂ6VÆV7BÔö&¦V7BÔf—'7B²#°Ğ¢67&—B³Ò"G7FErÒFçVÆÃ²#°Ğ¢67&—B³Ò&–b‚Öæ÷BFGer’²G7FErÒvWBÕf–WrÕf–WuG—RæWGv÷&²ÔW'&÷$7F–öâ7F÷Âv†W&RÔö&¦V7B²EòäæÖRåFôÆ÷vW"‚’ÖWGtæÖTÆ÷vW"ÖæBEòäÖõ&VbåG—RÖWtæWGv÷&²rÒÂ6VÆV7BÔö&¦V7BÔf—'7BÓ²#°Ğ¢67&—B³Ò"G7v—F6…WV–BÒFçVÆÃ²#°Ğ¢67&—B³Ò&–b‚FGer’²#°Ğ¢67&—B³Ò"w&—FRÔ÷WGWB‚~(i"Ee÷'Fw&÷W¢r²FGeräæÖR²r…t¶W“Òr²FGeräÖõ&VbåfÇVR²r’r“²#°Ğ¢67&—B³Ò"G7v—F6‚ÒvWBÕf–WrÕf–WuG—RF—7G&–'WFVEf—'GVÅ7v—F6‚ÔW'&÷$7F–öâ7F÷Âv†W&RÔö&¦V7B²Eòå÷'Fw&÷WÖæB‚Eòå÷'Fw&÷WÂv†W&RÔö&¦V7B²EòåfÇVRÖWFGeräÖõ&VbåfÇVRÒ’ÒÂ6VÆV7BÔö&¦V7BÔf—'7B²#°Ğ¢67&—B³Ò"–b‚G7v—F6‚’²G7v—F6…WV–BÒG7v—F6‚åWV–BÓ²#°Ğ¢67&—B³Ò'ÒVÇ6V–b‚G7FEr’²#°Ğ¢67&—B³Ò"w&—FRÔ÷WGWB‚JHƒš‚–®¿–>îè€œ€¬€‘ÍÑ‘Aœ¹9…µ”¤ì€ˆì4(€€€€€€€€€€€€€€€€€€€€€€€ÍÉ¥ÁĞ€¬ô€‰ô•±Í”ìÑ¡É½Ü€ Ÿš&ä¸åˆ°ç«¯åˆùîáˆ	È
+È	Ó˜[YJHNÈÃBˆØÜš\
+ÏH™›Ü™XXÚ
+	šXÈ[ˆ	Y\\œÊHÈÃBˆØÜš\
+ÏHˆYˆ
+	”ÊHÈÃBˆØÜš\
+ÏHˆ	šXË˜XÚÚ[™ÈH™]ËSØš™Xİ“]Ø\™K•š[K•š\X[]\›™]Ø\™\İšX]Yš\X[Ü˜XÚÚ[™Ò[™›ÎÈÃBˆØÜš\
+ÏHˆ	šXË˜XÚÚ[™Ë”ÜH™]ËSØš™Xİ“]Ø\™K•š[K‘\İšX]Yš\X[İÚ]ÚÜÛÛ›™Xİ[ÛÈÃBˆØÜš\
+ÏHˆ	šXË˜XÚÚ[™Ë”Ü”ÜÜ›İ\Ù^HH	”Ë“[Ô™Y‹•˜[YNÈÃBˆØÜš\
+ÏHˆYˆ
+	İÚ]Ú]ZY
+HÈ	šXË˜XÚÚ[™Ë”Ü”İÚ]Ú]ZYH	İÚ]Ú]ZYNÈÃBˆØÜš\
+ÏHˆH[ÙHÈÃBˆØÜš\
+ÏHˆ	šXË˜XÚÚ[™ÈH™]ËSØš™Xİ“]Ø\™K•š[K•š\X[]\›™]Ø\™™]ÛÜšĞ˜XÚÚ[™Ò[™›ÎÈÃBˆØÜš\
+ÏHˆ	šXË˜XÚÚ[™Ë‘]šXÙS˜[YHH	İË“˜[YNÈÃBˆØÜš\
+ÏHˆ	šXË˜XÚÚ[™Ë“™]ÛÜšÈH	İË“[Ô™YÈÃBˆØÜš\
+ÏHˆNÈÃBˆØÜš\
+ÏHˆ	ÈH™]ËSØš™Xİ“]Ø\™K•š[K•š\X[]šXÙPÛÛ™šYÔÜXÎÈÃBˆØÜš\
+ÏHˆ	Ë“Ü\˜][ÛˆHÕ“]Ø\™K•š[K•š\X[]šXÙPÛÛ™šYÔÜXÓÜ\˜][Û—N™Y]ÈÃBˆØÜš\
+ÏHˆ	Ë‘]šXÙHH	šXÎÈÃBˆØÜš\
+ÏHˆ	]”ÜXÜÈ
+ÏH	ÎÈÃBˆØÜš\
+ÏHŸNÈÃBˆØÜš\
+ÏH‰Ù™Ë‘]šXÙPÚ[™ÙHH	]”ÜXÜÎÈÃBˆCBƒBˆØÜš\
+ÏH‰\ÚÈH	›K”™XÛÛ™šYÕ“WÕ\ÚÊ	Ù™ÊNÈÃBˆØÜš\
+ÏH•ØZ]U\ÚÈ	\ÚÈ	úacyïk¹.îiK’s²#°Ğ¢ĞĞ Ğ¢67&—B³ÒB%w&—FRÔ÷WGWBNAíÍ…Á•AÍMÑÉ¥¹œ¡Ùµ9…µ”¥÷G¦7ö»šnÓšZÃ–º3š"@œˆì4(4(€€€€€€€€€€€€€€€á•ÕÑ•Yµ=Á•É…Ñ¥½¸¡ÍÉ¥ÁĞ°€‹ò[¢úG¦7ö¸èíÙµ9…µ•ôˆ°Ùµ9…µ”¤ì4(€€€€€€€€€€€ôì4(4(€€€€€€€€€€€‘±œ¹M¡½İ¥…±½œ¡}É½½Ğ¤ì4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥M¡½İA½ÉÑÉ½ÕÁ‘¥Ñ¥…±½œ¡ÍÑÉ¥¹œÙµ9…µ”°ÍÑÉ¥¹œÙµ5½I•˜°1¥ÍĞñ¥Ñ¥½¹…ÉäñÍÑÉ¥¹œ°ÍÑÉ¥¹œøø¹¥1¥ÍĞ°1¥ÍĞñÍÑÉ¥¹œ pgCache)
         {
             using var dlg = new Form
             {
@@ -716,8 +195,7 @@ namespace VirtualizationOpsTool.UI
                 Margin = Padding.Empty
             };
             nicListView.Columns.Add("ç½‘å¡åç§°", 140);
-            nicListView.Columns.Add("å½“å‰ç«¯å£ç»„", 180);
-            nicListView.Columns.Add("è¿æ¥", 60);
+            nicListView.Columns.Add("å½‘bcyêëXúîˆ°€ÄàÀ¤ì4(€€€€€€€€€€€¹¥1¥ÍÑY¥•Ü¹½±Õµ¹Ì¹‘ ‹¢Şæ¥", 60);
             nicListView.Columns.Add("å¼€æœºè¿", 60);
             nicListView.Columns.Add("Key", 60);
 
@@ -738,533 +216,88 @@ namespace VirtualizationOpsTool.UI
 
             if (nicListView.Items.Count > 0) nicListView.Items[0].Selected = true;
 
-            var lblPg = new Label { Text = "æ–°ç«¯å£ç»„:", Location = new Point(16, 210), AutoSize = true, Margin = Padding.Empty };
-            var cbPg = new ComboBox { Location = new Point(100, 207), Width = 200, DropDownStyle = ComboBoxStyle.DropDown, Anchor = AnchorStyles.Top | AnchorStyles.Left, Margin = Padding.Empty };
-            cbPg.Items.AddRange(pgCache.ToArray());
-            if (nicList.Count > 0 && nicList[0].TryGetValue("NetworkName", out var firstPg))
-                cbPg.Text = firstPg;
-
-            var btnSelectAll = new Button { Text = "å…¨é€‰", Location = new Point(310, 205), Width = 55, Height = 28, Anchor = AnchorStyles.Top | AnchorStyles.Left, Margin = Padding.Empty };
-            var btnAddNic = new Button { Text = "â• æ–°å¢ç½‘å¡", Location = new Point(430, 205), Width = 105, Height = 28, Anchor = AnchorStyles.Top | AnchorStyles.Right, Margin = Padding.Empty };
-
-            var chkConnected = new CheckBox { Text = "è¿æ¥ç½‘å¡ (Connected)", Location = new Point(16, 250), AutoSize = true, Font = new Font("Microsoft YaHei", 9), Margin = Padding.Empty };
-            var chkStartConnected = new CheckBox { Text = "å¼€æœºè‡ªåŠ¨è¿æ¥ (StartConnected)", Location = new Point(16, 272), AutoSize = true, Font = new Font("Microsoft YaHei", 9), Margin = Padding.Empty };
-
-            var btnDeleteNic = new Button
-            {
-                Text = "ğŸ—‘ åˆ é™¤æ‰€é€‰ç½‘å¡",
-                Location = new Point(16, 300),
-                Width = 130,
-                Height = 28,
-                Font = new Font("Microsoft YaHei", 9),
-                BackColor = Color.FromArgb(255, 235, 238),
-                ForeColor = Color.FromArgb(183, 28, 28),
-                FlatStyle = FlatStyle.Flat,
-                Enabled = false,
-                Anchor = AnchorStyles.Top | AnchorStyles.Left,
-                Margin = Padding.Empty
-            };
-            btnDeleteNic.FlatAppearance.BorderColor = Color.FromArgb(183, 28, 28);
-
-            var lblDeleteWarn = new Label
-            {
-                Text = "âš  é«˜é£é™©æ“ä½œï¼ŒæŒ‰ Key ç²¾ç¡®åˆ é™¤",
-                Location = new Point(155, 305),
-                AutoSize = true,
-                Font = new Font("Microsoft YaHei", 8),
-                ForeColor = Color.FromArgb(183, 28, 28),
-                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
-                Margin = Padding.Empty
-            };
-
-            var lblTarget = new Label { Text = "ä¿®æ”¹ç›®æ ‡: æ‰€é€‰ç½‘å¡", Location = new Point(16, 340), AutoSize = true, Font = new Font("Microsoft YaHei", 9, FontStyle.Bold), ForeColor = Color.FromArgb(25, 118, 210), Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, Margin = Padding.Empty };
-
-            var btnPanel = new FlowLayoutPanel
-            {
-                Dock = DockStyle.Bottom, Height = 44,
-                Padding = new Padding(0, 6, 0, 6),
-                BackColor = Color.FromArgb(240, 240, 240)
-            };
-            var btnApply = new Button { Text = "âœ… åº”ç”¨å˜æ›´", DialogResult = DialogResult.OK, Size = new Size(90, 28), Font = new Font("Microsoft YaHei", 9) };
-            var btnCancel = new Button { Text = "å–æ¶ˆ", DialogResult = DialogResult.Cancel, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-            btnPanel.Controls.Add(btnApply);
-            btnPanel.Controls.Add(btnCancel);
-
-            CenterFlowPanel(btnPanel);
-
-            dlg.Controls.Add(btnPanel);
-            dlg.Controls.AddRange(new Control[] { lblNicHint, nicListView, lblPg, cbPg, btnSelectAll, btnAddNic, chkConnected, chkStartConnected, btnDeleteNic, lblDeleteWarn, lblTarget });
-            dlg.AcceptButton = btnApply;
-            dlg.CancelButton = btnCancel;
-
-            void RefreshNicListAsync()
-            {
-                Task.Run(async () =>
-                {
-                    try
-                    {
-                        var nicResult = await SessionManager.Instance.ExecuteQueryAsync(
-                            $@"
-$ErrorActionPreference = 'Stop';
-$vm = Get-View -Id '{vmMoRef}' -Property Config.Hardware.Device -ErrorAction Stop;
-$pgMap = @{{}};
-Get-View -ViewType Network -Property Name -ErrorAction SilentlyContinue | ForEach-Object {{ $pgMap[$_.MoRef.Value] = $_.Name }};
-Get-View -ViewType DistributedVirtualPortgroup -Property Name -ErrorAction SilentlyContinue | ForEach-Object {{ $pgMap[$_.MoRef.Value] = $_.Name }};
-$vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetCard] }} | ForEach-Object {{
-  $nic = $_;
-  $pgName = '';
-  if ($nic.Backing) {{
-    if ($nic.Backing -is [VMware.Vim.VirtualEthernetCardDistributedVirtualPortBackingInfo] -and $nic.Backing.Port -and $pgMap.ContainsKey($nic.Backing.Port.PortgroupKey)) {{
-      $pgName = $pgMap[$nic.Backing.Port.PortgroupKey];
-    }} elseif ($nic.Backing -is [VMware.Vim.VirtualEthernetCardNetworkBackingInfo] -and $nic.Backing.DeviceName) {{
-      $pgName = $nic.Backing.DeviceName;
-    }}
-  }};
-  [PSCustomObject]@{{ DeviceLabel=$nic.DeviceInfo.Label; NetworkName=$pgName; Key=$nic.Key; Connected=$nic.Connectable.Connected; StartConnected=$nic.Connectable.StartConnected }}
-}}",
-                            (msg, level) => { }
-                        );
-
-                        _root.Invoke(new Action(() =>
-                        {
-                            nicListView.BeginUpdate();
-                            try
-                            {
-                                nicListView.Items.Clear();
-                                if (nicResult != null && nicResult.Count > 0)
-                                {
-                                    foreach (var dict in nicResult)
-                                    {
-                                        var label2 = dict.TryGetValue("DeviceLabel", out var dlObj) ? dlObj?.ToString()?.Trim() ?? "" : "";
-                                        var pg2 = dict.TryGetValue("NetworkName", out var nnObj) ? nnObj?.ToString()?.Trim() ?? "" : "";
-                                        var key2 = dict.TryGetValue("Key", out var kObj) ? kObj?.ToString()?.Trim() ?? "" : "";
-                                        var conn2 = dict.TryGetValue("Connected", out var cObj) && cObj?.ToString()?.Equals("True", StringComparison.OrdinalIgnoreCase) == true ? "â— å·²è¿" : "â—‹ æ–­å¼€";
-                                        var startConn2 = dict.TryGetValue("StartConnected", out var scObj) && scObj?.ToString()?.Equals("True", StringComparison.OrdinalIgnoreCase) == true ? "âœ“ æ˜¯" : "âœ— å¦";
-                                        var item = new ListViewItem(label2);
-                                        item.SubItems.Add(pg2);
-                                        item.SubItems.Add(conn2);
-                                        item.SubItems.Add(startConn2);
-                                        item.SubItems.Add(key2);
-                                        nicListView.Items.Add(item);
-                                    }
-                                }
-                                lblNicHint.Text = $"æ£€æµ‹åˆ° {nicListView.Items.Count} ä¸ªç½‘å¡ï¼Œå¯æ‰¹é‡åˆ‡æ¢ç«¯å£ç»„ã€æ·»åŠ æˆ–åˆ é™¤ç½‘å¡ï¼š";
-                            }
-                            finally { nicListView.EndUpdate(); }
-
-                            btnDeleteNic.Enabled = nicListView.SelectedItems.Count > 0;
-                            if (nicListView.Items.Count > 0 && nicListView.SelectedItems.Count == 0)
-                                nicListView.Items[0].Selected = true;
-                        }));
-                    }
-                    catch (Exception ex)
-                    {
-                        _root.Invoke(new Action(() =>
-                        {
-                            MessageBox.Show($"åˆ·æ–°ç½‘å¡åˆ—è¡¨å¤±è´¥: {ex.Message}", "é”™è¯¯", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }));
-                    }
-                });
-            }
-
-            btnSelectAll.Click += (s, e) => { foreach (ListViewItem i in nicListView.Items) i.Selected = true; };
-
-            nicListView.SelectedIndexChanged += (s, e) =>
-            {
-                btnDeleteNic.Enabled = nicListView.SelectedItems.Count > 0;
-
-                if (nicListView.SelectedItems.Count == 0)
-                {
-                    lblTarget.Text = "ä¿®æ”¹ç›®æ ‡: æœªé€‰æ‹©";
+            var lblPg = new Label { Text = "æ–°ç«­cè{¸C¢"ÂÆö6F–öâÒæWrö–çBƒbÂ#’ÂWFõ6—¦RÒG'VRÂÖ&v–âÒFF–æräV×G’Ó°Ğ¢f"6%rÒæWr6öÖ&ô&÷‚²Æö6F–öâÒæWrö–çBƒÂ#r’Âv–GF‚Ò#ÂG&÷F÷vå7G–ÆRÒ6öÖ&ô&÷…7G–ÆRäG&÷F÷vâÂæ6†÷"Òæ6†÷%7G–ÆW2åF÷Âæ6†÷%7G–ÆW2äÆVgBÂÖ&v–âÒFF–æräV×G’Ó°Ğ¢6%rä—FV×2äFE&ævR‡t66†RåFô'&’‚’“°Ğ¢–b†æ–4Æ—7Bä6÷VçBâbbæ–4Æ—7E³ÒåG'”vWEfÇVR‚$æWGv÷&´æÖR"Â÷WBf"f—'7Er’Ğ¢6%råFW‡BÒf—'7Es°Ğ Ğ¢f"'Få6VÆV7DÆÂÒæWr'WGFöâ²FW‡BÒ.XZ˜’"ÂÆö6F–öâÒæWrö–çBƒ3Â#R’Âv–GF‚ÒSRÂ†V–v‡BÒ#‚Âæ6†÷"Òæ6†÷%7G–ÆW2åF÷Âæ6†÷%7G–ÆW2äÆVgBÂÖ&v–âÒFF–æräV×G’Ó°Ğ¢f"'FäFDæ–2ÒæWr'WGFöâ²FW‡BÒ.)éRikZ)î{ÙXÚ"ÂÆö6F–öâÒæWrö–çBƒC3Â#R’Âv–GF‚ÒRÂ†V–v‡BÒ#‚Âæ6†÷"Òæ6†÷%7G–ÆW2åF÷Âæ6†÷%7G–ÆW2å&–v‡BÂÖ&v–âÒFF–æräV×G’Ó°Ğ Ğ¢f"6†´6öææV7FVBÒæWr6†V6´&÷‚²FW‡BÒ.‹ùîhê^{ÙXÚ„6öææV7FVB’"ÂÆö6F–öâÒæWrö–çBƒbÂ#S’ÂWFõ6—¦RÒG'VRÂföçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â’’ÂÖ&v–âÒFF–æräV×G’Ó°Ğ¢f"6†µ7F'D6öææV7FVBÒæWr6†V6´&÷‚²FW‡BÒ.[ÈiË®ˆz®Xª‹{š:”€¡MÑ…ÉÑ½¹¹•Ñ•¤ˆ°1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ ÄØ°€ÈÜÈ¤°ÕÑ½M¥é”€ôÑÉÕ”°½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ä¤°5…É¥¸€ôA…‘‘¥¹œ¹µÁÑäôì4(4(€€€€€€€€€€€Ù…È‰Ñ¹•±•Ñ•9¥Œ€ô¹•Ü	ÕÑÑ½¸4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Q•áĞ€ô€‹Â~^Dƒ–"ƒ¦f“š&¦'öG–6„ˆ°4(€€€€€€€€€€€€€€€1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ ÄØ°€ÌÀÀ¤°4(€€€€€€€€€€€€€€€]¥‘Ñ €ô€ÄÌÀ°4(€€€€€€€€€€€€€€€!•¥¡Ğ€ô€Èà°4(€€€€€€€€€€€€€€€½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ä¤°4(€€€€€€€€€€€€€€€	…­½±½È€ô½±½È¹É½µÉˆ ÈÔÔ°€ÈÌÔ°€ÈÌà¤°4(€€€€€€€€€€€€€€€½É•½±½È€ô½±½È¹É½µÉˆ ÄàÌ°€Èà°€Èà¤°4(€€€€€€€€€€€€€€€±…ÑMÑå±”€ô±…ÑMÑå±”¹±…Ğ°4(€€€€€€€€€€€€€€€¹…‰±•€ô™…±Í”°4(€€€€€€€€€€€€€€€¹¡½È€ô¹¡½ÉMÑå±•Ì¹Q½Àğ¹¡½ÉMÑå±•Ì¹1•™Ğ°4(€€€€€€€€€€€€€€€5…É¥¸€ôA…‘‘¥¹œ¹µÁÑä4(€€€€€€€€€€€ôì4(€€€€€€€€€€€‰Ñ¹•±•Ñ•9¥Œ¹±…ÑÁÁ•…É…¹”¹	½É‘•É½±½È€ô½±½È¹É½µÉˆ ÄàÌ°€Èà°€Èà¤ì4(4(€€€€€€€€€€€Ù…È±‰±•±•Ñ•]…É¸€ô¹•Ü1…‰•°4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Q•áĞ€ô€‹Šj€ƒ¦®c¦;¦f§šN7’ös¼ŒæŒ‰ Key ç²¹èk¹b(:fi‹BˆØØ][ÛˆH™]ÈÚ[
+MMKÌJKBˆ]]ÔÚ^™HHYKBˆ›ÛH™]È›Û
+“ZXÜ›ÜÛÙXRZH‹
+KBˆ›Ü™PÛÛÜˆHÛÛÜ‹‘œ›ÛP\™ØŠNË
+KBˆ[˜ÚÜˆH[˜ÚÜ”İ[\Ë•Ü[˜ÚÜ”İ[\Ë“Y[˜ÚÜ”İ[\Ë”šYÚBˆX\™Ú[ˆHY[™Ë‘[\CBˆNÃBƒBˆ˜\ˆ›\™Ù]H™]ÈX™[È^H¹/ë¹¥.yæë¹¨!Îˆ9¢`:`"yïdychH‹ØØ][ÛˆH™]ÈÚ[
+M‹Í
+K]]ÔÚ^™HHYK›ÛH™]È›Û
+“ZXÜ›ÜÛÙXRZH‹K›Ûİ[K›Û
+K›Ü™PÛÛÜˆHÛÛÜ‹‘œ›ÛP\™ØŠKLNŒL
+K[˜ÚÜˆH[˜ÚÜ”İ[\Ë•Ü[˜ÚÜ”İ[\Ë“Y[˜ÚÜ”İ[\Ë”šYÚX\™Ú[ˆHY[™Ë‘[\HNÃBƒBˆ˜\ˆ”[™[H™]È›İÓ^[İ][™[BˆÃBˆØÚÈHØÚÔİ[K›İÛKZYÚHBˆY[™ÈH™]ÈY[™Ê‹ŠKBˆ˜XÚĞÛÛÜˆHÛÛÜ‹‘œ›ÛP\™ØŠ
+CBˆNÃBˆ˜\ˆ\HH™]È]ÛˆÈ^H¸§!H9n¥9å*9ai»B"ÂF–Æöu&W7VÇBÒF–Æöu&W7VÇBäô²Â6—¦RÒæWr6—¦Rƒ“Â#‚’ÂföçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â’’Ó°Ğ¢f"'Fä6æ6VÂÒæWr'WGFöâ²FW‡BÒ.Xùnkh‚"ÂF–Æöu&W7VÇBÒF–Æöu&W7VÇBä6æ6VÂÂ6—¦RÒæWr6—¦RƒƒÂ#‚’ÂföçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â’’Ó°Ğ¢'FåæVÂä6öçG&öÇ2äFB†'FäÇ’“°Ğ¢'FåæVÂä6öçG&öÇ2äFB†'Fä6æ6VÂ“°Ğ Ğ¢6VçFW$fÆ÷uæVÂ†'FåæVÂ“°Ğ Ğ¢FÆrä6öçG&öÇ2äFB†'FåæVÂ“°Ğ¢FÆrä6öçG&öÇ2äFE&ævR†æWr6öçG&öÅµÒ²Æ&Äæ–4†–çBÂæ–4Æ—7Ef–WrÂÆ&ÅrÂ6%rÂ'Få6VÆV7DÆÂÂ'FäFDæ–2Â6†´6öææV7FVBÂ6†µ7F'D6öææV7FVBÂ'FäFVÆWFTæ–2ÂÆ&ÄFVÆWFUv&âÂÆ&ÅF&vWBÒ“°Ğ¢FÆrä66WD'WGFöâÒ'FäÇ“°Ğ¢FÆrä6æ6VÄ'WGFöâÒ'Fä6æ6VÃ°Ğ Ğ¢fö–B&Vg&W6„æ–4Æ—7D7–æ2‚Ğ¢°Ğ¢F6²å'Vâ†7–æ2‚’ÓàĞ¢°Ğ¢G'Ğ¢°Ğ¢f"æ–5&W7VÇBÒv—B6W76–öäÖævW"ä–ç7Fæ6RäW†V7WFUVW'”7–æ2€Ğ¢D Ğ¢DW'&÷$7F–öå&VfW&Væ6RÒu7F÷s°Ğ¢GfÒÒvWBÕf–WrÔ–Bw·fÔÖõ&VgÒrÕ&÷W'G’6öæf–rä†&Gv&RäFWf–6RÔW'&÷$7F–öâ7F÷°Ğ¢GtÖÒ··×Ó°Ğ¤vWBÕf–WrÕf–WuG—RæWGv÷&²Õ&÷W'G’æÖRÔW'&÷$7F–öâ6–ÆVçFÇ”6öçF–çVRÂf÷$V6‚Ôö&¦V7B·²GtÖ²EòäÖõ&VbåfÇVUÒÒEòäæÖR×Ó°Ğ¤vWBÕf–WrÕf–WuG—RF—7G&–'WFVEf—'GVÅ÷'Fw&÷WÕ&÷W'G’æÖRÔW'&÷$7F–öâ6–ÆVçFÇ”6öçF–çVRÂf÷$V6‚Ôö&¦V7B·²GtÖ²EòäÖõ&VbåfÇVUÒÒEòäæÖR×Ó°Ğ¢GfÒä6öæf–rä†&Gv&RäFWf–6RÂv†W&RÔö&¦V7B·²EòÖ—2µd×v&Råf–Òåf—'GVÄWF†W&æWD6&EÒ×ÒÂf÷$V6‚Ôö&¦V7B·°Ğ¢Fæ–2ÒEó°Ğ¢GtæÖRÒrs°Ğ¢–b‚Fæ–2ä&6¶–ær’·°Ğ¢–b‚Fæ–2ä&6¶–ærÖ—2µd×v&Råf–Òåf—'GVÄWF†W&æWD6&DF—7G&–'WFVEf—'GVÅ÷'D&6¶–æt–æfõÒÖæBFæ–2ä&6¶–ærå÷'BÖæBGtÖä6öçF–ç4¶W’‚Fæ–2ä&6¶–ærå÷'Bå÷'Fw&÷W¶W’’’·°Ğ¢GtæÖRÒGtÖ²Fæ–2ä&6¶–ærå÷'Bå÷'Fw&÷W¶W•Ó°Ğ¢×ÒVÇ6V–b‚Fæ–2ä&6¶–ærÖ—2µd×v&Råf–Òåf—'GVÄWF†W&æWD6&DæWGv÷&´&6¶–æt–æfõÒÖæBFæ–2ä&6¶–æräFWf–6TæÖR’·°Ğ¢GtæÖRÒFæ–2ä&6¶–æräFWf–6TæÖS°Ğ¢×ĞĞ¢×Ó°Ğ¢µ47W7FöÔö&¦V7EÔ·²FWf–6TÆ&VÃÒFæ–2äFWf–6T–æfòäÆ&VÃ²æWGv÷&´æÖSÒGtæÖS²¶W“ÒFæ–2ä¶W“²6öææV7FVCÒFæ–2ä6öææV7F&ÆRä6öææV7FVC²7F'D6öææV7FVCÒFæ–2ä6öææV7F&ÆRå7F'D6öææV7FVB×ĞĞ§×Ò"ÀĞ¢†×6rÂÆWfVÂ’Óâ²ĞĞ¢“°Ğ Ğ¢÷&ö÷Bä–çfö¶R†æWr7F–öâ‚‚’ÓàĞ¢°Ğ¢æ–4Æ—7Ef–Wrä&Vv–åWFFR‚“°Ğ¢G'Ğ¢°Ğ¢æ–4Æ—7Ef–Wrä—FV×2ä6ÆV"‚“°Ğ¢–b†æ–5&W7VÇBÒçVÆÂbbæ–5&W7VÇBä6÷VçBâĞ¢°Ğ¢f÷&V6‚‡f"F–7B–âæ–5&W7VÇBĞ¢°Ğ¢f"Æ&VÃ"ÒF–7BåG'”vWEfÇVR‚$FWf–6TÆ&VÂ"Â÷WBf"FÄö&¢’òFÄö&£òåFõ7G&–ær‚“òåG&–Ò‚’óò""¢"#°Ğ¢f"s"ÒF–7BåG'”vWEfÇVR‚$æWGv÷&´æÖR"Â÷WBf"æäö&¢’òæäö&£òåFõ7G&–ær‚“òåG&–Ò‚’óò""¢"#°Ğ¢f"¶W“"ÒF–7BåG'”vWEfÇVR‚$¶W’"Â÷WBf"´ö&¢’ò´ö&£òåFõ7G&–ær‚“òåG&–Ò‚’óò""¢"#°Ğ¢f"6öæã"ÒF–7BåG'”vWEfÇVR‚$6öææV7FVB"Â÷WBf"4ö&¢’bb4ö&£òåFõ7G&–ær‚“òäWVÇ2‚%G'VR"Â7G&–æt6ö×&—6öâä÷&F–æÄ–væ÷&T66R’ÓÒG'VRò.)xò[{.‹xˆ€è€‹Š^,ƒšZ·–ò ˆì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€Ù…ÈÍÑ…ÉÑ½¹¸È€ô‘¥Ğ¹QÉå•ÑY…±Õ” ‰MÑ…ÉÑ½¹¹•Ñ•ˆ°½ÕĞÙ…ÈÍ=‰¨¤€˜˜Í=‰¨ü¹Q½MÑÉ¥¹œ ¤ü¹ÅÕ…±Ì ‰QÉÕ”ˆ°MÑÉ¥¹½µÁ…É¥Í½¸¹=É‘¥¹…±%¹½É•…Í”¤€ôôÑÉÕ”€ü€‹ŠrLƒšb¼ˆ€è€‹Šr\ƒ–B˜ˆì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€Ù…È¥Ñ•´€ô¹•Ü1¥ÍÑY¥•İ%Ñ•´¡±…‰•°È¤ì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€¥Ñ•´¹MÕ‰%Ñ•µÌ¹‘¡ÁœÈ¤ì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€¥Ñ•´¹MÕ‰%Ñ•µÌ¹‘¡½¹¸È¤ì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€¥Ñ•´¹MÕ‰%Ñ•µÌ¹‘¡ÍÑ…ÉÑ½¹¸È¤ì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€¥Ñ•´¹MÕ‰%Ñ•µÌ¹‘¡­•äÈ¤ì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€¹¥1¥ÍÑY¥•Ü¹%Ñ•µÌ¹‘¡¥Ñ•´¤ì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€±‰±9¥!¥¹Ğ¹Q•áĞ€ô€‹ššÖ/–"Àí¹¥1¥ÍÑY¥•Ü¹%Ñ•µÌ¹½Õ¹Ñôƒ’â«öG–6‡¾ò3–/æ‰¹é‡åˆ‡æ¢ç«¯åˆùîá8à y­îùb¨9¢%¹b(:fi9ïdych{ï&ˆÃBˆCBˆš[˜[HÈšXÓ\İšY]Ë‘[™\]J
+NÈCBƒBˆ‘[]SšXË‘[˜X›YHšXÓ\İšY]Ë”Ù[XİY][\ËÛİ[ˆÃBˆYˆ
+šXÓ\İšY]Ë’][\ËÛİ[bbæ–4Æ—7Ef–Wrå6VÆV7FVD—FV×2ä6÷VçBÓÒĞ¢æ–4Æ—7Ef–Wrä—FV×5³Òå6VÆV7FVBÒG'VS°Ğ¢Ò’“°Ğ¢ĞĞ¢6F6‚„W†6WF–öâW‚Ğ¢°Ğ¢÷&ö÷Bä–çfö¶R†æWr7F–öâ‚‚’ÓàĞ¢°Ğ¢ÖW76vT&÷‚å6†÷r‚B.X‹~ik{ÙXÚX‰~ŠZK‹JS¢¶W‚äÖW76vWÒ"Â.™IŠúò"ÂÖW76vT&÷„'WGFöç2äô²ÂÖW76vT&÷„–6öâäW'&÷"“°Ğ¢Ò’“°Ğ¢ĞĞ¢Ò“°Ğ¢ĞĞ Ğ¢'Få6VÆV7DÆÂä6Æ–6²³Ò‡2ÂR’Óâ²f÷&V6‚„Æ—7Ef–Wt—FVÒ’–âæ–4Æ—7Ef–Wrä—FV×2’’å6VÆV7FVBÒG'VS²Ó°Ğ Ğ¢æ–4Æ—7Ef–Wrå6VÆV7FVD–æFW„6†ævVB³Ò‡2ÂR’ÓàĞ¢°Ğ¢'FäFVÆWFTæ–2äVæ&ÆVBÒæ–4Æ—7Ef–Wrå6VÆV7FVD—FV×2ä6÷VçB €Àì4(4(€€€€€€€€€€€€€€€¥˜€¡¹¥1¥ÍÑY¥•Ü¹M•±•Ñ•‘%Ñ•µÌ¹½Õ¹Ğ€ôô€À¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€±‰±Q…É•Ğ¹Q•áĞ€ô€‹’îæ”¹ç›®æ ‡: æœªé€‰æ‹©";
                 }
                 else if (nicListView.SelectedItems.Count == 1)
                 {
                     var selected = nicListView.SelectedItems[0];
                     cbPg.Text = selected.SubItems[1].Text;
-                    lblTarget.Text = $"ä¿®æ”¹ç›®æ ‡: {selected.Text}";
-                    nicListView.BeginUpdate();
-                    try
-                    {
-                        chkConnected.Checked = selected.SubItems[2].Text.Contains("å·²è¿");
-                        chkStartConnected.Checked = selected.SubItems[3].Text.Contains("æ˜¯");
-                    }
-                    finally { nicListView.EndUpdate(); }
-                }
-                else
-                {
-                    lblTarget.Text = $"ä¿®æ”¹ç›®æ ‡: {nicListView.SelectedItems.Count} ä¸ªç½‘å¡";
-                }
-            };
-
-            btnAddNic.Click += (s, e) =>
-            {
-                string newPg = cbPg.Text.Trim();
-                if (string.IsNullOrEmpty(newPg))
-                {
-                    MessageBox.Show("è¯·å…ˆåœ¨ä¸Šæ–¹é€‰æ‹©æ–°ç½‘å¡è¦ä½¿ç”¨çš„ç«¯å£ç»„", "æç¤º", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                var confirmResult = MessageBox.Show(
-                    $"ç¡®è®¤è¦å‘ [{vmName}] æ–°å¢ 1 ä¸ªç½‘å¡ï¼ˆVirtualVmxnet3ï¼‰ï¼Œç«¯å£ç»„ä¸º [{newPg}] å—ï¼Ÿ",
-                    "æ–°å¢ç½‘å¡ç¡®è®¤",
-                    MessageBoxButtons.OKCancel,
-                    MessageBoxIcon.Question);
-                if (confirmResult != DialogResult.OK) return;
-
-                string script =
-                    $"$vm = Get-View -Id '{vmMoRef}' -Property Config.Hardware.Device -ErrorAction Stop | Select-Object -First 1; " +
-                    $"$pgName = '{EscapePsString(newPg)}'; " +
-                    "$pgNameLower = $pgName.ToLower(); " +
-                    "$dvPg = Get-View -ViewType DistributedVirtualPortgroup -ErrorAction Stop | Where-Object { $_.Name.ToLower() -eq $pgNameLower } | Select-Object -First 1; " +
-                    "$stdPg = $null; " +
-                    "if (-not $dvPg) { $stdPg = Get-View -ViewType Network -ErrorAction Stop | Where-Object { $_.Name.ToLower() -eq $pgNameLower -and $_.MoRef.Type -eq 'Network' } | Select-Object -First 1 }; " +
-                    "$switchUuid = $null; " +
-                    "if ($dvPg) { " +
-                    "  $switch = Get-View -ViewType DistributedVirtualSwitch -ErrorAction Stop | Where-Object { $_.Portgroup -and ($_.Portgroup | Where-Object { $_.Value -eq $dvPg.MoRef.Value }) } | Select-Object -First 1; " +
-                    "  if ($switch) { $switchUuid = $switch.Uuid }; " +
-                    "} elseif (-not $stdPg) { throw ('æ‰¾ä¸åˆ°ç«¯å£ç»„: ' + $pgName) }; " +
-                    "$nic = New-Object VMware.Vim.VirtualVmxnet3; " +
-                    "if ($dvPg) { " +
-                    "  $nic.Backing = New-Object VMware.Vim.VirtualEthernetCardDistributedVirtualPortBackingInfo; " +
-                    "  $nic.Backing.Port = New-Object VMware.Vim.DistributedVirtualSwitchPortConnection; " +
-                    "  $nic.Backing.Port.PortgroupKey = $dvPg.MoRef.Value; " +
-                    "  if ($switchUuid) { $nic.Backing.Port.SwitchUuid = $switchUuid }; " +
-                    "} else { " +
-                    "  $nic.Backing = New-Object VMware.Vim.VirtualEthernetCardNetworkBackingInfo; " +
-                    "  $nic.Backing.DeviceName = $stdPg.Name; " +
-                    "  $nic.Backing.Network = $stdPg.MoRef; " +
-                    "}; " +
-                    "$nic.Connectable = New-Object VMware.Vim.VirtualDeviceConnectInfo; " +
-                    "$nic.Connectable.Connected = $true; " +
-                    "$nic.Connectable.StartConnected = $true; " +
-                    "$nic.Connectable.AllowGuestControl = $true; " +
-                    "$ds = New-Object VMware.Vim.VirtualDeviceConfigSpec; " +
-                    "$ds.Operation = [VMware.Vim.VirtualDeviceConfigSpecOperation]::add; " +
-                    "$ds.Device = $nic; " +
-                    "$cfg = New-Object VMware.Vim.VirtualMachineConfigSpec; " +
-                    "$cfg.DeviceChange = @($ds); " +
-                    "$task = $vm.ReconfigVM_Task($cfg); " +
-                    "Wait-Task $task 'æ–°å¢ç½‘å¡'; " +
+                    lblTarget.Text = $"ä»¹¥.yæë¹¨!ÎˆÜÙ[XİY•^HÃBˆšXÓ\İšY]Ë™YÚ[•\]J
+NÃBˆCBˆÃBˆÚĞÛÛ›™XİYÚXÚÙYHÙ[XİY”İX’][\ÖÌ—K•^ÛÛZ[œÊ¹mìº/çˆŠNÃBˆÚÔİ\ÛÛ›™XİYÚXÚÙYHÙ[XİY”İX’][\ÖÌ×K•^ÛÛZ[œÊ¹¦+ÈŠNÃBˆCBˆš[˜[HÈšXÓ\İšY]Ë‘[™\]J
+NÈCBˆCBˆ[ÙCBˆÃBˆ›\™Ù]•^H	¹/ë¹¥.yæë¹¨!ÎˆÛšXÓ\İšY]Ë”Ù[XİY][\ËÛİ[H9.*¹ïdychHÃBˆCBˆNÃBƒBˆYšXËÛXÚÈ
+ÏH
+ËJHOƒBˆÃBˆİš[™È™]ÔÈHØ”Ë•^•š[J
+NÃBˆYˆ
+İš[™Ë’\Ó[Ü‘[\J™]ÔÊJCBˆÃBˆY\ÜØYÙP›Ş”ÚİÊº+~XXYÊKˆ®ik˜hºik{ÙXÚŠhKÛşyJy¨NzºşXîˆ°€‹š>C’èˆ°5•ÍÍ…•	½á	ÕÑÑ½¹Ì¹=,°5•ÍÍ…•	½á%½¸¹]…É¹¥¹œ¤ì4(€€€€€€€€€€€€€€€€€€€É•ÑÕÉ¸ì4(€€€€€€€€€€€€€€€ô4(4(€€€€€€€€€€€€€€€Ù…È½¹™¥ÉµI•ÍÕ±Ğ€ô5•ÍÍ…•	½à¹M¡½Ü 4(€€€€€€€€€€€€€€€€€€€€‹†»¢º“¢š–BDmíÙµ9…µ•õtƒšZÃ–Šx€Äƒ’â«öG–6‡¼ˆVirtualVmxnet3ï¼‰ï¼Œç«¯åˆùîá9..ˆŞÛ™]ÔßWH9d%ûï'È‹Bˆ¹¥¬9h§¹ïdychyèkº+©‹BˆY\ÜØYÙP›Ş]ÛœË“ÒĞØ[˜Ù[BˆY\ÜØYÙP›ŞXÛÛ‹”]Y\İ[ÛŠNÃBˆYˆ
+ÛÛ™š\›T™\İ[OHX[ÙÔ™\İ[“ÒÊH™]\›ÃBƒBˆİš[™ÈØÜš\CBˆ	‰›HHÙ]UšY]ÈRY	Şİ›S[Ô™YŸIÈT›Ü\HÛÛ™šYË’\™Ø\™K‘]šXÙHQ\œ›ÜXİ[ÛˆİÜÙ[XİSØš™XİQš\œİNÈˆ
+ÃBˆ	‰Ó˜[YHH	ŞÑ\ØØ\TÔİš[™Ê™]ÔÊ_IÎÈˆ
+ÃBˆ‰Ó˜[YSİÙ\ˆH	Ó˜[YK•ÓİÙ\Š
+NÈˆ
+ÃBˆ‰”ÈHÙ]UšY]ÈUšY]Õ\H\İšX]Yš\X[ÜÜ›İ\Q\œ›ÜXİ[ÛˆİÜÚ\™KSØš™XİÈ	Ë“˜[YK•ÓİÙ\Š
+HY\H	Ó˜[YSİÙ\ˆHÙ[XİSØš™XİQš\œİNÈˆ
+ÃBˆ‰İÈH	[Èˆ
+ÃBˆšYˆ
+[›İ	”ÊHÈ	İÈHÙ]UšY]ÈUšY]Õ\H™]ÛÜšÈQ\œ›ÜXİ[ÛˆİÜÚ\™KSØš™XİÈ	Ë“˜[YK•ÓİÙ\Š
+HY\H	Ó˜[YSİÙ\ˆX[™	Ë“[Ô™Y‹•\HY\H	Ó™]ÛÜšÉÈHÙ[XİSØš™XİQš\œİHNÈˆ
+ÃBˆ‰İÚ]Ú]ZYH	[Èˆ
+ÃBˆšYˆ
+	”ÊHÈˆ
+ÃBˆˆ	İÚ]ÚHÙ]UšY]ÈUšY]Õ\H\İšX]Yš\X[İÚ]ÚQ\œ›ÜXİ[ÛˆİÜÚ\™KSØš™XİÈ	Ë”ÜÜ›İ\X[™
+	Ë”ÜÜ›İ\Ú\™KSØš™XİÈ	Ë•˜[YHY\H	”Ë“[Ô™Y‹•˜[YHJHHÙ[XİSØš™XİQš\œİNÈˆ
+ÃBˆˆYˆ
+	İÚ]Ú
+HÈ	İÚ]Ú]ZYH	İÚ]Ú•]ZYNÈˆ
+ÃBˆŸH[ÙZYˆ
+[›İ	İÊHÈ›İÈ
+	ù¢nKˆŞX‹zºşXîè€œ€¬€‘Á9…µ”¤ôì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€ˆ‘¹¥Œ€ô9•Üµ=‰©•ĞY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±Yµá¹•ĞÌì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€‰¥˜€ ‘‘ÙAœ¤ì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€ˆ€€‘¹¥Œ¹	…­¥¹œ€ô9•Üµ=‰©•ĞY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±Ñ¡•É¹•Ñ…É‘¥ÍÑÉ¥‰ÕÑ•‘Y¥ÉÑÕ…±A½ÉÑ	…­¥¹%¹™¼ì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€ˆ€€‘¹¥Œ¹	…­¥¹œ¹A½ÉĞ€ô9•Üµ=‰©•ĞY5İ…É”¹Y¥´¹¥ÍÑÉ¥‰ÕÑ•‘Y¥ÉÑÕ…±Mİ¥Ñ¡A½ÉÑ½¹¹•Ñ¥½¸ì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€ˆ€€‘¹¥Œ¹	…­¥¹œ¹A½ÉĞ¹A½ÉÑÉ½ÕÁ-•ä€ô€‘‘ÙAœ¹5½I•˜¹Y…±Õ”ì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€ˆ€¥˜€ ‘Íİ¥Ñ¡UÕ¥¤ì€‘¹¥Œ¹	…­¥¹œ¹A½ÉĞ¹Mİ¥Ñ¡UÕ¥€ô€‘Íİ¥Ñ¡UÕ¥ôì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€‰ô•±Í”ì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€ˆ€€‘¹¥Œ¹	…­¥¹œ€ô9•Üµ=‰©•ĞY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±Ñ¡•É¹•Ñ…É‘9•Ñİ½É­	…­¥¹%¹™¼ì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€ˆ€€‘¹¥Œ¹	…­¥¹œ¹•Ù¥•9…µ”€ô€‘ÍÑ‘Aœ¹9…µ”ì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€ˆ€€‘¹¥Œ¹	…­¥¹œ¹9•Ñİ½É¬€ô€‘ÍÑ‘Aœ¹5½I•˜ì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€‰ôì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€ˆ‘¹¥Œ¹½¹¹•Ñ…‰±”€ô9•Üµ=‰©•ĞY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±•Ù¥•½¹¹•Ñ%¹™¼ì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€ˆ‘¹¥Œ¹½¹¹•Ñ…‰±”¹½¹¹•Ñ•€ô€‘ÑÉÕ”ì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€ˆ‘¹¥Œ¹½¹¹•Ñ…‰±”¹MÑ…ÉÑ½¹¹•Ñ•€ô€‘ÑÉÕ”ì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€ˆ‘¹¥Œ¹½¹¹•Ñ…‰±”¹±±½İÕ•ÍÑ½¹ÑÉ½°€ô€‘ÑÉÕ”ì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€ˆ‘‘Ì€ô9•Üµ=‰©•ĞY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±•Ù¥•½¹™¥MÁ•Œì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€ˆ‘‘Ì¹=Á•É…Ñ¥½¸€ômY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±•Ù¥•½¹™¥MÁ•=Á•É…Ñ¥½¹tèé…‘ì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€ˆ‘‘Ì¹•Ù¥”€ô€‘¹¥Œì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€ˆ‘™œ€ô9•Üµ=‰©•ĞY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±5…¡¥¹•½¹™¥MÁ•Œì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€ˆ‘™œ¹•Ù¥•¡…¹”€ô  ‘‘Ì¤ì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€ˆ‘Ñ…Í¬€ô€‘Ù´¹I•½¹™¥Y5}Q…Í¬ ‘™œ¤ì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€‰]…¥ĞµQ…Í¬€‘Ñ…Í¬€––°å¢ç½‘å¡'; " +
                     $"Write-Output 'ã€{EscapePsString(vmName)}ã€‘æ–°å¢ç½‘å¡æˆåŠŸ (VirtualVmxnet3 â†’ {EscapePsString(newPg)})';";
 
-                ExecuteVmOperation(script, $"æ–°å¢ç½‘å¡: {vmName} (â†’ {newPg})", vmMoRef, onSuccess: () => RefreshNicListAsync());
-            };
+                ExecuteVmOperation(script, $"æ–°å¢ç½‘å¡: {vmName} (â†’ {newPg})", vmMoRef, onSuccess: () =™Yœ™\ÚšXÓ\İ\Ş[˜Ê
+JNÃBˆNÃBƒBˆ‘[]SšXËÛXÚÈ
+ÏH
+ËJH@Ğ¢°Ğ¢–b†æ–4Æ—7Ef–Wrå6VÆV7FVD—FV×2ä6÷VçBÓÒ’&WGW&ã°Ğ Ğ¢f"6VÆV7FVD–æf÷2ÒæWrÆ—7CÂ‡7G&–ærÆ&VÂÂ7G&–ærrÂ7G&–ær¶W’“â‚“°Ğ¢f÷&V6‚„Æ—7Ef–Wt—FVÒ—FVÒ–âæ–4Æ—7Ef–Wrå6VÆV7FVD—FV×2Ğ¢°Ğ¢6VÆV7FVD–æf÷2äFB‚†—FVÒåFW‡BÂ—FVÒå7V$—FV×5³ÒåFW‡BÂ—FVÒå7V$—FV×5³EÒåFW‡B’“°Ğ¢ĞĞ Ğ¢W6–ærf"6öæf—&ÔFÆrÒæWrf÷&ĞĞ¢°Ğ¢FW‡BÒ.)ªXŠ™šN{ÙXÚzîŠêB"ÀĞ¢–6öâÒ6÷&UWF–Ç2ävWD–6öâ‚’ÀĞ¢f÷&Ô&÷&FW%7G–ÆRÒf÷&Ô&÷&FW%7G–ÆRäf—†VDF–ÆörÀĞ¢7F'E÷6—F–öâÒf÷&Õ7F'E÷6—F–öâä6VçFW%&VçBÀĞ¢Ö†–Ö—¦T&÷‚ÒfÇ6RÀĞ¢Ö–æ–Ö—¦T&÷‚ÒfÇ6RÀĞ¢6†÷t–åF6¶&"ÒfÇ6RÀĞ¢föçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â’’ÀĞ¢WFõ66ÆTÖöFRÒWFõ66ÆTÖöFRäG’ÀĞ¢WFõ66ÆTF–ÖVç6–öç2ÒæWr6—¦Tbƒ“dbÂ“db’ÀĞ¢6—¦RÒæWr6—¦RƒCƒÂC’ÀĞ¢Ö–æ–×VÕ6—¦RÒæWr6—¦RƒCƒÂC’ÀĞ¢&6´6öÆ÷"Ò6öÆ÷"åv†—FPĞ¢Ó°Ğ Ğ¢f"Æ&ÅF—FÆRÒæWrÆ&VÀĞ¢°Ğ¢FW‡BÒB.[nK¸â··fÔæÖWÕÒXŠ™šNKº^Kˆ²·6VÆV7FVD–æf÷2ä6÷VçGÒKŠ®{ÙXÚûÉ¢"ÀĞ¢Æö6F–öâÒæWrö–çBƒbÂb’ÀĞ¢WFõ6—¦RÒG'VRÀĞ¢föçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"ÂÂföçE7G–ÆRä&öÆB’ÀĞ¢f÷&T6öÆ÷"Ò6öÆ÷"äg&öÔ&v"ƒƒ2Â#‚Â#‚’ÀĞ¢æ6†÷"Òæ6†÷%7G–ÆW2åF÷Âæ6†÷%7G–ÆW2äÆVgBÂæ6†÷%7G–ÆW2å&–v‡BÀĞ¢Ö&v–âÒFF–æräV×GĞ¢Ó°Ğ Ğ¢f"FWF–Ä&÷‚ÒæWrFW‡D&÷€Ğ¢°Ğ¢Æö6F–öâÒæWrö–çBƒbÂC‚’ÀĞ¢6—¦RÒæWr6—¦RƒC3Âƒ’ÀĞ¢×VÇF–Æ–æRÒG'VRÀĞ¢&VDöæÇ’ÒG'VRÀĞ¢67&öÆÄ&'2Ò67&öÆÄ&'2åfW'F–6ÂÀĞ¢föçBÒæWrföçB‚$6öç6öÆ2"Â’’ÀĞ¢&6´6öÆ÷"Ò6öÆ÷"äg&öÔ&v"ƒ#SÂ#SÂ#S’ÀĞ¢f÷&T6öÆ÷"Ò6öÆ÷"äg&öÔ&v"ƒSÂSÂS’ÀĞ¢æ6†÷"Òæ6†÷%7G–ÆW2åF÷Âæ6†÷%7G–ÆW2äÆVgBÂæ6†÷%7G–ÆW2å&–v‡BÀĞ¢Ö&v–âÒFF–æräV×GĞ¢Ó°Ğ¢f"6"ÒæWr7G&–æt'V–ÆFW"‚“°Ğ¢6"äVæDÆ–æR‚B'².{ÙXÚYŞz{"ÂÓ#'Ò².zºÖ>‡»„",-20} {"Key",8}");
+                sb.AppendLine(new string($¥ 	ËMJJNÃBˆ›Ü™XXÚ
+˜\ˆ[™›È[ˆÙ[XİY[™›ÜÊCBˆÃBˆØ‹\[™[™J	Ú[™›Ë›X™[LŒŸHÚ[™›ËœËLŒHÚ[™›ËšÙ^KHŠNÃBˆCBˆ]Z[›Ş•^HØ‹•Ôİš[™Ê
+NÃBƒBˆ˜\ˆÚĞÛÛ™š\›HH™]ÈÚXÚĞ›ŞBˆÃBˆ^H¹¢$ymì¹¨.9kîy.éy."¹/èy kò3†»¢º“–"ƒ¦f“¼ˆæ­¤æ“ä½œæ— æ³•æ’¤é”€ï"H‹BˆØØ][ÛˆH™]ÈÚ[
+M‹
+KBˆ]]ÔÚ^™HHYKBˆ›ÛH™]È›Û
+“ZXÜ›ÜÛÙXRZH‹K›Ûİ[K›Û
+KBˆ›Ü™PÛÛÜˆHÛÛÜ‹‘œ›ÛP\™ØŠNË
+KBˆ[˜ÚÜˆH[˜ÚÜ”İ[\Ë•Ü[˜ÚÜ”İ[\Ë“Y[˜ÚÜ”İ[\Ë”šYÚBˆX\™Ú[ˆHY[™Ë‘[\CBˆNÃBƒBˆ˜\ˆÛÛ™š\›Q[]HH™]È]ÛƒBˆÃBˆ^H¹èkº+©9b(:fi‹BˆØØ][ÛˆH™]ÈÚ[
+ÌÌŒ
+KBˆÚ^™HH™]ÈÚ^™JLÌ
+KBˆ›ÛH™]È›Û
+“ZXÜ›ÜÛÙXRZH‹K›Ûİ[K›Û
+KBˆ˜XÚĞÛÛÜˆHÛÛÜ‹‘œ›ÛP\™ØŠNË
+KBˆ›Ü™PÛÛÜˆHÛÛÜ‹•Ú]KBˆ›]İ[HH›]İ[K‘›]Bˆ[˜X›YH˜[ÙKBˆ[˜ÚÜˆH[˜ÚÜ”İ[\Ë•Ü[˜ÚÜ”İ[\Ë”šYÚBˆX\™Ú[ˆHY[™Ë‘[\CBˆNÃBˆÛÛ™š\›Q[]K‘›]\X\˜[˜ÙK›Ü™\”Ú^™HHÃBƒBˆ˜\ˆØ[˜Ù[[]HH™]È]ÛƒBˆÃBˆ^H¹cå¹­¢‹BˆØØ][ÛˆH™]ÈÚ[
+ÎMKÌŒ
+KBˆÚ^™HH™]ÈÚ^™JÌÌ
+KBˆ›ÛH™]È›Û
+“ZXÜ›ÜÛÙXRZH‹JKBˆ[˜ÚÜˆH[˜ÚÜ”İ[\Ë•Ü[˜ÚÜ”İ[\Ë”šYÚBˆX\™Ú[ˆHY[™Ë‘[\CBˆNÃBƒBˆÚĞÛÛ™š\›KÚXÚÙYÚ[™ÙY
+ÏH
+ÜËÙJHOˆÈÛÛ™š\›Q[]K‘[˜X›YHÚĞÛÛ™š\›KÚXÚÙYÈNÃBƒBˆÛÛ™š\›QËÛÛ›ÛËY˜[™ÙJ™]ÈÛÛ›Û×HÈ›]K]Z[›ŞÚĞÛÛ™š\›KÛÛ™š\›Q[]KØ[˜Ù[[]HJNÃBˆÛÛ™š\›QËXØÙ\]ÛˆHÛÛ™š\›Q[]NÃBˆÛÛ™š\›QËØ[˜Ù[]ÛˆHØ[˜Ù[[]NÃBƒBˆÛÛ™š\›Q[]KÛXÚÈ
+ÏH
+ÜËÙJHOˆÈÛÛ™š\›QË‘X[ÙÔ™\İ[HX[ÙÔ™\İ[“ÒÎÈÛÛ™š\›QËÛÜÙJ
+NÈNÃBˆØ[˜Ù[[]KÛXÚÈ
+ÏH
+ÜËÙJHB²6öæf—&ÔFÆräF–Æöu&W7VÇBÒF–Æöu&W7VÇBä6æ6VÃ²6öæf—&ÔFÆrä6Æ÷6R‚“²Ó°Ğ Ğ¢–b†6öæf—&ÔFÆrå6†÷tF–Æör†FÆr’ÒF–Æöu&W7VÇBäô²’&WGW&ã°Ğ Ğ¢f"F&vWD¶W—2Ò6VÆV7FVD–æf÷2å6VÆV7B†’Óâ’æ¶W’’åFôÆ—7B‚“°Ğ Ğ¢7G&–ærFVÆWFU67&—BĞĞ¢B"GfÒÒvWBÕf–WrÔ–Bw·fÔÖõ&VgÒrÕ&÷W'G’6öæf–rä†&Gv&RäFWf–6RÔW'&÷$7F–öâ7F÷Â6VÆV7BÔö&¦V7BÔf—'7B²"°Ğ¢B"GF&vWD¶W—2Ò‡·7G&–ærä¦ö–â‚"Â"ÂF&vWD¶W—2å6VÆV7B†²ÓâB"w¶·Òr"’—Ò“²"°Ğ¢"FFFW'2ÒGfÒä6öæf–rä†&Gv&RäFWf–6RÂv†W&RÔö&¦V7B²EòÖ—2µd×v&Råf–Òåf—'GVÄWF†W&æWD6&EÒÖæBEòä¶W’Ö–âGF&vWD¶W—2Ó²"°Ğ¢&–b‚FFFW'2ä6÷VçBÖæRGF&vWD¶W—2ä6÷VçB’²F‡&÷r‚~Šë–’šVÃ¦?’â7–2ç¦7¾òk¦Ššr|€œ€¬€‘Ñ…É•Ñ-•åÌ¹½Õ¹Ğ€¬€œƒ’â«¾ò3–º{¦f¶o¦'–"À€œ€¬€‘…‘…ÁÑ•ÉÌ¹½Õ¹Ğ€¬€œƒ’â«¼Œè¯µb-ikYî˜xŞŠùRr’Ó²"°Ğ¢"FFWe7V72Ò‚“²"°Ğ¢&f÷&V6‚‚Fæ–2–âFFFW'2’²"°Ğ¢"FG2ÒæWrÔö&¦V7Bd×v&Råf–Òåf—'GVÄFWf–6T6öæf–u7V3²"°Ğ¢"FG2ä÷W&F–öâÒµd×v&Råf–Òåf—'GVÄFWf–6T6öæf–u7V4÷W&F–öåÓ£§&VÖ÷fS²"°Ğ¢"FG2äFWf–6RÒFæ–3²"°Ğ¢"FFWe7V72³ÒFG3²"°Ğ¢'Ó²"°Ğ¢"F6frÒæWrÔö&¦V7Bd×v&Råf–Òåf—'GVÄÖ6†–æT6öæf–u7V3²"°Ğ¢"F6fräFWf–6T6†ævRÒFFWe7V73²"°Ğ¢"GF6²ÒGfÒå&V6öæf–udÕõF6²‚F6fr“²"°Ğ¢%v—BÕF6²GF6²~XŠ™šN{ÙXÚs²"°Ğ¢B%w&—FRÔ÷WGWBNAíÍ…Á•AÍMÑÉ¥¹œ¡Ùµ9…µ”¥÷G–ŞË–"ƒ¦fíÑ…É•Ñ-•åÌ¹½Õ¹Ñôƒ’â«öG–6„œìˆì4(4(€€€€€€€€€€€€€€€á•ÕÑ•Yµ=Á•É…Ñ¥½¸¡‘•±•Ñ•MÉ¥ÁĞ°€‹–"ƒ¦f“öG–6„èíÙµ9…µ•ô€¡íÑ…É•Ñ-•åÌ¹½Õ¹Ñ÷’â¨¤ˆ°Ùµ5½I•˜°½¹MÕ•ÍÌè€ ¤€ôøI•™É•Í¡9¥1¥ÍÑÍå¹Œ ¤¤ì4(€€€€€€€€€€€ôì4(4(€€€€€€€€€€€¥˜€¡‘±œ¹M¡½İ¥…±½œ¡}É½½Ğ¤€„ô¥…±½I•ÍÕ±Ğ¹=,¤É•ÑÕÉ¸ì4(4(€€€€€€€€€€€¥˜€¡¹¥1¥ÍÑY¥•Ü¹M•±•Ñ•‘%Ñ•µÌ¹½Õ¹Ğ€ôô€À¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€5•ÍÍ…•	½à¹M¡½Ü ‹¢¾Õ…ˆåœ¨åˆ–(j9.+z`"y¢êz) y/ë¹¥.yæ¡9ïdychH‹¹£ä9é.ˆ‹Y\ÜØYÙP›Ş]ÛœË“ÒËY\ÜØYÙP›ŞXÛÛ‹•Ø\›š[™ÊNÃBˆ™]\›ÃBˆCBƒBˆİš[™È™]ÔÌˆHØ”Ë•^•š[J
+NÃBˆYˆ
+İš[™Ë’\Ó[Ü‘[\J™]ÔÌŠJCBˆÃBˆY\ÜØYÙP›Ş”ÚİÊº+~‹é>XZ^h‰n˜hºyºîj~zºşXîˆ°€‹š>C’èˆ°5•ÍÍ…•	½á	ÕÑÑ½¹Ì¹=,°5•ÍÍ…•	½á%½¸¹]…É¹¥¹œ¤ì4(€€€€€€€€€€€€€€€É•ÑÕÉ¸ì4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€Ù…ÈÍ•±•Ñ•‘-•åÌÈ€ô¹•Ü1¥ÍĞñÍÑÉ¥¹œø ¤ì4(€€€€€€€€€€€Ù…ÈÍ•±•Ñ•‘1…‰•±ÌÈ€ô¹•Ü1¥ÍĞñÍÑÉ¥¹œø ¤ì4(€€€€€€€€€€€™½É•… €¡1¥ÍÑY¥•İ%Ñ•´¥Ñ•´¥¸¹¥1¥ÍÑY¥•Ü¹M•±•Ñ•‘%Ñ•µÌ¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Í•±•Ñ•‘-•åÌÈ¹‘¡¥Ñ•´¹MÕ‰%Ñ•µÍlÑt¹Q•áĞ¤ì4(€€€€€€€€€€€€€€€Í•±•Ñ•‘1…‰•±ÌÈ¹‘¡¥Ñ•´¹Q•áĞ¤ì4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€ÍÑÉ¥¹œ½¹¹•Ñ•‘Y…°€ô¡­½¹¹•Ñ•¹¡•­•€ü€ˆ‘ÑÉÕ”ˆ€è€ˆ‘™…±Í”ˆì4(€€€€€€€€€€€ÍÑÉ¥¹œÍÑ…ÉÑ½¹¹Y…°€ô¡­MÑ…ÉÑ½¹¹•Ñ•¹¡•­•€ü€ˆ‘ÑÉÕ”ˆ€è€ˆ‘™…±Í”ˆì4(4(€€€€€€€€€€€ÍÑÉ¥¹œ•‘¥ÑMÉ¥ÁĞ€ô4(€€€€€€€€€€€€€€€€ˆ‘Ù´€ô•ĞµY¥•Ü€µ%€íÙµ5½I•™ôœ€µAÉ½Á•ÉÑä½¹™¥œ¹!…É‘İ…É”¹•Ù¥”€µÉÉ½ÉÑ¥½¸MÑ½ÀğM•±•Ğµ=‰©•Ğ€µ¥ÉÍĞ€Äì€ˆ€¬4(€€€€€€€€€€€€€€€€ˆ‘Á9…µ”€ô€íÍ…Á•AÍMÑÉ¥¹œ¡¹•İAœÈ¥ôœì€ˆ€¬4(€€€€€€€€€€€€€€€€ˆ‘Á9…µ•1½İ•È€ô€‘Á9…µ”¹Q½1½İ•È ¤ì€ˆ€¬4(€€€€€€€€€€€€€€€€ˆ‘‘ÙAœ€ô•ĞµY¥•Ü€µY¥•İQåÁ”¥ÍÑÉ¥‰ÕÑ•‘Y¥ÉÑÕ…±A½ÉÑÉ½ÕÀ€µÉÉ½ÉÑ¥½¸MÑ½Àğ]¡•É”µ=‰©•Ğì€‘|¹9…µ”¹Q½1½İ•È ¤€µ•Ä€‘Á9…µ•1½İ•ÈôğM•±•Ğµ=‰©•Ğ€µ¥ÉÍĞ€Äì€ˆ€¬4(€€€€€€€€€€€€€€€€ˆ‘ÍÑ‘Aœ€ô€‘¹Õ±°ì€ˆ€¬4(€€€€€€€€€€€€€€€€‰¥˜€ µ¹½Ğ€‘‘ÙAœ¤ì€‘ÍÑ‘Aœ€ô•ĞµY¥•Ü€µY¥•İQåÁ”9•Ñİ½É¬€µÉÉ½ÉÑ¥½¸MÑ½Àğ]¡•É”µ=‰©•Ğì€‘|¹9…µ”¹Q½1½İ•È ¤€µ•Ä€‘Á9…µ•1½İ•È€µ…¹€‘|¹5½I•˜¹QåÁ”€µ•Ä€9•Ñİ½É¬œôğM•±•Ğµ=‰©•Ğ€µ¥ÉÍĞ€Äôì€ˆ€¬4(€€€€€€€€€€€€€€€€ˆ‘Íİ¥Ñ¡UÕ¥€ô€‘¹Õ±°ì€ˆ€¬4(€€€€€€€€€€€€€€€€‰¥˜€ ‘‘ÙAœ¤ì€ˆ€¬4(€€€€€€€€€€€€€€€€ˆ€€‘Íİ¥Ñ €ô•ĞµY¥•Ü€µY¥•İQåÁ”¥ÍÑÉ¥‰ÕÑ•‘Y¥ÉÑÕ…±Mİ¥Ñ €µÉÉ½ÉÑ¥½¸MÑ½Àğ]¡•É”µ=‰©•Ğì€‘|¹A½ÉÑÉ½ÕÀ€µ…¹€ ‘|¹A½ÉÑÉ½ÕÀğ]¡•É”µ=‰©•Ğì€‘|¹Y…±Õ”€µ•Ä€‘‘ÙAœ¹5½I•˜¹Y…±Õ”ô¤ôğM•±•Ğµ=‰©•Ğ€µ¥ÉÍĞ€Äì€ˆ€¬4(€€€€€€€€€€€€€€€€ˆ€¥˜€ ‘Íİ¥Ñ ¤ì€‘Íİ¥Ñ¡UÕ¥€ô€‘Íİ¥Ñ ¹UÕ¥ôì€ˆ€¬4(€€€€€€€€€€€€€€€€‰ô•±Í•¥˜€ µ¹½Ğ€‘ÍÑ‘Aœ¤ìÑ¡É½Ü€ –‰¾ä¸åˆ°ç«­cè{¸C¢r²GtæÖR’Ó²"°Ğ¢"FFWe7V72Ò‚“²"°Ğ¢B"GF&vWD¶W—2Ò‡·7G&–ærä¦ö–â‚"Â"Â6VÆV7FVD¶W—3"å6VÆV7B†²ÓâB"w¶·Òr"’—Ò“²"°Ğ¢"FFFW'2ÒGfÒä6öæf–rä†&Gv&RäFWf–6RÂv†W&RÔö&¦V7B²EòÖ—2µd×v&Råf–Òåf—'GVÄWF†W&æWD6&EÒÖæBEòä¶W’Ö–âGF&vWD¶W—2Ó²"°Ğ¢&f÷&V6‚‚Fæ–2–âFFFW'2’²"°Ğ¢"–b‚FGer’²"°Ğ¢"Fæ–2ä&6¶–ærÒæWrÔö&¦V7Bd×v&Råf–Òåf—'GVÄWF†W&æWD6&DF—7G&–'WFVEf—'GVÅ÷'D&6¶–æt–æfó²"°Ğ¢"Fæ–2ä&6¶–ærå÷'BÒæWrÔö&¦V7Bd×v&Råf–ÒäF—7G&–'WFVEf—'GVÅ7v—F6…÷'D6öææV7F–öã²"°Ğ¢"Fæ–2ä&6¶–ærå÷'Bå÷'Fw&÷W¶W’ÒFGeräÖõ&VbåfÇVS²"°Ğ¢"–b‚G7v—F6…WV–B’²Fæ–2ä&6¶–ærå÷'Bå7v—F6…WV–BÒG7v—F6…WV–BÓ²"°Ğ¢"ÒVÇ6R²"°Ğ¢"Fæ–2ä&6¶–ærÒæWrÔö&¦V7Bd×v&Råf–Òåf—'GVÄWF†W&æWD6&DæWGv÷&´&6¶–æt–æfó²"°Ğ¢"Fæ–2ä&6¶–æräFWf–6TæÖRÒG7FEräæÖS²"°Ğ¢"Fæ–2ä&6¶–æräæWGv÷&²ÒG7FEräÖõ&Vc²"°Ğ¢"Ó²"°Ğ¢B"Fæ–2ä6öææV7F&ÆRä6öææV7FVBÒ¶6öææV7FVEfÇÓ²"°Ğ¢B"Fæ–2ä6öææV7F&ÆRå7F'D6öææV7FVBÒ·7F'D6öæåfÇÓ²"°Ğ¢"FG2ÒæWrÔö&¦V7Bd×v&Råf–Òåf—'GVÄFWf–6T6öæf–u7V3²"°Ğ¢"FG2ä÷W&F–öâÒµd×v&Råf–Òåf—'GVÄFWf–6T6öæf–u7V4÷W&F–öåÓ£¦VF—C²"°Ğ¢"FG2äFWf–6RÒFæ–3²"°Ğ¢"FFWe7V72³ÒFG3²"°Ğ¢'Ó²"°Ğ¢"F6frÒæWrÔö&¦V7Bd×v&Råf–Òåf—'GVÄÖ6†–æT6öæf–u7V3²"°Ğ¢"F6fräFWf–6T6†ævRÒFFWe7V73²"°Ğ¢"GF6²ÒGfÒå&V6öæf–udÕõF6²‚F6fr“²"°Ğ¢%v—BÕF6²GF6²~zºşXî’îæ”¹'; " +
+                $"Write-Output $à$Ñ\ØØ\TÔİš[™Ê›S˜[YJ_xà$^ÜÙ[XİYX™[Ì‹Ûİ[H9.*¹ïdychymì¹b!hÚ.X‹zºÖ>‡»„ ''{EscapePsString(newPg2)}''  (Connected={chkConnected.Checked}, StartConnected={chkStartConnected.Checked})';";
 
-            btnDeleteNic.Click += (s, e) =>
-            {
-                if (nicListView.SelectedItems.Count == 0) return;
-
-                var selectedInfos = new List<(string label, string pg, string key)>();
-                foreach (ListViewItem item in nicListView.SelectedItems)
-                {
-                    selectedInfos.Add((item.Text, item.SubItems[1].Text, item.SubItems[4].Text));
-                }
-
-                using var confirmDlg = new Form
-                {
-                    Text = "âš  åˆ é™¤ç½‘å¡ç¡®è®¤",
-                    Icon = CoreUtils.GetAppIcon(),
-                    FormBorderStyle = FormBorderStyle.FixedDialog,
-                    StartPosition = FormStartPosition.CenterParent,
-                    MaximizeBox = false,
-                    MinimizeBox = false,
-                    ShowInTaskbar = false,
-                    Font = new Font("Microsoft YaHei", 9),
-                    AutoScaleMode = AutoScaleMode.Dpi,
-                    AutoScaleDimensions = new SizeF(96F, 96F),
-                    Size = new Size(480, 400),
-                    MinimumSize = new Size(480, 400),
-                    BackColor = Color.White
-                };
-
-                var lblTitle = new Label
-                {
-                    Text = $"å°†ä» [{vmName}] åˆ é™¤ä»¥ä¸‹ {selectedInfos.Count} ä¸ªç½‘å¡ï¼š",
-                    Location = new Point(16, 16),
-                    AutoSize = true,
-                    Font = new Font("Microsoft YaHei", 10, FontStyle.Bold),
-                    ForeColor = Color.FromArgb(183, 28, 28),
-                    Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
-                    Margin = Padding.Empty
-                };
-
-                var detailBox = new TextBox
-                {
-                    Location = new Point(16, 48),
-                    Size = new Size(430, 180),
-                    Multiline = true,
-                    ReadOnly = true,
-                    ScrollBars = ScrollBars.Vertical,
-                    Font = new Font("Consolas", 9),
-                    BackColor = Color.FromArgb(250, 250, 250),
-                    ForeColor = Color.FromArgb(50, 50, 50),
-                    Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
-                    Margin = Padding.Empty
-                };
-                var sb = new StringBuilder();
-                sb.AppendLine($"{"ç½‘å¡åç§°",-22} {"ç«¯å£ç»„",-20} {"Key",8}");
-                sb.AppendLine(new string('â”€', 55));
-                foreach (var info in selectedInfos)
-                {
-                    sb.AppendLine($"{info.label,-22} {info.pg,-20} {info.key,8}");
-                }
-                detailBox.Text = sb.ToString();
-
-                var chkConfirm = new CheckBox
-                {
-                    Text = "æˆ‘å·²æ ¸å¯¹ä»¥ä¸Šä¿¡æ¯ï¼Œç¡®è®¤åˆ é™¤ï¼ˆæ­¤æ“ä½œæ— æ³•æ’¤é”€ï¼‰",
-                    Location = new Point(16, 240),
-                    AutoSize = true,
-                    Font = new Font("Microsoft YaHei", 9, FontStyle.Bold),
-                    ForeColor = Color.FromArgb(183, 28, 28),
-                    Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
-                    Margin = Padding.Empty
-                };
-
-                var btnConfirmDelete = new Button
-                {
-                    Text = "ç¡®è®¤åˆ é™¤",
-                    Location = new Point(300, 320),
-                    Size = new Size(90, 30),
-                    Font = new Font("Microsoft YaHei", 9, FontStyle.Bold),
-                    BackColor = Color.FromArgb(183, 28, 28),
-                    ForeColor = Color.White,
-                    FlatStyle = FlatStyle.Flat,
-                    Enabled = false,
-                    Anchor = AnchorStyles.Top | AnchorStyles.Right,
-                    Margin = Padding.Empty
-                };
-                btnConfirmDelete.FlatAppearance.BorderSize = 0;
-
-                var btnCancelDelete = new Button
-                {
-                    Text = "å–æ¶ˆ",
-                    Location = new Point(395, 320),
-                    Size = new Size(70, 30),
-                    Font = new Font("Microsoft YaHei", 9),
-                    Anchor = AnchorStyles.Top | AnchorStyles.Right,
-                    Margin = Padding.Empty
-                };
-
-                chkConfirm.CheckedChanged += (cs, ce) => { btnConfirmDelete.Enabled = chkConfirm.Checked; };
-
-                confirmDlg.Controls.AddRange(new Control[] { lblTitle, detailBox, chkConfirm, btnConfirmDelete, btnCancelDelete });
-                confirmDlg.AcceptButton = btnConfirmDelete;
-                confirmDlg.CancelButton = btnCancelDelete;
-
-                btnConfirmDelete.Click += (cs, ce) => { confirmDlg.DialogResult = DialogResult.OK; confirmDlg.Close(); };
-                btnCancelDelete.Click += (cs, ce) => { confirmDlg.DialogResult = DialogResult.Cancel; confirmDlg.Close(); };
-
-                if (confirmDlg.ShowDialog(dlg) != DialogResult.OK) return;
-
-                var targetKeys = selectedInfos.Select(i => i.key).ToList();
-
-                string deleteScript =
-                    $"$vm = Get-View -Id '{vmMoRef}' -Property Config.Hardware.Device -ErrorAction Stop | Select-Object -First 1; " +
-                    $"$targetKeys = @({string.Join(",", targetKeys.Select(k => $"'{k}'"))}); " +
-                    "$adapters = $vm.Config.Hardware.Device | Where-Object { $_ -is [VMware.Vim.VirtualEthernetCard] -and $_.Key -in $targetKeys }; " +
-                    "if ($adapters.Count -ne $targetKeys.Count) { throw ('è®¾å¤‡æ•°é‡ä¸åŒ¹é…ï¼šé¢„æœŸ ' + $targetKeys.Count + ' ä¸ªï¼Œå®é™…ç­›é€‰åˆ° ' + $adapters.Count + ' ä¸ªï¼Œè¯·åˆ·æ–°åé‡è¯•') }; " +
-                    "$devSpecs = @(); " +
-                    "foreach ($nic in $adapters) { " +
-                    "  $ds = New-Object VMware.Vim.VirtualDeviceConfigSpec; " +
-                    "  $ds.Operation = [VMware.Vim.VirtualDeviceConfigSpecOperation]::remove; " +
-                    "  $ds.Device = $nic; " +
-                    "  $devSpecs += $ds; " +
-                    "}; " +
-                    "$cfg = New-Object VMware.Vim.VirtualMachineConfigSpec; " +
-                    "$cfg.DeviceChange = $devSpecs; " +
-                    "$task = $vm.ReconfigVM_Task($cfg); " +
-                    "Wait-Task $task 'åˆ é™¤ç½‘å¡'; " +
-                    $"Write-Output 'ã€{EscapePsString(vmName)}ã€‘å·²åˆ é™¤ {targetKeys.Count} ä¸ªç½‘å¡';";
-
-                ExecuteVmOperation(deleteScript, $"åˆ é™¤ç½‘å¡: {vmName} ({targetKeys.Count}ä¸ª)", vmMoRef, onSuccess: () => RefreshNicListAsync());
-            };
-
-            if (dlg.ShowDialog(_root) != DialogResult.OK) return;
-
-            if (nicListView.SelectedItems.Count == 0)
-            {
-                MessageBox.Show("è¯·å…ˆåœ¨åˆ—è¡¨ä¸­é€‰æ‹©è¦ä¿®æ”¹çš„ç½‘å¡", "æç¤º", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            string newPg2 = cbPg.Text.Trim();
-            if (string.IsNullOrEmpty(newPg2))
-            {
-                MessageBox.Show("è¯·è¾“å…¥æˆ–é€‰æ‹©ç›®æ ‡ç«¯å£ç»„", "æç¤º", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            var selectedKeys2 = new List<string>();
-            var selectedLabels2 = new List<string>();
-            foreach (ListViewItem item in nicListView.SelectedItems)
-            {
-                selectedKeys2.Add(item.SubItems[4].Text);
-                selectedLabels2.Add(item.Text);
-            }
-
-            string connectedVal = chkConnected.Checked ? "$true" : "$false";
-            string startConnVal = chkStartConnected.Checked ? "$true" : "$false";
-
-            string editScript =
-                $"$vm = Get-View -Id '{vmMoRef}' -Property Config.Hardware.Device -ErrorAction Stop | Select-Object -First 1; " +
-                $"$pgName = '{EscapePsString(newPg2)}'; " +
-                "$pgNameLower = $pgName.ToLower(); " +
-                "$dvPg = Get-View -ViewType DistributedVirtualPortgroup -ErrorAction Stop | Where-Object { $_.Name.ToLower() -eq $pgNameLower } | Select-Object -First 1; " +
-                "$stdPg = $null; " +
-                "if (-not $dvPg) { $stdPg = Get-View -ViewType Network -ErrorAction Stop | Where-Object { $_.Name.ToLower() -eq $pgNameLower -and $_.MoRef.Type -eq 'Network' } | Select-Object -First 1 }; " +
-                "$switchUuid = $null; " +
-                "if ($dvPg) { " +
-                "  $switch = Get-View -ViewType DistributedVirtualSwitch -ErrorAction Stop | Where-Object { $_.Portgroup -and ($_.Portgroup | Where-Object { $_.Value -eq $dvPg.MoRef.Value }) } | Select-Object -First 1; " +
-                "  if ($switch) { $switchUuid = $switch.Uuid }; " +
-                "} elseif (-not $stdPg) { throw ('æ‰¾ä¸åˆ°ç«¯å£ç»„: ' + $pgName) }; " +
-                "$devSpecs = @(); " +
-                $"$targetKeys = @({string.Join(",", selectedKeys2.Select(k => $"'{k}'"))}); " +
-                "$adapters = $vm.Config.Hardware.Device | Where-Object { $_ -is [VMware.Vim.VirtualEthernetCard] -and $_.Key -in $targetKeys }; " +
-                "foreach ($nic in $adapters) { " +
-                "  if ($dvPg) { " +
-                "    $nic.Backing = New-Object VMware.Vim.VirtualEthernetCardDistributedVirtualPortBackingInfo; " +
-                "    $nic.Backing.Port = New-Object VMware.Vim.DistributedVirtualSwitchPortConnection; " +
-                "    $nic.Backing.Port.PortgroupKey = $dvPg.MoRef.Value; " +
-                "    if ($switchUuid) { $nic.Backing.Port.SwitchUuid = $switchUuid }; " +
-                "  } else { " +
-                "    $nic.Backing = New-Object VMware.Vim.VirtualEthernetCardNetworkBackingInfo; " +
-                "    $nic.Backing.DeviceName = $stdPg.Name; " +
-                "    $nic.Backing.Network = $stdPg.MoRef; " +
-                "  }; " +
-                $"  $nic.Connectable.Connected = {connectedVal}; " +
-                $"  $nic.Connectable.StartConnected = {startConnVal}; " +
-                "  $ds = New-Object VMware.Vim.VirtualDeviceConfigSpec; " +
-                "  $ds.Operation = [VMware.Vim.VirtualDeviceConfigSpecOperation]::edit; " +
-                "  $ds.Device = $nic; " +
-                "  $devSpecs += $ds; " +
-                "}; " +
-                "$cfg = New-Object VMware.Vim.VirtualMachineConfigSpec; " +
-                "$cfg.DeviceChange = $devSpecs; " +
-                "$task = $vm.ReconfigVM_Task($cfg); " +
-                "Wait-Task $task 'ç«¯å£ç»„ä¿®æ”¹'; " +
-                $"Write-Output 'ã€{EscapePsString(vmName)}ã€‘{selectedLabels2.Count} ä¸ªç½‘å¡å·²åˆ‡æ¢åˆ°ç«¯å£ç»„ ''{EscapePsString(newPg2)}''  (Connected={chkConnected.Checked}, StartConnected={chkStartConnected.Checked})';";
-
-            ExecuteVmOperation(editScript, $"ä¿®æ”¹ç«¯å£ç»„: {vmName} ({selectedLabels2.Count}ç½‘å¡ â†’ {newPg2})", vmMoRef);
-        }
-
-        private void ShowDiskEditorDialog(string vmName, string vmMoRef, List<Dictionary<string, string>> diskList)
-        {
-            using var dlg = new Form
-            {
-                Text = $"ç£ç›˜ç®¡ç† - {vmName}",
-                Icon = CoreUtils.GetAppIcon(),
-                FormBorderStyle = FormBorderStyle.FixedDialog,
-                StartPosition = FormStartPosition.CenterParent,
-                MaximizeBox = false,
-                MinimizeBox = false,
-                ShowInTaskbar = false,
-                Font = new Font("Microsoft YaHei", 9),
-                AutoScaleMode = AutoScaleMode.Dpi,
-                AutoScaleDimensions = new SizeF(96F, 96F),
-                Size = new Size(700, 470),
-                MinimumSize = new Size(700, 470)
-            };
-
-            var listView = new ListView
-            {
-                Location = new Point(16, 16),
-                Size = new Size(650, 200),
-                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom,
-                Margin = Padding.Empty,
-                View = View.Details,
-                FullRowSelect = true,
-                GridLines = true,
-                MultiSelect = false
-            };
-            listView.Columns.Add("ç£ç›˜åç§°", 100);
-            listView.Columns.Add("å®¹é‡ (GB)", 100);
-            listView.Columns.Add("ç½®å¤‡æ¨¡å¼", 100);
-            listView.Columns.Add("å­˜å‚¨è·¯å¾„", 330);
-
-            // è‡ªé€‚åº”åˆ—å®½
-            Utils.TableConvertUtils.AutoResizeColumns(listView);
-
-            foreach (var disk in diskList)
-            {
-                var name = disk.TryGetValue("Name", out var n) ? n : "";
-                var cap = disk.TryGetValue("CapacityGB", out var c) ? c : "";
-                var fmt = disk.TryGetValue("StorageFormat", out var f) ? f : "";
-                var file = disk.TryGetValue("Filename", out var fi) ? fi : "";
-                var key = disk.TryGetValue("Key", out var k) ? k : "";
-                var hasBacking = disk.TryGetValue("HasBacking", out var hb) ? hb : "True";
-
-                if (double.TryParse(cap, out double capVal))
-                    cap = capVal.ToString("F2");
-
-                var displayName = string.IsNullOrEmpty(name) ? "(æœªå‘½åç£ç›˜)" : name;
-                if (hasBacking.Equals("False", StringComparison.OrdinalIgnoreCase))
-                    displayName += " âš ";
-
-                var item = new ListViewItem(displayName);
-                item.SubItems.Add(cap);
-                item.SubItems.Add(fmt);
-                item.SubItems.Add(file);
-                item.SubItems.Add(key);
-                listView.Items.Add(item);
-            }
-
-            var lblStatus = new Label
-            {
-                Text = diskList.Count == 0 ? "âš  æœªæŸ¥è¯¢åˆ°ä»»ä½•ç£ç›˜ï¼Œè¯·ç¡®è®¤è™šæ‹ŸæœºçŠ¶æ€åé‡è¯•" : $"âœ“ å·²åŠ è½½ {diskList.Count} å—ç£ç›˜",
-                Location = new Point(16, 215),
-                AutoSize = true,
-                Font = new Font("Microsoft YaHei", 9),
-                ForeColor = diskList.Count == 0 ? Color.FromArgb(211, 47, 47) : Color.FromArgb(46, 125, 50),
-                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
-                Margin = Padding.Empty
-            };
-
-            // 4åˆ— TableLayoutPanelï¼šæ ‡ç­¾ | è¾“å…¥æ¡† | ä¸‹æ‹‰æ¡†(ç½®å¤‡æ¨¡å¼) | æŒ‰é’®
-            var table = new TableLayoutPanel
-            {
-                Location = new Point(16, 238),
-                Size = new Size(650, 105),
-                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
-                Margin = Padding.Empty,
-                RowCount = 3,
-                ColumnCount = 4
-            };
-
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 35));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 35));
-            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 35));
-            table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 200));
-            table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110));
-            table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 80));
-            table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120));
-
-            // ç¬¬1è¡Œï¼šæ–°å¢ç£ç›˜
-            var lblAdd = new Label { Text = "æ–°å¢ç£ç›˜å®¹é‡ (GB)ï¼š", AutoSize = true, Anchor = AnchorStyles.Left, Margin = Padding.Empty };
-            var cboFormat = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 100, Anchor = AnchorStyles.Left | AnchorStyles.Right, Margin = Padding.Empty };
-            cboFormat.Items.AddRange(new[] { "Thin", "Thick", "LazyZeroedThick" });
-            cboFormat.SelectedIndex = 0;
-            var txtNewDisk = new TextBox { Text = "100", Width = 70, Anchor = AnchorStyles.Left | AnchorStyles.Right, Margin = Padding.Empty };
-            var btnAdd = new Button { Text = "æ–°å¢ç£ç›˜", Width = 110, Anchor = AnchorStyles.Left, Margin = Padding.Empty };
-
-            table.Controls.Add(lblAdd, 0, 0);
-            table.Controls.Add(cboFormat, 1, 0);
-            table.Controls.Add(txtNewDisk, 2, 0);
-            table.Controls.Add(btnAdd, 3, 0);
-
-            // ç¬¬2è¡Œï¼šè°ƒæ•´å¤§å°
-            var lblResize = new Label { Text = "è°ƒæ•´ç£ç›˜çš„æ€»å®¹é‡ (GB)ï¼š", AutoSize = true, Anchor = AnchorStyles.Left, Margin = Padding.Empty };
-            var lblCurrentCap = new Label { Text = "", AutoSize = true, Anchor = AnchorStyles.Left, Margin = Padding.Empty };
-            var txtResize = new TextBox { Text = "", Width = 70, Anchor = AnchorStyles.Left | AnchorStyles.Right, Margin = Padding.Empty };
-            var btnResize = new Button { Text = "ğŸ“ è°ƒæ•´", Width = 110, Anchor = AnchorStyles.Left, Margin = Padding.Empty };
-
-            table.Controls.Add(lblResize, 0, 1);
-            table.Controls.Add(lblCurrentCap, 1, 1);
-            table.Controls.Add(txtResize, 2, 1);
-            table.Controls.Add(btnResize, 3, 1);
-
-            // ç¬¬3è¡Œï¼šåˆ é™¤ç£ç›˜
+            ExecuteVmOperation(editScript, $"ä¿®æ”¹ç«­cè{¸C¢·fÔæÖWÒ‡·6VÆV7FVDÆ&VÇ3"ä6÷VçGŞ{ÙXÚ(i"¶æWus'Ò’"ÂfÔÖõ&Vb“°Ğ¢ĞĞ Ğ¢&—fFRfö–B6†÷tF—6´VF—F÷$F–Æör‡7G&–ærfÔæÖRÂ7G&–ærfÔÖõ&VbÂÆ—7CÄF–7F–öæ'“Ç7G&–ærÂ7G&–æsãâF—6´Æ—7BĞ¢°Ğ¢W6–ærf"FÆrÒæWrf÷&ĞĞ¢°Ğ¢FW‡BÒB.z8y¹zêybÒ·fÔæÖWÒ"ÀĞ¢–6öâÒ6÷&UWF–Ç2ävWD–6öâ‚’ÀĞ¢f÷&Ô&÷&FW%7G–ÆRÒf÷&Ô&÷&FW%7G–ÆRäf—†VDF–ÆörÀĞ¢7F'E÷6—F–öâÒf÷&Õ7F'E÷6—F–öâä6VçFW%&VçBÀĞ¢Ö†–Ö—¦T&÷‚ÒfÇ6RÀĞ¢Ö–æ–Ö—¦T&÷‚ÒfÇ6RÀĞ¢6†÷t–åF6¶&"ÒfÇ6RÀĞ¢föçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â’’ÀĞ¢WFõ66ÆTÖöFRÒWFõ66ÆTÖöFRäG’ÀĞ¢WFõ66ÆTF–ÖVç6–öç2ÒæWr6—¦Tbƒ“dbÂ“db’ÀĞ¢6—¦RÒæWr6—¦RƒsÂCs’ÀĞ¢Ö–æ–×VÕ6—¦RÒæWr6—¦RƒsÂCsĞ¢Ó°Ğ Ğ¢f"Æ—7Ef–WrÒæWrÆ—7Ef–WpĞ¢°Ğ¢Æö6F–öâÒæWrö–çBƒbÂb’ÀĞ¢6—¦RÒæWr6—¦RƒcSÂ#’ÀĞ¢æ6†÷"Òæ6†÷%7G–ÆW2åF÷Âæ6†÷%7G–ÆW2äÆVgBÂæ6†÷%7G–ÆW2å&–v‡BÂæ6†÷%7G–ÆW2ä&÷GFöÒÀĞ¢Ö&v–âÒFF–æräV×G’ÀĞ¢f–WrÒf–WräFWF–Ç2ÀĞ¢gVÆÅ&÷u6VÆV7BÒG'VRÀĞ¢w&–DÆ–æW2ÒG'VRÀĞ¢×VÇF•6VÆV7BÒfÇ6PĞ¢Ó°Ğ¢Æ—7Ef–Wrä6öÇVÖç2äFB‚.z8y¹YŞz{"Â“°Ğ¢Æ—7Ef–Wrä6öÇVÖç2äFB‚.Zë˜xò„t"’"Â“°Ğ¢Æ—7Ef–Wrä6öÇVÖç2äFB‚.{ÚîZH~jŠ[Èò"Â“°Ğ¢Æ—7Ef–Wrä6öÇVÖç2äFB‚.ZÙX*‹zş[èB"Â33“°Ğ Ğ¢òòˆz®˜.[©NX‰~ZëĞĞ¢WF–Ç2åF&ÆT6öçfW'EWF–Ç2äWFõ&W6—¦T6öÇVÖç2†Æ—7Ef–Wr“°Ğ Ğ¢f÷&V6‚‡f"F—6²–âF—6´Æ—7BĞ¢°Ğ¢f"æÖRÒF—6²åG'”vWEfÇVR‚$æÖR"Â÷WBf"â’òâ¢"#°Ğ¢f"6ÒF—6²åG'”vWEfÇVR‚$66—G”t""Â÷WBf"2’ò2¢"#°Ğ¢f"f×BÒF—6²åG'”vWEfÇVR‚%7F÷&vTf÷&ÖB"Â÷WBf"b’òb¢"#°Ğ¢f"f–ÆRÒF—6²åG'”vWEfÇVR‚$f–ÆVæÖR"Â÷WBf"f’’òf’¢"#°Ğ¢f"¶W’ÒF—6²åG'”vWEfÇVR‚$¶W’"Â÷WBf"²’ò²¢"#°Ğ¢f"†4&6¶–ærÒF—6²åG'”vWEfÇVR‚$†4&6¶–ær"Â÷WBf"†"’ò†"¢%G'VR#°Ğ Ğ¢–b†F÷V&ÆRåG'•'6R†6Â÷WBF÷V&ÆR6fÂ’Ğ¢6Ò6fÂåFõ7G&–ær‚$c""“°Ğ Ğ¢f"F—7Æ”æÖRÒ7G&–ærä—4çVÆÄ÷$V×G’†æÖR’ò"iÊ®YŞYŞz8y¹‚’"¢æÖS°Ğ¢–b††4&6¶–æräWVÇ2‚$fÇ6R"Â7G&–æt6ö×&—6öâä÷&F–æÄ–væ÷&T66R’Ğ¢F—7Æ”æÖR³Ò")ª#°Ğ Ğ¢f"—FVÒÒæWrÆ—7Ef–Wt—FVÒ†F—7Æ”æÖR“°Ğ¢—FVÒå7V$—FV×2äFB†6“°Ğ¢—FVÒå7V$—FV×2äFB†f×B“°Ğ¢—FVÒå7V$—FV×2äFB†f–ÆR“°Ğ¢—FVÒå7V$—FV×2äFB†¶W’“°Ğ¢Æ—7Ef–Wrä—FV×2äFB†—FVÒ“°Ğ¢ĞĞ Ğ¢f"Æ&Å7FGW2ÒæWrÆ&VÀĞ¢°Ğ¢FW‡BÒF—6´Æ—7Bä6÷VçBÓÒò.)ªiÊ®iú^Šú.X‹K»¾KÙ^z8y¹ûÈÎŠû~zîŠêN‰™®h¹şiË®x«nhYî˜xŞŠùR"¢B.)É2[{.Xª‹ÛÒ¶F—6´Æ—7Bä6÷VçGÒYÙ~z8y¹‚"ÀĞ¢Æö6F–öâÒæWrö–çBƒbÂ#R’ÀĞ¢WFõ6—¦RÒG'VRÀĞ¢föçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â’’ÀĞ¢f÷&T6öÆ÷"ÒF—6´Æ—7Bä6÷VçBÓÒò6öÆ÷"äg&öÔ&v"ƒ#ÂCrÂCr’¢6öÆ÷"äg&öÔ&v"ƒCbÂ#RÂS’ÀĞ¢æ6†÷"Òæ6†÷%7G–ÆW2åF÷Âæ6†÷%7G–ÆW2äÆVgBÂæ6†÷%7G–ÆW2å&–v‡BÀĞ¢Ö&v–âÒFF–æräV×GĞ¢Ó°Ğ Ğ¢òòNX‰rF&ÆTÆ–÷WEæVÎûÉ®j~zÛâÂ‹é>XZ^jbÂKˆ¾h¸jb{ÚîZH~jŠ[Èò’ÂhÈ™*àĞ¢f"F&ÆRÒæWrF&ÆTÆ–÷WEæVÀĞ¢°Ğ¢Æö6F–öâÒæWrö–çBƒbÂ#3‚’ÀĞ¢6—¦RÒæWr6—¦RƒcSÂR’ÀĞ¢æ6†÷"Òæ6†÷%7G–ÆW2åF÷Âæ6†÷%7G–ÆW2äÆVgBÂæ6†÷%7G–ÆW2å&–v‡BÀĞ¢Ö&v–âÒFF–æräV×G’ÀĞ¢&÷t6÷VçBÒ2ÀĞ¢6öÇVÖä6÷VçBÒ@Ğ¢Ó°Ğ Ğ¢F&ÆRå&÷u7G–ÆW2äFB†æWr&÷u7G–ÆR…6—¦UG—Rä'6öÇWFRÂ3R’“°Ğ¢F&ÆRå&÷u7G–ÆW2äFB†æWr&÷u7G–ÆR…6—¦UG—Rä'6öÇWFRÂ3R’“°Ğ¢F&ÆRå&÷u7G–ÆW2äFB†æWr&÷u7G–ÆR…6—¦UG—Rä'6öÇWFRÂ3R’“°Ğ¢F&ÆRä6öÇVÖå7G–ÆW2äFB†æWr6öÇVÖå7G–ÆR…6—¦UG—Rä'6öÇWFRÂ#’“°Ğ¢F&ÆRä6öÇVÖå7G–ÆW2äFB†æWr6öÇVÖå7G–ÆR…6—¦UG—Rä'6öÇWFRÂ’“°Ğ¢F&ÆRä6öÇVÖå7G–ÆW2äFB†æWr6öÇVÖå7G–ÆR…6—¦UG—Rä'6öÇWFRÂƒ’“°Ğ¢F&ÆRä6öÇVÖå7G–ÆW2äFB†æWr6öÇVÖå7G–ÆR…6—¦UG—Rä'6öÇWFRÂ#’“°Ğ Ğ¢òòzÊÃŠÎûÉ®ikZ)îz8y¹€Ğ¢f"Æ&ÄFBÒæWrÆ&VÂ²FW‡BÒ.ikZ)îz8y¹Zë˜xò„t"òhˆ°ÕÑ½M¥é”€ôÑÉÕ”°¹¡½È€ô¹¡½ÉMÑå±•Ì¹1•™Ğ°5…É¥¸€ôA…‘‘¥¹œ¹µÁÑäôì4(€€€€€€€€€€€Ù…È‰½½Éµ…Ğ€ô¹•Ü½µ‰½	½àìÉ½Á½İ¹MÑå±”€ô½µ‰½	½áMÑå±”¹É½Á½İ¹1¥ÍĞ°]¥‘Ñ €ô€ÄÀÀ°¹¡½È€ô¹¡½ÉMÑå±•Ì¹1•™Ğğ¹¡½ÉMÑå±•Ì¹I¥¡Ğ°5…É¥¸€ôA…‘‘¥¹œ¹µÁÑäôì4(€€€€€€€€€€€‰½½Éµ…Ğ¹%Ñ•µÌ¹‘‘I…¹”¡¹•İmtì€‰Q¡¥¸ˆ°€‰Q¡¥¬ˆ°€‰1…éåi•É½•‘Q¡¥¬ˆô¤ì4(€€€€€€€€€€€‰½½Éµ…Ğ¹M•±•Ñ•‘%¹‘•à€ô€Àì4(€€€€€€€€€€€Ù…ÈÑáÑ9•İ¥Í¬€ô¹•ÜQ•áÑ	½àìQ•áĞ€ô€ˆÄÀÀˆ°]¥‘Ñ €ô€ÜÀ°¹¡½È€ô¹¡½ÉMÑå±•Ì¹1•™Ğğ¹¡½ÉMÑå±•Ì¹I¥¡Ğ°5…É¥¸€ôA…‘‘¥¹œ¹µÁÑäôì4(€€€€€€€€€€€Ù…È‰Ñ¹‘€ô¹•Ü	ÕÑÑ½¸ìQ•áĞ€ô€‹šZÃ–Š{n`ˆ°]¥‘Ñ €ô€ÄÄÀ°¹¡½È€ô¹¡½ÉMÑå±•Ì¹1•™Ğ°5…É¥¸€ôA…‘‘¥¹œ¹µÁÑäôì4(4(€€€€€€€€€€€Ñ…‰±”¹½¹ÑÉ½±Ì¹‘¡±‰±‘°€À°€À¤ì4(€€€€€€€€€€€Ñ…‰±”¹½¹ÑÉ½±Ì¹‘¡‰½½Éµ…Ğ°€Ä°€À¤ì4(€€€€€€€€€€€Ñ…‰±”¹½¹ÑÉ½±Ì¹‘¡ÑáÑ9•İ¥Í¬°€È°€À¤ì4(€€€€€€€€€€€Ñ…‰±”¹½¹ÑÉ½±Ì¹‘¡‰Ñ¹‘°€Ì°€À¤ì4(4(€€€€€€€€€€€€¼¼ƒ²°Ë¢†3¼šè°¥m9i)[ğĞ¢f"Æ&Å&W6—¦RÒæWrÆ&VÂ²FW‡BÒ.‹>i[Nz8y¹y¨Nh¾Zë˜xò„t"ûÉ¢"ÂWFõ6—¦RÒG'VRÂæ6†÷"Òæ6†÷%7G–ÆW2äÆVgBÂÖ&v–âÒFF–æräV×G’Ó°Ğ¢f"Æ&Ä7W'&VçD6ÒæWrÆ&VÂ²FW‡BÒ""ÂWFõ6—¦RÒG'VRÂæ6†÷"Òæ6†÷%7G–ÆW2äÆVgBÂÖ&v–âÒFF–æräV×G’Ó°Ğ¢f"G‡E&W6—¦RÒæWrFW‡D&÷‚²FW‡BÒ""Âv–GF‚ÒsÂæ6†÷"Òæ6†÷%7G–ÆW2äÆVgBÂæ6†÷%7G–ÆW2å&–v‡BÂÖ&v–âÒFF–æräV×G’Ó°Ğ¢f"'Få&W6—¦RÒæWr'WGFöâ²FW‡BÒ/	ù8ò‹>i[B"Âv–GF‚ÒÂæ6†÷"Òæ6†÷%7G–ÆW2äÆVgBÂÖ&v–âÒFF–æräV×G’Ó°Ğ Ğ¢F&ÆRä6öçG&öÇ2äFB†Æ&Å&W6—¦RÂÂ“°Ğ¢F&ÆRä6öçG&öÇ2äFB†Æ&Ä7W'&VçD6ÂÂ“°Ğ¢F&ÆRä6öçG&öÇ2äFB‡G‡E&W6—¦RÂ"Â“°Ğ¢F&ÆRä6öçG&öÇ2äFB†'Få&W6—¦RÂ2Â“°Ğ Ğ¢òòzÊÃ"†3¼šåˆ é™¤ç£ç›˜
             var lblDelete = new Label { Text = "åˆ é™¤é€‰ä¸­ç£ç›˜ï¼š", AutoSize = true, Anchor = AnchorStyles.Left, Margin = Padding.Empty };
             var chkDeleteFiles = new CheckBox { Text = "åŒæ—¶åˆ é™¤å­˜å‚¨æ–‡ä»¶", AutoSize = true, Anchor = AnchorStyles.Left, Margin = Padding.Empty, Checked = true };
             var btnDelete = new Button { Text = "ğŸ—‘ åˆ é™¤ç£ç›˜", Width = 110, Anchor = AnchorStyles.Left, Margin = Padding.Empty, BackColor = Color.FromArgb(220, 53, 69), ForeColor = Color.White };
@@ -1279,134 +312,58 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
                 Padding = new Padding(0, 6, 0, 6),
                 BackColor = Color.FromArgb(240, 240, 240)
             };
-            var btnClose = new Button { Text = "å…³é—­", DialogResult = DialogResult.OK, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-            btnPanel.Controls.Add(btnClose);
+            var btnClose = new Button { Text = "å…²eëH‹X[ÙÔ™\İ[HX[ÙÔ™\İ[“ÒËÚ^™HH™]ÈÚ^™J
+K›ÛH™]È›Û
+“ZXÜ›ÜÛÙXRZH‹JHNÃBˆ”[™[ÛÛ›ÛËY
+ÛÜÙJNÃBƒBˆÙ[\‘›İÔ[™[
+”[™[
+NÃBƒBˆËÛÛ›ÛËY
+”[™[
+NÃBˆËÛÛ›ÛËY˜[™ÙJ™]ÈÛÛ›Û×HÈ\İšY]Ë›İ]\ËX›HJNÃBˆËXØÙ\]ÛˆHÛÜÙNÃBˆËØ[˜Ù[]ÛˆHÛÜÙNÃBƒBˆ\İšY]Ë”Ù[XİY[™^Ú[™ÙY
+ÏH
+ËJH@Ğ¢°Ğ¢–b†Æ—7Ef–Wrå6VÆV7FVD—FV×2ä6÷VçBâĞ¢°Ğ¢f"6FW‡BÒÆ—7Ef–Wrå6VÆV7FVD—FV×5³Òå7V$—FV×5³ÒåFW‡C°Ğ¢Æ&Ä7W'&VçD6åFW‡BÒ6FW‡C°Ğ¢ĞĞ¢VÇ6PĞ¢°Ğ¢Æ&Ä7W'&VçD6åFW‡BÒ"#°Ğ¢ĞĞ¢Ó°Ğ Ğ¢fö–B&Vg&W6„F—6´Æ—7D7–æ2‚Ğ¢°Ğ¢F6²å'Vâ‚‚’Ğ4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€1¥ÍĞñ¥Ñ¥½¹…ÉäñÍÑÉ¥¹œ°ÍÑÉ¥¹œ> newDiskList = new List<Dictionary<string, stringŠ
+NÃBˆCBˆÃBˆ˜\ˆ™\İ[HÙ\ÜÚ[Û“X[˜YÙ\‹’[œİ[˜ÙK‘^Xİ]T]Y\P\Ş[˜ÊBˆ	‘Ù]UšY]ÈRY	Şİ›S[Ô™YŸIÈT›Ü\HÛÛ™šYË’\™Ø\™K‘]šXÙHQ\œ›ÜXİ[ÛˆİÜ›Ü‘XXÚSØš™XİŞÈ	ËÛÛ™šYË’\™Ø\™K‘]šXÙHÚ\™KSØš™XİŞÈ	ÈZ\ÈÕ“]Ø\™K•š[K•š\X[\Ú×H_H›Ü‘XXÚSØš™XİŞÈ	™H	ÎÈ	›]HYŠ[›İ	™˜XÚÚ[™Ê^ŞÉizw×ÖVÇ6V–b‚GfBä&6¶–æråF†–å&÷f—6–öæVB—·²uF†–âw×ÖVÇ6V–b‚GfBä&6¶–æräVvW&Ç•67'V"—·²tVvW%¦W&öVEF†–6²w×ÖVÇ6W·²tÆ§•¦W&öVEF†–6²w×Ó²µ47W7FöÔö&¦V7EÔ·²¶W“ÒGfBä¶W“²æÖSÒGfBäFWf–6T–æfòäÆ&VÃ²66—G”t#Õ´ÖF…Ó£¥&÷VæB‚GfBä66—G”–ä'—FW2ót"Ã"“²7F÷&vTf÷&ÖCÒFf×C²f–ÆVæÖSÖ–b‚GfBä&6¶–ær—·²GfBä&6¶–æräf–ÆTæÖW×ÖVÇ6W·²rw×Ó²†4&6¶–æsÒ‚FçVÆÂÖæRGfBä&6¶–ær’×Ò×Ò×Ò"ÀĞ¢†×6rÂÆWfVÂ’Óâ²ĞĞ¢’å&W7VÇC°Ğ Ğ¢–b‡&W7VÇBÒçVÆÂbb&W7VÇBä6÷VçB €À¤4(€€€€€€€€€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€™½É•… €¡Ù…È‘¥Ğ¥¸É•ÍÕ±Ğ¤4(€€€€€€€€€€€€€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€Ù…È¥¹™¼€ô¹•Ü¥Ñ¥½¹…ÉäñÍÑÉ¥¹œ°ÍÑÉ¥¹œø ¤ì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€¥˜€¡‘¥Ğ¹QÉå•ÑY…±Õ” ‰-•äˆ°½ÕĞÙ…È­¼¤¤¥¹™½l‰-•ä‰t€ô­¼ü¹Q½MÑÉ¥¹œ ¤ü¹QÉ¥´ ¤€üü€ˆˆì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€¥˜€¡‘¥Ğ¹QÉå•ÑY…±Õ” ‰9…µ”ˆ°½ÕĞÙ…È¹¼¤¤¥¹™½l‰9…µ”‰t€ô¹¼ü¹Q½MÑÉ¥¹œ ¤ü¹QÉ¥´ ¤€üü€ˆˆì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€¥˜€¡‘¥Ğ¹QÉå•ÑY…±Õ” ‰…Á…¥Ñåˆ°½ÕĞÙ…È¼¤¤¥¹™½l‰…Á…¥Ñå‰t€ô¼ü¹Q½MÑÉ¥¹œ ¤ü¹QÉ¥´ ¤€üü€ˆˆì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€¥˜€¡‘¥Ğ¹QÉå•ÑY…±Õ” ‰MÑ½É…•½Éµ…Ğˆ°½ÕĞÙ…È™¼¤¤¥¹™½l‰MÑ½É…•½Éµ…Ğ‰t€ô™¼ü¹Q½MÑÉ¥¹œ ¤ü¹QÉ¥´ ¤€üü€ˆˆì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€¥˜€¡‘¥Ğ¹QÉå•ÑY…±Õ” ‰¥±•¹…µ”ˆ°½ÕĞÙ…È™¥¼¤¤¥¹™½l‰¥±•¹…µ”‰t€ô™¥¼ü¹Q½MÑÉ¥¹œ ¤ü¹QÉ¥´ ¤€üü€ˆˆì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€¥˜€¡‘¥Ğ¹QÉå•ÑY…±Õ” ‰!…Í	…­¥¹œˆ°½ÕĞÙ…È¡‰¼¤¤¥¹™½l‰!…Í	…­¥¹œ‰t€ô¡‰¼ü¹Q½MÑÉ¥¹œ ¤ü¹QÉ¥´ ¤€üü€ˆˆì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€¹•İ¥Í­1¥ÍĞ¹‘¡¥¹™¼¤ì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€€€€€…Ñ €¡á•ÁÑ¥½¸•à¤4(€€€€€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€€€€€1½5•ÍÍ…” ‰•ÉÉ½Èˆ°€‰oncº‡Btƒ–"Ö–°ç£ç›˜åˆ–(j9o ¹n.ˆÙ^“Y\ÜØYÙ_HŠNÃBˆCBƒBˆÜ›Ûİ’[›ÚÙJ™]ÈXİ[ÛŠ
 
-            CenterFlowPanel(btnPanel);
-
-            dlg.Controls.Add(btnPanel);
-            dlg.Controls.AddRange(new Control[] { listView, lblStatus, table });
-            dlg.AcceptButton = btnClose;
-            dlg.CancelButton = btnClose;
-
-            listView.SelectedIndexChanged += (s, e) =>
-            {
-                if (listView.SelectedItems.Count > 0)
-                {
-                    var capText = listView.SelectedItems[0].SubItems[1].Text;
-                    lblCurrentCap.Text = capText;
-                }
-                else
-                {
-                    lblCurrentCap.Text = "";
-                }
-            };
-
-            void RefreshDiskListAsync()
-            {
-                Task.Run(() =>
-                {
-                    List<Dictionary<string, string>> newDiskList = new List<Dictionary<string, string>>();
-                    try
-                    {
-                        var result = SessionManager.Instance.ExecuteQueryAsync(
-                            $"Get-View -Id '{vmMoRef}' -Property Config.Hardware.Device -ErrorAction Stop | ForEach-Object {{ $_.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualDisk] }} | ForEach-Object {{ $vd = $_; $fmt = if(-not $vd.Backing){{'æ— '}}elseif($vd.Backing.ThinProvisioned){{'Thin'}}elseif($vd.Backing.EagerlyScrub){{'EagerZeroedThick'}}else{{'LazyZeroedThick'}}; [PSCustomObject]@{{ Key=$vd.Key; Name=$vd.DeviceInfo.Label; CapacityGB=[Math]::Round($vd.CapacityInBytes/1GB,2); StorageFormat=$fmt; Filename=if($vd.Backing){{$vd.Backing.FileName}}else{{''}}; HasBacking=($null -ne $vd.Backing) }} }} }}",
-                            (msg, level) => { }
-                        ).Result;
-
-                        if (result != null && result.Count > 0)
-                        {
-                            foreach (var dict in result)
-                            {
-                                var info = new Dictionary<string, string>();
-                                if (dict.TryGetValue("Key", out var ko)) info["Key"] = ko?.ToString()?.Trim() ?? "";
-                                if (dict.TryGetValue("Name", out var no)) info["Name"] = no?.ToString()?.Trim() ?? "";
-                                if (dict.TryGetValue("CapacityGB", out var co)) info["CapacityGB"] = co?.ToString()?.Trim() ?? "";
-                                if (dict.TryGetValue("StorageFormat", out var fo)) info["StorageFormat"] = fo?.ToString()?.Trim() ?? "";
-                                if (dict.TryGetValue("Filename", out var fio)) info["Filename"] = fio?.ToString()?.Trim() ?? "";
-                                if (dict.TryGetValue("HasBacking", out var hbo)) info["HasBacking"] = hbo?.ToString()?.Trim() ?? "";
-                                newDiskList.Add(info);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        LogMessage("error", $"[ç£ç›˜ç®¡ç†] åˆ·æ–°ç£ç›˜åˆ—è¡¨å¼‚å¸¸: {ex.Message}");
-                    }
-
-                    _root.Invoke(new Action(() =>
-                    {
-                        if (dlg.IsDisposed) return;
-                        listView.BeginUpdate();
-                        listView.Items.Clear();
-                        foreach (var disk in newDiskList)
-                        {
-                            var name = disk.TryGetValue("Name", out var n) ? n : "";
-                            var cap = disk.TryGetValue("CapacityGB", out var c) ? c : "";
-                            var fmt = disk.TryGetValue("StorageFormat", out var f) ? f : "";
-                            var file = disk.TryGetValue("Filename", out var fi) ? fi : "";
-                            var key = disk.TryGetValue("Key", out var k) ? k : "";
-                            var hasBacking = disk.TryGetValue("HasBacking", out var hb) ? hb : "True";
-                            if (double.TryParse(cap, out double capVal)) cap = capVal.ToString("F2");
-                            var displayName = string.IsNullOrEmpty(name) ? "(æœªå‘½åç£ç›˜)" : name;
-                            if (hasBacking.Equals("False", StringComparison.OrdinalIgnoreCase)) displayName += " âš ";
-                            var item = new ListViewItem(displayName);
-                            item.SubItems.Add(cap);
-                            item.SubItems.Add(fmt);
-                            item.SubItems.Add(file);
-                            item.SubItems.Add(key);
-                            listView.Items.Add(item);
-                        }
-                        Utils.TableConvertUtils.AutoResizeColumns(listView);
-                        listView.EndUpdate();
-
-                        lblStatus.Text = newDiskList.Count == 0
-                            ? "âš  æœªæŸ¥è¯¢åˆ°ä»»ä½•ç£ç›˜ï¼Œè¯·ç¡®è®¤è™šæ‹ŸæœºçŠ¶æ€åé‡è¯•"
-                            : $"âœ“ å·²åŠ è½½ {newDiskList.Count} å—ç£ç›˜";
-                        lblStatus.ForeColor = newDiskList.Count == 0
-                            ? Color.FromArgb(211, 47, 47)
-                            : Color.FromArgb(46, 125, 50);
-
-                        lblCurrentCap.Text = "";
-                    }));
-                });
-            }
-
-            btnAdd.Click += (s, e) =>
-            {
-                if (!int.TryParse(txtNewDisk.Text.Trim(), out int newSize) || newSize < 1 || newSize > 65536)
-                {
-                    MessageBox.Show("è¯·è¾“å…¥ 1~65536 ä¹‹é—´çš„æ•´æ•°", "è¾“å…¥é”™è¯¯", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                string storageFormat = cboFormat.SelectedItem?.ToString() ?? "Thin";
-
-                var confirmResult = MessageBox.Show(
-                    $"ç¡®è®¤è¦ä¸º [{vmName}] æ–°å¢ {newSize} GB è™šæ‹Ÿç£ç›˜å—ï¼Ÿ\n\n" +
-                    $"âš  ç½®å¤‡æ¨¡å¼ï¼š{storageFormat}\n" +
-                    "æ–°å¢åéœ€è¦åœ¨å®¢æˆ·æœºå†…åˆå§‹åŒ–å¹¶æ ¼å¼åŒ–",
-                    "æ–°å¢ç£ç›˜ç¡®è®¤",
-                    MessageBoxButtons.OKCancel,
-                    MessageBoxIcon.Warning);
-
-                if (confirmResult != DialogResult.OK) return;
-
-                string thinFlag = storageFormat.Equals("Thin", StringComparison.OrdinalIgnoreCase) ? "$true" : "$false";
-                string eagerFlag = storageFormat.Equals("EagerZeroedThick", StringComparison.OrdinalIgnoreCase) ? "$true" : "$false";
-                string script =
-                    $"{PsWaitTaskFunc}" +
-                    $"$ErrorActionPreference = 'Stop'; " +
-                    $"$vm = Get-View -Id '{vmMoRef}' -Property Name,Runtime.PowerState,Config.Hardware.Device -ErrorAction Stop | Select-Object -First 1; " +
-                    "Write-Host ('=== VM ç¡¬ä»¶è¯Šæ–­ ==='); " +
-                    "foreach ($d in $vm.Config.Hardware.Device) { $t = $d.GetType().Name; if ($t -like '*Controller*' -or $t -like '*Disk*') { Write-Host ('  [' + $t + '] Key=' + $d.Key + ' ' + $(if ($d -is [VMware.Vim.VirtualController]) { 'BusNumber=' + $d.BusNumber } else { '' }) + ' ' + $(if ($d -is [VMware.Vim.VirtualDisk]) { 'CtrlKey=' + $d.ControllerKey + ' Unit=' + $d.UnitNumber + ' Label=' + $d.DeviceInfo.Label } else { '' })) } }; " +
-                    "$allScsi = @($vm.Config.Hardware.Device | Where-Object { $_ -is [VMware.Vim.VirtualSCSIController] }); " +
-                    "if ($allScsi.Count -eq 0) { throw 'æœªæ‰¾åˆ° SCSI æ§åˆ¶å™¨' }; " +
-                    "$allDisks = @($vm.Config.Hardware.Device | Where-Object { $_ -is [VMware.Vim.VirtualDisk] -and $_.Backing }); " +
-                    "if ($allDisks.Count -eq 0) { throw 'VM æ— æœ‰æ•ˆç³»ç»Ÿç›˜' }; " +
-                    "$scsiCtrl = $null; $sysDisk = $null; " +
-                    "foreach ($ctrl in ($allScsi | Sort-Object BusNumber, Key)) { $disksOnCtrl = @($allDisks | Where-Object { $_.ControllerKey -eq $ctrl.Key }); if ($disksOnCtrl.Count -gt 0) { $scsiCtrl = $ctrl; $sysDisk = $disksOnCtrl[0]; break } }; " +
-                    "if (-not $scsiCtrl) { throw 'æ‰€æœ‰ SCSI æ§åˆ¶å™¨ä¸Šå‡æ— ç£ç›˜' }; " +
+HOƒBˆÃBˆYˆ
+Ë’\Ñ\ÜÜÙY
+H™]\›ÃBˆ\İšY]Ë™YÚ[•\]J
+NÃBˆ\İšY]Ë’][\ËÛX\Š
+NÃBˆ›Ü™XXÚ
+˜\ˆ\ÚÈ[ˆ™]Ñ\ÚÓ\İ
+CBˆÃBˆ˜\ˆ˜[YHH\ÚË•QÙ]˜[YJ“˜[YH‹İ]˜\ˆŠHÈˆˆˆÃBˆ˜\ˆØ\H\ÚË•QÙ]˜[YJØ\XÚ]QĞˆ‹İ]˜\ˆÊHÈÈˆˆÃBˆ˜\ˆ›]H\ÚË•QÙ]˜[YJ”İÜ˜YÙQ›Ü›X]‹İ]˜\ˆŠHÈˆˆˆÃBˆ˜\ˆš[HH\ÚË•QÙ]˜[YJ‘š[[˜[YH‹İ]˜\ˆšJHÈšHˆˆÃBˆ˜\ˆÙ^HH\ÚË•QÙ]˜[YJ’Ù^H‹İ]˜\ˆÊHÈÈˆˆÃBˆ˜\ˆ\Ğ˜XÚÚ[™ÈH\ÚË•QÙ]˜[YJ’\Ğ˜XÚÚ[™È‹İ]˜\ˆŠHÈˆˆ•YHÃBˆYˆ
+İX›K•T\œÙJØ\İ]İX›HØ\˜[
+JHØ\HØ\˜[•Ôİš[™Ê‘ŒˆŠNÃBˆ˜\ˆ\Ü^S˜[YHHİš[™Ë’\Ó[Ü‘[\J˜[YJHÈŠ9§*¹doyd#yèàyææ
+Hˆˆ˜[YNÃBˆYˆ
+\Ğ˜XÚÚ[™Ë‘\]X[Ê‘˜[ÙH‹İš[™ĞÛÛ\\š\ÛÛ‹“Ü™[˜[YÛ›Ü™PØ\ÙJJH\Ü^S˜[YH
+ÏHˆ8¦¨ÃBˆ˜\ˆ][HH™]È\İšY]Ò][J\Ü^S˜[YJNÃBˆ][K”İX’][\ËY
+Ø\
+NÃBˆ][K”İX’][\ËY
+›]
+NÃBˆ][K”İX’][\ËY
+š[JNÃBˆ][K”İX’][\ËY
+Ù^JNÃBˆ\İšY]Ë’][\ËY
+][JNÃBˆCBˆ][Ë•X›PÛÛ™\][Ë]]Ô™\Ú^™PÛÛ[[œÊ\İšY]ÊNÃBˆ\İšY]Ë‘[™\]J
+NÃBƒBˆ›İ]\Ë•^H™]Ñ\ÚÓ\İÛİ[OHBˆÈ¸¦¨9§*¹¦^Š‹–"Ã’îï’öWnc¾ò3¢·ç¡®è®¤è™šæ‹ŸæœºçŠ¶æ€åé‡è¥HƒBˆˆ	¸§$È9mì¹b¨:/oHÛ™]Ñ\ÚÓ\İÛİ[H9geùèàyææÃBˆ›İ]\Ë‘›Ü™PÛÛÜˆH™]Ñ\ÚÓ\İÛİ[OHBˆÈÛÛÜ‹‘œ›ÛP\™ØŠŒLKËÊCBˆˆÛÛÜ‹‘œ›ÛP\™ØŠ‹LKL
+NÃBƒBˆ›İ\œ™[Ø\•^HˆÃBˆJJNÃBˆJNÃBˆCBƒBˆYÛXÚÈ
+ÏH
+ËJHOƒBˆÃBˆYˆ
+Z[•T\œÙJ™]Ñ\ÚË•^•š[J
+Kİ][™]ÔÚ^™JH™]ÔÚ^™HH™]ÔÚ^™HcSS3bĞ¢°Ğ¢ÖW76vT&÷‚å6†÷r‚.Šû~‹é>XZRãcSS3bK˜¾™{Ny¨Ni[Ni["Â.‹é>XZ^™IŠ¼ˆ°5•ÍÍ…•	½á	ÕÑÑ½¹Ì¹=,°5•ÍÍ…•	½á%½¸¹]…É¹¥¹œ¤ì4(€€€€€€€€€€€€€€€€€€€É•ÑÕÉ¸ì4(€€€€€€€€€€€€€€€ô4(4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œÍÑ½É…•½Éµ…Ğ€ô‰½½Éµ…Ğ¹M•±•Ñ•‘%Ñ•´ü¹Q½MÑÉ¥¹œ ¤€üü€‰Q¡¥¸ˆì4(4(€€€€€€€€€€€€€€€Ù…È½¹™¥ÉµI•ÍÕ±Ğ€ô5•ÍÍ…•	½à¹M¡½Ü 4(€€€€€€€€€€€€€€€€€€€€‹†»¢º“¢š’âèmíÙµ9…µ•õtƒšZÃ–Šxí¹•İM¥é•ôƒ¢fkš.nc–B_¾ò}q¹q¸ˆ€¬4(€€€€€€€€€€€€€€€€€€€€‹Šj€ƒö»–’š¢‡–ò?¾òiíÍÑ½É…•½Éµ…Ñõq¸ˆ€¬4(€€€€€€€€€€€€€€€€€€€€‹šZÃ–Š{–B;¦r¢š–r£–º‹š"ßšrë––"w–/–2[–æÛš‚ó–ò?–2Xˆ°4(€€€€€€€€€€€€€€€€€€€€‹šZÃ–Š{nc†»¢ºˆ°4(€€€€€€€€€€€€€€€€€€€5•ÍÍ…•	½á	ÕÑÑ½¹Ì¹=-…¹•°°4(€€€€€€€€€€€€€€€€€€€5•ÍÍ…•	½á%½¸¹]…É¹¥¹œ¤ì4(4(€€€€€€€€€€€€€€€¥˜€¡½¹™¥ÉµI•ÍÕ±Ğ€„ô¥…±½I•ÍÕ±Ğ¹=,¤É•ÑÕÉ¸ì4(4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œÑ¡¥¹±…œ€ôÍÑ½É…•½Éµ…Ğ¹ÅÕ…±Ì ‰Q¡¥¸ˆ°MÑÉ¥¹½µÁ…É¥Í½¸¹=É‘¥¹…±%¹½É•…Í”¤€ü€ˆ‘ÑÉÕ”ˆ€è€ˆ‘™…±Í”ˆì4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œ•…•É±…œ€ôÍÑ½É…•½Éµ…Ğ¹ÅÕ…±Ì ‰…•Éi•É½•‘Q¡¥¬ˆ°MÑÉ¥¹½µÁ…É¥Í½¸¹=É‘¥¹…±%¹½É•…Í”¤€ü€ˆ‘ÑÉÕ”ˆ€è€ˆ‘™…±Í”ˆì4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œÍÉ¥ÁĞ€ô4(€€€€€€€€€€€€€€€€€€€€‰íAÍ]…¥ÑQ…Í­Õ¹ôˆ€¬4(€€€€€€€€€€€€€€€€€€€€ˆ‘ÉÉ½ÉÑ¥½¹AÉ•™•É•¹”€ô€MÑ½Àœì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€ˆ‘Ù´€ô•ĞµY¥•Ü€µ%€íÙµ5½I•™ôœ€µAÉ½Á•ÉÑä9…µ”±IÕ¹Ñ¥µ”¹A½İ•ÉMÑ…Ñ”±½¹™¥œ¹!…É‘İ…É”¹•Ù¥”€µÉÉ½ÉÑ¥½¸MÑ½ÀğM•±•Ğµ=‰©•Ğ€µ¥ÉÍĞ€Äì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€‰]É¥Ñ”µ!½ÍĞ€ œôôôY4ƒ†³’îÛ¢¾+šZ´€ôôôœ¤ì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€‰™½É•… € ‘¥¸€‘Ù´¹½¹™¥œ¹!…É‘İ…É”¹•Ù¥”¤ì€‘Ğ€ô€‘¹•ÑQåÁ” ¤¹9…µ”ì¥˜€ ‘Ğ€µ±¥­”€œ©½¹ÑÉ½±±•È¨œ€µ½È€‘Ğ€µ±¥­”€œ©¥Í¬¨œ¤ì]É¥Ñ”µ!½ÍĞ€ œ€lœ€¬€‘Ğ€¬€t-•äôœ€¬€‘¹-•ä€¬€œ€œ€¬€¡¥˜€ ‘€µ¥ÌmY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±½¹ÑÉ½±±•Ét¤ì€	ÕÍ9Õµ‰•Èôœ€¬€‘¹	ÕÍ9Õµ‰•Èô•±Í”ì€œœô¤€¬€œ€œ€¬€¡¥˜€ ‘€µ¥ÌmY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±¥Í­t¤ì€ÑÉ±-•äôœ€¬€‘¹½¹ÑÉ½±±•É-•ä€¬€œU¹¥Ğôœ€¬€‘¹U¹¥Ñ9Õµ‰•È€¬€œ1…‰•°ôœ€¬€‘¹•Ù¥•%¹™¼¹1…‰•°ô•±Í”ì€œœô¤¤ôôì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€ˆ‘…±±MÍ¤€ô  ‘Ù´¹½¹™¥œ¹!…É‘İ…É”¹•Ù¥”ğ]¡•É”µ=‰©•Ğì€‘|€µ¥ÌmY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±MM%½¹ÑÉ½±±•Étô¤ì€ˆ€¬4(€€€€€€€€€€€€€€€€€€€€‰¥˜€ ‘…±±MÍ¤¹½Õ¹Ğ€µ•Ä€À¤ìÑ¡É½Ü€–œªæ‰¾åˆ° SCSI æ¥b-¹fj	ÈNÈˆ
+ÃBˆ‰[\ÚÜÈH
+	›KÛÛ™šYË’\™Ø\™K‘]šXÙHÚ\™KSØš™XİÈ	ÈZ\ÈÕ“]Ø\™K•š[K•š\X[\Ú×HX[™	Ë˜XÚÚ[™ÈJNÈˆ
+ÃBˆšYˆ
+	[\ÚÜËÛİ[Y\H
+HÈ›İÈ	Õ“H9¥è9§"y¥b9ìîùîçùææ	ÈNÈˆ
+ÃBˆ‰ØÜÚPİ›H	[È	Ş\Ñ\ÚÈH	[Èˆ
+ÃBˆ™›Ü™XXÚ
+	İ›[ˆ
+	[ØÜÚHÛÜSØš™Xİ\Ó[X™\‹Ù^JJHÈ	\ÚÜÓÛİ›H
+	[\ÚÜÈÚ\™KSØš™XİÈ	ËÛÛ›Û\’Ù^HY\H	İ›’Ù^HJNÈYˆ
+	\ÚÜÓÛİ›Ûİ[Yİ
+HÈ	ØÜÚPİ›H	İ›È	Ş\Ñ\ÚÈH	\ÚÜÓÛİ›ÌNÈœ™XZÈHNÈˆ
+ÃBˆšYˆ
+[›İ	ØÜÚPİ›
+HÈ›İÈ	h˜iÈ’454’hêV"Û–f£’â+–v— ç£ç›˜' }; " +
                     "Write-Host ('é€‰ä¸­ SCSI æ§åˆ¶å™¨ Type=' + $scsiCtrl.GetType().Name + ' Key=' + $scsiCtrl.Key + ' BusNumber=' + $scsiCtrl.BusNumber); " +
                     "Write-Host ('ç³»ç»Ÿç›˜ Key=' + $sysDisk.Key + ' CtrlKey=' + $sysDisk.ControllerKey + ' Unit=' + $sysDisk.UnitNumber + ' DS=' + $sysDisk.Backing.Datastore); " +
                     "$scsiDisks = @($allDisks | Where-Object { $_.ControllerKey -eq $scsiCtrl.Key }); " +
@@ -1435,54 +392,19 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
                     "$cfg = New-Object VMware.Vim.VirtualMachineConfigSpec; " +
                     "$cfg.DeviceChange = @($ds); " +
                     "Write-Host ('å‡†å¤‡æ–°å¢ç£ç›˜: CtrlKey=' + $newDisk.ControllerKey + ' Unit=' + $newDisk.UnitNumber + ' Size=' + $newDisk.CapacityInBytes + 'B Thin=' + $backing.ThinProvisioned); " +
-                    "$task = $vm.ReconfigVM_Task($cfg); Wait-Task $task 'æ–°å¢ç£ç›˜' " +
-                    $"Write-Output 'ã€{EscapePsString(vmName)}ã€‘å·²æ–°å¢ {newSize} GB è™šæ‹Ÿç£ç›˜ï¼ˆ{storageFormat}ï¼‰'";
+                    "$task = $vm.ReconfigVM_Task($cfg); Wait-Task $task %¥¬9h§¹èàyææ	Èˆ
+ÃBˆ	•Üš]KSİ]]	øà$Ñ\ØØ\TÔİš[™Ê›S˜[YJ_xà$ymì¹¥¬9h§ˆÛ™]ÔÚ^™_HĞˆ:&f¹¢çz8y¹ò!íÍÑ½É…•½Éµ…Ñ÷¼‰'";
 
-                ExecuteVmOperation(script, $"æ–°å¢ç£ç›˜: {vmName} â†’ {newSize} GB ({storageFormat})", onSuccess: () =>
-                {
-                    RefreshDiskListAsync();
-                });
-            };
-
-            btnResize.Click += (s, e) =>
-            {
-                if (listView.SelectedItems.Count == 0)
-                {
-                    ToastUtils.ShowToast(dlg, "è¯·å…ˆåœ¨åˆ—è¡¨ä¸­é€‰ä¸­è¦è°ƒæ•´çš„ç£ç›˜");
-                    return;
-                }
-
-                var diskName = listView.SelectedItems[0].SubItems[0].Text;
-                var currentCap = listView.SelectedItems[0].SubItems[1].Text;
-                var diskPath = listView.SelectedItems[0].SubItems[3].Text;
-                var diskKey = listView.SelectedItems[0].SubItems[4].Text;
-
-                if (!double.TryParse(txtResize.Text.Trim(), out double newSize) || newSize < 1 || newSize > 65536)
-                {
-                    MessageBox.Show("è¯·è¾“å…¥ 1~65536 ä¹‹é—´çš„æœ‰æ•ˆæ•°å€¼", "è¾“å…¥é”™è¯¯", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                if (double.TryParse(currentCap, out double currentVal) && newSize <= currentVal)
-                {
-                    MessageBox.Show($"æ–°å®¹é‡å¿…é¡»å¤§äºå½“å‰å®¹é‡ï¼ˆ{currentCap} GBï¼‰\nç£ç›˜åªèƒ½è°ƒå¤§ï¼Œä¸èƒ½è°ƒå°", "è¾“å…¥é”™è¯¯", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                if (diskPath.Contains("-000") && diskPath.Contains(".vmdk"))
-                {
-                    MessageBox.Show(
-                        $"ç£ç›˜ [{diskName}] æ˜¯å¿«ç…§å¢é‡ç£ç›˜ï¼ˆDelta Diskï¼‰ï¼Œæ— æ³•ç›´æ¥è°ƒæ•´å¤§å°ã€‚\n\n" +
-                        "è¯·å…ˆåˆå¹¶/åˆ é™¤æ‰€æœ‰å¿«ç…§åï¼Œå†å°è¯•è°ƒæ•´ç£ç›˜å¤§å°ã€‚",
-                        "æ— æ³•è°ƒæ•´",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-                    return;
-                }
-
-                var confirmResult = MessageBox.Show(
-                    $"ç¡®è®¤è¦å°† [{vmName}] çš„ç£ç›˜ [{diskName}] è°ƒæ•´ä¸º {newSize} GB å—ï¼Ÿ\n\n" +
-                    "âš  æ­¤æ“ä½œä¸å¯é€†ï¼Œè¯·ç¡®ä¿å®¢æˆ·æœºå†…æ–‡ä»¶ç³»ç»Ÿæ”¯æŒåœ¨çº¿æ‰©å®¹",
+                ExecuteVmOperation(script, $"æ–°å¢ç£ç›˜: {vmName} â†’ {newSize} GB ({storageFormat})", onSuccess: () =BˆÃBˆ™Yœ™\Ú\ÚÓ\İ\Ş[˜Ê
+NÃBˆJNÃBˆNÃBƒBˆ”™\Ú^™KÛXÚÈ
+ÏH
+ËJHOƒBˆÃBˆYˆ
+\İšY]Ë”Ù[XİY][\ËÛİ[OH
+CBˆÃBˆØ\İ][Ë”ÚİÕØ\İ
+Ëº+íùab9g*9b%ú(j9.+z`"y.+z) z, ù¥m9æ¡9èàyææŠNÃBˆ™]\›ÃBˆCBƒBˆ˜\ˆ\ÚÓ˜[YHH\İšY]Ë”Ù[XİY][\ÖÌK”İX’][\ÖÌK•^ÃBˆ˜\ˆİ\œ™[Ø\H\İšY]Ë”Ù[XİY][\ÖÌK”İX’][\ÖÌWK•^ÃBˆ˜\ˆ\ÚÔ]H\İšY]Ë”Ù[XİY][\ÖÌK”İX’][\ÖÌ×K•^ÃBˆ˜\ˆ\ÚÒÙ^HH\İšY]Ë”Ù[XİY][\ÖÌK”İX’][\ÖÍK•^ÃBƒBˆYˆ
+YİX›K•T\œÙJ™\Ú^™K•^•š[J
+Kİ]İX›H™]ÔÚ^™JH™]ÔÚ^™HH™]ÔÚ^™HcSS3bĞ¢°Ğ¢ÖW76vT&÷‚å6†÷r‚.Šû~‹é>XZRãcSS3bK˜¾™{Ny¨NiÈiXi[XÂ"Â.‹é>XZ^™IŠ¼ˆ°5•ÍÍ…•	½á	ÕÑÑ½¹Ì¹=,°5•ÍÍ…•	½á%½¸¹]…É¹¥¹œ¤ì4(€€€€€€€€€€€€€€€€€€€É•ÑÕÉ¸ì4(€€€€€€€€€€€€€€€ô4(4(€€€€€€€€€€€€€€€¥˜€¡‘½Õ‰±”¹QÉåA…ÉÍ”¡ÕÉÉ•¹Ñ…À°½ÕĞ‘½Õ‰±”ÕÉÉ•¹ÑY…°¤€˜˜¹•İM¥é”€ğôÕÉÉ•¹ÑY…°¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€5•ÍÍ…•	½à¹M¡½Ü ‹šZÃ–ºç¦5¿…é¡¹i)K¨î[Ù&7–ºç¦?"Øİ\œ™[Ø\HĞ»È•Æîz8y¹X«¢÷¢Â–’Ÿ¾ò3’â7¢÷¢Â–Â<ˆ°€‹¢‘aize&z+ëÈ‹Y\ÜØYÙP›Ş]ÛœË“ÒËY\ÜØYÙP›ŞXÛÛ‹•Ø\›š[™ÊNÃBˆ™]\›ÃBˆCBƒBˆYˆ
+\ÚÔ]ÛÛZ[œÊ‹LŠH	‰ˆ\ÚÔ]ÛÛZ[œÊ‹›YÈŠJCBˆÃBˆY\ÜØYÙP›Ş”ÚİÊBˆ	¹èàyææŞÙ\ÚÓ˜[Y_WH9¦+[ú•¢é‡èàyææ;È„FVÇFF—6¾ûÈûÈÎizk9^y»Nhê^‹>i[NZJ~[ş8%ÆåÆâ"°Ğ¢.Šß–#–B#–æØµˆ é™¤æ‰€æœ‰å¿©áiYîò3–7–Âw¢¾W¢Â•´ç£ç›˜å¤¥l#8""ÀĞ¢.izk9^‹>i[B"ÀĞ¢ÖW76vT&÷„'WGFöç2äô²ÀĞ¢ÖW76vT&÷„–6öâåv&æ–ær“°Ğ¢&WGW&ã°Ğ¢ĞĞ Ğ¢f"6öæf—&Õ&W7VÇBÒÖW76vT&÷‚å6†÷r€Ğ¢B.zîŠêNŠh[b··fÔæÖWÕÒy¨Nz8y¹‚·¶F—6´æÖWÕÒ‹VÓ’âèí¹•İM¥é•ôƒ–B_¾ò}q¹q¸ˆ€¬4(€€€€€€€€€€€€€€€€€€€€‹Šj€ƒš¶“šN7’ös’â7–>¹€†ï#:+ízîKùŞZê.h‹Zrë–šZ»¶ç³¹îçiJÚ2–r£êö‰©å®¹",
                     "è°ƒæ•´ç£ç›˜å¤§å°ç¡®è®¤",
                     MessageBoxButtons.OKCancel,
                     MessageBoxIcon.Warning);
@@ -1501,19 +423,12 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
                     "$cfg = New-Object VMware.Vim.VirtualMachineConfigSpec; " +
                     "$cfg.DeviceChange = @($ds); " +
                     "$task = $vm.ReconfigVM_Task($cfg); Wait-Task $task 'ç£ç›˜æ‰©å®¹' " +
-                    $"Write-Output 'ã€{EscapePsString(vmName)}ã€‘ç£ç›˜ [{EscapePsString(diskName)}] å·²æ‰©å®¹è‡³ {newSize} GB'";
+                    $"Write-Output $à$Ñ\ØØ\TÔİš[™Ê›S˜[YJ_xà$yèàyææŞÑ\ØØ\TÔİš[™Ê\ÚÓ˜[YJ_WH9mì¹¢jyk®z!ìÈÛ™]ÔÚ^™_HĞ‰ÈÃBƒBˆ^Xİ]U›SÜ\˜][ÛŠØÜš\	¹èàyææ9¢jyk®Nˆİ›S˜[Y_HŞÙ\ÚÓ˜[Y_WH8¡¤ˆÛ™]ÔÚ^™_HĞˆ‹Û”İXØÙ\ÜÎˆ
 
-                ExecuteVmOperation(script, $"ç£ç›˜æ‰©å®¹: {vmName} [{diskName}] â†’ {newSize} GB", onSuccess: () =>
-                {
-                    RefreshDiskListAsync();
-                });
-            };
-
-            btnDelete.Click += (s, e) =>
-            {
-                if (listView.SelectedItems.Count == 0)
-                {
-                    ToastUtils.ShowToast(dlg, "è¯·å…ˆåœ¨åˆ—è¡¨ä¸­é€‰ä¸­è¦åˆ é™¤çš„ç£ç›˜");
+HOƒBˆÃBˆ™Yœ™\Ú\ÚÓ\İ\Ş[˜Ê
+NÃBˆJNÃBˆNÃBƒBˆ‘[]KÛXÚÈ
+ÏH
+ËJH@Ğ¢°Ğ¢–b†Æ—7Ef–Wrå6VÆV7FVD—FV×2ä6÷VçBÓÒĞ¢°Ğ¢Fö7EWF–Ç2å6†÷uFö7B†FÆrÂ.ŠûV#–r£–"X¡¨ä¸­é€‰ä¸­è¦åˆ é™¤çš„ç£ç›˜");
                     return;
                 }
 
@@ -1522,8 +437,7 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
                 bool deleteFiles = chkDeleteFiles.Checked;
 
                 string extraMsg = deleteFiles
-                    ? "\n\nâš  å°†åŒæ—¶åˆ é™¤ .vmdk å­˜å‚¨æ–‡ä»¶ï¼ˆä¸å¯æ¢å¤ï¼‰"
-                    : "\n\nâš  ä»…ä»è™šæ‹Ÿæœºç§»é™¤ï¼Œä¿ç•™ .vmdk æ–‡ä»¶";
+                    ? "\n\nâš  å°†åŒæ—¶åˆ é™¤ .vmdk å­˜å‚¨æ–‡ä»¶ï¼ˆä¸å‹ù h¹i#{ï"HƒBˆˆ——¸¦¨9.áy.ãº&f¹¢çiË®z{¦f“¼Œä¿ç•™ .vmdk æ–‡ä»¶";
 
                 var confirmResult = MessageBox.Show(
                     $"ç¡®è®¤è¦ä» [{vmName}] åˆ é™¤ç£ç›˜ [{diskName}] å—ï¼Ÿ{extraMsg}",
@@ -1541,33 +455,15 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
                     $"{PsWaitTaskFunc}" +
                     $"$vm = Get-View -Id '{vmMoRef}' -Property Config.Hardware.Device -ErrorAction Stop | Select-Object -First 1; " +
                     $"$hd = $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualDisk] -and $_.Key -eq {diskKey} }} | Select-Object -First 1; " +
-                    "if (-not $hd) { throw \"æœªæ‰¾åˆ°ç£ç›˜ Key=$diskKeyï¼Œè¯·åˆ·æ–°åé‡è¯•\" }; " +
+                    "if (-not $hd) { throw \"æœªæ‰¹b,9èàyææÙ^OI\ÚÒÙ^{ÈÎŠûV"Ö–°åé‡è¯•\" }; " +
                     "$ds = New-Object VMware.Vim.VirtualDeviceConfigSpec; " +
                     "$ds.Operation = [VMware.Vim.VirtualDeviceConfigSpecOperation]::remove; " +
                     "$ds.FileOperation = " + fileOp + "; " +
                     "$ds.Device = $hd; " +
                     "$cfg = New-Object VMware.Vim.VirtualMachineConfigSpec; " +
                     "$cfg.DeviceChange = @($ds); " +
-                    "$task = $vm.ReconfigVM_Task($cfg); Wait-Task $task 'åˆ é™¤ç£ç›˜' " +
-                    $"Write-Output 'ã€{EscapePsString(vmName)}ã€‘ç£ç›˜ [{EscapePsString(diskName)}] å·²åˆ é™¤ï¼ˆåˆ é™¤æ–‡ä»¶={deleteFiles}ï¼‰'";
-
-                ExecuteVmOperation(script, $"åˆ é™¤ç£ç›˜: {vmName} [{diskName}] (åˆ é™¤æ–‡ä»¶={deleteFiles})", onSuccess: () =>
-                {
-                    RefreshDiskListAsync();
-                });
-            };
-
-            dlg.ShowDialog(_root);
-        }
-
-        private void ShowMigrateHostDialog(string vmName, string vmMoRef, List<string> hostList, string? curHostName)
-        {
-            string? targetHost = null;
-            if (hostList.Count > 0)
-            {
-                using var dlg = new Form
-                {
-                    Text = "vMotion è¿ç§»åˆ°æŒ‡å®šä¸»æœº",
+                    "$task = $vm.ReconfigVM_Task($cfg); Wait-Task $task %b(:fi9èàyææ	Èˆ
+ÃBˆ	•Üš]KSİ]]	øà$Ñ\ØØ\TÔİš[™Ê›S˜[YJ_xà$yèàyææŞÑ\ØØ\TÔİš[™Ê\ÚÓ˜[YJ_WH9mì¹b(:fi;ï"9b(:fi9¥¡ù.í^Ù[]Qš[\ß{È’r#°Ğ Ğ¢W†V7WFUfÔ÷W&F–öâ‡67&—BÂB.XŠ™šNz8y¹ƒ¢·fÔæÖWÒ·¶F—6´æÖWÕÒXŠ™šNih~K»c×¶FVÆWFTf–ÆW7Ò’"Âöå7V66W73¢‚’ÓàĞ¢°Ğ¢&Vg&W6„F—6´Æ—7D7–æ2‚“°Ğ¢Ò“°Ğ¢Ó°Ğ Ğ¢FÆrå6†÷tF–Æör…÷&ö÷B“°Ğ¢ĞĞ Ğ¢&—fFRfö–B6†÷tÖ–w&FT†÷7DF–Æör‡7G&–ærfÔæÖRÂ7G&–ærfÔÖõ&VbÂÆ—7CÇ7G&–æsâ†÷7DÆ—7BÂ7G&–æsò7W$†÷7DæÖRĞ¢°Ğ¢7G&–æsòF&vWD†÷7BÒçVÆÃ°Ğ¢–b††÷7DÆ—7Bä6÷VçB €À¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€ÕÍ¥¹œÙ…È‘±œ€ô¹•Ü½É´4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€Q•áĞ€ô€‰Ù5½Ñ¥½¸ƒ¢Áç§»åˆ°æŒ‡å®šä¸»æœº",
                     Icon = CoreUtils.GetAppIcon(),
                     FormBorderStyle = FormBorderStyle.FixedDialog,
                     StartPosition = FormStartPosition.CenterParent,
@@ -1614,24 +510,7 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
             {
                 using var dlg = new Form
                 {
-                    Text = "vMotion è¿ç§»åˆ°æŒ‡å®šä¸»æœº",
-                    Icon = CoreUtils.GetAppIcon(),
-                    FormBorderStyle = FormBorderStyle.FixedDialog,
-                    StartPosition = FormStartPosition.CenterParent,
-                    MaximizeBox = false,
-                    MinimizeBox = false,
-                    ShowInTaskbar = false,
-                    Font = new Font("Microsoft YaHei", 9),
-                    AutoScaleMode = AutoScaleMode.Dpi,
-                    AutoScaleDimensions = new SizeF(96F, 96F),
-                    Size = new Size(500, 200),
-                    MinimumSize = new Size(500, 200)
-                };
-
-                var lblCur = new Label { Text = $"å½“å‰ä¸»æœºï¼š{curHostName ?? "?"}", Location = new Point(16, 12), AutoSize = true, ForeColor = Color.DimGray };
-                var lblPrompt = new Label
-                {
-                    Text = "è¯·è¾“å…¥ç›®æ ‡ ESXi ä¸»æœºçš„åç§°ï¼ˆFQDN æˆ– IPï¼‰ï¼š",
+                    Text = "vMotion è¿ç§¹b,9£!Zé®K‹šrèˆ°4(€€€€€€€€€€€€€€€€€€€%½¸€ô½É•UÑ¥±Ì¹•ÑÁÁ%½¸ ¤°4(€€€€€€€€€€€€€€€€€€€½Éµ	½É‘•ÉMÑå±”€ô½Éµ	½É‘•ÉMÑå±”¹¥á•‘¥…±½œ°4(€€€€€€€€€€€€€€€€€€€MÑ…ÉÑA½Í¥Ñ¥½¸€ô½ÉµMÑ…ÉÑA½Í¥Ñ¥½¸¹•¹Ñ•ÉA…É•¹Ğ°4(€€€€€€€€€€€€€€€€€€€5…á¥µ¥é•	½à€ô™…±Í”°4(€€€€€€€€€€€€€€€€€€€5¥¹¥µ¥é•	½à€ô™…±Í”°4(€€€€€€€€€€€€€€€€€€€M¡½İ%¹Q…Í­‰…È€ô™…±Í”°4(€€€€€€€€€€€€€€€€€€€½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ä¤°4(€€€€€€€€€€€€€€€€€€€ÕÑ½M…±•5½‘”€ôÕÑ½M…±•5½‘”¹Á¤°4(€€€€€€€€€€€€€€€€€€€ÕÑ½M…±•¥µ•¹Í¥½¹Ì€ô¹•ÜM¥é• äÙ°€äÙ¤°4(€€€€€€€€€€€€€€€€€€€M¥é”€ô¹•ÜM¥é” ÔÀÀ°€ÈÀÀ¤°4(€€€€€€€€€€€€€€€€€€€5¥¹¥µÕµM¥é”€ô¹•ÜM¥é” ÔÀÀ°€ÈÀÀ¤4(€€€€€€€€€€€€€€€ôì4(4(€€€€€€€€€€€€€€€Ù…È±‰±ÕÈ€ô¹•Ü1…‰•°ìQ•áĞ€ô€‹–öE‰ä¸¹§.»É§¶7W$†÷7DæÖRóò#ò'Ò"ÂÆö6F–öâÒæWrö–çBƒbÂ"’ÂWFõ6—¦RÒG'VRÂf÷&T6öÆ÷"Ò6öÆ÷"äF–Ôw&’Ó°Ğ¢f"Æ&Å&ö×BÒæWrÆ&VÀĞ¢°Ğ¢FW‡BÒ.Šû~‹é>XZ^yºîjrU5†’K‹¾iË®y¨NYŞz{ûÈ„eDâh‰b•ò'¼š",
                     Location = new Point(16, 36),
                     AutoSize = true
                 };
@@ -1644,117 +523,33 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
                     BackColor = Color.FromArgb(240, 240, 240)
                 };
                 var btnOk = new Button { Text = "ç¡®å®š", DialogResult = DialogResult.OK, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-                var btnCancel = new Button { Text = "å–æ¶ˆ", DialogResult = DialogResult.Cancel, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-                btnPanel.Controls.Add(btnOk);
-                btnPanel.Controls.Add(btnCancel);
-
-                CenterFlowPanel(btnPanel);
-
-                dlg.Controls.Add(btnPanel);
-                dlg.Controls.AddRange(new Control[] { lblCur, lblPrompt, txtHost });
-                dlg.AcceptButton = btnOk;
-                dlg.CancelButton = btnCancel;
-
-                if (dlg.ShowDialog(_root) == DialogResult.OK)
-                {
-                    targetHost = txtHost.Text.Trim();
-                }
-            }
-
-            if (string.IsNullOrEmpty(targetHost)) return;
-
-            var confirmResult = MessageBox.Show(
-                $"ç¡®è®¤è¦å°† [{vmName}] è¿ç§»åˆ°ä¸»æœº [{targetHost}] å—ï¼Ÿ\n\n" +
-                "âš  è‹¥ VM å¤„äºå¼€æœºçŠ¶æ€å°†æ‰§è¡Œ vMotionï¼ˆé›¶åœæœºï¼‰\n" +
-                "æ­¤æ“ä½œå…·æœ‰ç ´åæ€§ï¼Œè¯·è°¨æ…æ“ä½œ",
-                "è¿ç§»åˆ°æŒ‡å®šä¸»æœºç¡®è®¤",
-                MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Error);
-
-            if (confirmResult != DialogResult.OK) return;
-
-            string script =
-                $"$vm = Get-View -Id '{vmMoRef}' -ErrorAction Stop; " +
-                $"$targetHost = Get-View -ViewType HostSystem -Filter @{{Name='{EscapePsString(targetHost)}'}} -ErrorAction SilentlyContinue; " +
-                "if (-not $targetHost) { " +
-                $"  Write-Output 'ã€é”™è¯¯ã€‘æœªæ‰¾åˆ°ç›®æ ‡ä¸»æœºã€{EscapePsString(targetHost)}ã€‘ï¼Œè¯·æ£€æŸ¥åç§°æ‹¼å†™å¹¶ç¡®ä¿å…¶å·²æ¥å…¥ vCenter' " +
-                "} else { " +
-                "  $spec = New-Object VMware.Vim.VirtualMachineRelocateSpec;  $spec.Host = $targetHost.MoRef;  $task = $vm.RelocateVM_Task($spec, [VMware.Vim.VirtualMachineMovePriority]::defaultPriority); " +
-                "  Wait-Task $task 'è¿ç§»ä¸»æœº' " +
-                $"  Write-Output 'ã€{EscapePsString(vmName)}ã€‘å·²è¿ç§»åˆ°ä¸»æœºã€{EscapePsString(targetHost)}ã€‘' " +
-                "}";
-
-            ExecuteVmOperation(script, $"è¿ç§»åˆ°ä¸»æœº: {vmName} â†’ {targetHost}", vmName);
-        }
-
-        private void ShowMigrateResourcePoolDialog(string vmName, string vmMoRef, List<string> rpList, string? curRpName)
-        {
-            string? targetPool = null;
-            if (rpList.Count > 0)
+                var btnCancel = new Button { Text = "å…¹­¢‹X[ÙÔ™\İ[HX[ÙÔ™\İ[Ø[˜Ù[Ú^™HH™]ÈÚ^™J
+K›ÛH™]È›Û
+“ZXÜ›ÜÛÙXRZH‹JHNÃBˆ”[™[ÛÛ›ÛËY
+“ÚÊNÃBˆ”[™[ÛÛ›ÛËY
+Ø[˜Ù[
+NÃBƒBˆÙ[\‘›İÔ[™[
+”[™[
+NÃBƒBˆËÛÛ›ÛËY
+”[™[
+NÃBˆËÛÛ›ÛËY˜[™ÙJ™]ÈÛÛ›Û×HÈ›İ\‹››Û\ÜİJNÃBˆËXØÙ\]ÛˆH“ÚÎÃBˆËØ[˜Ù[]ÛˆHØ[˜Ù[ÃBƒBˆYˆ
+Ë”ÚİÑX[ÙÊÜ›Ûİ
+HOHX[ÙÔ™\İ[“ÒÊCBˆÃBˆ\™Ù]ÜİHÜİ•^•š[J
+NÃBˆCBˆCBƒBˆYˆ
+İš[™Ë’\Ó[Ü‘[\J\™Ù]Üİ
+JH™]\›ÃBƒBˆ˜\ˆÛÛ™š\›T™\İ[HY\ÜØYÙP›Ş”ÚİÊBˆ	¹èkº+©:) yl!ˆŞİ›S˜[Y_WH:,z{¾X‹K‹¾iË¢··F&vWD†÷7GÕÒY	|Ÿ\n\n" +
+                "âš  è‹¥ VM å¤„äºå¼€æœºçŠ¶æ€å°†æ‰§è¡Œ vMotionï":fí¹`g9§.»È•Æâ"°Ğ¢.jÚNi8ŞKÙÎX[Zr'‚Ó–v6€§ÈÎŠûbÂ£š;šN7’öpˆ°4(€€€€€€€€€€€€€€€€‹¢şåˆ°æŒ…k¦¹..iË®zîŠêB"ÀĞ¢ÖW76vT&÷„'WGFöç2äô´6æ6VÂÀĞ¢ÖW76vT&÷„–6öâäW'&÷"“°Ğ Ğ¢–b†6öæf—&Õ&W7VÇBÒF–Æöu&W7VÇBäô²’&WGW&ã°Ğ Ğ¢7G&–ær67&—BĞĞ¢B"GfÒÒvWBÕf–WrÔ–Bw·fÔÖõ&VgÒrÔW'&÷$7F–öâ7F÷²"°Ğ¢B"GF&vWD†÷7BÒvWBÕf–WrÕf–WuG—R†÷7E7—7FVÒÔf–ÇFW"·´æÖSÒw´W66U57G&–ær‡F&vWD†÷7B—Òw×ÒÔW'&÷$7F–öâ6–ÆVçFÇ”6öçF–çVS²"°Ğ¢&–b‚Öæ÷BGF&vWD†÷7B’²"°Ğ¢B"w&—FRÔ÷WGWB~8	™IŠúş8	iÊ®h›îX‹yºîj~K‹¾iË®8	´W66U57G&–ær‡F&vWD†÷7B—Ş8	ûÈÎŠßššeåç§°æ‹¼å†™å¹¶ç¡®ä·yam¹mì¹£©yaiHÙ[\‰Èˆ
+ÃBˆŸH[ÙHÈˆ
+ÃBˆˆ	ÜXÈH™]ËSØš™Xİ“]Ø\™K•š[K•š\X[XXÚ[™T™[ØØ]TÜXÎÈ	ÜXË’ÜİH	\™Ù]Üİ“[Ô™YÈ	\ÚÈH	›K”™[ØØ]U“WÕ\ÚÊ	ÜXËÕ“]Ø\™K•š[K•š\X[XXÚ[™S[İ™Tš[Üš]WN™Y˜][š[Üš]JNÈˆ
+ÃBˆˆØZ]U\ÚÈ	\ÚÈ	‹øz{’âæœº' " +
+                $"  Write-Output 'ã€{EscapePsString(vmName)}ã€‘å·²è°yéîùb,9..ù§.¸à$Ñ\ØØ\TÔİš[™Ê\™Ù]Üİ
+_xà$IÈˆ
+ÃBˆŸHÃBƒBˆ^Xİ]U›SÜ\˜][ÛŠØÜš\	º/àyéîX‹K‹šrèèíÙµ9…µ•ôƒŠHíÑ…É•Ñ!½ÍÑôˆ°Ùµ9…µ”¤ì4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥M¡½İ5¥É…Ñ•I•Í½ÕÉ•A½½±¥…±½œ¡ÍÑÉ¥¹œÙµ9…µ”°ÍÑÉ¥¹œÙµ5½I•˜°1¥ÍĞñÍÑÉ¥¹œøÉÁ1¥ÍĞ°ÍÑÉ¥¹œüÕÉIÁ9…µ”¤4(€€€€€€€ì4(€€€€€€€€€€€ÍÑÉ¥¹œüÑ…É•ÑA½½°€ô¹Õ±°ì4(€€€€€€€€€€€¥˜€¡ÉÁ1¥ÍĞ¹½Õ¹Ğ€ 0)
             {
                 using var dlg = new Form
                 {
-                    Text = "è¿ç§»åˆ°æŒ‡å®šèµ„æºæ± ",
-                    Icon = CoreUtils.GetAppIcon(),
-                    FormBorderStyle = FormBorderStyle.FixedDialog,
-                    StartPosition = FormStartPosition.CenterParent,
-                    MaximizeBox = false,
-                    MinimizeBox = false,
-                    ShowInTaskbar = false,
-                    Font = new Font("Microsoft YaHei", 9),
-                    AutoScaleMode = AutoScaleMode.Dpi,
-                    AutoScaleDimensions = new SizeF(96F, 96F),
-                    Size = new Size(450, 200),
-                    MinimumSize = new Size(450, 200)
-                };
-
-                var lblCur = new Label { Text = $"å½“å‰èµ„æºæ± ï¼š{curRpName ?? "?"}", Location = new Point(16, 12), AutoSize = true, ForeColor = Color.DimGray };
-                var lblPrompt = new Label { Text = "é€‰æ‹©ç›®æ ‡èµ„æºæ± ï¼š", Location = new Point(16, 36), AutoSize = true };
-                var combo = new ComboBox { Location = new Point(16, 60), Width = 400, DropDownStyle = ComboBoxStyle.DropDownList };
-                combo.Items.AddRange(rpList.ToArray());
-                combo.SelectedIndex = 0;
-
-                var btnPanel = new FlowLayoutPanel
-                {
-                    Dock = DockStyle.Bottom, Height = 44,
-                    Padding = new Padding(0, 6, 0, 6),
-                    BackColor = Color.FromArgb(240, 240, 240)
-                };
-                var btnOk = new Button { Text = "ç¡®å®š", DialogResult = DialogResult.OK, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-                var btnCancel = new Button { Text = "å–æ¶ˆ", DialogResult = DialogResult.Cancel, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-                btnPanel.Controls.Add(btnOk);
-                btnPanel.Controls.Add(btnCancel);
-
-                CenterFlowPanel(btnPanel);
-
-                dlg.Controls.Add(btnPanel);
-                dlg.Controls.AddRange(new Control[] { lblCur, lblPrompt, combo });
-                dlg.AcceptButton = btnOk;
-                dlg.CancelButton = btnCancel;
-
-                if (dlg.ShowDialog(_root) == DialogResult.OK)
-                    targetPool = combo.SelectedItem?.ToString();
-            }
-            else
-            {
-                using var dlg = new Form
-                {
-                    Text = "è¿ç§»åˆ°æŒ‡å®šèµ„æºæ± ",
-                    Icon = CoreUtils.GetAppIcon(),
-                    FormBorderStyle = FormBorderStyle.FixedDialog,
-                    StartPosition = FormStartPosition.CenterParent,
-                    MaximizeBox = false,
-                    MinimizeBox = false,
-                    ShowInTaskbar = false,
-                    Font = new Font("Microsoft YaHei", 9),
-                    AutoScaleMode = AutoScaleMode.Dpi,
-                    AutoScaleDimensions = new SizeF(96F, 96F),
-                    Size = new Size(500, 200),
-                    MinimumSize = new Size(500, 200)
-                };
-
-                var lblCur = new Label { Text = $"å½“å‰èµ„æºæ± ï¼š{curRpName ?? "?"}", Location = new Point(16, 12), AutoSize = true, ForeColor = Color.DimGray };
-                var lblPrompt = new Label { Text = "è¯·è¾“å…¥ç›®æ ‡èµ„æºæ± åç§°ï¼š", Location = new Point(16, 36), AutoSize = true };
+                    Text = "è¿ç§¹b,9£!Zé®‹XNk©k"ÀĞ¢–6öâÒ6÷&UWF–Ç2ävWD–6öâ‚’ÀĞ¢f÷&Ô&÷&FW%7G–ÆRÒf÷&Ô&÷&FW%7G–ÆRäf—†VDF–ÆörÀĞ¢7F'E÷6—F–öâÒf÷&Õ7F'E÷6—F–öâä6VçFW%&VçBÀĞ¢Ö†–Ö—¦T&÷‚ÒfÇ6RÀĞ¢Ö–æ–Ö—¦T&÷‚ÒfÇ6RÀĞ¢6†÷t–åF6¶&"ÒfÇ6RÀĞ¢föçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â’’ÀĞ¢WFõ66ÆTÖöFRÒWFõ66ÆTÖöFRäG’ÀĞ¢WFõ66ÆTF–ÖVç6–öç2ÒæWr6—¦Tbƒ“dbÂ“db’ÀĞ¢6—¦RÒæWr6—¦RƒCSÂ#’ÀĞ¢Ö–æ–×VÕ6—¦RÒæWr6—¦RƒCSÂ#Ğ¢Ó°Ğ Ğ¢f"Æ&Ä7W"ÒæWrÆ&VÂ²FW‡BÒB.[Ù&7¢ÖšêCšÆƒ¼š{curRpName ?? "?"}", Location = new Point(16, 12), AutoSize = true, ForeColor = Color.DimGray };
+                var lblPrompt = new Label { Text = "é€‰æ‹©ç›®æ †-a9®¤9¬h;É¢"ÂÆö6F–öâÒæWrö–çBƒbÂ3b’ÂWFõ6—¦RÒG'VRÓ°Ğ¢f"6öÖ&òÒæWr6öÖ&ô&÷‚²Æö6F–öâÒæWrö–çBƒbÂc’Âv–GF‚ÒCÂG&÷F÷vå7G–ÆRÒ6öÖ&ô&÷…7G–ÆRäG&÷F÷väÆ—7BÓ°Ğ¢6öÖ&òä—FV×2äFE&ævR‡'Æ—7BåFô'&’‚’“°Ğ¢6öÖ&òå6VÆV7FVD–æFW‚Ò°Ğ Ğ¢f"'FåæVÂÒæWrfÆ÷tÆ–÷WEæVÀĞ¢°Ğ¢Fö6²ÒFö6µ7G–ÆRä&÷GFöÒÂ†V–v‡BÒCBÀĞ¢FF–ærÒæWrFF–ærƒÂbÂÂb’ÀĞ¢&6´6öÆ÷"Ò6öÆ÷"äg&öÔ&v"ƒ#CÂ#CÂ#CĞ¢Ó°Ğ¢f"'Fäö²ÒæWr'WGFöâ²FW‡BÒ.zîZé¢"ÂF–Æöu&W7VÇBÒF–Æöu&W7VÇBäô²Â6—¦RÒæWr6—¦RƒƒÂ#‚’ÂföçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â’’Ó°Ğ¢f"'Fä6æ6VÂÒæWr'WGFöâ²FW‡BÒ.Xùnkh‚"ÂF–Æöu&W7VÇBÒF–Æöu&W7VÇBä6æ6VÂÂ6—¦RÒæWr6—¦RƒƒÂ#‚’ÂföçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â’’Ó°Ğ¢'FåæVÂä6öçG&öÇ2äFB†'Fäö²“°Ğ¢'FåæVÂä6öçG&öÇ2äFB†'Fä6æ6VÂ“°Ğ Ğ¢6VçFW$fÆ÷uæVÂ†'FåæVÂ“°Ğ Ğ¢FÆrä6öçG&öÇ2äFB†'FåæVÂ“°Ğ¢FÆrä6öçG&öÇ2äFE&ævR†æWr6öçG&öÅµÒ²Æ&Ä7W"ÂÆ&Å&ö×BÂ6öÖ&òÒ“°Ğ¢FÆrä66WD'WGFöâÒ'Fäö³°Ğ¢FÆrä6æ6VÄ'WGFöâÒ'Fä6æ6VÃ°Ğ Ğ¢–b†FÆrå6†÷tF–Æör…÷&ö÷B’ÓÒF–Æöu&W7VÇBäô²Ğ¢F&vWEööÂÒ6öÖ&òå6VÆV7FVD—FVÓòåFõ7G&–ær‚“°Ğ¢ĞĞ¢VÇ6PĞ¢°Ğ¢W6–ærf"FÆrÒæWrf÷&ĞĞ¢°Ğ¢FW‡BÒ.‹ï–"Ãš2–ºk¢ÖšêCšÆ€ˆ°4(€€€€€€€€€€€€€€€€€€€%½¸€ô½É•UÑ¥±Ì¹•ÑÁÁ%½¸ ¤°4(€€€€€€€€€€€€€€€€€€€½Éµ	½É‘•ÉMÑå±”€ô½Éµ	½É‘•ÉMÑå±”¹¥á•‘¥…±½œ°4(€€€€€€€€€€€€€€€€€€€MÑ…ÉÑA½Í¥Ñ¥½¸€ô½ÉµMÑ…ÉÑA½Í¥Ñ¥½¸¹•¹Ñ•ÉA…É•¹Ğ°4(€€€€€€€€€€€€€€€€€€€5…á¥µ¥é•	½à€ô™…±Í”°4(€€€€€€€€€€€€€€€€€€€5¥¹¥µ¥é•	½à€ô™…±Í”°4(€€€€€€€€€€€€€€€€€€€M¡½İ%¹Q…Í­‰…È€ô™…±Í”°4(€€€€€€€€€€€€€€€€€€€½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ä¤°4(€€€€€€€€€€€€€€€€€€€ÕÑ½M…±•5½‘”€ôÕÑ½M…±•5½‘”¹Á¤°4(€€€€€€€€€€€€€€€€€€€ÕÑ½M…±•¥µ•¹Í¥½¹Ì€ô¹•ÜM¥é• äÙ°€äÙ¤°4(€€€€€€€€€€€€€€€€€€€M¥é”€ô¹•ÜM¥é” ÔÀÀ°€ÈÀÀ¤°4(€€€€€€€€€€€€€€€€€€€5¥¹¥µÕµM¥é”€ô¹•ÜM¥é” ÔÀÀ°€ÈÀÀ¤4(€€€€€€€€€€€€€€€ôì4(4(€€€€€€€€€€€€€€€Ù…È±‰±ÕÈ€ô¹•Ü1…‰•°ìQ•áĞ€ô€‹–öO–&7¢ÖšêCšÆƒ¾òiíÕÉIÁ9…µ”€üü€ˆü‰ôˆ°1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ ÄØ°€ÄÈ¤°ÕÑ½M¥é”€ôÑÉÕ”°½É•½±½È€ô½±½È¹¥µÉ…äôì4(€€€€€€€€€€€€€€€Ù…È±‰±AÉ½µÁĞ€ô¹•Ü1…‰•°ìQ•áĞ€ô€‹¢·è¾“å…¥ç›®æ ‡èµ„æºæ± åç§°ï¼š", Location = new Point(16, 36), AutoSize = true };
                 var txtPool = new TextBox { Location = new Point(16, 60), Width = 450 };
 
                 var btnPanel = new FlowLayoutPanel
@@ -1764,278 +559,78 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
                     BackColor = Color.FromArgb(240, 240, 240)
                 };
                 var btnOk = new Button { Text = "ç¡®å®š", DialogResult = DialogResult.OK, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-                var btnCancel = new Button { Text = "å–æ¶ˆ", DialogResult = DialogResult.Cancel, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-                btnPanel.Controls.Add(btnOk);
-                btnPanel.Controls.Add(btnCancel);
-
-                CenterFlowPanel(btnPanel);
-
-                dlg.Controls.Add(btnPanel);
-                dlg.Controls.AddRange(new Control[] { lblCur, lblPrompt, txtPool });
-                dlg.AcceptButton = btnOk;
-                dlg.CancelButton = btnCancel;
-
-                if (dlg.ShowDialog(_root) == DialogResult.OK)
-                    targetPool = txtPool.Text.Trim();
-            }
-
-            if (string.IsNullOrEmpty(targetPool)) return;
-
-            var confirmResult = MessageBox.Show(
-                $"ç¡®è®¤è¦å°† [{vmName}] è¿ç§»åˆ°èµ„æºæ±  [{targetPool}] å—ï¼Ÿ\n\n" +
-                "âš  å¼€æœºçŠ¶æ€æ‰§è¡Œ vMotionï¼ˆé›¶åœæœºï¼‰",
-                "è¿ç§»åˆ°èµ„æºæ± ç¡®è®¤",
-                MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Error);
-
-            if (confirmResult != DialogResult.OK) return;
-
-            string script =
-                $"$vm = Get-View -Id '{vmMoRef}' -ErrorAction Stop; " +
-                $"$targetPool = Get-View -ViewType ResourcePool -Filter @{{Name='{EscapePsString(targetPool)}'}} -ErrorAction SilentlyContinue; " +
-                "if (-not $targetPool) { " +
-                $"  Write-Output 'ã€é”™è¯¯ã€‘æœªæ‰¾åˆ°ç›®æ ‡èµ„æºæ± ã€{EscapePsString(targetPool)}ã€‘' " +
+                var btnCancel = new Button { Text = "å…¹­¢‹X[ÙÔ™\İ[HX[ÙÔ™\İ[Ø[˜Ù[Ú^™HH™]ÈÚ^™J
+K›ÛH™]È›Û
+“ZXÜ›ÜÛÙXRZH‹JHNÃBˆ”[™[ÛÛ›ÛËY
+“ÚÊNÃBˆ”[™[ÛÛ›ÛËY
+Ø[˜Ù[
+NÃBƒBˆÙ[\‘›İÔ[™[
+”[™[
+NÃBƒBˆËÛÛ›ÛËY
+”[™[
+NÃBˆËÛÛ›ÛËY˜[™ÙJ™]ÈÛÛ›Û×HÈ›İ\‹››Û\ÛÛJNÃBˆËXØÙ\]ÛˆH“ÚÎÃBˆËØ[˜Ù[]ÛˆHØ[˜Ù[ÃBƒBˆYˆ
+Ë”ÚİÑX[ÙÊÜ›Ûİ
+HOHX[ÙÔ™\İ[“ÒÊCBˆ\™Ù]ÛÛHÛÛ•^•š[J
+NÃBˆCBƒBˆYˆ
+İš[™Ë’\Ó[Ü‘[\J\™Ù]ÛÛ
+JH™]\›ÃBƒBˆ˜\ˆÛÛ™š\›T™\İ[HY\ÜØYÙP›Ş”ÚİÊBˆ	¹èkº+©:) yl!ˆŞİ›S˜[Y_WH:/àyéîX‹‹XNk©k··F&vWEööÇÕÒY	~ûÉõÆåÆâ"°Ğ¢.)ª[ÈiË®x«nhhš~ŠÂdÖ÷F–öîò#¦nÛ–sšrë¼‰",
+                "è¿ç§¹b,:-a9®¤9¬h9èkº+©‹BˆY\ÜØYÙP›Ş]ÛœË“ÒĞØ[˜Ù[BˆY\ÜØYÙP›ŞXÛÛ‹‘\œ›ÜŠNÃBƒBˆYˆ
+ÛÛ™š\›T™\İ[OHX[ÙÔ™\İ[“ÒÊH™]\›ÃBƒBˆİš[™ÈØÜš\CBˆ	‰›HHÙ]UšY]ÈRY	Şİ›S[Ô™YŸIÈQ\œ›ÜXİ[ÛˆİÜÈˆ
+ÃBˆ	‰\™Ù]ÛÛHÙ]UšY]ÈUšY]Õ\H™\Ûİ\˜ÙTÛÛQš[\ˆŞÓ˜[YOIŞÑ\ØØ\TÔİš[™Ê\™Ù]ÛÛ
+_Iß_HQ\œ›ÜXİ[ÛˆÚ[[PÛÛ[YNÈˆ
+ÃBˆšYˆ
+[›İ	\™Ù]ÛÛ
+HÈˆ
+ÃBˆ	ˆÜš]KSİ]]	8	™IŠúÎGšr«š&û–"Ãn»š‚µ„æºæ± ã€{EscapePsString(targetPool)}ã€‘' " +
                 "} else { " +
                 "  $spec = New-Object VMware.Vim.VirtualMachineRelocateSpec;  $spec.Pool = $targetPool.MoRef;  $task = $vm.RelocateVM_Task($spec, [VMware.Vim.VirtualMachineMovePriority]::defaultPriority); " +
-                "  Wait-Task $task 'è¿ç§»ä¸»æœº' " +
-                $"  Write-Output 'ã€{EscapePsString(vmName)}ã€‘å·²è¿ç§»åˆ°èµ„æºæ± ã€{EscapePsString(targetPool)}ã€‘' " +
+                "  Wait-Task $task &/àyéîK‹šrèœ€ˆ€¬4(€€€€€€€€€€€€€€€€ˆ€]É¥Ñ”µ=ÕÑÁÕĞ€ŸAíÍ…Á•AÍMÑÉ¥¹œ¡Ùµ9…µ”¥÷G–ŞË¢Áç§»åˆ°èµ„æºæ± ã€{EscapePsString(targetPool)}ã€‘' " +
                 "}";
 
-            ExecuteVmOperation(script, $"è¿ç§»åˆ°èµ„æºæ± : {vmName} â†’ {targetPool}", vmName);
-        }
-
-        private void ShowMigrateDatastoreDialog(string vmName, string vmMoRef, List<string> dsList, string? curDsName)
-        {
-            string? targetDs = null;
-            if (dsList.Count > 0)
-            {
-                using var dlg = new Form
-                {
-                    Text = "Storage vMotion è¿ç§»å­˜å‚¨",
-                    Icon = CoreUtils.GetAppIcon(),
-                    FormBorderStyle = FormBorderStyle.FixedDialog,
-                    StartPosition = FormStartPosition.CenterParent,
-                    MaximizeBox = false,
-                    MinimizeBox = false,
-                    ShowInTaskbar = false,
-                    Font = new Font("Microsoft YaHei", 9),
-                    AutoScaleMode = AutoScaleMode.Dpi,
-                    AutoScaleDimensions = new SizeF(96F, 96F),
-                    Size = new Size(450, 200),
-                    MinimumSize = new Size(450, 200)
-                };
-
-                var lblCur = new Label { Text = $"å½“å‰å­˜å‚¨ï¼š{curDsName ?? "?"}", Location = new Point(16, 12), AutoSize = true, ForeColor = Color.DimGray };
-                var lblPrompt = new Label { Text = "é€‰æ‹©ç›®æ ‡å­˜å‚¨ï¼š", Location = new Point(16, 36), AutoSize = true };
-                var combo = new ComboBox { Location = new Point(16, 60), Width = 400, DropDownStyle = ComboBoxStyle.DropDownList };
-                combo.Items.AddRange(dsList.ToArray());
-                combo.SelectedIndex = 0;
-
-                var btnPanel = new FlowLayoutPanel
-                {
-                    Dock = DockStyle.Bottom, Height = 44,
-                    Padding = new Padding(0, 6, 0, 6),
-                    BackColor = Color.FromArgb(240, 240, 240)
-                };
-                var btnOk = new Button { Text = "ç¡®å®š", DialogResult = DialogResult.OK, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-                var btnCancel = new Button { Text = "å–æ¶ˆ", DialogResult = DialogResult.Cancel, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-                btnPanel.Controls.Add(btnOk);
-                btnPanel.Controls.Add(btnCancel);
-
-                CenterFlowPanel(btnPanel);
-
-                dlg.Controls.Add(btnPanel);
-                dlg.Controls.AddRange(new Control[] { lblCur, lblPrompt, combo });
-                dlg.AcceptButton = btnOk;
-                dlg.CancelButton = btnCancel;
-
-                if (dlg.ShowDialog(_root) == DialogResult.OK)
-                    targetDs = combo.SelectedItem?.ToString();
-            }
-            else
-            {
-                using var dlg = new Form
-                {
-                    Text = "Storage vMotion è¿ç§»å­˜å‚¨",
-                    Icon = CoreUtils.GetAppIcon(),
-                    FormBorderStyle = FormBorderStyle.FixedDialog,
-                    StartPosition = FormStartPosition.CenterParent,
-                    MaximizeBox = false,
-                    MinimizeBox = false,
-                    ShowInTaskbar = false,
-                    Font = new Font("Microsoft YaHei", 9),
-                    AutoScaleMode = AutoScaleMode.Dpi,
-                    AutoScaleDimensions = new SizeF(96F, 96F),
-                    Size = new Size(500, 200),
-                    MinimumSize = new Size(500, 200)
-                };
-
-                var lblCur = new Label { Text = $"å½“å‰å­˜å‚¨ï¼š{curDsName ?? "?"}", Location = new Point(16, 12), AutoSize = true, ForeColor = Color.DimGray };
-                var lblPrompt = new Label { Text = "è¯·è¾“å…¥ç›®æ ‡å­˜å‚¨åç§°ï¼š", Location = new Point(16, 36), AutoSize = true };
-                var txtDs = new TextBox { Location = new Point(16, 60), Width = 450 };
-
-                var btnPanel = new FlowLayoutPanel
-                {
-                    Dock = DockStyle.Bottom, Height = 44,
-                    Padding = new Padding(0, 6, 0, 6),
-                    BackColor = Color.FromArgb(240, 240, 240)
-                };
-                var btnOk = new Button { Text = "ç¡®å®š", DialogResult = DialogResult.OK, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-                var btnCancel = new Button { Text = "å–æ¶ˆ", DialogResult = DialogResult.Cancel, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-                btnPanel.Controls.Add(btnOk);
-                btnPanel.Controls.Add(btnCancel);
-
-                CenterFlowPanel(btnPanel);
-
-                dlg.Controls.Add(btnPanel);
-                dlg.Controls.AddRange(new Control[] { lblCur, lblPrompt, txtDs });
-                dlg.AcceptButton = btnOk;
-                dlg.CancelButton = btnCancel;
-
-                if (dlg.ShowDialog(_root) == DialogResult.OK)
-                    targetDs = txtDs.Text.Trim();
-            }
-
-            if (string.IsNullOrEmpty(targetDs)) return;
-
-            var confirmResult = MessageBox.Show(
-                $"ç¡®è®¤è¦å°† [{vmName}] è¿ç§»åˆ°å­˜å‚¨ [{targetDs}] å—ï¼Ÿ\n\n" +
-                "âš  Storage vMotion ä¼šåœ¨åå°è¿ç§»ç£ç›˜\n" +
-                "å¼€æœºçŠ¶æ€ä¹Ÿå¯æ‰§è¡Œï¼Œä¸å½±å“ä¸šåŠ¡",
-                "è¿ç§»å­˜å‚¨ç¡®è®¤",
-                MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Error);
-
-            if (confirmResult != DialogResult.OK) return;
-
-            string script =
-                $"$vm = Get-View -Id '{vmMoRef}' -ErrorAction Stop; " +
-                $"$targetDs = Get-View -ViewType Datastore -Filter @{{Name='{EscapePsString(targetDs)}'}} -ErrorAction SilentlyContinue; " +
-                "if (-not $targetDs) { " +
-                $"  Write-Output 'ã€é”™è¯¯ã€‘æœªæ‰¾åˆ°ç›®æ ‡å­˜å‚¨ã€{EscapePsString(targetDs)}ã€‘' " +
+            ExecuteVmOperation(script, $"è¿ç§¹b,:-a9®¤9¬hˆİ›S˜[Y_H8¡¤ˆİ\™Ù]ÛÛH‹›S˜[YJNÃBˆCBƒBˆš]˜]H›ÚYÚİÓZYÜ˜]Q]\İÜ™QX[ÙÊİš[™È›S˜[YKİš[™È›S[Ô™Y‹\İİš[™ÏˆÓ\İİš[™ÏÈİ\‘Ó˜[YJCBˆÃBˆİš[™ÏÈ\™Ù]ÈH[ÃBˆYˆ
+Ó\İÛİ[ˆ
+CBˆÃBˆ\Ú[™È˜\ˆÈH™]È›Ü›CBˆÃBˆ^H”İÜ˜YÙH“[İ[Ûˆ:,z{¾ZÙX*‚"ÀĞ¢–6öâÒ6÷&UWF–Ç2ävWD–6öâ‚’ÀĞ¢f÷&Ô&÷&FW%7G–ÆRÒf÷&Ô&÷&FW%7G–ÆRäf—†VDF–ÆörÀĞ¢7F'E÷6—F–öâÒf÷&Õ7F'E÷6—F–öâä6VçFW%&VçBÀĞ¢Ö†–Ö—¦T&÷‚ÒfÇ6RÀĞ¢Ö–æ–Ö—¦T&÷‚ÒfÇ6RÀĞ¢6†÷t–åF6¶&"ÒfÇ6RÀĞ¢föçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â’’ÀĞ¢WFõ66ÆTÖöFRÒWFõ66ÆTÖöFRäG’ÀĞ¢WFõ66ÆTF–ÖVç6–öç2ÒæWr6—¦Tbƒ“dbÂ“db’ÀĞ¢6—¦RÒæWr6—¦RƒCSÂ#’ÀĞ¢Ö–æ–×VÕ6—¦RÒæWr6—¦RƒCSÂ#Ğ¢Ó°Ğ Ğ¢f"Æ&Ä7W"ÒæWrÆ&VÂ²FW‡BÒB.[Ù>X˜ŞZÙX*ûÉ§¶7W$G4æÖRóò#ò'Ò"ÂÆö6F–öâÒæWrö–çBƒbÂ"’ÂWFõ6—¦RÒG'VRÂf÷&T6öÆ÷"Ò6öÆ÷"äF–Ôw&’Ó°Ğ¢f"Æ&Å&ö×BÒæWrÆ&VÂ²FW‡BÒ.˜hºyºîj~ZÙX*ûÉ¢"ÂÆö6F–öâÒæWrö–çBƒbÂ3b’ÂWFõ6—¦RÒG'VRÓ°Ğ¢f"6öÖ&òÒæWr6öÖ&ô&÷‚²Æö6F–öâÒæWrö–çBƒbÂc’Âv–GF‚ÒCÂG&÷F÷vå7G–ÆRÒ6öÖ&ô&÷…7G–ÆRäG&÷F÷väÆ—7BÓ°Ğ¢6öÖ&òä—FV×2äFE&ævR†G4Æ—7BåFô'&’‚’“°Ğ¢6öÖ&òå6VÆV7FVD–æFW‚Ò°Ğ Ğ¢f"'FåæVÂÒæWrfÆ÷tÆ–÷WEæVÀĞ¢°Ğ¢Fö6²ÒFö6µ7G–ÆRä&÷GFöÒÂ†V–v‡BÒCBÀĞ¢FF–ærÒæWrFF–ærƒÂbÂÂb’ÀĞ¢&6´6öÆ÷"Ò6öÆ÷"äg&öÔ&v"ƒ#CÂ#CÂ#CĞ¢Ó°Ğ¢f"'Fäö²ÒæWr'WGFöâ²FW‡BÒ.zîZé¢"ÂF–Æöu&W7VÇBÒF–Æöu&W7VÇBäô²Â6—¦RÒæWr6—¦RƒƒÂ#‚’ÂföçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â’’Ó°Ğ¢f"'Fä6æ6VÂÒæWr'WGFöâ²FW‡BÒ.Xùnkh‚"ÂF–Æöu&W7VÇBÒF–Æöu&W7VÇBä6æ6VÂÂ6—¦RÒæWr6—¦RƒƒÂ#‚’ÂföçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â’’Ó°Ğ¢'FåæVÂä6öçG&öÇ2äFB†'Fäö²“°Ğ¢'FåæVÂä6öçG&öÇ2äFB†'Fä6æ6VÂ“°Ğ Ğ¢6VçFW$fÆ÷uæVÂ†'FåæVÂ“°Ğ Ğ¢FÆrä6öçG&öÇ2äFB†'FåæVÂ“°Ğ¢FÆrä6öçG&öÇ2äFE&ævR†æWr6öçG&öÅµÒ²Æ&Ä7W"ÂÆ&Å&ö×BÂ6öÖ&òÒ“°Ğ¢FÆrä66WD'WGFöâÒ'Fäö³°Ğ¢FÆrä6æ6VÄ'WGFöâÒ'Fä6æ6VÃ°Ğ Ğ¢–b†FÆrå6†÷tF–Æör…÷&ö÷B’ÓÒF–Æöu&W7VÇBäô²Ğ¢F&vWDG2Ò6öÖ&òå6VÆV7FVD—FVÓòåFõ7G&–ær‚“°Ğ¢ĞĞ¢VÇ6PĞ¢°Ğ¢W6–ærf"FÆrÒæWrf÷&ĞĞ¢°Ğ¢FW‡BÒ%7F÷&vRdÖ÷F–öâ‹øz{–¶c–
+ ˆ°4(€€€€€€€€€€€€€€€€€€€%½¸€ô½É•UÑ¥±Ì¹•ÑÁÁ%½¸ ¤°4(€€€€€€€€€€€€€€€€€€€½Éµ	½É‘•ÉMÑå±”€ô½Éµ	½É‘•ÉMÑå±”¹¥á•‘¥…±½œ°4(€€€€€€€€€€€€€€€€€€€MÑ…ÉÑA½Í¥Ñ¥½¸€ô½ÉµMÑ…ÉÑA½Í¥Ñ¥½¸¹•¹Ñ•ÉA…É•¹Ğ°4(€€€€€€€€€€€€€€€€€€€5…á¥µ¥é•	½à€ô™…±Í”°4(€€€€€€€€€€€€€€€€€€€5¥¹¥µ¥é•	½à€ô™…±Í”°4(€€€€€€€€€€€€€€€€€€€M¡½İ%¹Q…Í­‰…È€ô™…±Í”°4(€€€€€€€€€€€€€€€€€€€½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ä¤°4(€€€€€€€€€€€€€€€€€€€ÕÑ½M…±•5½‘”€ôÕÑ½M…±•5½‘”¹Á¤°4(€€€€€€€€€€€€€€€€€€€ÕÑ½M…±•¥µ•¹Í¥½¹Ì€ô¹•ÜM¥é• äÙ°€äÙ¤°4(€€€€€€€€€€€€€€€€€€€M¥é”€ô¹•ÜM¥é” ÔÀÀ°€ÈÀÀ¤°4(€€€€€€€€€€€€€€€€€€€5¥¹¥µÕµM¥é”€ô¹•ÜM¥é” ÔÀÀ°€ÈÀÀ¤4(€€€€€€€€€€€€€€€ôì4(4(€€€€€€€€€€€€€€€Ù…È±‰±ÕÈ€ô¹•Ü1…‰•°ìQ•áĞ€ô€‹–öE‰å­˜å‚¨ï&Øİ\‘Ó˜[YHÏÈÈŸH‹ØØ][ÛˆH™]ÈÚ[
+M‹LŠK]]ÔÚ^™HHYK›Ü™PÛÛÜˆHÛÛÜ‹‘[QÜ˜^HNÃBˆ˜\ˆ››Û\H™]ÈX™[È^Hº+íŠE…¥ç›®æ …kf9`ª9d#yéì;É¢"ÂÆö6F–öâÒæWrö–çBƒbÂ3b’ÂWFõ6—¦RÒG'VRÓ°Ğ¢f"G‡DG2ÒæWrFW‡D&÷‚²Æö6F–öâÒæWrö–çBƒbÂc’Âv–GF‚ÒCSÓ°Ğ Ğ¢f"'FåæVÂÒæWrfÆ÷tÆ–÷WEæVÀĞ¢°Ğ¢Fö6²ÒFö6µ7G–ÆRä&÷GFöÒÂ†V–v‡BÒCBÀĞ¢FF–ærÒæWrFF–ærƒÂbÂÂb’ÀĞ¢&6´6öÆ÷"Ò6öÆ÷"äg&öÔ&v"ƒ#CÂ#CÂ#CĞ¢Ó°Ğ¢f"'Fäö²ÒæWr'WGFöâ²FW‡BÒ.zîZé¢"ÂF–Æöu&W7VÇBÒF–Æöu&W7VÇBäô²Â6—¦RÒæWr6—¦RƒƒÂ#‚’ÂföçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â’’Ó°Ğ¢f"'Fä6æ6VÂÒæWr'WGFöâ²FW‡BÒ.Xùnkh‚"ÂF–Æöu&W7VÇBÒF–Æöu&W7VÇBä6æ6VÂÂ6—¦RÒæWr6—¦RƒƒÂ#‚’ÂföçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â’’Ó°Ğ¢'FåæVÂä6öçG&öÇ2äFB†'Fäö²“°Ğ¢'FåæVÂä6öçG&öÇ2äFB†'Fä6æ6VÂ“°Ğ Ğ¢6VçFW$fÆ÷uæVÂ†'FåæVÂ“°Ğ Ğ¢FÆrä6öçG&öÇ2äFB†'FåæVÂ“°Ğ¢FÆrä6öçG&öÇ2äFE&ævR†æWr6öçG&öÅµÒ²Æ&Ä7W"ÂÆ&Å&ö×BÂG‡DG2Ò“°Ğ¢FÆrä66WD'WGFöâÒ'Fäö³°Ğ¢FÆrä6æ6VÄ'WGFöâÒ'Fä6æ6VÃ°Ğ Ğ¢–b†FÆrå6†÷tF–Æör…÷&ö÷B’ÓÒF–Æöu&W7VÇBäô²Ğ¢F&vWDG2ÒG‡DG2åFW‡BåG&–Ò‚“°Ğ¢ĞĞ Ğ¢–b‡7G&–ærä—4çVÆÄ÷$V×G’‡F&vWDG2’’&WGW&ã°Ğ Ğ¢f"6öæf—&Õ&W7VÇBÒÖW76vT&÷‚å6†÷r€Ğ¢B.zîŠêNŠh[b··fÔæÖWÕÒ‹øz{–"Ã–¶c–
+ míÑ…É•ÑÍõtƒ–B_¾ò}q¹q¸ˆ€¬4(€€€€€€€€€€€€€€€€‹Šj€MÑ½É…”Ù5½Ñ¥½¸ƒ’òk–r£–B;–>Ã¢şç£ç›˜\n" +
+                "å¼€æœºçŠ¶æ€ä¹cëhšb†3¼Œä¸å½±å“ä¸šåŠ¡",
+                "è¿ç§¹kf9`ª9èkº+©‹BˆY\ÜØYÙP›Ş]ÛœË“ÒĞØ[˜Ù[BˆY\ÜØYÙP›ŞXÛÛ‹‘\œ›ÜŠNÃBƒBˆYˆ
+ÛÛ™š\›T™\İ[OHX[ÙÔ™\İ[“ÒÊH™]\›ÃBƒBˆİš[™ÈØÜš\CBˆ	‰›HHÙ]UšY]ÈRY	Şİ›S[Ô™YŸIÈQ\œ›ÜXİ[ÛˆİÜÈˆ
+ÃBˆ	‰\™Ù]ÈHÙ]UšY]ÈUšY]Õ\H]\İÜ™HQš[\ˆŞÓ˜[YOIŞÑ\ØØ\TÔİš[™Ê\™Ù]Ê_Iß_HQ\œ›ÜXİ[ÛˆÚ[[PÛÛ[YNÈˆ
+ÃBˆšYˆ
+[›İ	\™Ù]ÊHÈˆ
+ÃBˆ	ˆÜš]KSİ]]	8	™IŠúÎGšr«š&û–"Ãn»š‚­˜å‚¨ã€{EscapePsString(targetDs)}ã€‘' " +
                 "} else { " +
                 "  $spec = New-Object VMware.Vim.VirtualMachineRelocateSpec;  $spec.Datastore = $targetDs.MoRef;  $task = $vm.RelocateVM_Task($spec, [VMware.Vim.VirtualMachineMovePriority]::defaultPriority); " +
                 "  Wait-Task $task 'è¿ç§»ä¸»æœº' " +
-                $"  Write-Output 'ã€{EscapePsString(vmName)}ã€‘å·²è¿ç§»åˆ°å­˜å‚¨ã€{EscapePsString(targetDs)}ã€‘' " +
-                "}";
-
-            ExecuteVmOperation(script, $"è¿ç§»å­˜å‚¨: {vmName} â†’ {targetDs}", vmName);
-        }
-
-        private void ShowCloneDialog(string sourceVmName, string sourceVmMoRef, List<string> hostList, List<string> dsList, string? curHost, string? curDs)
-        {
-            string defaultName = sourceVmName + "_clone";
-            string? newName = null;
-            string? selectedHost = null;
-            string? selectedDs = null;
-
-            using var dlg = new Form
-            {
-                Text = $"å…‹éš†è™šæ‹Ÿæœºï¼š{sourceVmName}",
-                Icon = CoreUtils.GetAppIcon(),
-                FormBorderStyle = FormBorderStyle.FixedDialog,
-                StartPosition = FormStartPosition.CenterParent,
-                MaximizeBox = false,
-                MinimizeBox = false,
-                ShowInTaskbar = false,
-                Font = new Font("Microsoft YaHei", 9),
-                AutoScaleMode = AutoScaleMode.Dpi,
-                AutoScaleDimensions = new SizeF(96F, 96F),
-                Size = new Size(500, 280),
-                MinimumSize = new Size(500, 280)
-            };
-
-            var lblName = new Label { Text = "æ–°è™šæ‹Ÿæœºåç§°ï¼š", Location = new Point(16, 14), AutoSize = true };
-            var txtName = new TextBox { Location = new Point(16, 38), Width = 450, Text = defaultName };
-
-            var lblHostCur = new Label { Text = $"å½“å‰ä¸»æœºï¼š{curHost ?? "?"}", Location = new Point(16, 74), AutoSize = true, ForeColor = Color.DimGray };
-            var lblHostTarget = new Label { Text = "ç›®æ ‡ä¸»æœºï¼š", Location = new Point(16, 96), AutoSize = true };
-            var comboHost = new ComboBox { Location = new Point(94, 92), Width = 372, DropDownStyle = ComboBoxStyle.DropDownList };
-            comboHost.Items.Add("ï¼ˆå…‹éš†åˆ°åŸä¸»æœºï¼‰");
-            comboHost.SelectedIndex = 0;
-            foreach (var h in hostList) comboHost.Items.Add(h);
-
-            var lblDsCur = new Label { Text = $"å½“å‰å­˜å‚¨ï¼š{curDs ?? "?"}", Location = new Point(16, 130), AutoSize = true, ForeColor = Color.DimGray };
-            var lblDsTarget = new Label { Text = "ç›®æ ‡å­˜å‚¨ï¼š", Location = new Point(16, 152), AutoSize = true };
-            var comboDs = new ComboBox { Location = new Point(94, 148), Width = 372, DropDownStyle = ComboBoxStyle.DropDownList };
-            comboDs.Items.Add("ï¼ˆå…‹éš†åˆ°åŸå­˜å‚¨ï¼‰");
-            comboDs.SelectedIndex = 0;
-            foreach (var d in dsList) comboDs.Items.Add(d);
-
-            var btnPanel = new FlowLayoutPanel
-            {
-                Dock = DockStyle.Bottom, Height = 44,
-                Padding = new Padding(0, 6, 0, 6),
-                BackColor = Color.FromArgb(240, 240, 240)
-            };
-            var btnOk = new Button { Text = "ç¡®å®š", DialogResult = DialogResult.OK, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-            var btnCancel = new Button { Text = "å–æ¶ˆ", DialogResult = DialogResult.Cancel, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-            btnPanel.Controls.Add(btnOk);
-            btnPanel.Controls.Add(btnCancel);
-
-            CenterFlowPanel(btnPanel);
-
-            dlg.Controls.Add(btnPanel);
-            dlg.Controls.AddRange(new Control[] { lblName, txtName, lblHostCur, lblHostTarget, comboHost, lblDsCur, lblDsTarget, comboDs });
-            dlg.AcceptButton = btnOk;
-            dlg.CancelButton = btnCancel;
-
-            if (dlg.ShowDialog(_root) != DialogResult.OK) return;
-
-            newName = txtName.Text.Trim();
-            if (string.IsNullOrEmpty(newName))
-            {
-                MessageBox.Show("æ–°è™šæ‹Ÿæœºåç§°ä¸èƒ½ä¸ºç©º", "æç¤º", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                $"  Write-Output $à$Ñ\ØØ\TÔİš[™Ê›S˜[YJ_xà$ymìº/àyéîX‹ZÙX*8	´W66U57G&–ær‡F&vWDG2—Ş8	r"°Ğ¢'Ò#°Ğ Ğ¢W†V7WFUfÔ÷W&F–öâ‡67&—BÂB.‹ï–¶c–
+ èíÙµ9…µ•ôƒŠHíÑ…É•ÑÍôˆ°Ùµ9…µ”¤ì4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥M¡½İ±½¹•¥…±½œ¡ÍÑÉ¥¹œÍ½ÕÉ•Yµ9…µ”°ÍÑÉ¥¹œÍ½ÕÉ•Yµ5½I•˜°1¥ÍĞñÍÑÉ¥¹œø¡½ÍÑ1¥ÍĞ°1¥ÍĞñÍÑÉ¥¹œø‘Í1¥ÍĞ°ÍÑÉ¥¹œüÕÉ!½ÍĞ°ÍÑÉ¥¹œüÕÉÌ¤4(€€€€€€€ì4(€€€€€€€€€€€ÍÑÉ¥¹œ‘•™…Õ±Ñ9…µ”€ôÍ½ÕÉ•Yµ9…µ”€¬€‰}±½¹”ˆì4(€€€€€€€€€€€ÍÑÉ¥¹œü¹•İ9…µ”€ô¹Õ±°ì4(€€€€€€€€€€€ÍÑÉ¥¹œüÍ•±•Ñ•‘!½ÍĞ€ô¹Õ±°ì4(€€€€€€€€€€€ÍÑÉ¥¹œüÍ•±•Ñ•‘Ì€ô¹Õ±°ì4(4(€€€€€€€€€€€ÕÍ¥¹œÙ…È‘±œ€ô¹•Ü½É´4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Q•áĞ€ô€‹–/¦j¢fkš.šrë¾òiíÍ½ÕÉ•Yµ9…µ•ôˆ°4(€€€€€€€€€€€€€€€%½¸€ô½É•UÑ¥±Ì¹•ÑÁÁ%½¸ ¤°4(€€€€€€€€€€€€€€€½Éµ	½É‘•ÉMÑå±”€ô½Éµ	½É‘•ÉMÑå±”¹¥á•‘¥…±½œ°4(€€€€€€€€€€€€€€€MÑ…ÉÑA½Í¥Ñ¥½¸€ô½ÉµMÑ…ÉÑA½Í¥Ñ¥½¸¹•¹Ñ•ÉA…É•¹Ğ°4(€€€€€€€€€€€€€€€5…á¥µ¥é•	½à€ô™…±Í”°4(€€€€€€€€€€€€€€€5¥¹¥µ¥é•	½à€ô™…±Í”°4(€€€€€€€€€€€€€€€M¡½İ%¹Q…Í­‰…È€ô™…±Í”°4(€€€€€€€€€€€€€€€½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ä¤°4(€€€€€€€€€€€€€€€ÕÑ½M…±•5½‘”€ôÕÑ½M…±•5½‘”¹Á¤°4(€€€€€€€€€€€€€€€ÕÑ½M…±•¥µ•¹Í¥½¹Ì€ô¹•ÜM¥é• äÙ°€äÙ¤°4(€€€€€€€€€€€€€€€M¥é”€ô¹•ÜM¥é” ÔÀÀ°€ÈàÀ¤°4(€€€€€€€€€€€€€€€5¥¹¥µÕµM¥é”€ô¹•ÜM¥é” ÔÀÀ°€ÈàÀ¤4(€€€€€€€€€€€ôì4(4(€€€€€€€€€€€Ù…È±‰±9…µ”€ô¹•Ü1…‰•°ìQ•áĞ€ô€‹šZÃ¢fkš.vœºåç§°ï&ˆ‹ØØ][ÛˆH™]ÈÚ[
+M‹M
+K]]ÔÚ^™HHYHNÃBˆ˜\ˆ˜[YHH™]È^›ŞÈØØ][ÛˆH™]ÈÚ[
+M‹Î
+KÚYHL^HY˜][˜[YHNÃBƒBˆ˜\ˆ›Üİİ\ˆH™]ÈX™[È^H	¹odùbcy..ù§.»ï&Øİ\’ÜİÏÈÈŸH‹ØØ][ÛˆH™]ÈÚ[
+M‹Í
+K]]ÔÚ^™HHYK›Ü™PÛÛÜˆHÛÛÜ‹‘[QÜ˜^HNÃBˆ˜\ˆ›Üİ\™Ù]H™]ÈX™[È^H¹æë¹¨!ù..ù§.»ï&ˆ‹ØØ][ÛˆH™]ÈÚ[
+M‹MŠK]]ÔÚ^™HHYHNÃBˆ˜\ˆÛÛX›ÒÜİH™]ÈÛÛX›Ğ›ŞÈØØ][ÛˆH™]ÈÚ[
+MLŠKÚYHÍÌ‹›ÜİÛ”İ[HHÛÛX›Ğ›Şİ[K‘›ÜİÛ“\İNÃBˆÛÛX›ÒÜİ’][\ËY
+»ï"9abúf¡¹b,9c§ù..ù§.»ï"HŠNÃBˆÛÛX›ÒÜİ”Ù[XİY[™^HÃBˆ›Ü™XXÚ
+˜\ˆ[ˆÜİ\İ
+HÛÛX›ÒÜİ’][\ËY
+
+NÃBƒBˆ˜\ˆ›Ğİ\ˆH™]ÈX™[È^H	¹odùbcykf9`ª;ï&Øİ\‘ÈÏÈÈŸH‹ØØ][ÛˆH™]ÈÚ[
+M‹LÌ
+K]]ÔÚ^™HHYK›Ü™PÛÛÜˆHÛÛÜ‹‘[QÜ˜^HNÃBˆ˜\ˆ›Õ\™Ù]H™]ÈX™[È^H¹æë¹¨!ZÙX*òhˆ°1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ ÄØ°€ÄÔÈ¤°ÕÑ½M¥é”€ôÑÉÕ”ôì4(€€€€€€€€€€€Ù…È½µ‰½Ì€ô¹•Ü½µ‰½	½àì1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ äĞ°€ÄĞà¤°]¥‘Ñ €ô€ÌÜÈ°É½Á½İ¹MÑå±”€ô½µ‰½	½áMÑå±”¹É½Á½İ¹1¥ÍĞôì4(€€€€€€€€€€€½µ‰½Ì¹%Ñ•µÌ¹‘ ‹¾ò#–/¦j–"Ã–:–¶c–
+£¾ò$ˆ¤ì4(€€€€€€€€€€€½µ‰½Ì¹M•±•Ñ•‘%¹‘•à€ô€Àì4(€€€€€€€€€€€™½É•… €¡Ù…È¥¸‘Í1¥ÍĞ¤½µ‰½Ì¹%Ñ•µÌ¹‘¡¤ì4(4(€€€€€€€€€€€Ù…È‰Ñ¹A…¹•°€ô¹•Ü±½İ1…å½ÕÑA…¹•°4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€½¬€ô½­MÑå±”¹	½ÑÑ½´°!•¥¡Ğ€ô€ĞĞ°4(€€€€€€€€€€€€€€€A…‘‘¥¹œ€ô¹•ÜA…‘‘¥¹œ À°€Ø°€À°€Ø¤°4(€€€€€€€€€€€€€€€	…­½±½È€ô½±½È¹É½µÉˆ ÈĞÀ°€ÈĞÀ°€ÈĞÀ¤4(€€€€€€€€€€€ôì4(€€€€€€€€€€€Ù…È‰Ñ¹=¬€ô¹•Ü	ÕÑÑ½¸ìQ•áĞ€ô€‹†»–ºhˆ°¥…±½I•ÍÕ±Ğ€ô¥…±½I•ÍÕ±Ğ¹=,°M¥é”€ô¹•ÜM¥é” àÀ°€Èà¤°½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ä¤ôì4(€€€€€€€€€€€Ù…È‰Ñ¹…¹•°€ô¹•Ü	ÕÑÑ½¸ìQ•áĞ€ô€‹–>[šÚ ˆ°¥…±½I•ÍÕ±Ğ€ô¥…±½I•ÍÕ±Ğ¹…¹•°°M¥é”€ô¹•ÜM¥é” àÀ°€Èà¤°½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ä¤ôì4(€€€€€€€€€€€‰Ñ¹A…¹•°¹½¹ÑÉ½±Ì¹‘¡‰Ñ¹=¬¤ì4(€€€€€€€€€€€‰Ñ¹A…¹•°¹½¹ÑÉ½±Ì¹‘¡‰Ñ¹…¹•°¤ì4(4(€€€€€€€€€€€•¹Ñ•É±½İA…¹•°¡‰Ñ¹A…¹•°¤ì4(4(€€€€€€€€€€€‘±œ¹½¹ÑÉ½±Ì¹‘¡‰Ñ¹A…¹•°¤ì4(€€€€€€€€€€€‘±œ¹½¹ÑÉ½±Ì¹‘‘I…¹”¡¹•Ü½¹ÑÉ½±mtì±‰±9…µ”°ÑáÑ9…µ”°±‰±!½ÍÑÕÈ°±‰±!½ÍÑQ…É•Ğ°½µ‰½!½ÍĞ°±‰±ÍÕÈ°±‰±ÍQ…É•Ğ°½µ‰½Ìô¤ì4(€€€€€€€€€€€‘±œ¹•ÁÑ	ÕÑÑ½¸€ô‰Ñ¹=¬ì4(€€€€€€€€€€€‘±œ¹…¹•±	ÕÑÑ½¸€ô‰Ñ¹…¹•°ì4(4(€€€€€€€€€€€¥˜€¡‘±œ¹M¡½İ¥…±½œ¡}É½½Ğ¤€„ô¥…±½I•ÍÕ±Ğ¹=,¤É•ÑÕÉ¸ì4(4(€€€€€€€€€€€¹•İ9…µ”€ôÑáÑ9…µ”¹Q•áĞ¹QÉ¥´ ¤ì4(€€€€€€€€€€€¥˜€¡ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡¹•İ9…µ”¤¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€5•ÍÍ…•	½à¹M¡½Ü ‹šZÃ¢fkš.vœºåç§°ä¸èƒ½ä¸ºç©º", "æç¤º", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (comboHost.SelectedIndex > 0) selectedHost = comboHost.SelectedItem?.ToString();
-            if (comboDs.SelectedIndex > 0) selectedDs = comboDs.SelectedItem?.ToString();
-
-            DoCloneVm(sourceVmName, sourceVmMoRef, newName, selectedHost, selectedDs);
-        }
-
-        private string? ShowRenameDialog(string resourceName, string currentName)
-        {
-            var dlg = new Form
-            {
-                AutoScaleMode = AutoScaleMode.Dpi,
-                AutoScaleDimensions = new SizeF(96F, 96F),
-                Text = $"é‡å‘½å â€” {resourceName}",
-                Font = new Font("Microsoft YaHei", 9),
-                StartPosition = FormStartPosition.CenterParent,
-                FormBorderStyle = FormBorderStyle.FixedDialog,
-                MaximizeBox = false, MinimizeBox = false,
-                ShowInTaskbar = false,
-                ClientSize = new Size(400, 150),
-                MinimumSize = new Size(400, 150),
-                BackColor = Color.FromArgb(245, 245, 245)
-            };
-
-            var lbl = new Label
-            {
-                Text = $"å½“å‰åç§°ï¼š{currentName}",
-                AutoSize = true,
-                Location = new Point(12, 14),
-                Margin = new Padding(0)
-            };
-
-            var txt = new TextBox
-            {
-                Text = currentName ?? "",
-                Location = new Point(12, 44),
-                Size = new Size(dlg.ClientSize.Width - 24, 26),
-                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
-            };
-
-            var btnPanel = new FlowLayoutPanel
-            {
-                Dock = DockStyle.Bottom, Height = 44,
-                Padding = new Padding(0, 6, 0, 6),
-                BackColor = Color.FromArgb(240, 240, 240)
-            };
-            var btnOk = new Button { Text = "ç¡®å®š", DialogResult = DialogResult.OK, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-            var btnCancel = new Button { Text = "å–æ¶ˆ", DialogResult = DialogResult.Cancel, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
+            if (comboDs.SelectedIndex 
+HÙ[XİYÈHÛÛX›ÑË”Ù[XİY][OË•Ôİš[™Ê
+NÃBƒBˆĞÛÛ™U›JÛİ\˜ÙU›S˜[YKÛİ\˜ÙU›S[Ô™Y‹™]Ó˜[YKÙ[XİYÜİÙ[XİYÊNÃBˆCBƒBˆš]˜]Hİš[™ÏÈÚİÔ™[˜[YQX[ÙÊİš[™È™\Ûİ\˜ÙS˜[YKİš[™Èİ\œ™[˜[YJCBˆÃBˆ˜\ˆÈH™]È›Ü›CBˆÃBˆ]]ÔØØ[S[ÙHH]]ÔØØ[S[ÙK‘KBˆ]]ÔØØ[Q[Y[œÚ[ÛœÈH™]ÈÚ^™QŠM‘‹M‘ŠKBˆ^H	ºaãydoyd#H8 %Ü™\Ûİ\˜ÙS˜[Y_H‹Bˆ›ÛH™]È›Û
+“ZXÜ›ÜÛÙXRZH‹JKBˆİ\ÜÚ][ÛˆH›Ü›Tİ\ÜÚ][Û‹Ù[\”\™[Bˆ›Ü›P›Ü™\”İ[HH›Ü›P›Ü™\”İ[K‘š^YX[ÙËBˆX^[Z^™P›ŞH˜[ÙKZ[š[Z^™P›ŞH˜[ÙKBˆÚİÒ[•\ÚØ˜\ˆH˜[ÙKBˆÛY[Ú^™HH™]ÈÚ^™JML
+KBˆZ[š[][TÚ^™HH™]ÈÚ^™JML
+KBˆ˜XÚĞÛÛÜˆHÛÛÜ‹‘œ›ÛP\™ØŠKKJCBˆNÃBƒBˆ˜\ˆ›H™]ÈX™[BˆÃBˆ^H	¹odX˜ŞYŞz{òiíÕÉÉ•¹Ñ9…µ•ôˆ°4(€€€€€€€€€€€€€€€ÕÑ½M¥é”€ôÑÉÕ”°4(€€€€€€€€€€€€€€€1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ ÄÈ°€ÄĞ¤°4(€€€€€€€€€€€€€€€5…É¥¸€ô¹•ÜA…‘‘¥¹œ À¤4(€€€€€€€€€€€ôì4(4(€€€€€€€€€€€Ù…ÈÑáĞ€ô¹•ÜQ•áÑ	½à4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Q•áĞ€ôÕÉÉ•¹Ñ9…µ”€üü€ˆˆ°4(€€€€€€€€€€€€€€€1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ ÄÈ°€ĞĞ¤°4(€€€€€€€€€€€€€€€M¥é”€ô¹•ÜM¥é”¡‘±œ¹±¥•¹ÑM¥é”¹]¥‘Ñ €´€ÈĞ°€ÈØ¤°4(€€€€€€€€€€€€€€€¹¡½È€ô¹¡½ÉMÑå±•Ì¹Q½Àğ¹¡½ÉMÑå±•Ì¹1•™Ğğ¹¡½ÉMÑå±•Ì¹I¥¡Ğ4(€€€€€€€€€€€ôì4(4(€€€€€€€€€€€Ù…È‰Ñ¹A…¹•°€ô¹•Ü±½İ1…å½ÕÑA…¹•°4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€½¬€ô½­MÑå±”¹	½ÑÑ½´°!•¥¡Ğ€ô€ĞĞ°4(€€€€€€€€€€€€€€€A…‘‘¥¹œ€ô¹•ÜA…‘‘¥¹œ À°€Ø°€À°€Ø¤°4(€€€€€€€€€€€€€€€	…­½±½È€ô½±½È¹É½µÉˆ ÈĞÀ°€ÈĞÀ°€ÈĞÀ¤4(€€€€€€€€€€€ôì4(€€€€€€€€€€€Ù…È‰Ñ¹=¬€ô¹•Ü	ÕÑÑ½¸ìQ•áĞ€ô€‹†»–ºhˆ°¥…±½I•ÍÕ±Ğ€ô¥…±½I•ÍÕ±Ğ¹=,°M¥é”€ô¹•ÜM¥é” àÀ°€Èà¤°½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ä¤ôì4(€€€€€€€€€€€Ù…È‰Ñ¹…¹•°€ô¹•Ü	ÕÑÑ½¸ìQ•áĞ€ô€‹–æ¶ˆ", DialogResult = DialogResult.Cancel, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
             btnPanel.Controls.Add(btnOk);
             btnPanel.Controls.Add(btnCancel);
 
@@ -2096,124 +691,42 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
                 BackColor = Color.FromArgb(240, 240, 240)
             };
             var btnOk = new Button { Text = "ç¡®å®š", DialogResult = DialogResult.OK, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-            var btnCancel = new Button { Text = "å–æ¶ˆ", DialogResult = DialogResult.Cancel, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-            btnPanel.Controls.Add(btnOk);
-            btnPanel.Controls.Add(btnCancel);
-
-            CenterFlowPanel(btnPanel);
-
-            dlg.Controls.Add(btnPanel);
-            dlg.Controls.AddRange(new Control[] { lbl, txt });
-            dlg.AcceptButton = btnOk;
-            dlg.CancelButton = btnCancel;
-
-            return dlg.ShowDialog(_root) == DialogResult.OK ? txt.Text : null;
-        }
-
-        private void ShowGuestOpsNetworkDialog(
-            string vmName, string vmMoRef, string powerState, string toolsStatus,
-            string guestFamily, string guestFullName, string guestIp)
-        {
-            bool isLinux = guestFamily == "linuxGuest" ||
-                (string.IsNullOrEmpty(guestFamily) && !string.IsNullOrEmpty(guestFullName) &&
-                 guestFullName.ToLower().Contains("linux"));
-            if (string.IsNullOrEmpty(guestFamily) && string.IsNullOrEmpty(guestFullName)) isLinux = true;
-
-            string defaultUser = isLinux ? "root" : "Administrator";
-            const string DEFAULT_PW = "Admin@9000";
-
-            using var dlg = new Form
-            {
-                Text = $"ğŸŒ é…ç½®å®¢æˆ·æœºç½‘ç»œ â€” {vmName}",
-                Icon = CoreUtils.GetAppIcon(),
-                FormBorderStyle = FormBorderStyle.FixedDialog,
-                StartPosition = FormStartPosition.CenterParent,
-                MaximizeBox = false,
-                MinimizeBox = false,
-                ShowInTaskbar = false,
-                AutoScaleMode = AutoScaleMode.Dpi,
-                AutoScaleDimensions = new SizeF(96F, 96F),
-                Size = new Size(440, 430),
-                MinimumSize = new Size(440, 430),
-                Font = new Font("Microsoft YaHei", 9)
-            };
-
-            const int LBL_W = 65;
-            const int LBL_X = 12;
-            const int CTRL_X = LBL_X + LBL_W + 6;
-            const int ROW_H = 28;
-            int y = 10;
-
-            var lblVmInfo = new Label
-            {
-                Text = $"è™šæ‹Ÿæœºï¼š{vmName}    ç”µæºï¼š{(powerState == "poweredOn" ? "ğŸ”µ å¼€æœº" : "âš« å…³æœº")}",
-                ForeColor = powerState == "poweredOn" ? Color.FromArgb(0, 122, 204) : Color.DimGray,
-                Location = new Point(LBL_X, y),
-                AutoSize = true
-            };
-            dlg.Controls.Add(lblVmInfo); y += 20;
-
-            bool toolsOk = toolsStatus == "toolsOk" || toolsStatus == "toolsOld";
-            var lblTools = new Label
-            {
-                Text = $"VMware Toolsï¼š{(string.IsNullOrEmpty(toolsStatus) ? "æœªçŸ¥" : toolsStatus)}    GuestOSï¼š{(guestFullName ?? guestFamily ?? "æœªçŸ¥")}",
-                ForeColor = toolsOk ? Color.FromArgb(0, 128, 0) : Color.Firebrick,
-                Location = new Point(LBL_X, y),
-                AutoSize = true
-            };
-            dlg.Controls.Add(lblTools); y += 22;
-
-            if (!toolsOk)
-            {
-                var warnLabel = new Label
-                {
-                    Text = "âš  VMware Tools æœªå°±ç»ªï¼Œæ— æ³•æ‰§è¡Œ GuestOps ç½‘ç»œé…ç½®",
-                    ForeColor = Color.Firebrick,
-                    AutoSize = true,
-                    Location = new Point(LBL_X, y)
-                };
-                dlg.Controls.Add(warnLabel); y += 28;
-
-                var btnPanelWarn = new FlowLayoutPanel
-                {
-                    Dock = DockStyle.Bottom, Height = 44,
-                    Padding = new Padding(0, 6, 0, 6),
-                    BackColor = Color.FromArgb(240, 240, 240)
-                };
-                var btnClose = new Button { Text = "å…³é—­", DialogResult = DialogResult.Cancel, Size = new Size(80, 28) };
-                btnPanelWarn.Controls.Add(btnClose);
-                CenterFlowPanel(btnPanelWarn);
-                dlg.Controls.Add(btnPanelWarn);
-                dlg.ShowDialog(_root);
-                return;
-            }
-
-            if (powerState != "poweredOn")
-            {
-                var warnLabel = new Label
-                {
-                    Text = "âš  è™šæ‹Ÿæœºæœªå¼€æœºï¼Œæ— æ³•æ‰§è¡Œ GuestOps ç½‘ç»œé…ç½®ï¼Œè¯·å…ˆå¼€æœº",
-                    ForeColor = Color.Firebrick,
-                    AutoSize = true,
-                    Location = new Point(LBL_X, y)
-                };
-                dlg.Controls.Add(warnLabel); y += 28;
-
-                var btnPanelWarn = new FlowLayoutPanel
-                {
-                    Dock = DockStyle.Bottom, Height = 44,
-                    Padding = new Padding(0, 6, 0, 6),
-                    BackColor = Color.FromArgb(240, 240, 240)
-                };
-                var btnClose = new Button { Text = "å…³é—­", DialogResult = DialogResult.Cancel, Size = new Size(80, 28) };
-                btnPanelWarn.Controls.Add(btnClose);
-                CenterFlowPanel(btnPanelWarn);
-                dlg.Controls.Add(btnPanelWarn);
-                dlg.ShowDialog(_root);
-                return;
-            }
-
-            var lblSection1 = new Label { Text = "â”€â”€ ç½‘ç»œé…ç½®ï¼ˆç•™ç©ºåˆ™è¯¥é¡¹ä¸ä¿®æ”¹ï¼‰ â”€â”€", ForeColor = Color.DimGray, Location = new Point(LBL_X, y), AutoSize = true };
+            var btnCancel = new Button { Text = "å…¹­¢‹X[ÙÔ™\İ[HX[ÙÔ™\İ[Ø[˜Ù[Ú^™HH™]ÈÚ^™J
+K›ÛH™]È›Û
+“ZXÜ›ÜÛÙXRZH‹JHNÃBˆ”[™[ÛÛ›ÛËY
+“ÚÊNÃBˆ”[™[ÛÛ›ÛËY
+Ø[˜Ù[
+NÃBƒBˆÙ[\‘›İÔ[™[
+”[™[
+NÃBƒBˆËÛÛ›ÛËY
+”[™[
+NÃBˆËÛÛ›ÛËY˜[™ÙJ™]ÈÛÛ›Û×HÈ›JNÃBˆËXØÙ\]ÛˆH“ÚÎÃBˆËØ[˜Ù[]ÛˆHØ[˜Ù[ÃBƒBˆ™]\›ˆË”ÚİÑX[ÙÊÜ›Ûİ
+HOHX[ÙÔ™\İ[“ÒÈÈ•^ˆ[ÃBˆCBƒBˆš]˜]H›ÚYÚİÑİY\İÜÓ™]ÛÜšÑX[ÙÊBˆİš[™È›S˜[YKİš[™È›S[Ô™Y‹İš[™ÈİÙ\”İ]Kİš[™ÈÛÛÔİ]\ËBˆİš[™ÈİY\İ˜[Z[Kİš[™ÈİY\İ[˜[YKİš[™ÈİY\İ\
+CBˆÃBˆ›ÛÛ\Ó[^HİY\İ˜[Z[HOH›[^İY\İˆBˆ
+İš[™Ë’\Ó[Ü‘[\JİY\İ˜[Z[JH	‰ˆ\İš[™Ë’\Ó[Ü‘[\JİY\İ[˜[YJH	‰ƒBˆİY\İ[˜[YK•ÓİÙ\Š
+KÛÛZ[œÊ›[^ŠJNÃBˆYˆ
+İš[™Ë’\Ó[Ü‘[\JİY\İ˜[Z[JH	‰ˆİš[™Ë’\Ó[Ü‘[\JİY\İ[˜[YJJH\Ó[^HYNÃBƒBˆİš[™ÈY˜][\Ù\ˆH\Ó[^Èœ›ÛİˆˆYZ[š\İ˜]ÜˆÃBˆÛÛœİİš[™ÈQUSÔÈHYZ[LÃBƒBˆ\Ú[™È˜\ˆÈH™]È›Ü›CBˆÃBˆ^H	¼'ã$:acyïk¹k¨¹¢-ù§.¹ïdyîç8 %İ›S˜[Y_H‹BˆXÛÛˆHÛÜ™U][Ë‘Ù]\XÛÛŠ
+KBˆ›Ü›P›Ü™\”İ[HH›Ü›P›Ü™\”İ[K‘š^YX[ÙËBˆİ\ÜÚ][ÛˆH›Ü›Tİ\ÜÚ][Û‹Ù[\”\™[BˆX^[Z^™P›ŞH˜[ÙKBˆZ[š[Z^™P›ŞH˜[ÙKBˆÚİÒ[•\ÚØ˜\ˆH˜[ÙKBˆ]]ÔØØ[S[ÙHH]]ÔØØ[S[ÙK‘KBˆ]]ÔØØ[Q[Y[œÚ[ÛœÈH™]ÈÚ^™QŠM‘‹M‘ŠKBˆÚ^™HH™]ÈÚ^™JÌ
+KBˆZ[š[][TÚ^™HH™]ÈÚ^™JÌ
+KBˆ›ÛH™]È›Û
+“ZXÜ›ÜÛÙXRZH‹JCBˆNÃBƒBˆÛÛœİ[“ÕÈHNÃBˆÛÛœİ[“ÖHLÃBˆÛÛœİ[Õ“ÖH“Ö
+È“ÕÈ
+ÈÃBˆÛÛœİ[“Õ×ÒHÃBˆ[HHLÃBƒBˆ˜\ˆ››R[™›ÈH™]ÈX™[BˆÃBˆ^H	º&f¹¢çù§.»ï&İ›S˜[Y_H9å-y®¤;ï&ÊİÙ\”İ]HOHœİÙ\™YÛˆˆÈ¼'å-H9o 9§.ˆˆˆ¸¦ªÈ9alù§.ˆŠ_H‹Bˆ›Ü™PÛÛÜˆHİÙ\”İ]HOHœİÙ\™YÛˆˆÈÛÛÜ‹‘œ›ÛP\™ØŠLŒ‹Œ
+HˆÛÛÜ‹‘[QÜ˜^KBˆØØ][ÛˆH™]ÈÚ[
+“ÖJKBˆ]]ÔÚ^™HHYCBˆNÃBˆËÛÛ›ÛËY
+››R[™›ÊNÈH
+ÏHŒÃBƒBˆ›ÛÛÛÛÓÚÈHÛÛÔİ]\ÈOHÛÛÓÚÈˆÛÛÔİ]\ÈOHÛÛÓÛÃBˆ˜\ˆ›ÛÛÈH™]ÈX™[BˆÃBˆ^H	•“]Ø\™HÛÛòiì¡ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡Ñ½½±ÍMÑ…ÑÕÌ¤€ü€‹šr«~”ˆ€èÑ½½±ÍMÑ…ÑÕÌ¥ô€€€Õ•ÍÑ=O¾òiì¡Õ•ÍÑÕ±±9…µ”€üüÕ•ÍÑ…µ¥±ä€üü€‹šr«~”ˆ¥ôˆ°4(€€€€€€€€€€€€€€€½É•½±½È€ôÑ½½±Í=¬€ü½±½È¹É½µÉˆ À°€ÄÈà°€À¤€è½±½È¹¥É•‰É¥¬°4(€€€€€€€€€€€€€€€1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ¡1	1}`°ä¤°4(€€€€€€€€€€€€€€€ÕÑ½M¥é”€ôÑÉÕ”4(€€€€€€€€€€€ôì4(€€€€€€€€€€€‘±œ¹½¹ÑÉ½±Ì¹‘¡±‰±Q½½±Ì¤ìä€¬ô€ÈÈì4(4(€€€€€€€€€€€¥˜€ …Ñ½½±Í=¬¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Ù…Èİ…É¹1…‰•°€ô¹•Ü1…‰•°4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€Q•áĞ€ô€‹Šj€Y5İ…É”Q½½±Ìƒšr«–ÂÇî«¼Œæ— æ³•æ‰¦(cİY\İÜÈ9ïdyîç:acyïkˆ‹Bˆ›Ü™PÛÛÜˆHÛÛÜ‹‘š\™XœšXÚËBˆ]]ÔÚ^™HHYKBˆØØ][ÛˆH™]ÈÚ[
+“ÖJCBˆNÃBˆËÛÛ›ÛËY
+Ø\›“X™[
+NÈH
+ÏHÃBƒBˆ˜\ˆ”[™[Ø\›ˆH™]È›İÓ^[İ][™[BˆÃBˆØÚÈHØÚÔİ[K›İÛKZYÚHBˆY[™ÈH™]ÈY[™Ê‹ŠKBˆ˜XÚĞÛÛÜˆHÛÛÜ‹‘œ›ÛP\™ØŠ
+CBˆNÃBˆ˜\ˆÛÜÙHH™]È]ÛˆÈ^H¹alúeëH‹X[ÙÔ™\İ[HX[ÙÔ™\İ[Ø[˜Ù[Ú^™HH™]ÈÚ^™J
+HNÃBˆ”[™[Ø\›‹ÛÛ›ÛËY
+ÛÜÙJNÃBˆÙ[\‘›İÔ[™[
+”[™[Ø\›ŠNÃBˆËÛÛ›ÛËY
+”[™[Ø\›ŠNÃBˆË”ÚİÑX[ÙÊÜ›Ûİ
+NÃBˆ™]\›ÃBˆCBƒBˆYˆ
+İÙ\”İ]HOHœİÙ\™YÛˆŠCBˆÃBˆ˜\ˆØ\›“X™[H™]ÈX™[BˆÃBˆ^H¸¦¨:&f¹¢çù§.¹§*¹o 9§.»ï#9¥è9¬åy¢iú(cİY\İÜÈ9ïdyîç:acyïk»ï#:+~XX[ÈiË¢"ÀĞ¢f÷&T6öÆ÷"Ò6öÆ÷"äf—&V'&–6²ÀĞ¢WFõ6—¦RÒG'VRÀĞ¢Æö6F–öâÒæWrö–çB„Ä$Åõ‚Â’Ğ¢Ó°Ğ¢FÆrä6öçG&öÇ2äFB‡v&äÆ&VÂ“²’³Ò#ƒ°Ğ Ğ¢f"'FåæVÅv&âÒæWrfÆ÷tÆ–÷WEæVÀĞ¢°Ğ¢Fö6²ÒFö6µ7G–ÆRä&÷GFöÒÂ†V–v‡BÒCBÀĞ¢FF–ærÒæWrFF–ærƒÂbÂÂb’ÀĞ¢&6´6öÆ÷"Ò6öÆ÷"äg&öÔ&v"ƒ#CÂ#CÂ#CĞ¢Ó°Ğ¢f"'Fä6Æ÷6RÒæWr'WGFöâ²FW‡BÒ.X[>™zÒ"ÂF–Æöu&W7VÇBÒF–Æöu&W7VÇBä6æ6VÂÂ6—¦RÒæWr6—¦RƒƒÂ#‚’Ó°Ğ¢'FåæVÅv&âä6öçG&öÇ2äFB†'Fä6Æ÷6R“°Ğ¢6VçFW$fÆ÷uæVÂ†'FåæVÅv&â“°Ğ¢FÆrä6öçG&öÇ2äFB†'FåæVÅv&â“°Ğ¢FÆrå6†÷tF–Æör…÷&ö÷B“°Ğ¢&WGW&ã°Ğ¢ĞĞ Ğ¢f"Æ&Å6V7F–öãÒæWrÆ&VÂ²FW‡BÒ.)H)H{Ù{¹Î˜XŞ{ÚîûÈyYz›®X‰Š—¦†ç’â7’îæ”¹ï¼‰ â”€â”€", ForeColor = Color.DimGray, Location = new Point(LBL_X, y), AutoSize = true };
             dlg.Controls.Add(lblSection1); y += 22;
 
             var lblIp = new Label { Text = "IP åœ°å€ï¼š", Location = new Point(LBL_X, y + 3), Size = new Size(LBL_W, 20), TextAlign = ContentAlignment.MiddleRight };
@@ -2229,100 +742,7 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
             dlg.Controls.Add(cbMask);
             y += ROW_H;
 
-            var lblGw = new Label { Text = "ç½‘å…³ï¼š", Location = new Point(LBL_X, y + 3), Size = new Size(LBL_W, 20), TextAlign = ContentAlignment.MiddleRight };
-            dlg.Controls.Add(lblGw);
-            var txtGw = new TextBox { Location = new Point(CTRL_X, y), Width = 300 };
-            dlg.Controls.Add(txtGw); y += ROW_H;
-
-            var lblDns = new Label { Text = "DNSï¼š", Location = new Point(LBL_X, y + 3), Size = new Size(LBL_W, 20), TextAlign = ContentAlignment.MiddleRight };
-            dlg.Controls.Add(lblDns);
-            var cbDns = new ComboBox { Location = new Point(CTRL_X, y), Width = 300, DropDownStyle = ComboBoxStyle.DropDown };
-            cbDns.Items.AddRange(new object[] { "223.5.5.5,223.6.6.6", "8.8.8.8,8.8.4.4", "114.114.114.114,114.114.115.115", "1.1.1.1,1.0.0.1", "119.29.29.29" });
-            dlg.Controls.Add(cbDns); y += ROW_H;
-
-            var lblHost = new Label { Text = "ä¸»æœºåï¼š", Location = new Point(LBL_X, y + 3), Size = new Size(LBL_W, 20), TextAlign = ContentAlignment.MiddleRight };
-            dlg.Controls.Add(lblHost);
-            var txtHost = new TextBox { Location = new Point(CTRL_X, y), Width = 300 };
-            dlg.Controls.Add(txtHost); y += ROW_H + 4;
-
-            var lblSection2 = new Label { Text = "â”€â”€ Guest OS å‡­è¯ï¼ˆé»˜è®¤ root / Admin@9000ï¼‰ â”€â”€", ForeColor = Color.DimGray, Location = new Point(LBL_X, y), AutoSize = true };
-            dlg.Controls.Add(lblSection2); y += 22;
-
-            int clientRight = dlg.ClientSize.Width - 12;
-
-            var lblUser = new Label { Text = "ç”¨æˆ·åï¼š", Location = new Point(LBL_X, y + 3), Size = new Size(LBL_W - 4, 20), TextAlign = ContentAlignment.MiddleRight };
-            dlg.Controls.Add(lblUser);
-            var txtUser = new TextBox { Text = defaultUser, Location = new Point(CTRL_X, y), Width = clientRight - CTRL_X };
-            dlg.Controls.Add(txtUser); y += ROW_H;
-
-            var lblPw = new Label { Text = "å¯†ç ï¼š", Location = new Point(LBL_X, y + 3), Size = new Size(LBL_W - 4, 20), TextAlign = ContentAlignment.MiddleRight };
-            dlg.Controls.Add(lblPw);
-            var txtPw = new TextBox { UseSystemPasswordChar = true, Text = DEFAULT_PW, Location = new Point(CTRL_X, y), Width = clientRight - CTRL_X - 64 };
-            dlg.Controls.Add(txtPw);
-            var chkShowPw = new CheckBox { Text = "æ˜¾ç¤º", AutoSize = true, Location = new Point(clientRight - 60, y + 3), Cursor = Cursors.Hand };
-            chkShowPw.CheckedChanged += (s, e) => txtPw.UseSystemPasswordChar = !chkShowPw.Checked;
-            dlg.Controls.Add(chkShowPw); y += ROW_H + 2;
-
-            var btnValidate = new Button { Text = "ğŸ” éªŒè¯å‡­è¯", Location = new Point(LBL_X, y), Size = new Size(100, 26), Margin = Padding.Empty };
-            var lblValidateStatus = new Label { Text = "å‡­è¯æœªéªŒè¯", Location = new Point(LBL_X + 106, y + 4), AutoSize = true, ForeColor = Color.Gray, Margin = Padding.Empty };
-            bool credVerified = false;
-            btnValidate.Click += async (s, e) =>
-            {
-                string u = txtUser.Text.Trim();
-                string p = txtPw.Text;
-                if (string.IsNullOrEmpty(u) || string.IsNullOrEmpty(p))
-                {
-                    lblValidateStatus.Text = "è¯·å…ˆå¡«å†™ç”¨æˆ·åå’Œå¯†ç ";
-                    lblValidateStatus.ForeColor = Color.Orange;
-                    return;
-                }
-                btnValidate.Enabled = false;
-                btnValidate.Text = "éªŒè¯ä¸­...";
-                lblValidateStatus.Text = "â³ æ­£åœ¨é€šè¿‡ VMware Tools éªŒè¯å‡­è¯...";
-                lblValidateStatus.ForeColor = Color.Gray;
-
-                string psCheck = VirtualizationOpsTool.Core.GuestOpsHelper.BuildCredentialCheckScript(vmMoRef, u, p, isLinux);
-                string checkOutput = await VirtualizationOpsTool.Core.SessionManager.Instance.ExecutePsScriptAsync(psCheck);
-
-                btnValidate.Enabled = true;
-                btnValidate.Text = "ğŸ” éªŒè¯å‡­è¯";
-
-                string trimmed = checkOutput?.Trim() ?? "";
-                if (trimmed.Contains("VMT_OK:"))
-                {
-                    string ident = trimmed.Substring(trimmed.IndexOf("VMT_OK:") + 7).Trim();
-                    credVerified = true;
-                    lblValidateStatus.Text = $"âœ… å‡­è¯æ­£ç¡® (èº«ä»½: {ident})";
-                    lblValidateStatus.ForeColor = Color.FromArgb(0, 128, 0);
-                }
-                else if (trimmed.Contains("VMT_BADAUTH"))
-                {
-                    credVerified = false;
-                    lblValidateStatus.Text = "âŒ ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯";
-                    lblValidateStatus.ForeColor = Color.Firebrick;
-                }
-                else if (trimmed.Contains("VMT_NOTOOLS"))
-                {
-                    credVerified = false;
-                    lblValidateStatus.Text = "âš  VMware Tools æœªå°±ç»ª";
-                    lblValidateStatus.ForeColor = Color.Orange;
-                }
-                else
-                {
-                    credVerified = false;
-                    string detail = trimmed.StartsWith("VMT_ERROR:") ? trimmed.Substring(10) : trimmed;
-                    lblValidateStatus.Text = $"âŒ éªŒè¯å¤±è´¥: {detail}";
-                    lblValidateStatus.ForeColor = Color.Firebrick;
-                }
-            };
-            txtUser.TextChanged += (s, e) => { credVerified = false; lblValidateStatus.Text = "å‡­è¯æœªéªŒè¯"; lblValidateStatus.ForeColor = Color.Gray; };
-            txtPw.TextChanged += (s, e) => { credVerified = false; lblValidateStatus.Text = "å‡­è¯æœªéªŒè¯"; lblValidateStatus.ForeColor = Color.Gray; };
-            dlg.Controls.Add(btnValidate);
-            dlg.Controls.Add(lblValidateStatus); y += ROW_H;
-
-            var lblHint = new Label
-            {
-                Text = "ğŸ’¡ ç½‘å¡æ–­å¼€çŠ¶æ€ä¸‹ä»å¯æ‰§è¡Œï¼ˆèµ° VMware Tools RPCï¼Œä¸ä¾èµ–è™šæ‹Ÿç½‘å¡é“¾è·¯ï¼‰",
+            var lblGw = new Label { Text = "ç½‘å…³É¢"ÂÆö6F–öâÒæWrö–çB„Ä$Åõ‚Â’²2’Â6—¦RÒæWr6—¦R„Ä$ÅõrÂ#’ÂFW‡DÆ–vâÒ6öçFVçDÆ–væÖVçBäÖ–FFÆU&–v‡BÓ°Ğ¢FÆrä6öçG&öÇ2äFB†Æ&Äwr“°Ğ¢f"G‡DwrÒæWrFW‡D&÷‚²Æö6F–öâÒæWrö–çB„5E$Åõ‚Â’’Âv–GF‚Ò3Ó°Ğ¢FÆrä6öçG&öÇ2äFB‡G‡Dwr“²’³Ò$õuôƒ°Ğ Ğ¢f"Æ&ÄFç2ÒæWrÆ&VÂ²FW‡BÒ$Då>ûÉ¢"ÂÆö6F–öâÒæWrö–çB„Ä$Åõ‚Â’²2’Â6—¦RÒæWr6—¦R„Ä$ÅõrÂ#’ÂFW‡DÆ–vâÒ6öçFVçDÆ–væÖVçBäÖ–FFÆU&–v‡BÓ°Ğ¢FÆrä6öçG&öÇ2äFB†Æ&ÄFç2“°Ğ¢f"6$Fç2ÒæWr6öÖ&ô&÷‚²Æö6F–öâÒæWrö–çB„5E$Åõ‚Â’’Âv–GF‚Ò3ÂG&÷F÷vå7G–ÆRÒ6öÖ&ô&÷…7G–ÆRäG&÷F÷vâÓ°Ğ¢6$Fç2ä—FV×2äFE&ævR†æWrö&¦V7EµÒ²###2ãRãRãRÃ##2ãbãbãb"Â#‚ã‚ã‚ã‚Ã‚ã‚ãBãB"Â#BãBãBãBÃBãBãRãR"Â#ãããÃããã"Â#’ã#’ã#’ã#’"Ò“°Ğ¢FÆrä6öçG&öÇ2äFB†6$Fç2“²’³Ò$õuôƒ°Ğ Ğ¢f"Æ&Ä†÷7BÒæWrÆ&VÂ²FW‡BÒ.K‹¾iË®YŞûÉ¢"ÂÆö6F–öâÒæWrö–çB„Ä$Åõ‚Â’²2’Â6—¦RÒæWr6—¦R„Ä$ÅõrÂ#’ÂFW‡DÆ–vâÒ6öçFVçDÆ–væÖVçBäÖ–FFÆU&–v‡BÓ°Ğ¢FÆrä6öçG&öÇ2äFB†Æ&Ä†÷7B“°Ğ¢f"G‡D†÷7BÒæWrFW‡D&÷‚²Æö6F–öâÒæWrö–çB„5E$Åõ‚Â’’Âv–GF‚Ò3Ó°Ğ¢FÆrä6öçG&öÇ2äFB‡G‡D†÷7B“²’³Ò$õuô‚²C°Ğ Ğ¢f"Æ&Å6V7F–öã"ÒæWrÆ&VÂ²FW‡BÒ.)H)HwVW7Bõ2XzŞŠøûÈ›¹ŠêB&ö÷BòFÖ–ä“ûÈ’)H)H"Âf÷&T6öÆ÷"Ò6öÆ÷"äF–Ôw&’ÂÆö6F–öâÒæWrö–çB„Ä$Åõ‚Â’’ÂWFõ6—¦RÒG'VRÓ°Ğ¢FÆrä6öçG&öÇ2äFB†Æ&Å6V7F–öã"“²’³Ò##°Ğ Ğ¢–çB6Æ–VçE&–v‡BÒFÆrä6Æ–VçE6—¦Råv–GF‚Ò#°Ğ Ğ¢f"Æ&ÅW6W"ÒæWrÆ&VÂ²FW‡BÒ.yJh‹~YŞûÉ¢"ÂÆö6F–öâÒæWrö–çB„Ä$Åõ‚Â’²2’Â6—¦RÒæWr6—¦R„Ä$ÅõrÒBÂ#’ÂFW‡DÆ–vâÒ6öçFVçDÆ–væÖVçBäÖ–FFÆU&–v‡BÓ°Ğ¢FÆrä6öçG&öÇ2äFB†Æ&ÅW6W"“°Ğ¢f"G‡EW6W"ÒæWrFW‡D&÷‚²FW‡BÒFVfVÇEW6W"ÂÆö6F–öâÒæWrö–çB„5E$Åõ‚Â’’Âv–GF‚Ò6Æ–VçE&–v‡BÒ5E$Åõ‚Ó°Ğ¢FÆrä6öçG&öÇ2äFB‡G‡EW6W"“²’³Ò$õuôƒ°Ğ Ğ¢f"Æ&ÅrÒæWrÆ&VÂ²FW‡BÒ.ZønzûÉ¢"ÂÆö6F–öâÒæWrö–çB„Ä$Åõ‚Â’²2’Â6—¦RÒæWr6—¦R„Ä$ÅõrÒBÂ#’ÂFW‡DÆ–vâÒ6öçFVçDÆ–væÖVçBäÖ–FFÆU&–v‡BÓ°Ğ¢FÆrä6öçG&öÇ2äFB†Æ&År“°Ğ¢f"G‡ErÒæWrFW‡D&÷‚²W6U7—7FVÕ77v÷&D6†"ÒG'VRÂFW‡BÒDTdTÅEõrÂÆö6F–öâÒæWrö–çB„5E$Åõ‚Â’’Âv–GF‚Ò6Æ–VçE&–v‡BÒ5E$Åõ‚ÒcBÓ°Ğ¢FÆrä6öçG&öÇ2äFB‡G‡Er“°Ğ¢f"6†µ6†÷urÒæWr6†V6´&÷‚²FW‡BÒ.i‹îzK¢"ÂWFõ6—¦RÒG'VRÂÆö6F–öâÒæWrö–çB†6Æ–VçE&–v‡BÒcÂ’²2’Â7W'6÷"Ò7W'6÷'2ä†æBÓ°Ğ¢6†µ6†÷urä6†V6¶VD6†ævVB³Ò‡2ÂR’ÓâG‡EråW6U7—7FVÕ77v÷&D6†"Ò6†µ6†÷urä6†V6¶VC°Ğ¢FÆrä6öçG&öÇ2äFB†6†µ6†÷ur“²’³Ò$õuô‚²#°Ğ Ğ¢f"'FåfÆ–FFRÒæWr'WGFöâ²FW‡BÒ/	R4ƒ¦ª3¢¾–·¢¾ˆ°1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ¡1	1}`°ä¤°M¥é”€ô¹•ÜM¥é” ÄÀÀ°€ÈØ¤°5…É¥¸€ôA…‘‘¥¹œ¹µÁÑäôì4(€€€€€€€€€€€Ù…È±‰±Y…±¥‘…Ñ•MÑ…ÑÕÌ€ô¹•Ü1…‰•°ìQ•áĞ€ô€‹–·¢¾šr«¦ª3¢¾ˆ°1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ¡1	1}`€¬€ÄÀØ°ä€¬€Ğ¤°ÕÑ½M¥é”€ôÑÉÕ”°½É•½±½È€ô½±½È¹É…ä°5…É¥¸€ôA…‘‘¥¹œ¹µÁÑäôì4(€€€€€€€€€€€‰½½°É•‘Y•É¥™¥•€ô™…±Í”ì4(€€€€€€€€€€€‰Ñ¹Y…±¥‘…Ñ”¹±¥¬€¬ô…Íå¹Œ€¡Ì°”¤€ôø4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œÔ€ôÑáÑUÍ•È¹Q•áĞ¹QÉ¥´ ¤ì4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œÀ€ôÑáÑAÜ¹Q•áĞì4(€€€€€€€€€€€€€€€¥˜€¡ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡Ô¤ñğÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡À¤¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€±‰±Y…±¥‘…Ñ•MÑ…ÑÕÌ¹Q•áĞ€ô€‹¢·å…ˆå¡«å†™ç”¨æˆ·åå’Œå¡¹è HÃBˆ›˜[Y]Tİ]\Ë‘›Ü™PÛÛÜˆHÛÛÜ‹“Ü˜[™ÙNÃBˆ™]\›ÃBˆCBˆ•˜[Y]K‘[˜X›YH˜[ÙNÃBˆ•˜[Y]K•^Hºj£:+ày.+K‹‹ˆÃBˆ›˜[Y]Tİ]\Ë•^H¸£ìÈ9«hùg*:`&º,rd×v&RFööÇ2š¨ÎŠøXzŞŠøâââ#°Ğ¢Æ&ÅfÆ–FFU7FGW2äf÷&T6öÆ÷"Ò6öÆ÷"äw&“°Ğ Ğ¢7G&–ær46†V6²Òf—'GVÆ—¦F–öä÷5FööÂä6÷&RäwVW7D÷4†VÇW"ä'V–ÆD7&VFVçF–Ä6†V6µ67&—B‡fÔÖõ&VbÂRÂÂ—4Æ–çW‚“°Ğ¢7G&–ær6†V6´÷WGWBÒv—Bf—'GVÆ—¦F–öä÷5FööÂä6÷&Rå6W76–öäÖævW"ä–ç7Fæ6RäW†V7WFU567&—D7–æ2‡46†V6²“°Ğ Ğ¢'FåfÆ–FFRäVæ&ÆVBÒG'VS°Ğ¢'FåfÆ–FFRåFW‡BÒ/	ùHÒš¨ÎŠøXzŞŠø#°Ğ Ğ¢7G&–ærG&–ÖÖVBÒ6†V6´÷WGWCòåG&–Ò‚’óò"#°Ğ¢–b‡G&–ÖÖVBä6öçF–ç2‚%dÕEôô³¢"’Ğ¢°Ğ¢7G&–ær–FVçBÒG&–ÖÖVBå7V'7G&–ær‡G&–ÖÖVBä–æFW„öb‚%dÕEôô³¢"’²r’åG&–Ò‚“°Ğ¢7&VEfW&–f–VBÒG'VS°Ğ¢Æ&ÅfÆ–FFU7FGW2åFW‡BÒB.)ÈRXzŞŠš¶†¸€£¢ê¯’îôèí¥‘•¹Ñô¤ˆì4(€€€€€€€€€€€€€€€€€€€±‰±Y…±¥‘…Ñ•MÑ…ÑÕÌ¹½É•½±½È€ô½±½È¹É½µÉˆ À°€ÄÈà°€À¤ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€•±Í”¥˜€¡ÑÉ¥µµ•¹½¹Ñ…¥¹Ì ‰Y5Q}	UQ ˆ¤¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€É•‘Y•É¥™¥•€ô™…±Í”ì4(€€€€€€€€€€€€€€€€€€€±‰±Y…±¥‘…Ñ•MÑ…ÑÕÌ¹Q•áĞ€ô€‹Šv0ƒR£š"ß–B7š"[–¾‚¦Rg¢¾¼ˆì4(€€€€€€€€€€€€€€€€€€€±‰±Y…±¥‘…Ñ•MÑ…ÑÕÌ¹½É•½±½È€ô½±½È¹¥É•‰É¥¬ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€•±Í”¥˜€¡ÑÉ¥µµ•¹½¹Ñ…¥¹Ì ‰Y5Q}9=Q==1Lˆ¤¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€É•‘Y•É¥™¥•€ô™…±Í”ì4(€€€€€€€€€€€€€€€€€€€±‰±Y…±¥‘…Ñ•MÑ…ÑÕÌ¹Q•áĞ€ô€‹Šj€Y5İ…É”Q½½±Ìƒšr«–ÂÇî¨ˆì4(€€€€€€€€€€€€€€€€€€€±‰±Y…±¥‘…Ñ•MÑ…ÑÕÌ¹½É•½±½È€ô½±½È¹=É…¹”ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€•±Í”4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€É•‘Y•É¥™¥•€ô™…±Í”ì4(€€€€€€€€€€€€€€€€€€€ÍÑÉ¥¹œ‘•Ñ…¥°€ôÑÉ¥µµ•¹MÑ…ÉÑÍ]¥Ñ  ‰Y5Q}II=Hèˆ¤€üÑÉ¥µµ•¹MÕ‰ÍÑÉ¥¹œ ÄÀ¤€èÑÉ¥µµ•ì4(€€€€€€€€€€€€€€€€€€€±‰±Y…±¥‘…Ñ•MÑ…ÑÕÌ¹Q•áĞ€ô€‹Šv0ƒ¦ª3¢¾–’Ç¢Ò”èí‘•Ñ…¥±ôˆì4(€€€€€€€€€€€€€€€€€€€±‰±Y…±¥‘…Ñ•MÑ…ÑÕÌ¹½É•½±½È€ô½±½È¹¥É•‰É¥¬ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€ôì4(€€€€€€€€€€€ÑáÑUÍ•È¹Q•áÑ¡…¹•€¬ô€¡Ì°”¤€ôøìÉ•‘Y•É¥™¥•€ô™…±Í”ì±‰±Y…±¥‘…Ñ•MÑ…ÑÕÌ¹Q•áĞ€ô€‹–·¢¾šr«¦ª3¢¾ˆì±‰±Y…±¥‘…Ñ•MÑ…ÑÕÌ¹½É•½±½È€ô½±½È¹É…äìôì4(€€€€€€€€€€€ÑáÑAÜ¹Q•áÑ¡…¹•€¬ô€¡Ì°”¤€ôøìÉ•‘Y•É¥™¥•€ô™…±Í”ì±‰±Y…±¥‘…Ñ•MÑ…ÑÕÌ¹Q•áĞ€ô€‹–·¢¾šr«¦ª3¢¾ˆì±‰±Y…±¥‘…Ñ•MÑ…ÑÕÌ¹½É•½±½È€ô½±½È¹É…äìôì4(€€€€€€€€€€€‘±œ¹½¹ÑÉ½±Ì¹‘¡‰Ñ¹Y…±¥‘…Ñ”¤ì4(€€€€€€€€€€€‘±œ¹½¹ÑÉ½±Ì¹‘¡±‰±Y…±¥‘…Ñ•MÑ…ÑÕÌ¤ìä€¬ôI=]} ì4(4(€€€€€€€€€€€Ù…È±‰±!¥¹Ğ€ô¹•Ü1…‰•°4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Q•áĞ€ô€‹Â~J„ƒöG–6‡šZ·–ò*Ûš’â/’î7–/æ‰§è¡Œï¼ˆèµ° VMware Tools RPCï¼Œä¸ä¾èµ–è™šæ‹Ÿç½‘å¡é“¾è·¯ï¼‰",
                 ForeColor = Color.FromArgb(100, 100, 100),
                 AutoSize = true,
                 Location = new Point(LBL_X, y),
@@ -2352,65 +772,7 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
             {
                 if (!credVerified)
                 {
-                    var dr = MessageBox.Show("å°šæœªéªŒè¯ Guest OS å‡­è¯ï¼Œæ˜¯å¦ä»ç„¶ç»§ç»­æ‰§è¡Œï¼Ÿ", "æç¤º",
-                        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (dr != DialogResult.Yes) return;
-                }
-
-                string ipVal = txtIp.Text.Trim();
-                string gwVal = txtGw.Text.Trim();
-                string maskVal = cbMask.Text.Trim();
-                string dnsVal = cbDns.Text.Trim();
-                string hostVal = txtHost.Text.Trim();
-                string userVal = txtUser.Text.Trim();
-                string pwVal = txtPw.Text;
-
-                bool hasAnyChange = !string.IsNullOrEmpty(ipVal) || !string.IsNullOrEmpty(gwVal) ||
-                    !string.IsNullOrEmpty(maskVal) || !string.IsNullOrEmpty(dnsVal) || !string.IsNullOrEmpty(hostVal);
-                if (!hasAnyChange)
-                {
-                    MessageBox.Show("è¯·è‡³å°‘å¡«å†™ä¸€é¡¹è¦ä¿®æ”¹çš„ç½‘ç»œå‚æ•°ï¼ˆIP/ç½‘å…³/DNS/ä¸»æœºåï¼‰", "æç¤º",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                if (string.IsNullOrEmpty(userVal)) userVal = defaultUser;
-                if (string.IsNullOrEmpty(pwVal)) pwVal = DEFAULT_PW;
-
-                dlg.Tag = new Tuple<string, string, string, string, string, string, string>(ipVal, gwVal, maskVal, dnsVal, hostVal, userVal, pwVal);
-                dlg.DialogResult = DialogResult.OK;
-                dlg.Close();
-            };
-
-            if (dlg.ShowDialog(_root) != DialogResult.OK) return;
-
-            var t = (Tuple<string, string, string, string, string, string, string>)dlg.Tag;
-            string ipFinal = t.Item1, gwFinal = t.Item2, maskFinal = t.Item3,
-                   dnsFinal = t.Item4, hostFinal = t.Item5, userFinal = t.Item6, pwFinal = t.Item7;
-
-            var vmData = new Dictionary<string, string>();
-            if (!string.IsNullOrEmpty(ipFinal)) vmData["IP"] = ipFinal;
-            if (!string.IsNullOrEmpty(gwFinal)) vmData["Gateway"] = gwFinal;
-            if (!string.IsNullOrEmpty(maskFinal)) vmData["Mask"] = maskFinal;
-            if (!string.IsNullOrEmpty(hostFinal)) vmData["Hostname"] = hostFinal;
-
-            string psScript = DeployManager.BuildGuestOpsScript(vmData, vmMoRef, pwFinal,
-                string.IsNullOrEmpty(dnsFinal) ? null : dnsFinal,
-                guestOpsMode: true,
-                guestUser: string.IsNullOrEmpty(userFinal) ? null : userFinal);
-
-            var changes = new List<string>();
-            if (!string.IsNullOrEmpty(ipFinal)) changes.Add($"IP={ipFinal}");
-            if (!string.IsNullOrEmpty(gwFinal)) changes.Add($"GW={gwFinal}");
-            if (!string.IsNullOrEmpty(maskFinal)) changes.Add($"Mask={maskFinal}");
-            if (!string.IsNullOrEmpty(dnsFinal)) changes.Add($"DNS={dnsFinal}");
-            if (!string.IsNullOrEmpty(hostFinal)) changes.Add($"Host={hostFinal}");
-
-            LogMessage("ä¿¡æ¯", $"ä¸ºã€{vmName}ã€‘æ‰§è¡Œå®¢æˆ·æœºç½‘ç»œé…ç½®: {string.Join(", ", changes)}");
-            ExecuteVmOperation(psScript, $"å®¢æˆ·æœºç½‘ç»œé…ç½®: {vmName}", null);
-        }
-
-        // ====================================================================
-        // å¯†ç é…ç½®å¯¹è¯æ¡†ï¼ˆç‹¬ç«‹è„šæœ¬ï¼Œä¸æ··ç”¨ DeployManagerï¼‰
+                    var dr = MessageBox.Show("å°šæœªéªŒè HİY\İÔÈ9aëz+à{ÈÎiŠÖB›’î7Ûî—»­æ‰¦(c;Éò"Â.hùzK¢"ÀĞ¢ÖW76vT&÷„'WGFöç2å–W4æòÂÖW76vT&÷„–6öâåVW7F–öâ“°Ğ¢–b†G"ÒF–Æöu&W7VÇBå–W2’&WGW&ã°Ğ¢ĞĞ Ğ¢7G&–ær—fÂÒG‡D—åFW‡BåG&–Ò‚“°Ğ¢7G&–ærwufÂÒG‡DwråFW‡BåG&–Ò‚“°Ğ¢7G&–ærÖ6µfÂÒ6$Ö6²åFW‡BåG&–Ò‚“°Ğ¢7G&–ærFç5fÂÒ6$Fç2åFW‡BåG&–Ò‚“°Ğ¢7G&–ær†÷7EfÂÒG‡D†÷7BåFW‡BåG&–Ò‚“°Ğ¢7G&–ærW6W%fÂÒG‡EW6W"åFW‡BåG&–Ò‚“°Ğ¢7G&–ærufÂÒG‡EråFW‡C°Ğ Ğ¢&ööÂ†4ç”6†ævRÒ7G&–ærä—4çVÆÄ÷$V×G’†—fÂ’ÇÂ7G&–ærä—4çVÆÄ÷$V×G’†wufÂ’ÇÀĞ¢7G&–ærä—4çVÆÄ÷$V×G’†Ö6µfÂ’ÇÂ7G&–ærä—4çVÆÄ÷$V×G’†Fç5fÂ’ÇÂ7G&–ærä—4çVÆÄ÷$V×G’††÷7EfÂ“°Ğ¢–b‚†4ç”6†ævRĞ¢°Ğ¢ÖW76vT&÷‚å6†÷r‚.Šß¢Ï–ÂG–†¯–g’â¦†ç¢š’îæ”¹çš„ç½‘ç»œå€¹¥l;ï"TùïdyalËÑ”Ëù..ù§.¹d#{ï"H‹¹¡zK¢"ÀĞ¢ÖW76vT&÷„'WGFöç2äô²ÂÖW76vT&÷„–6öâåv&æ–ær“°Ğ¢&WGW&ã°Ğ¢ĞĞ¢–b‡7G&–ærä—4çVÆÄ÷$V×G’‡W6W%fÂ’’W6W%fÂÒFVfVÇEW6W#°Ğ¢–b‡7G&–ærä—4çVÆÄ÷$V×G’‡ufÂ’’ufÂÒDTdTÅEõs°Ğ Ğ¢FÆråFrÒæWrGWÆSÇ7G&–ærÂ7G&–ærÂ7G&–ærÂ7G&–ærÂ7G&–ærÂ7G&–ærÂ7G&–æsâ†—fÂÂwufÂÂÖ6µfÂÂFç5fÂÂ†÷7EfÂÂW6W%fÂÂufÂ“°Ğ¢FÆräF–Æöu&W7VÇBÒF–Æöu&W7VÇBäô³°Ğ¢FÆrä6Æ÷6R‚“°Ğ¢Ó°Ğ Ğ¢–b†FÆrå6†÷tF–Æör…÷&ö÷B’ÒF–Æöu&W7VÇBäô²’&WGW&ã°Ğ Ğ¢f"BÒ…GWÆSÇ7G&–ærÂ7G&–ærÂ7G&–ærÂ7G&–ærÂ7G&–ærÂ7G&–ærÂ7G&–æsâ–FÆråFs°Ğ¢7G&–ær—f–æÂÒBä—FVÓÂwtf–æÂÒBä—FVÓ"ÂÖ6´f–æÂÒBä—FVÓ2ÀĞ¢Fç4f–æÂÒBä—FVÓBÂ†÷7Df–æÂÒBä—FVÓRÂW6W$f–æÂÒBä—FVÓbÂtf–æÂÒBä—FVÓs°Ğ Ğ¢f"fÔFFÒæWrF–7F–öæ'“Ç7G&–ærÂ7G&–æp ¤ì4(€€€€€€€€€€€¥˜€ …ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡¥Á¥¹…°¤¤Ùµ…Ñ…l‰%@‰t€ô¥Á¥¹…°ì4(€€€€€€€€€€€¥˜€ …ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡İ¥¹…°¤¤Ùµ…Ñ…l‰…Ñ•İ…ä‰t€ôİ¥¹…°ì4(€€€€€€€€€€€¥˜€ …ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡µ…Í­¥¹…°¤¤Ùµ…Ñ…l‰5…Í¬‰t€ôµ…Í­¥¹…°ì4(€€€€€€€€€€€¥˜€ …ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡¡½ÍÑ¥¹…°¤¤Ùµ…Ñ…l‰!½ÍÑ¹…µ”‰t€ô¡½ÍÑ¥¹…°ì4(4(€€€€€€€€€€€ÍÑÉ¥¹œÁÍMÉ¥ÁĞ€ô•Á±½å5…¹…•È¹	Õ¥±‘Õ•ÍÑ=ÁÍMÉ¥ÁĞ¡Ùµ…Ñ„°Ùµ5½I•˜°Áİ¥¹…°°4(€€€€€€€€€€€€€€€ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡‘¹Í¥¹…°¤€ü¹Õ±°€è‘¹Í¥¹…°°4(€€€€€€€€€€€€€€€Õ•ÍÑ=ÁÍ5½‘”èÑÉÕ”°4(€€€€€€€€€€€€€€€Õ•ÍÑUÍ•ÈèÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡ÕÍ•É¥¹…°¤€ü¹Õ±°€èÕÍ•É¥¹…°¤ì4(4(€€€€€€€€€€€Ù…È¡…¹•Ì€ô¹•Ü1¥ÍĞñÍÑÉ¥¹œø ¤ì4(€€€€€€€€€€€¥˜€ …ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡¥Á¥¹…°¤¤¡…¹•Ì¹‘ ‰%@õí¥Á¥¹…±ôˆ¤ì4(€€€€€€€€€€€¥˜€ …ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡İ¥¹…°¤¤¡…¹•Ì¹‘ ‰\õíİ¥¹…±ôˆ¤ì4(€€€€€€€€€€€¥˜€ …ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡µ…Í­¥¹…°¤¤¡…¹•Ì¹‘ ‰5…Í¬õíµ…Í­¥¹…±ôˆ¤ì4(€€€€€€€€€€€¥˜€ …ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡‘¹Í¥¹…°¤¤¡…¹•Ì¹‘ ‰9Lõí‘¹Í¥¹…±ôˆ¤ì4(€€€€€€€€€€€¥˜€ …ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡¡½ÍÑ¥¹…°¤¤¡…¹•Ì¹‘ ‰!½ÍĞõí¡½ÍÑ¥¹…±ôˆ¤ì4(4(€€€€€€€€€€€1½5•ÍÍ…” ‹’ş‡š¼ˆ°€‹’âëAíÙµ9…µ•÷Gš&Ÿ¢†3–º‹š"ßšrëöGîs¦7ö¸èíÍÑÉ¥¹œ¹)½¥¸ ˆ°€ˆ°¡…¹•Ì¥ôˆ¤ì4(€€€€€€€€€€€á•ÕÑ•Yµ=Á•É…Ñ¥½¸¡ÁÍMÉ¥ÁĞ°€‹–º‹š"ßšrëöGîs¦7ö¸èíÙµ9…µ•ôˆ°¹Õ±°¤ì4(€€€€€€€ô4(4(€€€€€€€€¼¼€ôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôô4(€€€€€€€€¼¼ƒ–¾‚¦7ö»–¾ç¢¾wš†¾ò#.³®/¢kšr³¾ò3’â7šŞßR •Á±½å5…¹…•Ë¼‰
         // ====================================================================
 
         private static readonly char[] PwLower = "abcdefghijklmnopqrstuvwxyz".ToCharArray();
@@ -2439,67 +801,13 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
             return new string(arr);
         }
 
-        private static string GenerateRulePassword(string ipInput)
+        private static void ShowRulePasswordConfigDialog(IWin32Window owner)
         {
-            string[] parts = ipInput.Trim().Split('.');
-            if (parts.Length != 2) return "æ ¼å¼é”™è¯¯ï¼Œè¯·è¾“å…¥åä¸¤æ®µï¼ˆå¦‚ 10.1ï¼‰";
-            if (!int.TryParse(parts[0], out int xInt) || xInt < 0 || xInt > 255) return "ç¬¬ä¸‰æ®µæ— æ•ˆ";
-            if (!int.TryParse(parts[1], out int varInt) || varInt < 0 || varInt > 255) return "ç¬¬å››æ®µæ— æ•ˆ";
-
-            string x = xInt.ToString();
-            string var2 = varInt.ToString("D3");
-            int a = var2[0] - '0';
-            int b = var2[1] - '0';
-            int c = var2[2] - '0';
-            string y = (a + b + c).ToString("D2");
-            string z = (c * 4).ToString("D2");
-            return $"Zsedcft#{x}${y}{z}";
-        }
-
-        private static List<string> FilterGuestIpv4List(string guestIpCsv)
-        {
-            var result = new List<string>();
-            if (string.IsNullOrEmpty(guestIpCsv)) return result;
-            foreach (var raw in guestIpCsv.Split(','))
-            {
-                string ip = raw.Trim();
-                if (string.IsNullOrEmpty(ip)) continue;
-                if (ip.Contains(':')) continue;
-                string[] p = ip.Split('.');
-                if (p.Length != 4) continue;
-                bool valid = true;
-                foreach (var s in p) { if (!int.TryParse(s, out int n) || n < 0 || n > 255) { valid = false; break; } }
-                if (!valid) continue;
-                if (p[0] == "127") continue;
-                if (p[0] == "169" && p[1] == "254") continue;
-                result.Add(ip);
-            }
-            return result;
-        }
-
-        private static string ExtractLastTwoOctets(string fullIp)
-        {
-            if (string.IsNullOrEmpty(fullIp)) return "";
-            string[] parts = fullIp.Split('.');
-            if (parts.Length >= 4) return $"{parts[2]}.{parts[3]}";
-            return "";
-        }
-
-        private void ShowGuestOpsPasswordDialog(
-            string vmName, string vmMoRef, string powerState, string toolsStatus,
-            string guestFamily, string guestFullName, string guestIp)
-        {
-            bool isLinux = guestFamily == "linuxGuest" ||
-                (string.IsNullOrEmpty(guestFamily) && !string.IsNullOrEmpty(guestFullName) &&
-                 guestFullName.ToLower().Contains("linux"));
-            if (string.IsNullOrEmpty(guestFamily) && string.IsNullOrEmpty(guestFullName)) isLinux = true;
-
-            string defaultUser = isLinux ? "root" : "Administrator";
-            const string DEFAULT_PW = "Admin@9000";
+            var current = PasswordCrypto.LoadRuleConfig() ?? new PasswordCrypto.RulePasswordConfig();
 
             using var dlg = new Form
             {
-                Text = $"ğŸ”‘ é…ç½®å®¢æˆ·æœºå¯†ç  â€” {vmName}",
+                Text = "è§„å¾‹å¯†ç é…ç½®",
                 Icon = CoreUtils.GetAppIcon(),
                 FormBorderStyle = FormBorderStyle.FixedDialog,
                 StartPosition = FormStartPosition.CenterParent,
@@ -2508,20 +816,108 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
                 ShowInTaskbar = false,
                 AutoScaleMode = AutoScaleMode.Dpi,
                 AutoScaleDimensions = new SizeF(96F, 96F),
-                Size = new Size(480, 460),
-                MinimumSize = new Size(480, 460),
+                Size = new Size(440, 340),
                 Font = new Font("Microsoft YaHei", 9)
             };
 
-            const int LBL_W = 80;
-            const int LBL_X = 12;
-            const int CTRL_X = LBL_X + LBL_W + 6;
-            const int ROW_H = 28;
-            int y = 10;
+            const int LBL_X = 20;
+            const int CTRL_X = 130;
+            const int W = 260;
+            int y = 20;
 
-            var lblVmInfo = new Label
+            var lblTip = new Label
             {
-                Text = $"è™šæ‹Ÿæœºï¼š{vmName}    ç”µæºï¼š{(powerState == "poweredOn" ? "ğŸ”µ å¼€æœº" : "âš« å…³æœº")}",
+                Text = "å¯†ç æ ¼å¼ï¼šå‰ç¼€{sep1}ç¬¬ä¸‰æ®µ{sep2}{y}{z}\n" +
+                       "y = ç¬¬å›™«­yd!9/cy.bY(Â²XŞé‡\n" +
+                       "z = ç¬¬å››æ®µæœ«ä½ Ã— ä¹˜æ•°",
+                ForeColor = Color.DimGray,
+                Location = new Point(LBL_X, y),
+                AutoSize = true
+            };
+            dlg.Controls.Add(lblTip); y += 60;
+
+            var lblPrefix = new Label { Text = "å‰ç¼€ï¼š", Location = new Point(LBL_X, y + 3), Size = new Size(100, 20), TextAlign = ContentAlignment.MiddleRight };
+            dlg.Controls.Add(lblPrefix);
+            var txtPrefix = new TextBox { Text = current.Prefix, Location = new Point(CTRL_X, y), Width = W };
+            dlg.Controls.Add(txtPrefix); y += 32;
+
+            var lblSep = new Label { Text = "åˆ†éš”ç¬¦1ï¼ˆsep1ï¼‰ï¼š", Location = new Point(LBL_X, y + 3), Size = new Size(100, 20), TextAlign = ContentAlignment.MiddleRight };
+            dlg.Controls.Add(lblSep);
+            var txtSep = new TextBox { Text = current.Separator, Location = new Point(CTRL_X, y), Width = 60, MaxLength = 3 };
+            dlg.Controls.Add(txtSep); y += 32;
+
+            var lblSep2 = new Label { Text = "åˆ†éš”ç¬¦2ï¼ˆsep2ï¼‰ï¼š", Location = new Point(LBL_X, y + 3), Size = new Size(100, 20), TextAlign = ContentAlignment.MiddleRight };
+            dlg.Controls.Add(lblSep2);
+            var txtSep2 = new TextBox { Text = current.Separator2, Location = new Point(CTRL_X, y), Width = 60, MaxLength = 3 };
+            dlg.Controls.Add(txtSep2); y += 32;
+
+            var lblMul = new Label { Text = "ä¹˜æ•°ï&ˆ‹ØØ][ÛˆH™]ÈÚ[
+“ÖH
+ÈÊKÚ^™HH™]ÈÚ^™JLŒ
+K^[YÛˆHÛÛ[[YÛ›Y[“ZYTšYÚNÃBˆËÛÛ›ÛËY
+›][
+NÃBˆ˜\ˆ][H™]È^›ŞÈ^Hİ\œ™[“][\Y\‹•Ôİš[™Ê
+KØØ][ÛˆH™]ÈÚ[
+Õ“ÖJKÚYHŒNÃBˆËÛÛ›ÛËY
+][
+NÈH
+ÏHÌÃBƒBˆ˜\ˆ›Ù™ˆH™]ÈX™[È^H¹`cz{¦?&ˆ‹ØØ][ÛˆH™]ÈÚ[
+“ÖH
+ÈÊKÚ^™HH™]ÈÚ^™JLŒ
+K^[YÛˆHÛÛ[[YÛ›Y[“ZYTšYÚNÃBˆËÛÛ›ÛËY
+›Ù™ŠNÃBˆ˜\ˆÙ™ˆH™]È^›ŞÈ^Hİ\œ™[“Ù™œÙ]•Ôİš[™Ê
+KØØ][ÛˆH™]ÈÚ[
+Õ“ÖJKÚYHŒNÃBˆËÛÛ›ÛËY
+Ù™ŠNÈH
+ÏHÃBƒBˆ˜\ˆ“ÚÈH™]È]ÛˆÈ^H¹-ŞZÙ‚"ÂF–Æöu&W7VÇBÒF–Æöu&W7VÇBäô²ÂÆö6F–öâÒæWrö–çB„5E$Åõ‚Â’’Â6—¦RÒæWr6—¦RƒƒÂ3’Ó°Ğ¢f"'Fä6æ6VÂÒæWr'WGFöâ²FW‡BÒ.Xùnkh‚"ÂF–Æöu&W7VÇBÒF–Æöu&W7VÇBä6æ6VÂÂÆö6F–öâÒæWrö–çB„5E$Åõ‚²“Â’’Â6—¦RÒæWr6—¦RƒƒÂ3’Ó°Ğ¢FÆrä6öçG&öÇ2äFB†'Fäö²“°Ğ¢FÆrä6öçG&öÇ2äFB†'Fä6æ6VÂ“°Ğ¢FÆrä66WD'WGFöâÒ'Fäö³°Ğ¢FÆrä6æ6VÄ'WGFöâÒ'Fä6æ6VÃ°Ğ Ğ¢f"Æ&Å6×ÆRÒæWrÆ&VÂ²FW‡BÒ""ÂÆö6F–öâÒæWrö–çB„Ä$Åõ‚Â’²3b’ÂWFõ6—¦RÒG'VRÂf÷&T6öÆ÷"Ò6öÆ÷"äg&öÔ&v"ƒÂÂ’Ó°Ğ¢FÆrä6öçG&öÇ2äFB†Æ&Å6×ÆR“°Ğ Ğ¢fö–BWFFU6×ÆR‚Ğ¢°Ğ¢G'Ğ¢°Ğ¢7G&–ærÒG‡E&Vf—‚åFW‡C°Ğ¢7G&–ær3Ò7G&–ærä—4çVÆÄ÷$V×G’‡G‡E6WåFW‡B’ò"2"¢G‡E6WåFW‡C°Ğ¢7G&–ær3"Ò7G&–ærä—4çVÆÄ÷$V×G’‡G‡E6W"åFW‡B’ò"B"¢G‡E6W"åFW‡C°Ğ¢–çBåG'•'6R‡G‡D×VÂåFW‡BÂ÷WB–çBÒ“°Ğ¢–çBåG'•'6R‡G‡DöfbåFW‡BÂ÷WB–çBò“°Ğ¢–b†ÒÃÒ’ÒÒC°Ğ¢–çBf#"Ò#°Ğ¢–çB2Òf#"R°Ğ¢–çBÒ#²–çB"Ò°Ğ¢7G&–ær“"Ò†²"²2²ò’åFõ7G&–ær‚$C""“°Ğ¢7G&–ær£"Ò†2¢Ò’åFõ7G&–ær‚$C""“°Ğ¢Æ&Å6×ÆRåFW‡BÒB.zK®Kè¾ûÈ„•YîKŠNjëRã#ûÈûÉ§·×·3Ó·3'×·“'×·£'Ò#°Ğ¢ĞĞ¢6F6‚²Æ&Å6×ÆRåFW‡BÒ"#²ĞĞ¢ĞĞ Ğ¢G‡E&Vf—‚åFW‡D6†ævVB³Ò‡2ÂR’ÓâWFFU6×ÆR‚“°Ğ¢G‡E6WåFW‡D6†ævVB³Ò‡2ÂR’ÓâWFFU6×ÆR‚“°Ğ¢G‡E6W"åFW‡D6†ævVB³Ò‡2ÂR’ÓâWFFU6×ÆR‚“°Ğ¢G‡D×VÂåFW‡D6†ævVB³Ò‡2ÂR’ÓâWFFU6×ÆR‚“°Ğ¢G‡DöfbåFW‡D6†ævVB³Ò‡2ÂR’ĞUÁ‘…Ñ•M…µÁ±” ¤ì4(€€€€€€€€€€€UÁ‘…Ñ•M…µÁ±” ¤ì4(4(€€€€€€€€€€€¥˜€¡‘±œ¹M¡½İ¥…±½œ¡½İ¹•È¤€ôô¥…±½I•ÍÕ±Ğ¹=,¤4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€¥˜€¡ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡ÑáÑAÉ•™¥à¹Q•áĞ¤¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€5•ÍÍ…•	½à¹M¡½Ü ‹–&7ò’â7¢÷’âë¦èˆ°€‹š>C’èˆ°5•ÍÍ…•	½á	ÕÑÑ½¹Ì¹=,°5•ÍÍ…•	½á%½¸¹]…É¹¥¹œ¤ì4(€€€€€€€€€€€€€€€€€€€É•ÑÕÉ¸ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€Ù…È¹•İ™œ€ô¹•ÜA…ÍÍİ½É‘ÉåÁÑ¼¹IÕ±•A…ÍÍİ½É‘½¹™¥œ4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€AÉ•™¥à€ôÑáÑAÉ•™¥à¹Q•áĞ°4(€€€€€€€€€€€€€€€€€€€M•Á…É…Ñ½È€ôÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡ÑáÑM•À¹Q•áĞ¤€ü€ˆŒˆ€èÑáÑM•À¹Q•áĞ°4(€€€€€€€€€€€€€€€€€€€M•Á…É…Ñ½ÈÈ€ôÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡ÑáÑM•ÀÈ¹Q•áĞ¤€ü€ˆˆ€èÑáÑM•ÀÈ¹Q•áĞ°4(€€€€€€€€€€€€€€€€€€€5Õ±Ñ¥Á±¥•È€ô¥¹Ğ¹QÉåA…ÉÍ”¡ÑáÑ5Õ°¹Q•áĞ°½ÕĞ¥¹Ğ´¤€˜˜´€ 0 ? m : 4,
+                    Offset = int.TryParse(txtOff.Text, out int o) ? o : 0
+                };
+                PasswordCrypto.SaveRuleConfig(newCfg);
+            }
+        }
+
+        private static string GenerateRulePassword(string ipInput)
+        {
+            string[] parts = ipInput.Trim().Split('.');
+            if (parts.Length != 2) return "æ ¼å¼é”™è¯¯ï¼Œè¯·è¾“å…¥åä¸¤æ®µï¼ˆå¦‚ 10.1ï"HÃBˆYˆ
+Z[•T\œÙJ\ÖÌKİ][[
+H[[ˆMJH™]\›ˆ¹ë+9."y«­y¥è9¥bÃBˆYˆ
+Z[•T\œÙJ\ÖÌWKİ][˜\’[
+H˜\’[˜\’[ˆMJH™]\›ˆ¹ë+9fæjë^iziX‚#°Ğ Ğ¢f"6frÒ77v÷&D7'—FòäÆöE'VÆT6öæf–r‚“°Ğ¢–b†6frÓÒçVÆÂÇÂ7G&–ærä—4çVÆÄ÷$V×G’†6frå&Vf—‚’’&WGW&â.ŠûV#¦7ö»¢–‰ká¹è HÃBƒBˆİš[™ÈH[•Ôİš[™Ê
+NÃBˆİš[™È˜\ŒˆH˜\’[•Ôİš[™Ê‘ÈŠNÃBˆ[HH˜\Œ–ÌHH	Ì	ÎÃBˆ[ˆH˜\Œ–ÌWHH	Ì	ÎÃBˆ[ÈH˜\Œ–Ì—HH	Ì	ÎÃBˆİš[™ÈHH
+H
+Èˆ
+ÈÈ
+ÈÙ™Ë“Ù™œÙ]
+K•Ôİš[™Ê‘ˆŠNÃBˆİš[™ÈˆH
+È
+ˆÙ™Ë“][\Y\ŠK•Ôİš[™Ê‘ˆŠNÃBˆ™]\›ˆ	ØÙ™Ë”™Yš^^ØÙ™Ë”Ù\\˜]ÜŸ^Ş^ØÙ™Ë”Ù\\˜]ÜŒŸ^Ş_^ŞŸHÃBˆCBƒBˆš]˜]Hİ]XÈ\İİš[™Ïˆš[\‘İY\İ\\İ
+İš[™ÈİY\İ\ÜİŠCBˆÃBˆ˜\ˆ™\İ[H™]È\İİš[™ÏŠ
+NÃBˆYˆ
+İš[™Ë’\Ó[Ü‘[\JİY\İ\ÜİŠJH™]\›ˆ™\İ[ÃBˆ›Ü™XXÚ
+˜\ˆ˜]È[ˆİY\İ\Üİ‹”Ü]
+	Ë	ÊJCBˆÃBˆİš[™È\H˜]Ë•š[J
+NÃBˆYˆ
+İš[™Ë’\Ó[Ü‘[\J\
+JHÛÛ[YNÃBˆYˆ
+\ÛÛZ[œÊ	Î‰ÊJHÛÛ[YNÃBˆİš[™Ö×HH\”Ü]
+	Ë‰ÊNÃBˆYˆ
+“[™İOH
+HÛÛ[YNÃBˆ›ÛÛ˜[YHYNÃBˆ›Ü™XXÚ
+˜\ˆÈ[ˆ
+HÈYˆ
+Z[•T\œÙJËİ][ŠHˆˆˆMJHÈ˜[YH˜[ÙNÈœ™XZÎÈHCBˆYˆ
+]˜[Y
+HÛÛ[YNÃBˆYˆ
+ÌHOHŒLÈŠHÛÛ[YNÃBˆYˆ
+ÌHOHŒMHˆ	‰ˆÌWHOHŒMŠHÛÛ[YNÃBˆ™\İ[Y
+\
+NÃBˆCBˆ™]\›ˆ™\İ[ÃBˆCBƒBˆš]˜]Hİ]XÈİš[™È^˜Xİ\İÛÓØİ]Êİš[™È[\
+CBˆÃBˆYˆ
+İš[™Ë’\Ó[Ü‘[\J[\
+JH™]\›ˆˆÃBˆİš[™Ö×H\ÈH[\”Ü]
+	Ë‰ÊNÃBˆYˆ
+\Ë“[™İÒB’&WGW&âB'·'G5³%×Òç·'G5³5×Ò#°Ğ¢&WGW&â"#°Ğ¢ĞĞ Ğ¢&—fFRfö–B6†÷twVW7D÷577v÷&DF–Æör€Ğ¢7G&–ærfÔæÖRÂ7G&–ærfÔÖõ&VbÂ7G&–ær÷vW%7FFRÂ7G&–ærFööÇ57FGW2ÀĞ¢7G&–ærwVW7DfÖ–Ç’Â7G&–ærwVW7DgVÆÄæÖRÂ7G&–ærwVW7D—Ğ¢°Ğ¢&ööÂ—4Æ–çW‚ÒwVW7DfÖ–Ç’ÓÒ&Æ–çW„wVW7B"ÇÀĞ¢‡7G&–ærä—4çVÆÄ÷$V×G’†wVW7DfÖ–Ç’’bb7G&–ærä—4çVÆÄ÷$V×G’†wVW7DgVÆÄæÖR’b`Ğ¢wVW7DgVÆÄæÖRåFôÆ÷vW"‚’ä6öçF–ç2‚&Æ–çW‚"’“°Ğ¢–b‡7G&–ærä—4çVÆÄ÷$V×G’†wVW7DfÖ–Ç’’bb7G&–ærä—4çVÆÄ÷$V×G’†wVW7DgVÆÄæÖR’’—4Æ–çW‚ÒG'VS°Ğ Ğ¢7G&–ærFVfVÇEW6W"Ò—4Æ–çW‚ò'&ö÷B"¢$FÖ–æ—7G&F÷"#°Ğ¢6öç7B7G&–ærDTdTÅEõrÒ$FÖ–ä“#°Ğ Ğ¢W6–ærf"FÆrÒæWrf÷&ĞĞ¢°Ğ¢FW‡BÒB/	RDƒ¦7ö»–º‹š"ßšrë–¾‚ƒŠPíÙµ9…µ•ôˆ°4(€€€€€€€€€€€€€€€%½¸€ô½É•UÑ¥±Ì¹•ÑÁÁ%½¸ ¤°4(€€€€€€€€€€€€€€€½Éµ	½É‘•ÉMÑå±”€ô½Éµ	½É‘•ÉMÑå±”¹¥á•‘¥…±½œ°4(€€€€€€€€€€€€€€€MÑ…ÉÑA½Í¥Ñ¥½¸€ô½ÉµMÑ…ÉÑA½Í¥Ñ¥½¸¹•¹Ñ•ÉA…É•¹Ğ°4(€€€€€€€€€€€€€€€5…á¥µ¥é•	½à€ô™…±Í”°4(€€€€€€€€€€€€€€€5¥¹¥µ¥é•	½à€ô™…±Í”°4(€€€€€€€€€€€€€€€M¡½İ%¹Q…Í­‰…È€ô™…±Í”°4(€€€€€€€€€€€€€€€ÕÑ½M…±•5½‘”€ôÕÑ½M…±•5½‘”¹Á¤°4(€€€€€€€€€€€€€€€ÕÑ½M…±•¥µ•¹Í¥½¹Ì€ô¹•ÜM¥é• äÙ°€äÙ¤°4(€€€€€€€€€€€€€€€M¥é”€ô¹•ÜM¥é” ĞàÀ°€ĞØÀ¤°4(€€€€€€€€€€€€€€€5¥¹¥µÕµM¥é”€ô¹•ÜM¥é” ĞàÀ°€ĞØÀ¤°4(€€€€€€€€€€€€€€€½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ä¤4(€€€€€€€€€€€ôì4(4(€€€€€€€€€€€½¹ÍĞ¥¹Ğ1	1}\€ô€àÀì4(€€€€€€€€€€€½¹ÍĞ¥¹Ğ1	1}`€ô€ÄÈì4(€€€€€€€€€€€½¹ÍĞ¥¹ĞQI1}`€ô1	1}`€¬1	1}\€¬€Øì4(€€€€€€€€€€€½¹ÍĞ¥¹ĞI=]} €ô€Èàì4(€€€€€€€€€€€¥¹Ğä€ô€ÄÀì4(4(€€€€€€€€€€€Ù…È±‰±Yµ%¹™¼€ô¹•Ü1…‰•°4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Q•áĞ€ô€‹¢fkš.šrë¾òiíÙµ9…µ•ô€€€ƒR×šêC¾òiì¡Á½İ•ÉMÑ…Ñ”€ôô€‰Á½İ•É•‘=¸ˆ€ü€‹ÂTµ å¼€æœº" : "âš« å…³æœº")}",
                 ForeColor = powerState == "poweredOn" ? Color.FromArgb(0, 122, 204) : Color.DimGray,
                 Location = new Point(LBL_X, y),
                 AutoSize = true
@@ -2531,30 +927,20 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
             bool toolsOk = toolsStatus == "toolsOk" || toolsStatus == "toolsOld";
             var lblTools = new Label
             {
-                Text = $"VMware Toolsï¼š{(string.IsNullOrEmpty(toolsStatus) ? "æœªçŸ¥" : toolsStatus)}",
-                ForeColor = toolsOk ? Color.FromArgb(0, 128, 0) : Color.Firebrick,
-                Location = new Point(LBL_X, y),
-                AutoSize = true
-            };
-            dlg.Controls.Add(lblTools); y += 22;
-
-            bool canExecute = toolsOk && powerState == "poweredOn";
-
-            var lblSection1 = new Label { Text = "â”€â”€ æ–°å¯†ç ï¼ˆä¸‰é€‰ä¸€ï¼‰ â”€â”€", ForeColor = Color.DimGray, Location = new Point(LBL_X, y), AutoSize = true };
-            dlg.Controls.Add(lblSection1); y += 22;
-
-            var rbInit = new RadioButton { Text = $"åˆå§‹å¯†ç ï¼š{DEFAULT_PW}", Location = new Point(LBL_X, y), Width = 220, Checked = true };
-            dlg.Controls.Add(rbInit); y += ROW_H;
-
-            var rbRandom = new RadioButton { Text = "éšæœºå¯†ç ï¼ˆ12~16ä½ï¼Œç¬¦åˆå¤æ‚åº¦ï¼‰", Location = new Point(LBL_X, y), Width = 260 };
+                Text = $"VMware Toolsï¼š{(string.IsNullOrEmpty(toolsStatus) ? "æœªç™HˆˆÛÛÔİ]\Ê_H‹Bˆ›Ü™PÛÛÜˆHÛÛÓÚÈÈÛÛÜ‹‘œ›ÛP\™ØŠL
+HˆÛÛÜ‹‘š\™XœšXÚËBˆØØ][ÛˆH™]ÈÚ[
+“ÖJKBˆ]]ÔÚ^™HHYCBˆNÃBˆËÛÛ›ÛËY
+›ÛÛÊNÈH
+ÏHŒÃBƒBˆ›ÛÛØ[‘^Xİ]HHÛÛÓÚÈ	‰ˆİÙ\”İ]HOHœİÙ\™YÛˆÃBƒBˆ˜\ˆ›ÙXİ[ÛŒHH™]ÈX™[È^H¸¥ 8¥ 9¥¬9ká¹è {ï"9."z`"y. ;ï"H8¥ 8¥ ‹›Ü™PÛÛÜˆHÛÛÜ‹‘[QÜ˜^KØØ][ÛˆH™]ÈÚ[
+“ÖJK]]ÔÚ^™HHYHNÃBˆËÛÛ›ÛËY
+›ÙXİ[ÛŒJNÈH
+ÏHŒÃBƒBˆ˜\ˆ˜’[š]H™]È˜Y[Ğ]ÛˆÈ^H	¹b'yiâùhnzûÉ§´DTdTÅEõwÒ"ÂÆö6F–öâÒæWrö–çB„Ä$Åõ‚Â’’Âv–GF‚Ò##Â6†V6¶VBÒG'VRÓ°Ğ¢FÆrä6öçG&öÇ2äFB‡&$–æ—B“²’³Ò$õuôƒ°Ğ Ğ¢f"&%&æFöÒÒæWr&F–ô'WGFöâ²FW‡BÒ.™¨şiË®ZønzûÈƒ'ãnKØŞò3²›–B#–’7šv–ê›¼‰", Location = new Point(LBL_X, y), Width = 260 };
             dlg.Controls.Add(rbRandom);
             var btnRandomRegen = new Button { Text = "â†» æ¢ä¸€ä¸ª", Location = new Point(LBL_X + 260 + 6, y - 1), Size = new Size(72, 26), Enabled = false };
             dlg.Controls.Add(btnRandomRegen); y += ROW_H;
 
-            var rbRule = new RadioButton { Text = "è§„å¾‹å¯†ç ï¼ˆç‰©ç†ç½‘å¡ IP è‡ªåŠ¨ç”Ÿæˆï¼‰", Location = new Point(LBL_X, y), Width = 300 };
-            dlg.Controls.Add(rbRule); y += ROW_H;
-
-            var lblIpCombo = new Label { Text = "ç½‘å¡ IPï¼š", Location = new Point(LBL_X + 18, y + 3), Size = new Size(LBL_W - 18, 20), TextAlign = ContentAlignment.MiddleRight };
+            var ruleCfg = PasswordCrypto.LoadRuleConfig();
+            string ruleText = ruleCfg == null ? "è§„å¢Zønzò#šr«¦7ö»¼‰" : "è§„å¾‹å¡¹è {ï"9âjyä!¹ïdychHT:!ê¹bª9å'h‰ò$ˆì4(€€€€€€€€€€€Ù…ÈÉ‰IÕ±”€ô¹•ÜI…‘¥½	ÕÑÑ½¸ìQ•áĞ€ôÉÕ±•Q•áĞ°1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ¡1	1}`°ä¤°]¥‘Ñ €ô€ÈØÀôì4(€€€€€€€€€€€‘±œ¹½¹ÑÉ½±Ì¹‘¡É‰IÕ±”¤ì4(€€€€€€€€€€€Ù…È‰Ñ¹IÕ±•™œ€ô¹•Ü	ÕÑÑ½¸ìQ•áĞ€ô€‹Šjdƒ¦7ö¸ˆ°1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ¡1	1}`€¬€ÈØÀ€¬€Ø°ä€´€Ä¤°M¥é”€ô¹•ÜM¥é” ÜÈ°€ÈØ¤°ÕÉÍ½È€ôÕÉÍ½ÉÌ¹!…¹ôì4(€€€€€€€€€€€‘±œ¹½¹ÑÉ½±Ì¹‘¡‰Ñ¹IÕ±•™œ¤ìä€¬ôI=]} ì4(4(€€€€€€€€€€€Ù…È±‰±%Á½µ‰¼€ô¹•Ü1…‰•°ìQ•áĞ€ô€‹öG–6„%C¼š", Location = new Point(LBL_X + 18, y + 3), Size = new Size(LBL_W - 18, 20), TextAlign = ContentAlignment.MiddleRight };
             dlg.Controls.Add(lblIpCombo);
             var ipv4List = FilterGuestIpv4List(guestIp);
             var cbIpv4 = new ComboBox { Location = new Point(CTRL_X, y), Width = 190, DropDownStyle = ComboBoxStyle.DropDown, Enabled = false };
@@ -2568,208 +954,46 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
 
             var lblNewPw = new Label
             {
-                Text = "æ–°å¯†ç ï¼š",
-                Location = new Point(LBL_X, y + 5),
-                Size = new Size(LBL_W - 4, 20),
-                TextAlign = ContentAlignment.MiddleRight
-            };
-            dlg.Controls.Add(lblNewPw);
-
-            int btnCopyRightX = clientRight - 82;
-            var txtNewPw = new TextBox
-            {
-                Text = DEFAULT_PW,
-                Location = new Point(CTRL_X, y),
-                Width = btnCopyRightX - CTRL_X - 6,
-                Font = new Font("Consolas", 11, FontStyle.Bold),
-                ForeColor = Color.FromArgb(0, 100, 0),
-                BorderStyle = BorderStyle.FixedSingle
-            };
-            dlg.Controls.Add(txtNewPw);
-
-            var btnCopyPw = new Button
-            {
-                Text = "ğŸ“‹ å¤åˆ¶",
-                Location = new Point(btnCopyRightX, y - 1),
-                Size = new Size(78, 28),
-                Cursor = Cursors.Hand
-            };
-            dlg.Controls.Add(btnCopyPw); y += 34;
-
-            string currentRandomPw = GenerateRandomPassword();
-            string currentRulePw = !string.IsNullOrEmpty(cbIpv4.Text)
-                ? GenerateRulePassword(ExtractLastTwoOctets(cbIpv4.Text))
-                : "";
-
-            void UpdatePreview()
-            {
-                if (rbInit.Checked)
-                {
-                    txtNewPw.Text = DEFAULT_PW;
-                    txtNewPw.ForeColor = Color.FromArgb(0, 100, 0);
-                }
-                else if (rbRandom.Checked)
-                {
-                    txtNewPw.Text = currentRandomPw;
-                    txtNewPw.ForeColor = Color.FromArgb(0, 100, 0);
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(cbIpv4.Text))
-                    {
-                        txtNewPw.Text = currentRulePw;
-                        txtNewPw.ForeColor = Color.FromArgb(0, 100, 0);
-                    }
-                    else
-                    {
-                        txtNewPw.Text = "";
-                        txtNewPw.ForeColor = Color.Firebrick;
-                    }
-                }
-            }
-
-            btnCopyPw.Click += (s, e) =>
-            {
-                string pw = txtNewPw.Text;
-                if (string.IsNullOrEmpty(pw))
-                {
-                    ToastUtils.ShowToast(dlg, "âš  å¯†ç ä¸ºç©ºï¼Œæ— æ³•å¤åˆ¶", 1500);
-                    return;
-                }
-                Clipboard.SetText(pw);
-                ToastUtils.ShowToast(dlg, "âœ“ å¯†ç å·²å¤åˆ¶åˆ°å‰ªè´´æ¿", 1500);
-            };
-
-            rbInit.CheckedChanged += (s, e) => { btnRandomRegen.Enabled = rbRandom.Checked; cbIpv4.Enabled = rbRule.Checked; UpdatePreview(); };
-            rbRandom.CheckedChanged += (s, e) => { btnRandomRegen.Enabled = rbRandom.Checked; cbIpv4.Enabled = rbRule.Checked; UpdatePreview(); };
-            rbRule.CheckedChanged += (s, e) =>
-            {
-                btnRandomRegen.Enabled = rbRandom.Checked;
-                cbIpv4.Enabled = rbRule.Checked;
-                if (!string.IsNullOrEmpty(cbIpv4.Text))
-                {
-                    string last2 = ExtractLastTwoOctets(cbIpv4.Text);
-                    currentRulePw = GenerateRulePassword(last2);
-                    lblRuleLast2.Text = "(åä¸¤æ®µ: " + last2 + ")";
-                }
-                UpdatePreview();
-            };
-            cbIpv4.SelectedIndexChanged += (s, e) =>
-            {
-                if (!string.IsNullOrEmpty(cbIpv4.Text))
-                {
-                    string last2 = ExtractLastTwoOctets(cbIpv4.Text);
-                    currentRulePw = GenerateRulePassword(last2);
-                    lblRuleLast2.Text = "(åä¸¤æ®µ: " + last2 + ")";
-                    if (rbRule.Checked) UpdatePreview();
-                }
-            };
-            cbIpv4.TextChanged += (s, e) =>
-            {
-                if (!string.IsNullOrEmpty(cbIpv4.Text))
-                {
-                    string last2 = ExtractLastTwoOctets(cbIpv4.Text);
-                    currentRulePw = GenerateRulePassword(last2);
-                    lblRuleLast2.Text = "(åä¸¤æ®µ: " + last2 + ")";
-                    if (rbRule.Checked) UpdatePreview();
-                }
-            };
-            btnRandomRegen.Click += (s, e) => { currentRandomPw = GenerateRandomPassword(); UpdatePreview(); };
-
-            var lblSection2 = new Label { Text = "â”€â”€ Guest OS å‡­è¯ï¼ˆç”¨äºç™»å½•æ‰§è¡Œæ”¹å¯†è„šæœ¬ï¼‰ â”€â”€", ForeColor = Color.DimGray, Location = new Point(LBL_X, y), AutoSize = true };
-            dlg.Controls.Add(lblSection2); y += 22;
-
-            var lblUser = new Label { Text = "ç”¨æˆ·åï¼š", Location = new Point(LBL_X, y + 3), Size = new Size(LBL_W - 4, 20), TextAlign = ContentAlignment.MiddleRight };
-            dlg.Controls.Add(lblUser);
-            var txtUser = new TextBox { Text = defaultUser, Location = new Point(CTRL_X, y), Width = clientRight - CTRL_X };
-            dlg.Controls.Add(txtUser); y += ROW_H;
-
-            var lblPw = new Label { Text = "å½“å‰å¯†ç ï¼š", Location = new Point(LBL_X, y + 3), Size = new Size(LBL_W - 4, 20), TextAlign = ContentAlignment.MiddleRight };
-            dlg.Controls.Add(lblPw);
-            var txtPw = new TextBox { UseSystemPasswordChar = true, Text = DEFAULT_PW, Location = new Point(CTRL_X, y), Width = clientRight - CTRL_X - 64 };
-            dlg.Controls.Add(txtPw);
-            var chkShowPw = new CheckBox { Text = "æ˜¾ç¤º", AutoSize = true, Location = new Point(clientRight - 60, y + 3), Cursor = Cursors.Hand };
-            chkShowPw.CheckedChanged += (s, e) => txtPw.UseSystemPasswordChar = !chkShowPw.Checked;
-            dlg.Controls.Add(chkShowPw); y += ROW_H + 2;
-
-            var btnValidate = new Button { Text = "ğŸ” éªŒè¯å‡­è¯", Location = new Point(LBL_X, y), Size = new Size(110, 26), Margin = Padding.Empty, Enabled = canExecute };
-            var lblValidateStatus = new Label { Text = canExecute ? "å‡­è¯æœªéªŒè¯" : "VMware Tools æœªå°±ç»ªï¼Œæ— æ³•éªŒè¯", Location = new Point(LBL_X + 116, y + 4), AutoSize = true, ForeColor = canExecute ? Color.Gray : Color.Orange, Margin = Padding.Empty };
-            bool credVerified = false;
-            btnValidate.Click += async (s, e) =>
-            {
-                if (!canExecute) return;
-                string u = txtUser.Text.Trim();
-                string p = txtPw.Text;
-                if (string.IsNullOrEmpty(u) || string.IsNullOrEmpty(p))
-                {
-                    lblValidateStatus.Text = "è¯·å…ˆå¡«å†™ç”¨æˆ·åå’Œå¯†ç ";
-                    lblValidateStatus.ForeColor = Color.Orange;
-                    return;
-                }
-                btnValidate.Enabled = false;
-                btnValidate.Text = "éªŒè¯ä¸­...";
-                lblValidateStatus.Text = "â³ æ­£åœ¨é€šè¿‡ VMware Tools éªŒè¯å‡­è¯...";
-                lblValidateStatus.ForeColor = Color.Gray;
-
-                string psCheck = VirtualizationOpsTool.Core.GuestOpsHelper.BuildCredentialCheckScript(vmMoRef, u, p, isLinux);
-                string checkOutput = await VirtualizationOpsTool.Core.SessionManager.Instance.ExecutePsScriptAsync(psCheck);
-
-                btnValidate.Enabled = true;
-                btnValidate.Text = "ğŸ” éªŒè¯å‡­è¯";
+                Text = "æ–°å¡¹è {ï&ˆ‹BˆØØ][ÛˆH™]ÈÚ[
+“ÖH
+ÈJKBˆÚ^™HH™]ÈÚ^™J“ÕÈHŒ
+KBˆ^[YÛˆHÛÛ[[YÛ›Y[“ZYTšYÚBˆNÃBˆËÛÛ›ÛËY
+›™]ÔÊNÃBƒBˆ[ÛÜTšYÚHÛY[šYÚHÃBˆ˜\ˆ™]ÔÈH™]È^›ŞBˆÃBˆ^HQUSÔËBˆØØ][ÛˆH™]ÈÚ[
+Õ“ÖJKBˆÚYHÛÜTšYÚHÕ“ÖH‹Bˆ›ÛH™]È›Û
+ÛÛœÛÛ\È‹LK›Ûİ[K›Û
+KBˆ›Ü™PÛÛÜˆHÛÛÜ‹‘œ›ÛP\™ØŠL
+KBˆ›Ü™\”İ[HH›Ü™\”İ[K‘š^YÚ[™ÛCBˆNÃBˆËÛÛ›ÛËY
+™]ÔÊNÃBƒBˆ˜\ˆÛÜTÈH™]È]ÛƒBˆÃBˆ^H¼%8²ZHŞX‹b"ÀĞ¢Æö6F–öâÒæWrö–çB†'Fä6÷•&–v‡E‚Â’Ò’ÀĞ¢6—¦RÒæWr6—¦Rƒs‚Â#‚’ÀĞ¢7W'6÷"Ò7W'6÷'2ä†æ@Ğ¢Ó°Ğ¢FÆrä6öçG&öÇ2äFB†'Fä6÷•r“²’³Ò3C°Ğ Ğ¢7G&–ær7W'&VçE&æFöÕrÒvVæW&FU&æFöÕ77v÷&B‚“°Ğ¢7G&–ær7W'&VçE'VÆUrÒ7G&–ærä—4çVÆÄ÷$V×G’†6$—cBåFW‡BĞ¢òvVæW&FU'VÆU77v÷&B„W‡G&7DÆ7EGvôö7FWG2†6$—cBåFW‡B’Ğ¢¢"#°Ğ Ğ¢fö–BWFFU&Wf–Wr‚Ğ¢°Ğ¢–b‡&$–æ—Bä6†V6¶VBĞ¢°Ğ¢G‡DæWuråFW‡BÒDTdTÅEõs°Ğ¢G‡DæWuräf÷&T6öÆ÷"Ò6öÆ÷"äg&öÔ&v"ƒÂÂ“°Ğ¢ĞĞ¢VÇ6R–b‡&%&æFöÒä6†V6¶VBĞ¢°Ğ¢G‡DæWuråFW‡BÒ7W'&VçE&æFöÕs°Ğ¢G‡DæWuräf÷&T6öÆ÷"Ò6öÆ÷"äg&öÔ&v"ƒÂÂ“°Ğ¢ĞĞ¢VÇ6PĞ¢°Ğ¢–b‚7G&–ærä—4çVÆÄ÷$V×G’†6$—cBåFW‡B’Ğ¢°Ğ¢G‡DæWuråFW‡BÒ7W'&VçE'VÆUs°Ğ¢G‡DæWuräf÷&T6öÆ÷"Ò6öÆ÷"äg&öÔ&v"ƒÂÂ“°Ğ¢ĞĞ¢VÇ6PĞ¢°Ğ¢G‡DæWuråFW‡BÒ"#°Ğ¢G‡DæWuräf÷&T6öÆ÷"Ò6öÆ÷"äf—&V'&–6³°Ğ¢ĞĞ¢ĞĞ¢ĞĞ Ğ¢'Fä6÷•rä6Æ–6²³Ò‡2ÂR’ÓàĞ¢°Ğ¢7G&–ærrÒG‡DæWuråFW‡C°Ğ¢–b‡7G&–ærä—4çVÆÄ÷$V×G’‡r’Ğ¢°Ğ¢Fö7EWF–Ç2å6†÷uFö7B†FÆrÂ.)ªZønzK‹®z›®ûÈÎizk9^ZHŞX‹b"ÂS“°Ğ¢&WGW&ã°Ğ¢ĞĞ¢6Æ—&ö&Bå6WEFW‡B‡r“°Ğ¢Fö7EWF–Ç2å6†÷uFö7B†FÆrÂ.)É2Zønz[{.ZHŞX‹nX‹Xš®‹KNiÛò"ÂS“°Ğ¢Ó°Ğ Ğ¢&$–æ—Bä6†V6¶VD6†ævVB³Ò‡2ÂR’Óâ²'Få&æFöÕ&VvVâäVæ&ÆVBÒ&%&æFöÒä6†V6¶VC²6$—cBäVæ&ÆVBÒ&%'VÆRä6†V6¶VC²WFFU&Wf–Wr‚“²Ó°Ğ¢&%&æFöÒä6†V6¶VD6†ævVB³Ò‡2ÂR’Óâ²'Få&æFöÕ&VvVâäVæ&ÆVBÒ&%&æFöÒä6†V6¶VC²6$—cBäVæ&ÆVBÒ&%'VÆRä6†V6¶VC²WFFU&Wf–Wr‚“²Ó°Ğ¢&%'VÆRä6†V6¶VD6†ævVB³Ò‡2ÂR’ÓàĞ¢°Ğ¢'Få&æFöÕ&VvVâäVæ&ÆVBÒ&%&æFöÒä6†V6¶VC°Ğ¢6$—cBäVæ&ÆVBÒ&%'VÆRä6†V6¶VC°Ğ¢–b‚7G&–ærä—4çVÆÄ÷$V×G’†6$—cBåFW‡B’Ğ¢°Ğ¢7G&–ærÆ7C"ÒW‡G&7DÆ7EGvôö7FWG2†6$—cBåFW‡B“°Ğ¢7W'&VçE'VÆUrÒvVæW&FU'VÆU77v÷&B†Æ7C"“°Ğ¢Æ&Å'VÆTÆ7C"åFW‡BÒ"YîKŠNjëS¢"²Æ7C"²"’#°Ğ¢ĞĞ¢WFFU&Wf–Wr‚“°Ğ¢Ó°Ğ¢6$—cBå6VÆV7FVD–æFW„6†ævVB³Ò‡2ÂR’ÓàĞ¢°Ğ¢–b‚7G&–ærä—4çVÆÄ÷$V×G’†6$—cBåFW‡B’Ğ¢°Ğ¢7G&–ærÆ7C"ÒW‡G&7DÆ7EGvôö7FWG2†6$—cBåFW‡B“°Ğ¢7W'&VçE'VÆUrÒvVæW&FU'VÆU77v÷&B†Æ7C"“°Ğ¢Æ&Å'VÆTÆ7C"åFW‡BÒ"YîKŠNjëS¢"²Æ7C"²"’#°Ğ¢–b‡&%'VÆRä6†V6¶VB’WFFU&Wf–Wr‚“°Ğ¢ĞĞ¢Ó°Ğ¢6$—cBåFW‡D6†ævVB³Ò‡2ÂR’ÓàĞ¢°Ğ¢–b‚7G&–ærä—4çVÆÄ÷$V×G’†6$—cBåFW‡B’Ğ¢°Ğ¢7G&–ærÆ7C"ÒW‡G&7DÆ7EGvôö7FWG2†6$—cBåFW‡B“°Ğ¢7W'&VçE'VÆUrÒvVæW&FU'VÆU77v÷&B†Æ7C"“°Ğ¢Æ&Å'VÆTÆ7C"åFW‡BÒ"YîKŠNjëS¢"²Æ7C"²"’#°Ğ¢–b‡&%'VÆRä6†V6¶VB’WFFU&Wf–Wr‚“°Ğ¢ĞĞ¢Ó°Ğ¢'Få&æFöÕ&VvVâä6Æ–6²³Ò‡2ÂR’Óâ²7W'&VçE&æFöÕrÒvVæW&FU&æFöÕ77v÷&B‚“²WFFU&Wf–Wr‚“²Ó°Ğ¢'Få'VÆT6frä6Æ–6²³Ò‡2ÂR’Ğ4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€M¡½İIÕ±•A…ÍÍİ½É‘½¹™¥¥…±½œ¡‘±œ¤ì4(€€€€€€€€€€€€€€€¥˜€ …ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡‰%ÁØĞ¹Q•áĞ¤¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€ÍÑÉ¥¹œ±…ÍĞÈ€ôáÑÉ…Ñ1…ÍÑQİ½=Ñ•ÑÌ¡‰%ÁØĞ¹Q•áĞ¤ì4(€€€€€€€€€€€€€€€€€€€ÕÉÉ•¹ÑIÕ±•AÜ€ô•¹•É…Ñ•IÕ±•A…ÍÍİ½É¡±…ÍĞÈ¤ì4(€€€€€€€€€€€€€€€€€€€±‰±IÕ±•1…ÍĞÈ¹Q•áĞ€ô€ˆ£–B;’â“šºÔè€ˆ€¬±…ÍĞÈ€¬€ˆ¤ˆì4(€€€€€€€€€€€€€€€€€€€¥˜€¡É‰IÕ±”¹¡•­•¤UÁ‘…Ñ•AÉ•Ù¥•Ü ¤ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€ôì4(4(€€€€€€€€€€€Ù…È±‰±M•Ñ¥½¸È€ô¹•Ü1…‰•°ìQ•áĞ€ô€‹ŠRŠR Õ•ÍĞ=Lƒ–·¢¾¼ˆç”¨äºç™¹oey¢iŠÎiKZønˆI®iÊÎò$ƒŠRŠR ˆ°½É•½±½È€ô½±½È¹¥µÉ…ä°1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ¡1	1}`°ä¤°ÕÑ½M¥é”€ôÑÉÕ”ôì4(€€€€€€€€€€€‘±œ¹½¹ÑÉ½±Ì¹‘¡±‰±M•Ñ¥½¸È¤ìä€¬ô€ÈÈì4(4(€€€€€€€€€€€Ù…È±‰±UÍ•È€ô¹•Ü1…‰•°ìQ•áĞ€ô€‹R£š"ß–B7¾òhˆ°1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ¡1	1}`°ä€¬€Ì¤°M¥é”€ô¹•ÜM¥é”¡1	1}\€´€Ğ°€ÈÀ¤°Q•áÑ±¥¸€ô½¹Ñ•¹Ñ±¥¹µ•¹Ğ¹5¥‘‘±•I¥¡Ğôì4(€€€€€€€€€€€‘±œ¹½¹ÑÉ½±Ì¹‘¡±‰±UÍ•È¤ì4(€€€€€€€€€€€Ù…ÈÑáÑUÍ•È€ô¹•ÜQ•áÑ	½àìQ•áĞ€ô‘•™…Õ±ÑUÍ•È°1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ¡QI1}`°ä¤°]¥‘Ñ €ô±¥•¹ÑI¥¡Ğ€´QI1}`ôì4(€€€€€€€€€€€‘±œ¹½¹ÑÉ½±Ì¹‘¡ÑáÑUÍ•È¤ìä€¬ôI=]} ì4(4(€€€€€€€€€€€Ù…È±‰±AÜ€ô¹•Ü1…‰•°ìQ•áĞ€ô€‹–öE‰å¯†ç ï&ˆ‹ØØ][ÛˆH™]ÈÚ[
+“ÖH
+ÈÊKÚ^™HH™]ÈÚ^™J“ÕÈHŒ
+K^[YÛˆHÛÛ[[YÛ›Y[“ZYTšYÚNÃBˆËÛÛ›ÛËY
+›ÊNÃBˆ˜\ˆÈH™]È^›ŞÈ\ÙTŞ\İ[T\ÜİÛÜ™Ú\ˆHYK^HQUSÔËØØ][ÛˆH™]ÈÚ[
+Õ“ÖJKÚYHÛY[šYÚHÕ“ÖHNÃBˆËÛÛ›ÛËY
+ÊNÃBˆ˜\ˆÚÔÚİÔÈH™]ÈÚXÚĞ›ŞÈ^H¹¦.zK¢"ÂWFõ6—¦RÒG'VRÂÆö6F–öâÒæWrö–çB†6Æ–VçE&–v‡BÒcÂ’²2’Â7W'6÷"Ò7W'6÷'2ä†æBÓ°Ğ¢6†µ6†÷urä6†V6¶VD6†ævVB³Ò‡2ÂR’ÓâG‡EråW6U7—7FVÕ77v÷&D6†"Ò6†µ6†÷urä6†V6¶VC°Ğ¢FÆrä6öçG&öÇ2äFB†6†µ6†÷ur“²’³Ò$õuô‚²#°Ğ Ğ¢f"'FåfÆ–FFRÒæWr'WGFöâ²FW‡BÒ/	ùHÒš¨ÎŠøXzŞŠø"ÂÆö6F–öâÒæWrö–çB„Ä$Åõ‚Â’’Â6—¦RÒæWr6—¦RƒÂ#b’ÂÖ&v–âÒFF–æräV×G’ÂVæ&ÆVBÒ6äW†V7WFRÓ°Ğ¢f"Æ&ÅfÆ–FFU7FGW2ÒæWrÆ&VÂ²FW‡BÒ6äW†V7WFRò.XzŞŠšr«¦ª3¢" : "VMware Tools æœªå°±ç»ªï¼Œæ— æ³•éªŒè H‹ØØ][ÛˆH™]ÈÚ[
+“Ö
+ÈLM‹H
+È
+K]]ÔÚ^™HHYK›Ü™PÛÛÜˆHØ[‘^Xİ]HÈÛÛÜ‹‘Ü˜^HˆÛÛÜ‹“Ü˜[™ÙKX\™Ú[ˆHY[™Ë‘[\HNÃBˆ›ÛÛÜ™Y™\šYšYYH˜[ÙNÃBˆ•˜[Y]KÛXÚÈ
+ÏH\Ş[˜È
+ËJHOƒBˆÃBˆYˆ
+XØ[‘^Xİ]JH™]\›ÃBˆİš[™ÈHH\Ù\‹•^•š[J
+NÃBˆİš[™ÈHË•^ÃBˆYˆ
+İš[™Ë’\Ó[Ü‘[\JJHİš[™Ë’\Ó[Ü‘[\J
+JCBˆÃBˆ›˜[Y]Tİ]\Ë•^Hº+íùab9hjùa¦yå*9¢-ùd#yd£9ká¹è HÃBˆ›˜[Y]Tİ]\Ë‘›Ü™PÛÛÜˆHÛÛÜ‹“Ü˜[™ÙNÃBˆ™]\›ÃBˆCBˆ•˜[Y]K‘[˜X›YH˜[ÙNÃBˆ•˜[Y]K•^Hºj£:(KŠÒâââ#°Ğ¢Æ&ÅfÆ–FFU7FGW2åFW‡BÒ.(û2jÚ>YÊ˜	®‹ørd×v&RFööÇ2š¨ÎŠøXzŞŠøâââ#°Ğ¢Æ&ÅfÆ–FFU7FGW2äf÷&T6öÆ÷"Ò6öÆ÷"äw&“°Ğ Ğ¢7G&–ær46†V6²Òf—'GVÆ—¦F–öä÷5FööÂä6÷&RäwVW7D÷4†VÇW"ä'V–ÆD7&VFVçF–Ä6†V6µ67&—B‡fÔÖõ&VbÂRÂÂ—4Æ–çW‚“°Ğ¢7G&–ær6†V6´÷WGWBÒv—Bf—'GVÆ—¦F–öä÷5FööÂä6÷&Rå6W76–öäÖævW"ä–ç7Fæ6RäW†V7WFU567&—D7–æ2‡46†V6²“°Ğ Ğ¢'FåfÆ–FFRäVæ&ÆVBÒG'VS°Ğ¢'FåfÆ–FFRåFW‡BÒ/	ùHÒš¨ÎŠ–·¢";
 
                 string trimmed = checkOutput?.Trim() ?? "";
                 if (trimmed.Contains("VMT_OK:"))
                 {
                     string ident = trimmed.Substring(trimmed.IndexOf("VMT_OK:") + 7).Trim();
                     credVerified = true;
-                    lblValidateStatus.Text = $"âœ… å‡­è¯æ­£ç¡® (èº«ä»½: {ident})";
-                    lblValidateStatus.ForeColor = Color.FromArgb(0, 128, 0);
-                }
-                else if (trimmed.Contains("VMT_BADAUTH"))
-                {
-                    credVerified = false;
-                    lblValidateStatus.Text = "âŒ ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯";
-                    lblValidateStatus.ForeColor = Color.Firebrick;
-                }
-                else if (trimmed.Contains("VMT_NOTOOLS"))
-                {
-                    credVerified = false;
-                    lblValidateStatus.Text = "âš  VMware Tools æœªå°±ç»ª";
-                    lblValidateStatus.ForeColor = Color.Orange;
-                }
-                else
-                {
-                    credVerified = false;
-                    string detail = trimmed.StartsWith("VMT_ERROR:") ? trimmed.Substring(10) : trimmed;
-                    lblValidateStatus.Text = $"âŒ éªŒè¯å¤±è´¥: {detail}";
-                    lblValidateStatus.ForeColor = Color.Firebrick;
-                }
-            };
-            txtUser.TextChanged += (s, e) => { credVerified = false; lblValidateStatus.Text = "å‡­è¯æœªéªŒè¯"; lblValidateStatus.ForeColor = Color.Gray; };
-            txtPw.TextChanged += (s, e) => { credVerified = false; lblValidateStatus.Text = "å‡­è¯æœªéªŒè¯"; lblValidateStatus.ForeColor = Color.Gray; };
-            dlg.Controls.Add(btnValidate);
-            dlg.Controls.Add(lblValidateStatus); y += ROW_H;
-
-            var lblHint = new Label
-            {
-                Text = "ğŸ’¡ æ”¹å¯†è„šæœ¬é€šè¿‡ VMware Tools RPC ä¸‹å‘ï¼Œæ‰§è¡Œå®Œæ¯•åè‡ªåŠ¨è‡ªåˆ é™¤",
-                ForeColor = Color.FromArgb(100, 100, 100),
-                AutoSize = true,
-                Location = new Point(LBL_X, y),
-                MaximumSize = new Size(450, 0)
-            };
-            dlg.Controls.Add(lblHint); y += 20;
-
-            var btnPanel = new FlowLayoutPanel
-            {
-                Dock = DockStyle.Bottom, Height = 44,
-                FlowDirection = FlowDirection.LeftToRight,
-                WrapContents = false,
-                Padding = new Padding(0, 6, 0, 6),
-                BackColor = Color.FromArgb(240, 240, 240)
-            };
-            var btnOk = new Button { Text = "âš¡ æ‰§è¡Œæ”¹å¯†", DialogResult = DialogResult.OK, Size = new Size(110, 28), Enabled = canExecute };
-            var btnCancel = new Button { Text = "å–æ¶ˆ", DialogResult = DialogResult.Cancel, Size = new Size(80, 28) };
+                    lblValidateStatus.Text = $"âœ… å‡­è¯æ­£ç¡® (èº©.ïNˆÚY[JHÃBˆ›˜[Y]Tİ]\Ë‘›Ü™PÛÛÜˆHÛÛÜ‹‘œ›ÛP\™ØŠL
+NÃBˆCBˆ[ÙHYˆ
+š[[YYÛÛZ[œÊ•“UĞQUUŠJCBˆÃBˆÜ™Y™\šYšYYH˜[ÙNÃBˆ›˜[Y]Tİ]\Ë•^H¸§c9å*9¢-YŞh‰nZønz™IŠúò#°Ğ¢Æ&ÅfÆ–FFU7FGW2äf÷&T6öÆ÷"Ò6öÆ÷"äf—&V'&–6³°Ğ¢ĞĞ¢VÇ6R–b‡G&–ÖÖVBä6öçF–ç2‚%dÕEôäõDôôÅ2"’Ğ¢°Ğ¢7&VEfW&–f–VBÒfÇ6S°Ğ¢Æ&ÅfÆ–FFU7FGW2åFW‡BÒ.)ªd×v&RFööÇ2iÊ®[{º¢#°Ğ¢Æ&ÅfÆ–FFU7FGW2äf÷&T6öÆ÷"Ò6öÆ÷"ä÷&ævS°Ğ¢ĞĞ¢VÇ6PĞ¢°Ğ¢7&VEfW&–f–VBÒfÇ6S°Ğ¢7G&–ærFWF–ÂÒG&–ÖÖVBå7F'G5v—F‚‚%dÕEôU%$õ#¢"’òG&–ÖÖVBå7V'7G&–ærƒ’¢G&–ÖÖVC°Ğ¢Æ&ÅfÆ–FFU7FGW2åFW‡BÒB.)ØÂš¨ÎŠøZK‹JS¢¶FWF–ÇÒ#°Ğ¢Æ&ÅfÆ–FFU7FGW2äf÷&T6öÆ÷"Ò6öÆ÷"äf—&V'&–6³°Ğ¢ĞĞ¢Ó°Ğ¢G‡EW6W"åFW‡D6†ævVB³Ò‡2ÂR’ĞìÉ•‘Y•É¥™¥•€ô™…±Í”ì±‰±Y…±¥‘…Ñ•MÑ…ÑÕÌ¹Q•áĞ€ô€‹–·¢æœªéªŒè HÈ›˜[Y]Tİ]\Ë‘›Ü™PÛÛÜˆHÛÛÜ‹‘Ü˜^NÈNÃBˆË•^Ú[™ÙY
+ÏH
+ËJHOˆÈÜ™Y™\šYšYYH˜[ÙNÈ›˜[Y]Tİ]\Ë•^H¹aëz+ày§*ºj£:+àHÈ›˜[Y]Tİ]\Ë‘›Ü™PÛÛÜˆHÛÛÜ‹‘Ü˜^NÈNÃBˆËÛÛ›ÛËY
+•˜[Y]JNÃBˆËÛÛ›ÛËY
+›˜[Y]Tİ]\ÊNÈH
+ÏH“Õ×ÒÃBƒBˆ˜\ˆ›[H™]ÈX™[BˆÃBˆ^H¼%*iKZønˆI®iÊÎ˜	®‹ørd×v&RFööÇ2%2Kˆ¾XùûÈÎhš~ŠÎZèÎjù^Yîˆz®Xªˆz®XŠ™šB"ÀĞ¢f÷&T6öÆ÷"Ò6öÆ÷"äg&öÔ&v"ƒÂÂ’ÀĞ¢WFõ6—¦RÒG'VRÀĞ¢Æö6F–öâÒæWrö–çB„Ä$Åõ‚Â’’ÀĞ¢Ö†–×VÕ6—¦RÒæWr6—¦RƒCSÂĞ¢Ó°Ğ¢FÆrä6öçG&öÇ2äFB†Æ&Ä†–çB“²’³Ò#°Ğ Ğ¢f"'FåæVÂÒæWrfÆ÷tÆ–÷WEæVÀĞ¢°Ğ¢Fö6²ÒFö6µ7G–ÆRä&÷GFöÒÂ†V–v‡BÒCBÀĞ¢fÆ÷tF—&V7F–öâÒfÆ÷tF—&V7F–öâäÆVgEFõ&–v‡BÀĞ¢w&6öçFVçG2ÒfÇ6RÀĞ¢FF–ærÒæWrFF–ærƒÂbÂÂb’ÀĞ¢&6´6öÆ÷"Ò6öÆ÷"äg&öÔ&v"ƒ#CÂ#CÂ#CĞ¢Ó°Ğ¢f"'Fäö²ÒæWr'WGFöâ²FW‡BÒ.)ªhš~ŠÎiKZˆ°¥…±½I•ÍÕ±Ğ€ô¥…±½I•ÍÕ±Ğ¹=,°M¥é”€ô¹•ÜM¥é” ÄÄÀ°€Èà¤°¹…‰±•€ô…¹á•ÕÑ”ôì4(€€€€€€€€€€€Ù…È‰Ñ¹…¹•°€ô¹•Ü	ÕÑÑ½¸ìQ•áĞ€ô€‹–æ¶ˆ", DialogResult = DialogResult.Cancel, Size = new Size(80, 28) };
             btnPanel.Controls.Add(btnOk);
             btnPanel.Controls.Add(btnCancel);
             CenterFlowPanel(btnPanel);
@@ -2778,19 +1002,9 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
             dlg.AcceptButton = btnOk;
             dlg.CancelButton = btnCancel;
 
-            btnOk.Click += (s, e) =>
-            {
-                if (!credVerified)
-                {
-                    var dr = MessageBox.Show("å°šæœªéªŒè¯ Guest OS å‡­è¯ï¼Œæ˜¯å¦ä»ç„¶ç»§ç»­æ‰§è¡Œï¼Ÿ", "æç¤º",
-                        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (dr != DialogResult.Yes) return;
-                }
-
-                string newPw = txtNewPw.Text;
-                if (string.IsNullOrWhiteSpace(newPw))
-                {
-                    MessageBox.Show("è¯·å…ˆå¡«å†™æ–°å¯†ç ", "æç¤º", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            btnOk.Click += (s, e) =BˆÃBˆYˆ
+XÜ™Y™\šYšYY
+CBˆÃBˆ˜\ˆˆHY\ÜØYÙP›Ş”ÚİÊ¹l&¹§*ºj£:+àHİY\İÔÈ9aëz+à{ï#9¦+ùd)¹.ãyá-¹îéùîëy¢iú(c;ï'È‹¹¡zK¢"ÀĞ¢ÖW76vT&÷„'WGFöç2å–W4æòÂÖW76vT&÷„–6öâåVW7F–öâ“°Ğ¢–b†G"ÒF–Æöu&W7VÇBå–W2’&WGW&ã°Ğ¢ĞĞ Ğ¢7G&–æræWurÒG‡DæWuråFW‡C°Ğ¢–b‡7G&–ærä—4çVÆÄ÷%v†—FU76R†æWur’Ğ¢°Ğ¢ÖW76vT&÷‚å6†÷r‚.ŠûV#–†¥†™æ–°å¯†ç ", "æç¤º", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -2815,116 +1029,22 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
             string psScript = BuildGuestOpsPasswordPsScript(vmMoRef, guestUserFinal, guestPwFinal, targetUserFinal, newPasswordFinal, isLinux);
 
             LogMessage("ä¿¡æ¯", $"ä¸ºã€{vmName}ã€‘æ‰§è¡Œå®¢æˆ·æœºå¯†ç é…ç½®ï¼šç›®æ ‡ç”¨æˆ·={targetUserFinal}ï¼Œæ–°å¯†ç ={newPasswordFinal}");
-            ExecuteVmOperation(psScript, $"å®¢æˆ·æœºå¯†ç é…ç½®: {vmName}", null, () => { });
-        }
+            ExecuteVmOperation(psScript, $"å®¢æˆ·æœºå¡¹è zacyïkˆİ›S˜[Y_H‹[
 
-        // ====================================================================
-        // å¯†ç è„šæœ¬æ„å»ºï¼ˆä¸ DeployManager.BuildGuestOpsScript åŒæ¨¡å¼ï¼šèµ„æºè„šæœ¬ + å ä½ç¬¦æ›¿æ¢ + base64ï¼‰
-        // ====================================================================
-
-        private static string BuildGuestOpsPasswordPsScript(string vmMoRef, string guestUser, string guestPassword, string targetUser, string newPassword, bool isLinux)
-        {
-            var asm = System.Reflection.Assembly.GetExecutingAssembly();
-            var asmName = asm.GetName().Name;
-            string scriptTemplate;
-            string resName = asmName + ".scripts." + (isLinux ? "guestops-linux-pass.sh" : "guestops-windows-pass.ps1");
-
-            try
-            {
-                using var stream = asm.GetManifestResourceStream(resName);
-                if (stream != null)
-                {
-                    using var reader = new System.IO.StreamReader(stream, System.Text.Encoding.UTF8);
-                    scriptTemplate = reader.ReadToEnd();
-                }
-                else
-                {
-                    scriptTemplate = isLinux
-                        ? "#!/bin/bash\necho \"FAIL:resource not found: " + resName + "\"; exit 1"
-                        : "Write-Output 'FAIL:resource not found: " + resName + "'; exit 1";
-                }
-            }
-            catch (Exception ex)
-            {
-                scriptTemplate = isLinux
-                    ? "#!/bin/bash\necho \"FAIL:load error: " + ex.Message.Replace("'", "\\'") + "\"; exit 1"
-                    : "Write-Output 'FAIL:load error: " + ex.Message.Replace("'", "\\'") + "'; exit 1";
-            }
-
-            string userFinal = string.IsNullOrEmpty(targetUser) ? (isLinux ? "root" : "Administrator") : targetUser;
-            string safeUser = isLinux ? userFinal.Replace("'", "'\\''") : userFinal.Replace("\"", "\"\"");
-            string safePw = isLinux ? newPassword.Replace("'", "'\\''") : newPassword.Replace("\"", "\"\"");
-            string scriptFilled = scriptTemplate
-                .Replace("${TARGET_USER}", safeUser)
-                .Replace("${NEW_PASSWORD}", safePw);
-
-            string scriptB64 = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(scriptFilled));
-            string vmMoRefPs = vmMoRef.Replace("'", "''");
-            string pwPs = guestPassword.Replace("'", "''");
-            string newPwPs = newPassword.Replace("'", "''");
-            string userPs = (guestUser ?? "").Replace("'", "''");
-
-            string userLogin = string.IsNullOrEmpty(userPs) ? (isLinux ? "root" : "Administrator") : userPs;
-            string guestTmp = isLinux
-                ? "/tmp/vmt_pass_" + Guid.NewGuid().ToString("N") + ".sh"
-                : "C:\\Windows\\Temp\\vmt_pass_" + Guid.NewGuid().ToString("N") + ".ps1";
-            string runCmd = isLinux
-                ? "bash " + guestTmp
-                : "powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File " + guestTmp;
-
-            return $@"
-$ErrorActionPreference = 'Stop';
-Write-Host ('GuestOps Password: isLinux=' + '{isLinux}' + ' target=' + '{userFinal}' + ' Assembly=' + '{asmName}');
-$vi = Get-VM -Id '{vmMoRefPs}' -ErrorAction Stop;
-$scriptContent = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('{scriptB64}'));
-$userLogin = '{userLogin}';
-$pwLogin = '{pwPs}';
-$newPwLogin = '{newPwPs}';
-$localTmp = Join-Path $env:TEMP ('vmt_pass_' + [IO.Path]::GetRandomFileName());
-$utf8NoBom = [Text.UTF8Encoding]::new($false);
-$utf8Bom = [Text.UTF8Encoding]::new($true);
-$enc = if ('{isLinux}' -eq 'True') {{ $utf8NoBom }} else {{ $utf8Bom }};
-$verifyCmd = if ('{isLinux}' -eq 'True') {{ 'echo VMT_VERIFY_OK' }} else {{ 'Write-Output VMT_VERIFY_OK' }};
-try {{
-  Write-Host ('GuestOps Password: push script...');
-  [IO.File]::WriteAllText($localTmp, $scriptContent, $enc);
-  Copy-VMGuestFile -VM $vi -Source $localTmp -Destination '{guestTmp}' -LocalToGuest -GuestUser $userLogin -GuestPassword $pwLogin -Force -ErrorAction Stop | Out-Null;
-  Write-Host ('GuestOps Password: script pushed');
-  Write-Host ('GuestOps Password: execute with OLD credentials...');
-  try {{
-    $result = Invoke-VMScript -VM $vi -ScriptText '{runCmd}' -GuestUser $userLogin -GuestPassword $pwLogin -ErrorAction Stop;
-    if ($null -eq $result) {{ throw 'Invoke-VMScript returned null' }};
-    Write-Host ('GuestOps Password ExitCode=' + $result.ExitCode);
-    if ($result.ScriptOutput) {{ Write-Host ('GuestOps Password Output:'); Write-Host $result.ScriptOutput }};
-    if ($result.ScriptError) {{ Write-Host ('GuestOps Password Error:'); Write-Host $result.ScriptError }};
-    $nl = [Environment]::NewLine;
-    $combined = (@($result.ScriptOutput) + @($result.ScriptError)) -join $nl;
-    if ($combined -match 'SUCCESS') {{
-      Write-Host 'GuestOps Password: SUCCESS æ ‡è®°ç¡®è®¤';
-    }} elseif ($combined -match 'FAIL') {{
-      $failLine = ($combined -split $nl | Where-Object {{ $_ -match 'FAIL' }} | Select-Object -Last 1);
-      throw ('å¯†ç è„šæœ¬è¿”å›å¤±è´¥æ ‡è®°: ' + $failLine.Trim());
-    }} elseif ($result.ExitCode -ne 0) {{
-      throw ('å¯†ç è®¾ç½®å¤±è´¥ ExitCode=' + $result.ExitCode);
-    }} else {{
-      Write-Host ('GuestOps Password: æœªæ£€æµ‹åˆ° SUCCESS/FAIL æ ‡è®°ï¼ŒExitCode=' + $result.ExitCode);
-    }}
-    Write-Host 'GuestOps Password: å®Œæˆ';
-  }} catch {{
-    $msg = $_.Exception.Message;
-    if ($msg -match 'authenticate|Authentication') {{
-      Write-Host ('GuestOps Password: session auth lost â€” password changed by script, SUCCESS');
-      Write-Host 'GuestOps Password: å¯†ç å·²æˆåŠŸæ›´æ”¹ï¼ˆVMware Tools session å› å¯†ç å˜æ›´è€Œæ–­å¼€ï¼Œå±é¢„æœŸè¡Œä¸ºï¼‰';
-    }} else {{
-      Write-Host ('GuestOps Password: UNEXPECTED exception: ' + $msg);
-      if ($_.Exception.InnerException) {{ Write-Host ('Inner: ' + $_.Exception.InnerException.Message) }};
-      throw;
-    }}
-  }}
-}} finally {{
-  Remove-Item $localTmp -Force -ErrorAction SilentlyContinue;
-}}
-";
-        }
-    }
-}
+HB²Ò“°Ğ¢ĞĞ Ğ¢òòÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓĞĞ¢òòZønzˆI®iÊÎièN[»®ûÈKˆâFWÆ÷”ÖævW"ä'V–ÆDwVW7D÷567&—BYÎjŠ[Èüšèµ„æºè„šæœ¬ + å ä½ç¬¦æ›½£hˆ
+È˜\ÙM;ÈĞ¢òòÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓĞĞ Ğ¢&—fFR7FF–27G&–ær'V–ÆDwVW7D÷577v÷&E567&—B‡7G&–ærfÔÖõ&VbÂ7G&–ærwVW7EW6W"Â7G&–ærwVW7E77v÷&BÂ7G&–ærF&vWEW6W"Â7G&–æræWu77v÷&BÂ&ööÂ—4Æ–çW‚Ğ¢°Ğ¢f"6ÒÒ7—7FVÒå&VfÆV7F–öâä76VÖ&Ç’ävWDW†V7WF–æt76VÖ&Ç’‚“°Ğ¢f"6ÔæÖRÒ6ÒävWDæÖR‚’äæÖS°Ğ¢7G&–ær67&—EFV×ÆFS°Ğ¢7G&–ær&W4æÖRÒ6ÔæÖR²"ç67&—G2â"²†—4Æ–çW‚ò&wVW7F÷2ÖÆ–çW‚×72ç6‚"¢&wVW7F÷2×v–æF÷w2×72ç3"“°Ğ Ğ¢G'Ğ¢°Ğ¢W6–ærf"7G&VÒÒ6ÒävWDÖæ–fW7E&W6÷W&6U7G&VÒ‡&W4æÖR“°Ğ¢–b‡7G&VÒÒçVÆÂĞ¢°Ğ¢W6–ærf"&VFW"ÒæWr7—7FVÒä”òå7G&VÕ&VFW"‡7G&VÒÂ7—7FVÒåFW‡BäVæ6öF–æråUDc‚“°Ğ¢67&—EFV×ÆFRÒ&VFW"å&VEFôVæB‚“°Ğ¢ĞĞ¢VÇ6PĞ¢°Ğ¢67&—EFV×ÆFRÒ—4Æ–çW€Ğ¢ò"2ö&–âö&6…ÆæV6†òÂ$d”Ã§&W6÷W&6Ræ÷Bf÷VæC¢"²&W4æÖR²%Â#²W†—B Ğ¢¢%w&—FRÔ÷WGWBtd”Ã§&W6÷W&6Ræ÷Bf÷VæC¢"²&W4æÖR²"s²W†—B#°Ğ¢ĞĞ¢ĞĞ¢6F6‚„W†6WF–öâW‚Ğ¢°Ğ¢67&—EFV×ÆFRÒ—4Æ–çW€Ğ¢ò"2ö&–âö&6…ÆæV6†òÂ$d”Ã¦ÆöBW'&÷#¢"²W‚äÖW76vRå&WÆ6R‚"r"Â%ÅÂr"’²%Â#²W†—B Ğ¢¢%w&—FRÔ÷WGWBtd”Ã¦ÆöBW'&÷#¢"²W‚äÖW76vRå&WÆ6R‚"r"Â%ÅÂr"’²"s²W†—B#°Ğ¢ĞĞ Ğ¢7G&–ærW6W$f–æÂÒ7G&–ærä—4çVÆÄ÷$V×G’‡F&vWEW6W"’ò†—4Æ–çW‚ò'&ö÷B"¢$FÖ–æ—7G&F÷""’¢F&vWEW6W#°Ğ¢7G&–ær6fUW6W"Ò—4Æ–çW‚òW6W$f–æÂå&WÆ6R‚"r"Â"uÅÂrr"’¢W6W$f–æÂå&WÆ6R‚%Â""Â%Â%Â""“°Ğ¢7G&–ær6fUrÒ—4Æ–çW‚òæWu77v÷&Bå&WÆ6R‚"r"Â"uÅÂrr"’¢æWu77v÷&Bå&WÆ6R‚%Â""Â%Â%Â""“°Ğ¢7G&–ær67&—Df–ÆÆVBÒ67&—EFV×ÆFPĞ¢å&WÆ6R‚"GµD$tUEõU4U'Ò"Â6fUW6W"Ğ¢å&WÆ6R‚"G´äUuõ55tõ$GÒ"Â6fUr“°Ğ Ğ¢7G&–ær67&—D#cBÒ6öçfW'BåFô&6ScE7G&–ær…7—7FVÒåFW‡BäVæ6öF–æråUDc‚ävWD'—FW2‡67&—Df–ÆÆVB’“°Ğ¢7G&–ærfÔÖõ&Ve2ÒfÔÖõ&Vbå&WÆ6R‚"r"Â"rr"“°Ğ¢7G&–æru2ÒwVW7E77v÷&Bå&WÆ6R‚"r"Â"rr"“°Ğ¢7G&–æræWuu2ÒæWu77v÷&Bå&WÆ6R‚"r"Â"rr"“°Ğ¢7G&–ærW6W%2Ò†wVW7EW6W"óò""’å&WÆ6R‚"r"Â"rr"“°Ğ Ğ¢7G&–ærW6W$Æöv–âÒ7G&–ærä—4çVÆÄ÷$V×G’‡W6W%2’ò†—4Æ–çW‚ò'&ö÷B"¢$FÖ–æ—7G&F÷""’¢W6W%3°Ğ¢7G&–ærwVW7EF×Ò—4Æ–çW€Ğ¢ò"÷F×÷f×E÷75ò"²wV–BäæWtwV–B‚’åFõ7G&–ær‚$â"’²"ç6‚ Ğ¢¢$3¥ÅÅv–æF÷w5ÅÅFV×ÅÇf×E÷75ò"²wV–BäæWtwV–B‚’åFõ7G&–ær‚$â"’²"ç3#°Ğ¢7G&–ær'Vä6ÖBÒ—4Æ–çW€Ğ¢ò&&6‚"²wVW7EF× Ğ¢¢'÷vW'6†VÆÂæW†RÔæõ&öf–ÆRÔæöä–çFW&7F—fRÔW†V7WF–öåöÆ–7’'—72Ôf–ÆR"²wVW7EF×°Ğ Ğ¢&WGW&âD Ğ¢DW'&÷$7F–öå&VfW&Væ6RÒu7F÷s°Ğ¥w&—FRÔ†÷7B‚twVW7D÷277v÷&C¢—4Æ–çWƒÒr²w¶—4Æ–çW‡Òr²rF&vWCÒr²w·W6W$f–æÇÒr²r76VÖ&Ç“Òr²w¶6ÔæÖWÒr“°Ğ¢Gf’ÒvWBÕdÒÔ–Bw·fÔÖõ&Ve7ÒrÔW'&÷$7F–öâ7F÷°Ğ¢G67&—D6öçFVçBÒµ7—7FVÒåFW‡BäVæ6öF–æuÓ£¥UDc‚ävWE7G&–ær…´6öçfW'EÓ£¤g&öÔ&6ScE7G&–ær‚w·67&—D#cGÒr’“°Ğ¢GW6W$Æöv–âÒw·W6W$Æöv–çÒs°Ğ¢GtÆöv–âÒw·u7Òs°Ğ¢FæWutÆöv–âÒw¶æWuu7Òs°Ğ¢FÆö6ÅF×Ò¦ö–âÕF‚FVçc¥DTÕ‚wf×E÷75òr²´”òåF…Ó£¤vWE&æFöÔf–ÆTæÖR‚’“°Ğ¢GWFc„æô&öÒÒµFW‡BåUDc„Væ6öF–æuÓ£¦æWr‚FfÇ6R“°Ğ¢GWFc„&öÒÒµFW‡BåUDc„Væ6öF–æuÓ£¦æWr‚GG'VR“°Ğ¢FVæ2Ò–b‚w¶—4Æ–çW‡ÒrÖWuG'VRr’·²GWFc„æô&öÒ×ÒVÇ6R·²GWFc„&öÒ×Ó°Ğ¢GfW&–g”6ÖBÒ–b‚w¶—4Æ–çW‡ÒrÖWuG'VRr’·²vV6†òdÕEõdU$”e•ôô²r×ÒVÇ6R·²uw&—FRÔ÷WGWBdÕEõdU$”e•ôô²r×Ó°Ğ§G'’·°Ğ¢w&—FRÔ†÷7B‚twVW7D÷277v÷&C¢W6‚67&—Bâââr“°Ğ¢´”òäf–ÆUÓ£¥w&—FTÆÅFW‡B‚FÆö6ÅF×ÂG67&—D6öçFVçBÂFVæ2“°Ğ¢6÷’ÕdÔwVW7Df–ÆRÕdÒGf’Õ6÷W&6RFÆö6ÅF×ÔFW7F–æF–öâw¶wVW7EF×ÒrÔÆö6ÅFôwVW7BÔwVW7EW6W"GW6W$Æöv–âÔwVW7E77v÷&BGtÆöv–âÔf÷&6RÔW'&÷$7F–öâ7F÷Â÷WBÔçVÆÃ°Ğ¢w&—FRÔ†÷7B‚twVW7D÷277v÷&C¢67&—BW6†VBr“°Ğ¢w&—FRÔ†÷7B‚twVW7D÷277v÷&C¢W†V7WFRv—F‚ôÄB7&VFVçF–Ç2âââr“°Ğ¢G'’·°Ğ¢G&W7VÇBÒ–çfö¶RÕdÕ67&—BÕdÒGf’Õ67&—EFW‡Bw·'Vä6ÖGÒrÔwVW7EW6W"GW6W$Æöv–âÔwVW7E77v÷&BGtÆöv–âÔW'&÷$7F–öâ7F÷°Ğ¢–b‚FçVÆÂÖWG&W7VÇB’·²F‡&÷rt–çfö¶RÕdÕ67&—B&WGW&æVBçVÆÂr×Ó°Ğ¢w&—FRÔ†÷7B‚twVW7D÷277v÷&BW†—D6öFSÒr²G&W7VÇBäW†—D6öFR“°Ğ¢–b‚G&W7VÇBå67&—D÷WGWB’·²w&—FRÔ†÷7B‚twVW7D÷277v÷&B÷WGWC¢r“²w&—FRÔ†÷7BG&W7VÇBå67&—D÷WGWB×Ó°Ğ¢–b‚G&W7VÇBå67&—DW'&÷"’·²w&—FRÔ†÷7B‚twVW7D÷277v÷&BW'&÷#¢r“²w&—FRÔ†÷7BG&W7VÇBå67&—DW'&÷"×Ó°Ğ¢FæÂÒ´Vçf—&öæÖVçEÓ£¤æWtÆ–æS°Ğ¢F6öÖ&–æVBÒ„‚G&W7VÇBå67&—D÷WGWB’²‚G&W7VÇBå67&—DW'&÷"’’Ö¦ö–âFæÃ°Ğ¢–b‚F6öÖ&–æVBÖÖF6‚u5T44U52r’·°Ğ¢w&—FRÔ†÷7BtwVW7D÷277v÷&C¢5T44U52jbºÃ†»¢ºœì4(€€€õô•±Í•¥˜€ ‘½µ‰¥¹•€µµ…Ñ €%0œ¤íì4(€€€€€€‘™…¥±1¥¹”€ô€ ‘½µ‰¥¹•€µÍÁ±¥Ğ€‘¹°ğ]¡•É”µ=‰©•Ğíì€‘|€µµ…Ñ €%0œõôğM•±•Ğµ=‰©•Ğ€µ1…ÍĞ€Ä¤ì4(€€€€€Ñ¡É½Ü€ Ÿ–†ç è„šæœ¬èµ9fç¹i,z-)y¨!ú+¬ˆ	È
+È	˜Z[[™K•š[J
+JNÃBˆ_H[ÙZYˆ
+	™\İ[‘^]ÛÙH[™H
+HŞÃBˆ›İÈ
+	ùká¹è z+¯¹ïk¹i,z-)H^]ÛÙOIÈ
+È	™\İ[‘^]ÛÙJNÃBˆ_H[ÙHŞÃBˆÜš]KRÜİ
+	ÑİY\İÜÈ\ÜİÛÜ™ˆ9§*¹¨à9­bùb,ÕPĞÑTÔËÑRS9¨!ú+¬;ï#^]ÛÙOIÈ
+È	™\İ[‘^]ÛÙJNÃBˆ_CBˆÜš]KRÜİ	ÑİY\İÜÈ\ÜİÛÜ™ˆ9k£9¢$	ÎÃBˆ_HØ]ÚŞÃBˆ	\ÙÈH	Ë‘^Ù\[Û‹“Y\ÜØYÙNÃBˆYˆ
+	\ÙÈ[X]Ú	Ø]][XØ]_]][XØ][Û‰ÊHŞÃBˆÜš]KRÜİ
+	ÑİY\İÜÈ\ÜİÛÜ™ˆÙ\ÜÚ[Ûˆ]]Üİ8 %\ÜİÛÜ™Ú[™ÙYHØÜš\ÕPĞÑTÔÉÊNÃBˆÜš]KRÜİ	ÑİY\İÜÈ\ÜİÛÜ™ˆ9ká¹è ymì¹¢$9b§ù¦í9¥.{ï"“]Ø\™HÛÛÈÙ\ÜÚ[Ûˆ9fè9ká¹è ycæ9¦í: #9¥«yo ;ï#9lgºh¡9§'ú(c9..»ï"IÎÃBˆ_H[ÙHŞÃBˆÜš]KRÜİ
+	ÑİY\İÜÈ\ÜİÛÜ™ˆS‘VPÕQ^Ù\[Ûˆ	È
+È	\ÙÊNÃBˆYˆ
+	Ë‘^Ù\[Û‹’[›™\‘^Ù\[ÛŠHŞÈÜš]KRÜİ
+	Ò[›™\ˆ	È
+È	Ë‘^Ù\[Û‹’[›™\‘^Ù\[Û‹“Y\ÜØYÙJH_NÃBˆ›İÎÃBˆ_CBˆ_CBŸ_Hš[˜[HŞÃBˆ™[[İ™KR][H	ØØ[\Q›Ü˜ÙHQ\œ›ÜXİ[ÛˆÚ[[PÛÛ[YNÃBŸ_CBˆÃBˆCBˆCBŸ
