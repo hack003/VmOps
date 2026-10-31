@@ -1,104 +1,13 @@
 // ============================================================================
-// ResourceQueryTab.BatchOps.cs - æ‰¹é‡æ“ä½œä¸å¿«ç…§ç®¡ç†ä¸­å¿ƒ
-// ============================================================================
-// èŒè´£èŒƒå›´ï¼š
-//   âœ… å¿«ç…§ç®¡ç†ï¼ˆList/Create/Revert/Remove Snapshotsï¼‰
-//   âœ… æ‰¹é‡ç”µæºæ“ä½œï¼ˆBatchPowerOn/Off/Restart/ForceOffï¼‰
-//   âœ… æ‰¹é‡é…ç½®æ“ä½œï¼ˆBatchOptimize/BatchNtpSyncï¼‰
-//   âœ… æ‰¹é‡å¿«ç…§æ“ä½œï¼ˆBatchCreate/RemoveAllSnapshotsï¼‰
-//   âœ… æ‰¹é‡è¿ç§»æ“ä½œï¼ˆBatchMigrateToHost/ResourcePool/Datastoreï¼‰
-//
-// å¼€å‘è§„èŒƒï¼š
-//   æ–°å¢æ‰¹é‡æ“ä½œ â†’ åœ¨æ­¤æ–‡ä»¶æ·»åŠ æ–¹æ³•
-//   æ–°å¢å¿«ç…§ç›¸å…³åŠŸèƒ½ â†’ åœ¨æ­¤æ–‡ä»¶æ·»åŠ æ–¹æ³•
-// ============================================================================
-
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using VirtualizationOpsTool.Core;
-using VirtualizationOpsTool.Utils;
-
-namespace VirtualizationOpsTool.UI
-{
-    public partial class ResourceQueryTab
-    {
-        // ====== å¿«ç…§ç®¡ç†æ“ä½œ ======
-
-        private void ListSnapshots(List<string> row)
+// ResourceQueryTab.BatchOps.cs - æ‰¹é‡¤ãy/g9.#¹oêxZ^º‡B’â·–ş4(¼¼€ôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôô4(¼¼ƒ¢3¢Ò¢2–nÓ¾òh4(¼¼€€ƒŠrƒ–ş¯Ÿº‡B¾ò!1¥ÍĞ½É•…Ñ”½I•Ù•ÉĞ½I•µ½Ù”M¹…ÁÍ¡½ÑÏ"CB‹ËÈ8§!H9¢nzaãùå-y®¤9¤ãy/g;ï"˜]ÚİÙ\“Û‹ÓÙ™‹Ô™\İ\Ñ›Ü˜ÙSÙ™»ï"CB‹ËÈ8§!H9¢nzaãúacyïk¹¤ãy/g;ï"˜]ÚÜ[Z^™KĞ˜]ÚŞ[˜ò$4(¼¼€€ƒŠrƒš&ç¦?–ëç…§æ“ä½œï¼ˆBatchCreate/RemoveAllSnapshotsï¼‰
+//   âœ… æ‰¹é‡è¿ç§»æ“ä½œï¼ˆBatchMigrateToHost/ResourcePool/Datastoreï"CB‹ËÃB‹ËÈ9o 9cäz)á:# òh4(¼¼€€ƒšZÃ–Š{š&ç¦?šN7’öpƒŠHƒ–r£š¶“šZ»¶æ·¹b¨9¥®y¬åCB‹ËÈ9¥¬9h§¹oêùáiùæî9alùb§ú ïH8¡¤ˆ9g*9«i9¥¡K»nk{–*ƒšZçšÎT4(¼¼€ôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôôô4(4)ÕÍ¥¹œMåÍÑ•´ì4)ÕÍ¥¹œMåÍÑ•´¹½±±•Ñ¥½¹Ì¹•¹•É¥Œì4)ÕÍ¥¹œMåÍÑ•´¹É…İ¥¹œì4)ÕÍ¥¹œMåÍÑ•´¹1¥¹Äì4)ÕÍ¥¹œMåÍÑ•´¹Q¡É•…‘¥¹œ¹Q…Í­Ìì4)ÕÍ¥¹œMåÍÑ•´¹]¥¹‘½İÌ¹½ÉµÌì4)ÕÍ¥¹œY¥ÉÑÕ…±¥é…Ñ¥½¹=ÁÍQ½½°¹½É”ì4)ÕÍ¥¹œY¥ÉÑÕ…±¥é…Ñ¥½¹=ÁÍQ½½°¹UÑ¥±Ìì4(4)¹…µ•ÍÁ…”Y¥ÉÑÕ…±¥é…Ñ¥½¹=ÁÍQ½½°¹U$4)ì4(€€€ÁÕ‰±¥ŒÁ…ÉÑ¥…°±…ÍÌI•Í½ÕÉ•EÕ•ÉåQ…ˆ4(€€€ì4(€€€€€€€€¼¼€ôôôôôôƒ–ş¯Ÿº‡BšN7’öp€ôôôôôô4(4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥1¥ÍÑM¹…ÁÍ¡½ÑÌ¡1¥ÍĞñÍÑÉ¥¹œ row)
         {
             string vmName = GetVmNameFromRow(row);
             string vmMoRef = FullVmRef(GetVmIdFromRow(row));
             if (string.IsNullOrEmpty(vmMoRef)) { LogMessage("è­¦å‘Š", "æœªè·å–åˆ°è™šæ‹Ÿæœº ID"); return; }
 
-            LogMessage("ä¿¡æ¯", $"æŸ¥çœ‹å¿«ç…§åˆ—è¡¨: {vmName}");
-            Task.Run(async () =>
-            {
-                try
-                {
-                    var result = await SessionManager.Instance.ExecuteQueryAsync(
-                        $@"
-$ErrorActionPreference = 'Stop';
-$vm = Get-View -Id '{vmMoRef}' -Property Snapshot.RootSnapshotList,Snapshot.CurrentSnapshot,LayoutEx,Config.Template -ErrorAction Stop;
-if ($vm.Config.Template) {{ throw 'æ¨¡æ¿ä¸æ”¯æŒå¿«ç…§æ“ä½œ' }}
-$sizeMap = @{{}}; if ($vm.LayoutEx -and $vm.LayoutEx.Snapshot -and $vm.LayoutEx.Snapshot.Snapshot) {{ foreach ($leSnap in $vm.LayoutEx.Snapshot.Snapshot) {{ $sizeMap[$leSnap.Id] = $leSnap.Size }} }};
-function Flatten-Snapshots($snapList) {{ $r=@(); foreach($s in $snapList){{ $r += $s; if($s.ChildSnapshotList){{$r += Flatten-Snapshots $s.ChildSnapshotList}} }}; return $r }}
-if ($vm.Snapshot -and $vm.Snapshot.RootSnapshotList) {{ $flat = Flatten-Snapshots $vm.Snapshot.RootSnapshotList; $flat | Sort-Object CreateTime -Descending | ForEach-Object {{ [PSCustomObject]@{{Name=$_.Name; Description=$_.Description; SizeGB=if($sizeMap.ContainsKey($_.Id)){{[math]::Round($sizeMap[$_.Id]/1GB,2)}}else{{0}}; Created=$_.CreateTime; IsCurrent=($_.Snapshot.Value -eq $vm.Snapshot.CurrentSnapshot.Value); IsReplaySupported=$_.ReplaySupported; SnapshotRef=""$($_.Snapshot.Type)-$($_.Snapshot.Value)"" }} }} }}
-",
-                        (msg, level) => LogMessage(level ?? "info", msg ?? "")
-                    );
-
-                    _root.Invoke(new Action(() =>
-                    {
-                        ShowSnapshotDialog(vmName, result);
-                    }));
-                }
-                catch (Exception ex)
-                {
-                    _root.Invoke(new Action(() =>
-                    {
-                        LogMessage("é”™è¯¯", $"æŸ¥è¯¢å¿«ç…§å¤±è´¥: {vmName} - {ex.Message}");
-                        MessageBox.Show($"æŸ¥è¯¢å¿«ç…§å¤±è´¥: {vmName}\n\n{ex.Message}", "é”™è¯¯", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }));
-                }
-            });
-        }
-
-        private void ShowSnapshotDialog(string vmName, List<Dictionary<string, object>> snapshots)
-        {
-            using var dlg = new Form
-            {
-                Text = $"å¿«ç…§åˆ—è¡¨ â€” {vmName}",
-                Icon = CoreUtils.GetAppIcon(),
-                FormBorderStyle = FormBorderStyle.FixedDialog,
-                StartPosition = FormStartPosition.CenterParent,
-                MaximizeBox = false,
-                MinimizeBox = false,
-                ShowInTaskbar = false,
-                Font = new Font("Microsoft YaHei", 9),
-                AutoScaleMode = AutoScaleMode.Dpi,
-                AutoScaleDimensions = new SizeF(96F, 96F),
-                Size = new Size(880, 450),
-                MinimumSize = new Size(880, 450)
-            };
-
-            var listView = new ListView
-            {
-                Location = new Point(16, 16),
-                Size = new Size(830, 300),
-                View = View.Details,
-                FullRowSelect = true,
-                GridLines = true,
-                MultiSelect = false
-            };
-            listView.Columns.Add("ID", 120);
-            listView.Columns.Add("å¿«ç…§åç§°", 160);
-            listView.Columns.Add("å¤§å° (GB)", 80);
-            listView.Columns.Add("åˆ›å»ºæ—¶é—´", 160);
-            listView.Columns.Add("å½“å‰", 50);
+            LogMessage("ä¿¡æ¯", $"æ™yç"ùn¾xZ~X‰~Šƒ¢·fÔæÖWÒ"“°Ğ¢F6²å'Vâ†7–æ2‚’ÓàĞ¢°Ğ¢G'Ğ¢°Ğ¢f"&W7VÇBÒv—B6W76–öäÖævW"ä–ç7Fæ6RäW†V7WFUVW'”7–æ2€Ğ¢D Ğ¢DW'&÷$7F–öå&VfW&Væ6RÒu7F÷s°Ğ¢GfÒÒvWBÕf–WrÔ–Bw·fÔÖõ&VgÒrÕ&÷W'G’6æ6†÷Bå&ö÷E6æ6†÷DÆ—7BÅ6æ6†÷Bä7W'&VçE6æ6†÷BÄÆ–÷WDW‚Ä6öæf–råFV×ÆFRÔW'&÷$7F–öâ7F÷°Ğ¦–b‚GfÒä6öæf–råFV×ÆFR’·²F‡&÷r~jŠiÛşKˆŞiJşhÈ[ú¾xZ~i8ŞKÙÂr×ĞĞ¢G6—¦TÖÒ··×Ó²–b‚GfÒäÆ–÷WDW‚ÖæBGfÒäÆ–÷WDW‚å6æ6†÷BÖæBGfÒäÆ–÷WDW‚å6æ6†÷Bå6æ6†÷B’·²f÷&V6‚‚FÆU6æ–âGfÒäÆ–÷WDW‚å6æ6†÷Bå6æ6†÷B’·²G6—¦TÖ²FÆU6æä–EÒÒFÆU6æå6—¦R×Ò×Ó°Ğ¦gVæ7F–öâfÆGFVâÕ6æ6†÷G2‚G6æÆ—7B’·²G#Ô‚“²f÷&V6‚‚G2–âG6æÆ—7B—·²G"³ÒG3²–b‚G2ä6†–ÆE6æ6†÷DÆ—7B—·²G"³ÒfÆGFVâÕ6æ6†÷G2G2ä6†–ÆE6æ6†÷DÆ—7G×Ò×Ó²&WGW&âG"×ĞĞ¦–b‚GfÒå6æ6†÷BÖæBGfÒå6æ6†÷Bå&ö÷E6æ6†÷DÆ—7B’·²FfÆBÒfÆGFVâÕ6æ6†÷G2GfÒå6æ6†÷Bå&ö÷E6æ6†÷DÆ—7C²FfÆBÂ6÷'BÔö&¦V7B7&VFUF–ÖRÔFW66VæF–ærÂf÷$V6‚Ôö&¦V7B·²µ47W7FöÔö&¦V7EÔ·´æÖSÒEòäæÖS²FW67&—F–öãÒEòäFW67&—F–öã²6—¦Tt#Ö–b‚G6—¦TÖä6öçF–ç4¶W’‚Eòä–B’—·µ¶ÖF…Ó£¥&÷VæB‚G6—¦TÖ²Eòä–EÒót"Ã"—×ÖVÇ6W·³×Ó²7&VFVCÒEòä7&VFUF–ÖS²—47W'&VçCÒ‚Eòå6æ6†÷BåfÇVRÖWGfÒå6æ6†÷Bä7W'&VçE6æ6†÷BåfÇVR“²—5&WÆ•7W÷'FVCÒEòå&WÆ•7W÷'FVC²6æ6†÷E&VcÒ""B‚Eòå6æ6†÷BåG—R’ÒB‚Eòå6æ6†÷BåfÇVR’""×Ò×Ò×ĞĞ¢"ÀĞ¢†×6rÂÆWfVÂ’ÓâÆötÖW76vR†ÆWfVÂóò&–æfò"Â×6róò""Ğ¢“°Ğ Ğ¢÷&ö÷Bä–çfö¶R†æWr7F–öâ‚‚’ÓàĞ¢°Ğ¢6†÷u6æ6†÷DF–Æör‡fÔæÖRÂ&W7VÇB“°Ğ¢Ò’“°Ğ¢ĞĞ¢6F6‚„W†6WF–öâW‚Ğ¢°Ğ¢÷&ö÷Bä–çfö¶R†æWr7F–öâ‚‚’ÓàĞ¢°Ğ¢ÆötÖW76vR‚.™IŠúò"ÂB.iú^Šú.[ú•¤±è´¥: {vmName} - {ex.Message}");
+                        MessageBox.Show($"æŸ¥è¯¢å¿©áiZK‹JS¢·fÔæÖWÕÆåÆç¶W‚äÖW76vWÒ"Â.™IŠúò"ÂÖW76vT&÷„'WGFöç2äô²ÂÖW76vT&÷„–6öâäW'&÷"“°Ğ¢Ò’“°Ğ¢ĞĞ¢Ò“°Ğ¢ĞĞ Ğ¢&—fFRfö–B6†÷u6æ6†÷DF–Æör‡7G&–ærfÔæÖRÂÆ—7CÄF–7F–öæ'“Ç7G&–ærÂö&¦V7Cãâ6æ6†÷G2Ğ¢°Ğ¢W6–ærf"FÆrÒæWrf÷&ĞĞ¢°Ğ¢FW‡BÒB.[ú¾xZ~X‰~Š‚(	B·fÔæÖWÒ"ÀĞ¢–6öâÒ6÷&UWF–Ç2ävWD–6öâ‚’ÀĞ¢f÷&Ô&÷&FW%7G–ÆRÒf÷&Ô&÷&FW%7G–ÆRäf—†VDF–ÆörÀĞ¢7F'E÷6—F–öâÒf÷&Õ7F'E÷6—F–öâä6VçFW%&VçBÀĞ¢Ö†–Ö—¦T&÷‚ÒfÇ6RÀĞ¢Ö–æ–Ö—¦T&÷‚ÒfÇ6RÀĞ¢6†÷t–åF6¶&"ÒfÇ6RÀĞ¢föçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â’’ÀĞ¢WFõ66ÆTÖöFRÒWFõ66ÆTÖöFRäG’ÀĞ¢WFõ66ÆTF–ÖVç6–öç2ÒæWr6—¦Tbƒ“dbÂ“db’ÀĞ¢6—¦RÒæWr6—¦RƒƒƒÂCS’ÀĞ¢Ö–æ–×VÕ6—¦RÒæWr6—¦RƒƒƒÂCSĞ¢Ó°Ğ Ğ¢f"Æ—7Ef–WrÒæWrÆ—7Ef–WpĞ¢°Ğ¢Æö6F–öâÒæWrö–çBƒbÂb’ÀĞ¢6—¦RÒæWr6—¦Rƒƒ3Â3’ÀĞ¢f–WrÒf–WräFWF–Ç2ÀĞ¢gVÆÅ&÷u6VÆV7BÒG'VRÀĞ¢w&–DÆ–æW2ÒG'VRÀĞ¢×VÇF•6VÆV7BÒfÇ6PĞ¢Ó°Ğ¢Æ—7Ef–Wrä6öÇVÖç2äFB‚$”B"Â#“°Ğ¢Æ—7Ef–Wrä6öÇVÖç2äFB‚.[¯Ÿ–B7Àˆ°€ÄØÀ¤ì4(€€€€€€€€€€€±¥ÍÑY¥•Ü¹½±Õµ¹Ì¹‘ ‹–’Ÿ–Â<€¡¤ˆ°€àÀ¤ì4(€€€€€€€€€€€±¥ÍÑY¥•Ü¹½±Õµ¹Ì¹‘ ‹–"o–îëš^Û¦^Ğˆ°€ÄØÀ¤ì4(€€€€€€€€€€€±¥ÍÑY¥•Ü¹½±Õµ¹Ì¹‘ ‹–öE‰", 50);
             listView.Columns.Add("æè¿°", 200);
 
             if (snapshots != null && snapshots.Count > 0)
@@ -132,64 +41,23 @@ if ($vm.Snapshot -and $vm.Snapshot.RootSnapshotList) {{ $flat = Flatten-Snapshot
             else
             {
                 var item = new ListViewItem("");
-                item.SubItems.Add("(æ— å¿«ç…§)");
-                item.SubItems.Add("");
-                item.SubItems.Add("");
-                item.SubItems.Add("");
-                item.SubItems.Add("è¯¥è™šæ‹Ÿæœºå°šæœªåˆ›å»ºä»»ä½•å¿«ç…§");
-                listView.Items.Add(item);
-            }
-
-            Utils.TableConvertUtils.AutoResizeColumns(listView);
-
-            var btnPanel = new FlowLayoutPanel
-            {
-                Dock = DockStyle.Bottom, Height = 44,
-                Padding = new Padding(0, 6, 0, 6),
-                BackColor = Color.FromArgb(240, 240, 240)
-            };
-            var btnRevert = new Button { Text = "â†© å›æ»šåˆ°é€‰ä¸­å¿«ç…§", Size = new Size(150, 28), Font = new Font("Microsoft YaHei", 9) };
-            btnRevert.Click += (s, ev) =>
+                item.SubItems.Add("(æ— å¿©áiÊHŠNÃBˆ][K”İX’][\ËY
+ˆŠNÃBˆ][K”İX’][\ËY
+ˆŠNÃBˆ][K”İX’][\ËY
+ˆŠNÃBˆ][K”İX’][\ËY
+º*^‰™®h¹şiË®[	®iÊ®X‰¾[»®K»¾KÙ^[¯œˆ¤ì4(€€€€€€€€€€€€€€€±¥ÍÑY¥•Ü¹%Ñ•µÌ¹‘¡¥Ñ•´¤ì4(€€€€€€€€€€€ô4(4(€€€€€€€€€€€UÑ¥±Ì¹Q…‰±•½¹Ù•ÉÑUÑ¥±Ì¹ÕÑ½I•Í¥é•½±Õµ¹Ì¡±¥ÍÑY¥•Ü¤ì4(4(€€€€€€€€€€€Ù…È‰Ñ¹A…¹•°€ô¹•Ü±½İ1…å½ÕÑA…¹•°4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€½¬€ô½­MÑå±”¹	½ÑÑ½´°!•¥¡Ğ€ô€ĞĞ°4(€€€€€€€€€€€€€€€A…‘‘¥¹œ€ô¹•ÜA…‘‘¥¹œ À°€Ø°€À°€Ø¤°4(€€€€€€€€€€€€€€€	…­½±½È€ô½±½È¹É½µÉˆ ÈĞÀ°€ÈĞÀ°€ÈĞÀ¤4(€€€€€€€€€€€ôì4(€€€€€€€€€€€Ù…È‰Ñ¹I•Ù•ÉĞ€ô¹•Ü	ÕÑÑ½¸ìQ•áĞ€ô€‹Š¤ƒ–n{šîk–"Ã¦'’â·–ş¯œˆ°M¥é”€ô¹•ÜM¥é” ÄÔÀ°€Èà¤°½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ä¤ôì4(€€€€€€€€€€€‰Ñ¹I•Ù•ÉĞ¹±¥¬€¬ô€¡Ì°•Ø¤€ô
             {
                 if (listView.SelectedItems.Count == 0)
                 {
-                    MessageBox.Show("è¯·å…ˆåœ¨åˆ—è¡¨ä¸­é€‰æ‹©ä¸€ä¸ªå¿«ç…§", "æç¤º", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-                var selectedItem = listView.SelectedItems[0];
-                string selectedSnapName = selectedItem.Text;
-                string snapRef = selectedItem.Tag?.ToString() ?? "";
-                if (string.IsNullOrEmpty(snapRef))
-                {
-                    MessageBox.Show("è¯¥å¿«ç…§ä¿¡æ¯ç¼ºå¤±ï¼Œæ— æ³•å›æ»š", "é”™è¯¯", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                var confirm = MessageBox.Show(
-                    $"ç¡®å®šè¦å›æ»šåˆ°å¿«ç…§ã€Œ{selectedSnapName}ã€å—ï¼Ÿ\n\n" +
-                    "âš  è­¦å‘Šï¼šå›æ»šåå½“å‰ç£ç›˜ä¸Šçš„æ‰€æœ‰æ›´æ”¹å°†ä¸¢å¤±ï¼Œä¸”è™šæ‹Ÿæœºå°†ç«‹å³æ¢å¤åˆ°è¯¥å¿«ç…§åˆ›å»ºæ—¶çš„çŠ¶æ€ã€‚\n\n" +
-                    "å»ºè®®ï¼šå›æ»šå‰å…ˆç¡®è®¤è™šæ‹Ÿæœºå·²å¤‡ä»½æˆ–å½“å‰å·¥ä½œå·²ä¿å­˜ã€‚",
-                    "ç¡®è®¤å›æ»šå¿«ç…§",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning,
-                    MessageBoxDefaultButton.Button2);
-                if (confirm != DialogResult.Yes) return;
-
-                LogMessage("ä¿¡æ¯", $"å›æ»šå¿«ç…§: {vmName} â†’ {selectedSnapName}");
+                    MessageBox.Show("è­ùab9g*9b%ú(j9.+z`"y¢êy. 9.*¹n¾xZr"Â.hùzK¢"ÂÖW76vT&÷„'WGFöç2äô²ÂÖW76vT&÷„–6öâä–æf÷&ÖF–öâ“°Ğ¢&WGW&ã°Ğ¢ĞĞ¢f"6VÆV7FVD—FVÒÒÆ—7Ef–Wrå6VÆV7FVD—FV×5³Ó°Ğ¢7G&–ær6VÆV7FVE6ææÖRÒ6VÆV7FVD—FVÒåFW‡C°Ğ¢7G&–ær6æ&VbÒ6VÆV7FVD—FVÒåFsòåFõ7G&–ær‚’óò"#°Ğ¢–b‡7G&–ærä—4çVÆÄ÷$V×G’‡6æ&Vb’Ğ¢°Ğ¢ÖW76vT&÷‚å6†÷r‚.Šú^[ú¾xZ~Kúhş{Ë®ZKûÈÎizk9^Y¹îk¹¢"Â.™IŠ¼ˆ°5•ÍÍ…•	½á	ÕÑÑ½¹Ì¹=,°5•ÍÍ…•	½á%½¸¹ÉÉ½È¤ì4(€€€€€€€€€€€€€€€€€€€É•ÑÕÉ¸ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€Ù…È½¹™¥É´€ô5•ÍÍ…•	½à¹M¡½Ü 4(€€€€€€€€€€€€€€€€€€€€‹†»–ºk¢š–n{šîk–"Ã–ş¯Ÿ1íÍ•±•Ñ•‘M¹…Á9…µ•÷7–B_¾ò}q¹q¸ˆ€¬4(€€€€€€€€€€€€€€€€€€€€‹Šj€ƒ¢¶›–F+¾òk–n{šîk–B;–öO–&7nc’â+jš&šr'šnÓšRç–Â’â‹–’Ç¾ò3’âS¢fkš.šrë–Â®/–6Ïš‹–’7–"Ã¢¥åºùáiùb&ùnî¹¥í¹æ¡9â­¹  xà ——ˆˆ
+ÃBˆ¹nîº+«»ï&¹fç¹®æ¹bcyab9èkº+©:&f¹¢çù§.¹mì¹i!ù.ïy¢%¹odùbcyméy/g9mì¹-ŞZÙ8""ÀĞ¢.zîŠêNY¹îk¹®[úœˆ°4(€€€€€€€€€€€€€€€€€€€5•ÍÍ…•	½á	ÕÑÑ½¹Ì¹e•Í9¼°4(€€€€€€€€€€€€€€€€€€€5•ÍÍ…•	½á%½¸¹]…É¹¥¹œ°4(€€€€€€€€€€€€€€€€€€€5•ÍÍ…•	½á•™…Õ±Ñ	ÕÑÑ½¸¹	ÕÑÑ½¸È¤ì4(€€€€€€€€€€€€€€€¥˜€¡½¹™¥É´€„ô¥…±½I•ÍÕ±Ğ¹e•Ì¤É•ÑÕÉ¸ì4(4(€€€€€€€€€€€€€€€1½5•ÍÍ…” ‹’ş‡š¼ˆ°€‹–n{šîk–ş§…§: {vmName} â†’ {selectedSnapName}");
                 string script = $@"
 $ErrorActionPreference = 'Stop';
 {PsWaitTaskFunc}
 $snapView = Get-View -Id '{EscapePsString(snapRef)}' -ErrorAction Stop;
 $task = $snapView.RevertToSnapshot_Task($null, $null);
-Wait-Task $task 'å›æ»šå¿«ç…§';
-Write-Output 'å›æ»šå¿«ç…§æˆåŠŸ: {EscapePsString(selectedSnapName)}';
-";
-                dlg.Close();
-                ExecuteVmOperation(script, $"å›æ»šå¿«ç…§: {vmName} â†’ {selectedSnapName}", onSuccess: () => { });
-            };
-            var btnClose = new Button { Text = "å…³é—­", DialogResult = DialogResult.OK, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-            btnPanel.Controls.Add(btnRevert);
-            btnPanel.Controls.Add(btnClose);
-            btnPanel.Controls.Add(new Label { Text = $"å…± {snapshots?.Count ?? 0} ä¸ªå¿«ç…§", AutoSize = true, ForeColor = Color.Gray, Margin = new Padding(0, 6, 120, 0) });
+Wait-Task $task %fç¹®æ¹oêxZrs°Ğ¥w&—FRÔ÷WGWBVn{šîk–ş§…¥¢$9b§ÎˆÑ\ØØ\TÔİš[™ÊÙ[XİYÛ˜\˜[YJ_IÎÃBˆÃBˆËÛÜÙJ
+NÃBˆ^Xİ]U›SÜ\˜][ÛŠØÜš\	¹fç¹®æ¹n¾xZs¢·fÔæÖWÒ(i"·6VÆV7FVE6ææÖWÒ"Âöå7V66W73¢‚’Óâ²Ò“°Ğ¢Ó°Ğ¢f"'Fä6Æ÷6RÒæWr'WGFöâ²FW‡BÒ.X[&^´ˆ°¥…±½I•ÍÕ±Ğ€ô¥…±½I•ÍÕ±Ğ¹=,°M¥é”€ô¹•ÜM¥é” àÀ°€Èà¤°½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ä¤ôì4(€€€€€€€€€€€‰Ñ¹A…¹•°¹½¹ÑÉ½±Ì¹‘¡‰Ñ¹I•Ù•ÉĞ¤ì4(€€€€€€€€€€€‰Ñ¹A…¹•°¹½¹ÑÉ½±Ì¹‘¡‰Ñ¹±½Í”¤ì4(€€€€€€€€€€€‰Ñ¹A…¹•°¹½¹ÑÉ½±Ì¹‘¡¹•Ü1…‰•°ìQ•áĞ€ô€‹–ÄíÍ¹…ÁÍ¡½ÑÌü¹½Õ¹Ğ€üü€Áôƒ’â«–ëç…§", AutoSize = true, ForeColor = Color.Gray, Margin = new Padding(0, 6, 120, 0) });
 
             CenterFlowPanel(btnPanel);
 
@@ -201,34 +69,13 @@ Write-Output 'å›æ»šå¿«ç…§æˆåŠŸ: {EscapePsString(selectedSnapName)}';
             dlg.ShowDialog(_root);
         }
 
-        private void CreateSnapshot(List<string> row)
-        {
-            string vmName = GetVmNameFromRow(row);
-            string vmMoRef = FullVmRef(GetVmIdFromRow(row));
-            if (string.IsNullOrEmpty(vmMoRef)) { LogMessage("è­¦å‘Š", "æœªè·å–åˆ°è™šæ‹Ÿæœº ID"); return; }
-
-            using var dlg = new Form
-            {
-                Text = "åˆ›å»ºå¿«ç…§",
-                Icon = CoreUtils.GetAppIcon(),
-                FormBorderStyle = FormBorderStyle.FixedDialog,
-                StartPosition = FormStartPosition.CenterParent,
-                MaximizeBox = false,
-                MinimizeBox = false,
-                ShowInTaskbar = false,
-                Font = new Font("Microsoft YaHei", 9),
-                AutoScaleMode = AutoScaleMode.Dpi,
-                AutoScaleDimensions = new SizeF(96F, 96F),
-                Size = new Size(450, 280)
-            };
-
-            var lblVm = new Label { Text = $"è™šæ‹Ÿæœº: {vmName}", Font = new Font("Microsoft YaHei", 10, FontStyle.Bold), Location = new Point(16, 12), AutoSize = true };
-            var lblName = new Label { Text = "å¿«ç…§åç§°:", Location = new Point(16, 45), AutoSize = true };
-            var txtName = new TextBox { Text = $"{vmName}_snapshot", Location = new Point(100, 42), Width = 300 };
-            var lblDesc = new Label { Text = "å¿«ç…§æè¿°:", Location = new Point(16, 75), AutoSize = true };
-            var txtDesc = new TextBox { Text = "æ‰‹åŠ¨åˆ›å»ºçš„å¿«ç…§", Location = new Point(16, 95), Width = 390, Height = 50, Multiline = true };
-            var chkMemory = new CheckBox { Text = "åŒ…å«å†…å­˜çŠ¶æ€ï¼ˆè¿˜åŸæ—¶æ¢å¤åˆ°è¿è¡ŒçŠ¶æ€ï¼Œè¾ƒæ…¢ï¼‰", Location = new Point(16, 155), AutoSize = true };
-            var lblHint = new Label { Text = "ä¸å‹¾é€‰åˆ™ä»…ç£ç›˜å¿«ç…§ï¼Œè¿˜åŸæ—¶ç­‰äºå†·å¯åŠ¨ï¼ˆè¾ƒå¿«ï¼‰", ForeColor = Color.Gray, Location = new Point(16, 178), AutoSize = true };
+        private void CreateSnapshot(List<string›İÊCBˆÃBˆİš[™È›S˜[YHHÙ]›S˜[YQœ›ÛT›İÊ›İÊNÃBˆİš[™È›S[Ô™YˆH[›T™YŠÙ]›RYœ›ÛT›İÊ›İÊJNÃBˆYˆ
+İš[™Ë’\Ó[Ü‘[\J›S[Ô™YŠJHÈÙÓY\ÜØYÙJº+i¹dbˆ‹¹§*º#­ùcå¹b,:&f¹¢çù§.ˆQŠNÈ™]\›ÈCBƒBˆ\Ú[™È˜\ˆÈH™]È›Ü›CBˆÃBˆ^H¹b&ùnî¹n¾xZr"ÀĞ¢–6öâÒ6÷&UWF–Ç2ävWD–6öâ‚’ÀĞ¢f÷&Ô&÷&FW%7G–ÆRÒf÷&Ô&÷&FW%7G–ÆRäf—†VDF–ÆörÀĞ¢7F'E÷6—F–öâÒf÷&Õ7F'E÷6—F–öâä6VçFW%&VçBÀĞ¢Ö†–Ö—¦T&÷‚ÒfÇ6RÀĞ¢Ö–æ–Ö—¦T&÷‚ÒfÇ6RÀĞ¢6†÷t–åF6¶&"ÒfÇ6RÀĞ¢föçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â’’ÀĞ¢WFõ66ÆTÖöFRÒWFõ66ÆTÖöFRäG’ÀĞ¢WFõ66ÆTF–ÖVç6–öç2ÒæWr6—¦Tbƒ“dbÂ“db’ÀĞ¢6—¦RÒæWr6—¦RƒCSÂ#ƒĞ¢Ó°Ğ Ğ¢f"Æ&ÅfÒÒæWrÆ&VÂ²FW‡BÒB.‰™®h¹ÚrèèíÙµ9…µ•ôˆ°½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ÄÀ°½¹ÑMÑå±”¹	½±¤°1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ ÄØ°€ÄÈ¤°ÕÑ½M¥é”€ôÑÉÕ”ôì4(€€€€€€€€€€€Ù…È±‰±9…µ”€ô¹•Ü1…‰•°ìQ•áĞ€ô€‹–ş§…¥d#yéìˆ‹ØØ][ÛˆH™]ÈÚ[
+M‹JK]]ÔÚ^™HHYHNÃBˆ˜\ˆ˜[YHH™]È^›ŞÈ^H	İ›S˜[Y_WÜÛ˜\Úİ‹ØØ][ÛˆH™]ÈÚ[
+LŠKÚYHÌNÃBˆ˜\ˆ›\ØÈH™]ÈX™[È^H¹oêxZZ>8¿°:", Location = new Point(16, 75), AutoSize = true };
+            var txtDesc = new TextBox { Text = "æ‰‰bª9b&[»®y¨N[úœˆ°1½…Ñ¥½¸€ô¹•ÜA½¥¹Ğ ÄØ°€äÔ¤°]¥‘Ñ €ô€ÌäÀ°!•¥¡Ğ€ô€ÔÀ°5Õ±Ñ¥±¥¹”€ôÑÉÕ”ôì4(€€€€€€€€€€€Ù…È¡­5•µ½Éä€ô¹•Ü¡•­	½àìQ•áĞ€ô€‹–2–B¯––¶c*Ûš¾ò#¢ØåŸæ—¶æ¢å¤åˆ°è´:(c9â­¹  {ï#:/ ù¡h»ï"H‹ØØ][ÛˆH™]ÈÚ[
+M‹MMJK]]ÔÚ^™HHYHNÃBˆ˜\ˆ›[H™]ÈX™[È^H¹.#ybïº`"yb&y.áyèàyææ9oêxZ|Œè¿˜å¥í¹ëby.£¹a­Y
+Ö*£¼ˆè [ú¼‰", ForeColor = Color.Gray, Location = new Point(16, 178), AutoSize = true };
 
             var btnPanel = new FlowLayoutPanel
             {
@@ -237,213 +84,85 @@ Write-Output 'å›æ»šå¿«ç…§æˆåŠŸ: {EscapePsString(selectedSnapName)}';
                 BackColor = Color.FromArgb(240, 240, 240)
             };
             var btnOk = new Button { Text = "ç¡®å®š", DialogResult = DialogResult.OK, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-            var btnCancel = new Button { Text = "å–æ¶ˆ", DialogResult = DialogResult.Cancel, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-            btnPanel.Controls.Add(btnOk);
-            btnPanel.Controls.Add(btnCancel);
-
-            CenterFlowPanel(btnPanel);
-
-            dlg.Controls.Add(btnPanel);
-            dlg.Controls.AddRange(new Control[] { lblVm, lblName, txtName, lblDesc, txtDesc, chkMemory, lblHint });
-            dlg.AcceptButton = btnOk;
-            dlg.CancelButton = btnCancel;
-
-            if (dlg.ShowDialog(_root) != DialogResult.OK) return;
-
-            string snapName = txtName.Text.Trim();
-            if (string.IsNullOrEmpty(snapName))
-            {
-                MessageBox.Show("è¯·è¾“å…¥å¿«ç…§åç§°", "è­¦å‘Š", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            string snapDesc = txtDesc.Text.Trim();
-            bool includeMemory = chkMemory.Checked;
-            string memoryFlag = includeMemory ? "$true" : "$false";
-
-            string script = $@"
-$ErrorActionPreference = 'Stop';
-{PsWaitTaskFunc}
-$vm = Get-View -Id '{vmMoRef}' -Property Config.Template -ErrorAction Stop;
-if ($vm.Config.Template) {{ throw 'æ¨¡æ¿ä¸æ”¯æŒå¿«ç…§æ“ä½œ' }}
-$task = $vm.CreateSnapshot_Task('{EscapePsString(snapName)}', '{EscapePsString(snapDesc)}', $false, {memoryFlag});
-Wait-Task $task 'åˆ›å»ºå¿«ç…§';
-";
-
-            string extraInfo = $"å¿«ç…§åç§°: {snapName} | æè¿°: {snapDesc} | åŒ…å«å†…å­˜: {(includeMemory ? "æ˜¯" : "å¦")}";
-
-            var confirmResult = MessageBox.Show(
-                $"ç¡®è®¤åˆ›å»ºå¿«ç…§ï¼Ÿ\n\n{extraInfo}",
-                "åˆ›å»ºå¿«ç…§ç¡®è®¤",
+            var btnCancel = new Button { Text = "å…¹­¢‹X[ÙÔ™\İ[HX[ÙÔ™\İ[Ø[˜Ù[Ú^™HH™]ÈÚ^™J
+K›ÛH™]È›Û
+“ZXÜ›ÜÛÙXRZH‹JHNÃBˆ”[™[ÛÛ›ÛËY
+“ÚÊNÃBˆ”[™[ÛÛ›ÛËY
+Ø[˜Ù[
+NÃBƒBˆÙ[\‘›İÔ[™[
+”[™[
+NÃBƒBˆËÛÛ›ÛËY
+”[™[
+NÃBˆËÛÛ›ÛËY˜[™ÙJ™]ÈÛÛ›Û×HÈ››K›˜[YK˜[YK›\ØË\ØËÚÓY[[ÜK›[JNÃBˆËXØÙ\]ÛˆH“ÚÎÃBˆËØ[˜Ù[]ÛˆHØ[˜Ù[ÃBƒBˆYˆ
+Ë”ÚİÑX[ÙÊÜ›Ûİ
+HOHX[ÙÔ™\İ[“ÒÊH™]\›ÃBƒBˆİš[™ÈÛ˜\˜[YHH˜[YK•^•š[J
+NÃBˆYˆ
+İš[™Ë’\Ó[Ü‘[\JÛ˜\˜[YJJCBˆÃBˆY\ÜØYÙP›Ş”ÚİÊº+íŠE…¥å¿©áiYŞz{"Â.ŠÚnY¢"ÂÖW76vT&÷„'WGFöç2äô²ÂÖW76vT&÷„–6öâåv&æ–ær“°Ğ¢&WGW&ã°Ğ¢ĞĞ Ğ¢7G&–ær6æFW62ÒG‡DFW62åFW‡BåG&–Ò‚“°Ğ¢&ööÂ–æ6ÇVFTÖVÖ÷'’Ò6†´ÖVÖ÷'’ä6†V6¶VC°Ğ¢7G&–ærÖVÖ÷'”fÆrÒ–æ6ÇVFTÖVÖ÷'’ò"GG'VR"¢"FfÇ6R#°Ğ Ğ¢7G&–ær67&—BÒD Ğ¢DW'&÷$7F–öå&VfW&Væ6RÒu7F÷s°Ğ§µ5v—EF6´gVæ7ĞĞ¢GfÒÒvWBÕf–WrÔ–Bw·fÔÖõ&VgÒrÕ&÷W'G’6öæf–råFV×ÆFRÔW'&÷$7F–öâ7F÷°Ğ¦–b‚GfÒä6öæf–råFV×ÆFR’·²F‡&÷r~jŠiÛşKˆŞiJşhÈ[¯ŸšN7’öpœõô4(‘Ñ…Í¬€ô€‘Ù´¹É•…Ñ•M¹…ÁÍ¡½Ñ}Q…Í¬ íÍ…Á•AÍMÑÉ¥¹œ¡Í¹…Á9…µ”¥ôœ°€íÍ…Á•AÍMÑÉ¥¹œ¡Í¹…Á•ÍŒ¥ôœ°€‘™…±Í”°íµ•µ½Éå±…ô¤ì4)]…¥ĞµQ…Í¬€‘Ñ…Í¬€•ˆ™nî¹oêxZrs°Ğ¢#°Ğ Ğ¢7G&–ærW‡G&–æfòÒB.[ú¾xZ~YŞz{¢·6ææÖWÒÂhøş‹û¢·6æFW67ÒÂXÈ^Y
+¾Xh^ZÙƒ¢²†–æ6ÇVFTÖVÖ÷'’ò.iŠò"¢.Y
+b"—Ò#°Ğ Ğ¢f"6öæf—&Õ&W7VÇBÒÖW76vT&÷‚å6†÷r€Ğ¢B.zîŠêNX‰¾[»®[¯Ÿ¾ò}q¹q¹í•áÑÉ…%¹™½ôˆ°4(€€€€€€€€€€€€€€€€‹–"o–îë–ëç…§ç¡®è®¤",
                 MessageBoxButtons.OKCancel,
                 MessageBoxIcon.Question);
 
             if (confirmResult != DialogResult.OK) return;
 
-            ExecuteVmOperation(script, $"åˆ›å»ºå¿«ç…§: {vmName}", onSuccess: () => { });
-        }
-
-        private void RevertToLatestSnapshot(List<string> row)
+            ExecuteVmOperation(script, $"åˆ™nî¹oêxZs¢·fÔæÖWÒ"Âöå7V66W73¢‚’Ğìô¤ì4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥I•Ù•ÉÑQ½1…Ñ•ÍÑM¹…ÁÍ¡½Ğ¡1¥ÍĞñÍÑÉ¥¹œøÉ½Ü¤4(€€€€€€€ì4(€€€€€€€€€€€ÍÑÉ¥¹œÙµ9…µ”€ô•ÑYµ9…µ•É½µI½Ü¡É½Ü¤ì4(€€€€€€€€€€€ÍÑÉ¥¹œÙµ5½I•˜€ôÕ±±YµI•˜¡•ÑYµ%‘É½µI½Ü¡É½Ü¤¤ì4(€€€€€€€€€€€¥˜€¡ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡Ùµ5½I•˜¤¤ì1½5•ÍÍ…” ‹¢¶›–F(ˆ°€‹šr«¢:Õ–åˆ°è™šæ‹§.ˆQŠNÈ™]\›ÈCBƒBˆ˜\ˆÛÛ™š\›T™\İ[HY\ÜØYÙP›Ş”ÚİÊBˆ	¹èkº+©9fç¹®æ¹b,Şİ›S˜[Y_WH9æ¡9§ 9¥¬9oêùáiûï'×—ˆˆ
+ÃBˆ¸¦¨9/&¹.(¹i,y§ 9¥¬9oêùáiù.bùd#¹æ¡9¢`9§"yèàyææ9cæ9¦í;ï"9fç¹®æº/áùê"ú!ê¹bª:)é¹cä{ï"Wˆˆ
+ÃBˆ¹«i9¤ãy/g9.#ycëú`!»ï#:+íùèkº+©9d#¹a£y¢iú(c;ï H‹Bˆ¹fç¹®æ¹b,9§ 9¥¬9oêùáiùèkº+©‹BˆY\ÜØYÙP›Ş]ÛœË“ÒĞØ[˜Ù[BˆY\ÜØYÙP›ŞXÛÛ‹•Ø\›š[™ÊNÃBƒBˆYˆ
+ÛÛ™š\›T™\İ[OHX[ÙÔ™\İ[“ÒÊH™]\›ÃBƒBˆİš[™ÈØÜš\H	ƒB‰\œ›ÜXİ[Û”™Y™\™[˜ÙHH	ÔİÜ	ÎÃBÔÕØZ]\ÚÑ[˜ßCB‰›HHÙ]UšY]ÈRY	Şİ›S[Ô™YŸIÈT›Ü\HÛ˜\Úİ”›ÛİÛ˜\Úİ\İÛÛ™šYË•[\]HQ\œ›ÜXİ[ÛˆİÜÃBšYˆ
+	›KÛÛ™šYË•[\]JHŞÈ›İÈ	jŠiÛÒâ7šR¶Œå¿©áii8ŞKÙÂr×ĞĞ¦gVæ7F–öâfÆGFVâÕ6æ6†÷G2‚G6æÆ—7B’·²G#Ô‚“²f÷&V6‚‚G2–âG6æÆ—7B—·²G"³ÒG3²–b‚G2ä6†–ÆE6æ6†÷DÆ—7B—·²G"³ÒfÆGFVâÕ6æ6†÷G2G2ä6†–ÆE6æ6†÷DÆ—7G×Ò×Ó²&WGW&âG"×ĞĞ¦–b‚GfÒå6æ6†÷BÖæBGfÒå6æ6†÷Bå&ö÷E6æ6†÷DÆ—7B’·°Ğ¢FfÆBÒfÆGFVâÕ6æ6†÷G2GfÒå6æ6†÷Bå&ö÷E6æ6†÷DÆ—7C°Ğ¢–b‚FfÆBä6÷VçBÖwB’·°Ğ¢FÆFW7BÒFfÆBÂ6÷'BÔö&¦V7B7&VFUF–ÖRÔFW66VæF–ærÂ6VÆV7BÔö&¦V7BÔf—'7B°Ğ¢G6æf–WrÒvWBÕf–WrÔ–BFÆFW7Bå6æ6†÷BÔW'&÷$7F–öâ6–ÆVçFÇ”6öçF–çVS°Ğ¢–b‚Öæ÷BG6æf–Wr’·²F‡&÷r~izk9^ˆë~Xùn[ú¾xZ~Zû‹r×Ó°Ğ¢GF6²ÒG6æf–Wrå&WfW'EFõ6æ6†÷EõF6²‚FçVÆÂÂFçVÆÂ“°Ğ¢v—BÕF6²GF6²~Y¹îk¹®[ú¾xZrs°Ğ¢×ÒVÇ6R·²F‡&÷rZjš^ƒ–ş§…§ÈÎizk9^Y¹îk¹¢r×ĞĞ§×ÒVÇ6R·²F‡&÷rZjš^ƒ–ş§…§ÈÎizk9^Y¹îk¹¢r×ĞĞ¢#°Ğ Ğ¢W†V7WFUfÔ÷W&F–öâ‡67&—BÂB.Y¹îk¹®X‹iÈik[¯œèíÙµ9…µ•ôˆ°½¹MÕ•ÍÌè€ ¤€ôøìô¤ì4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥I•µ½Ù•±±M¹…ÁÍ¡½ÑÌ¡1¥ÍĞñÍÑÉ¥¹œ row)
         {
             string vmName = GetVmNameFromRow(row);
             string vmMoRef = FullVmRef(GetVmIdFromRow(row));
             if (string.IsNullOrEmpty(vmMoRef)) { LogMessage("è­¦å‘Š", "æœªè·å–åˆ°è™šæ‹Ÿæœº ID"); return; }
 
             var confirmResult = MessageBox.Show(
-                $"ç¡®è®¤å›æ»šåˆ° [{vmName}] çš„æœ€æ–°å¿«ç…§ï¼Ÿ\n\n" +
-                "âš  ä¼šä¸¢å¤±æœ€æ–°å¿«ç…§ä¹‹åçš„æ‰€æœ‰ç£ç›˜å˜æ›´ï¼ˆå›æ»šè¿‡ç¨‹è‡ªåŠ¨è§¦å‘ï¼‰\n" +
-                "æ­¤æ“ä½œä¸å¯é€†ï¼Œè¯·ç¡®è®¤åå†æ‰§è¡Œï¼",
-                "å›æ»šåˆ°æœ€æ–°å¿«ç…§ç¡®è®¤",
-                MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Warning);
-
-            if (confirmResult != DialogResult.OK) return;
-
-            string script = $@"
-$ErrorActionPreference = 'Stop';
-{PsWaitTaskFunc}
-$vm = Get-View -Id '{vmMoRef}' -Property Snapshot.RootSnapshotList,Config.Template -ErrorAction Stop;
-if ($vm.Config.Template) {{ throw 'æ¨¡æ¿ä¸æ”¯æŒå¿«ç…§æ“ä½œ' }}
-function Flatten-Snapshots($snapList) {{ $r=@(); foreach($s in $snapList){{ $r += $s; if($s.ChildSnapshotList){{$r += Flatten-Snapshots $s.ChildSnapshotList}} }}; return $r }}
-if ($vm.Snapshot -and $vm.Snapshot.RootSnapshotList) {{
-    $flat = Flatten-Snapshots $vm.Snapshot.RootSnapshotList;
-    if ($flat.Count -gt 0) {{
-        $latest = $flat | Sort-Object CreateTime -Descending | Select-Object -First 1;
-        $snapView = Get-View -Id $latest.Snapshot -ErrorAction SilentlyContinue;
-        if (-not $snapView) {{ throw 'æ— æ³•è·å–å¿«ç…§å¯¹è±¡' }};
-        $task = $snapView.RevertToSnapshot_Task($null, $null);
-        Wait-Task $task 'å›æ»šå¿«ç…§';
-    }} else {{ throw 'æš‚æ— å¿«ç…§ï¼Œæ— æ³•å›æ»š' }}
-}} else {{ throw 'æš‚æ— å¿«ç…§ï¼Œæ— æ³•å›æ»š' }}
-";
-
-            ExecuteVmOperation(script, $"å›æ»šåˆ°æœ€æ–°å¿«ç…§: {vmName}", onSuccess: () => { });
-        }
-
-        private void RemoveAllSnapshots(List<string> row)
-        {
-            string vmName = GetVmNameFromRow(row);
-            string vmMoRef = FullVmRef(GetVmIdFromRow(row));
-            if (string.IsNullOrEmpty(vmMoRef)) { LogMessage("è­¦å‘Š", "æœªè·å–åˆ°è™šæ‹Ÿæœº ID"); return; }
-
-            var confirmResult = MessageBox.Show(
-                $"âš  ç¡®è®¤è¦åˆ é™¤ [{vmName}] çš„æ‰€æœ‰å¿«ç…§å—ï¼Ÿ\n\n" +
+                $"âš  ç¡®è®¤è¦åˆ é™¤ [{vmName}] çš„æ‰€æœ‰å¿©áiY	|Ÿ\n\n" +
                 "è­¦å‘Šï¼šåˆ é™¤åæ— æ³•æ¢å¤ï¼\n" +
-                "è¿™å°†é‡Šæ”¾å ç”¨çš„å­˜å‚¨ç©ºé—´ï¼Œä½†ä¼šä¸¢å¤±æ‰€æœ‰å¿«ç…§æ•°æ®ã€‚\n\n" +
-                "æ­¤æ“ä½œä¸å¯æ’¤é”€ï¼",
-                "åˆ é™¤å¿«ç…§ç¡®è®¤",
-                MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Error);
-
-            if (confirmResult != DialogResult.OK) return;
-
-            string script = $@"
-$ErrorActionPreference = 'Stop';
-{PsWaitTaskFunc}
-$vm = Get-View -Id '{vmMoRef}' -Property Snapshot.RootSnapshotList,Config.Template -ErrorAction Stop;
-if ($vm.Config.Template) {{ throw 'æ¨¡æ¿ä¸æ”¯æŒå¿«ç…§æ“ä½œ' }}
-if ($vm.Snapshot -and $vm.Snapshot.RootSnapshotList) {{ $task = $vm.RemoveAllSnapshots_Task($null); Wait-Task $task 'åˆ é™¤æ‰€æœ‰å¿«ç…§' }} else {{ throw 'æš‚æ— å¿«ç…§' }}
-";
-
-            ExecuteVmOperation(script, $"åˆ é™¤æ‰€æœ‰å¿«ç…§: {vmName}", onSuccess: () => { });
-        }
-
-        // ====== æ‰¹é‡ç”µæºæ“ä½œ ======
-
-        private void BatchPowerOn(List<List<string>> rows)
-        {
-            var vmMoRefs = rows.Select(r => FullVmRef(GetVmIdFromRow(r))).Where(n => !string.IsNullOrEmpty(n)).ToList();
-            if (vmMoRefs.Count == 0) return;
-            string moRefArray = string.Join(",", vmMoRefs.Select(n => $"'{n}'"));
+                "è¶yl!ºaâ¹¥.XÚyJy¨NZÙX*z›®™{NûÈÎKØnKÉ®KŠ.ZKh˜iÈ[¯ŸšVÃš6»	q¹q¸ˆ€¬4(€€€€€€€€€€€€€€€€‹š¶“šN7’ös’â7–>¿šJ“¦R¾òˆ°4(€€€€€€€€€€€€€€€€‹–"ƒ¦f“–ş¯Ÿ†»¢ºˆ°4(€€€€€€€€€€€€€€€5•ÍÍ…•	½á	ÕÑÑ½¹Ì¹=-…¹•°°4(€€€€€€€€€€€€€€€5•ÍÍ…•	½á%½¸¹ÉÉ½È¤ì4(4(€€€€€€€€€€€¥˜€¡½¹™¥ÉµI•ÍÕ±Ğ€„ô¥…±½I•ÍÕ±Ğ¹=,¤É•ÑÕÉ¸ì4(4(€€€€€€€€€€€ÍÑÉ¥¹œÍÉ¥ÁĞ€ô€‘ ˆ4(‘ÉÉ½ÉÑ¥½¹AÉ•™•É•¹”€ô€MÑ½Àœì4)íAÍ]…¥ÑQ…Í­Õ¹ô4(‘Ù´€ô•ĞµY¥•Ü€µ%€íÙµ5½I•™ôœ€µAÉ½Á•ÉÑäM¹…ÁÍ¡½Ğ¹I½½ÑM¹…ÁÍ¡½Ñ1¥ÍĞ±½¹™¥œ¹Q•µÁ±…Ñ”€µÉÉ½ÉÑ¥½¸MÑ½Àì4)¥˜€ ‘Ù´¹½¹™¥œ¹Q•µÁ±…Ñ”¤íìÑ¡É½Ü€Ÿš¢‡švÿ’â7šR¿š2–ş¯ŸšN7’öpœõô4)¥˜€ ‘Ù´¹M¹…ÁÍ¡½Ğ€µ…¹€‘Ù´¹M¹…ÁÍ¡½Ğ¹I½½ÑM¹…ÁÍ¡½Ñ1¥ÍĞ¤íì€‘Ñ…Í¬€ô€‘Ù´¹I•µ½Ù•±±M¹…ÁÍ¡½ÑÍ}Q…Í¬ ‘¹Õ±°¤ì]…¥ĞµQ…Í¬€‘Ñ…Í¬€Ÿ–"ƒ¦f“š&šr'–ş¯œœõô•±Í”íìÑ¡É½Ü€–š‚æ— å¿©áiÉÈ_CBˆÃBƒBˆ^Xİ]U›SÜ\˜][ÛŠØÜš\	¹b(:fi9¢`9§"yn¾xZs¢·fÔæÖWÒ"Âöå7V66W73¢‚’Óâ²Ò“°Ğ¢ĞĞ Ğ¢òòÓÓÓÓÓÒh›˜xşyK^k©i8ŞKÙÂÓÓÓÓÓĞĞ Ğ¢&—fFRfö–B&F6…÷vW$öâ„Æ—7CÄÆ—7CÇ7G&–æsãâ&÷w2Ğ¢°Ğ¢f"fÔÖõ&Vg2Ò&÷w2å6VÆV7B‡"ÓâgVÆÅfÕ&Vb„vWEfÔ–Dg&öÕ&÷r‡"’’’åv†W&R†âĞ€…ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡¸¤¤¹Q½1¥ÍĞ ¤ì4(€€€€€€€€€€€¥˜€¡Ùµ5½I•™Ì¹½Õ¹Ğ€ôô€À¤É•ÑÕÉ¸ì4(€€€€€€€€€€€ÍÑÉ¥¹œµ½I•™ÉÉ…ä€ôÍÑÉ¥¹œ¹)½¥¸ ˆ°ˆ°Ùµ5½I•™Ì¹M•±•Ğ¡¸€ô $"'{n}'"));
             string script = $@"
 $ErrorActionPreference = 'Stop';
 $vms = Get-View -Id @({moRefArray}) -Property Name,Runtime.PowerState,Config.Template -ErrorAction SilentlyContinue | Where-Object {{ -not $_.Config.Template }};
 foreach ($vm in $vms) {{
-    if ($vm.Runtime.PowerState -ne 'poweredOn') {{ $task = $vm.PowerOnVM_Task($null); Wait-Task $task 'æ‰¹é‡å¼€æœº' }} else {{ Write-Output ('[å·²å¼€æœº] ' + $vm.Name) }}
-}}
-";
-            ExecuteBatchOperation(script, $"æ‰¹é‡å¼€æœº ({vmMoRefs.Count} å°)", vmMoRefs);
-        }
-
-        private void BatchPowerOff(List<List<string>> rows)
-        {
-            var vmMoRefs = rows.Select(r => FullVmRef(GetVmIdFromRow(r))).Where(n => !string.IsNullOrEmpty(n)).ToList();
-            if (vmMoRefs.Count == 0) return;
-            string moRefArray = string.Join(",", vmMoRefs.Select(n => $"'{n}'"));
+    if ($vm.Runtime.PowerState -ne 'poweredOn') {{ $task = $vm.PowerOnVM_Task($null); Wait-Task $task %¢nzaã[ÈiË¢r×ÒVÇ6R·²w&—FRÔ÷WGWB‚u¾[{.[ÈiË¥Òr²GfÒäæÖR’×ĞĞ§×ĞĞ¢#°Ğ¢W†V7WFT&F6„÷W&F–öâ‡67&—BÂB.h›˜xş[ÈiË¢‡·fÔÖõ&Vg2ä6÷VçGÒXû’"ÂfÔÖõ&Vg2“°Ğ¢ĞĞ Ğ¢&—fFRfö–B&F6…÷vW$öfb„Æ—7CÄÆ—7CÇ7G&–æsãâ&÷w2Ğ¢°Ğ¢f"fÔÖõ&Vg2Ò&÷w2å6VÆV7B‡"ÓâgVÆÅfÕ&Vb„vWEfÔ–Dg&öÕ&÷r‡"’’’åv†W&R†âĞ€…ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡¸¤¤¹Q½1¥ÍĞ ¤ì4(€€€€€€€€€€€¥˜€¡Ùµ5½I•™Ì¹½Õ¹Ğ€ôô€À¤É•ÑÕÉ¸ì4(€€€€€€€€€€€ÍÑÉ¥¹œµ½I•™ÉÉ…ä€ôÍÑÉ¥¹œ¹)½¥¸ ˆ°ˆ°Ùµ5½I•™Ì¹M•±•Ğ¡¸€ô $"'{n}'"));
             string script = $@"
 $ErrorActionPreference = 'Stop';
 $vms = Get-View -Id @({moRefArray}) -Property Name,Runtime.PowerState,Guest.ToolsStatus,Config.Template -ErrorAction SilentlyContinue | Where-Object {{ -not $_.Config.Template }};
 foreach ($vm in $vms) {{
-    if ($vm.Runtime.PowerState -ne 'poweredOn') {{ Write-Output ('[å·²å…³æœº] ' + $vm.Name); continue }}
-    $toolsOk = $vm.Guest -and ($vm.Guest.ToolsStatus -eq 'toolsOk' -or $vm.Guest.ToolsStatus -eq 'toolsOld');
-    if ($toolsOk) {{ try {{ $vm.ShutdownGuest(); Write-Output ('[å·²å‘é€å…³é—­æŒ‡ä»¤] ' + $vm.Name) }} catch {{ Write-Output ('[å‘é€å¤±è´¥] ' + $vm.Name + ' - ' + $_.Exception.Message) }} }}
-    else {{ Write-Output ('[Toolsæœªè¿è¡Œï¼Œæ— æ³•å…³é—­] ' + $vm.Name) }}
-}}
-";
-            ExecuteBatchOperation(script, $"æ‰¹é‡å…³é—­å®¢æˆ·æœº ({vmMoRefs.Count} å°)", vmMoRefs);
+    if ($vm.Runtime.PowerState -ne 'poweredOn') {{ Write-Output ('Ymì¹aliË¥Òr²GfÒäæÖR“²6öçF–çVR×ĞĞ¢GFööÇ4ö²ÒGfÒäwVW7BÖæB‚GfÒäwVW7BåFööÇ57FGW2ÖWwFööÇ4ö²rÖ÷"GfÒäwVW7BåFööÇ57FGW2ÖWwFööÇ4öÆBr“°Ğ¢–b‚GFööÇ4ö²’·²G'’·²GfÒå6‡WFF÷väwVW7B‚“²w&—FRÔ÷WGWB‚u¾[{.XG¦–Ï¦^·š2’î‘t€œ€¬€‘Ù´¹9…µ”¤õô…Ñ íì]É¥Ñ”µ=ÕÑÁÕĞ€ o–>G¦–’Ç¢Ò•t€œ€¬€‘Ù´¹9…µ”€¬€œ€´€œ€¬€‘|¹á•ÁÑ¥½¸¹5•ÍÍ…”¤õôõô4(€€€•±Í”íì]É¥Ñ”µ=ÕÑÁÕĞ€ mQ½½±Ïšr«¢şC¢†3¾ò3š^ƒšÎW–Ï¦^µt€œ€¬€‘Ù´¹9…µ”¤õô4)õô4(ˆì4(€€€€€€€€€€€á•ÕÑ•	…Ñ¡=Á•É…Ñ¥½¸¡ÍÉ¥ÁĞ°€‹š&ç¦?–Ï¦^·–º‹š"ßšrè€¡íÙµ5½I•™Ì¹½Õ¹Ñôƒ–0)", vmMoRefs);
         }
 
-        private void BatchPowerOffForce(List<List<string>> rows)
-        {
-            var vmMoRefs = rows.Select(r => FullVmRef(GetVmIdFromRow(r))).Where(n => !string.IsNullOrEmpty(n)).ToList();
-            if (vmMoRefs.Count == 0) return;
-            string moRefArray = string.Join(",", vmMoRefs.Select(n => $"'{n}'"));
-            string script = $@"
-$ErrorActionPreference = 'Stop';
-$vms = Get-View -Id @({moRefArray}) -Property Name,Runtime.PowerState,Config.Template -ErrorAction SilentlyContinue | Where-Object {{ -not $_.Config.Template }};
-foreach ($vm in $vms) {{
-    if ($vm.Runtime.PowerState -eq 'poweredOn') {{ $task = $vm.PowerOffVM_Task(); Wait-Task $task 'æ‰¹é‡å…³é—­ç”µæº' }} else {{ Write-Output ('[å·²å…³æœº] ' + $vm.Name) }}
+        private void BatchPowerOffForce(List<List<string>›İÜÊCBˆÃBˆ˜\ˆ›S[Ô™YœÈH›İÜË”Ù[Xİ
+ˆOˆ[›T™YŠÙ]›RYœ›ÛT›İÊŠJJK•Ú\™JˆOˆ\İš[™Ë’\Ó[Ü‘[\JŠJK•Ó\İ
+
+NÃBˆYˆ
+›S[Ô™YœËÛİ[OH
+H™]\›ÃBˆİš[™È[Ô™Y\œ˜^HHİš[™Ë’›Ú[Š‹‹›S[Ô™YœË”Ù[Xİ
+ˆOˆ	‰ŞÛŸIÈŠJNÃBˆİš[™ÈØÜš\H	ƒB‰\œ›ÜXİ[Û”™Y™\™[˜ÙHH	ÔİÜ	ÎÃB‰›\ÈHÙ]UšY]ÈRY
+Û[Ô™Y\œ˜^_JHT›Ü\H˜[YK[[YK”İÙ\”İ]KÛÛ™šYË•[\]HQ\œ›ÜXİ[ÛˆÚ[[PÛÛ[YHÚ\™KSØš™XİŞÈ[›İ	ËÛÛ™šYË•[\]H_NÃB™›Ü™XXÚ
+	›H[ˆ	›\ÊHŞÃBˆYˆ
+	›K”[[YK”İÙ\”İ]HY\H	ÜİÙ\™YÛ‰ÊHŞÈ	\ÚÈH	›K”İÙ\“Ù™•“WÕ\ÚÊ
+NÈØZ]U\ÚÈ	\ÚÈ	h›˜xÖÉ—­ç”µæº' }} else {{ Write-Output ('[å·²å…³æœº] ' + $vm.Name) }}
 }}
 ";
             ExecuteBatchOperation(script, $"æ‰¹é‡å…³é—­ç”µæº ({vmMoRefs.Count} å°)", vmMoRefs);
         }
 
-        private void BatchRestart(List<List<string>> rows)
-        {
-            var vmMoRefs = rows.Select(r => FullVmRef(GetVmIdFromRow(r))).Where(n => !string.IsNullOrEmpty(n)).ToList();
-            if (vmMoRefs.Count == 0) return;
-            string moRefArray = string.Join(",", vmMoRefs.Select(n => $"'{n}'"));
-            string script = $@"
-$ErrorActionPreference = 'Stop';
-$vms = Get-View -Id @({moRefArray}) -Property Name,Runtime.PowerState,Config.Template -ErrorAction SilentlyContinue | Where-Object {{ -not $_.Config.Template }};
-foreach ($vm in $vms) {{
-    if ($vm.Runtime.PowerState -eq 'poweredOn') {{ $task = $vm.ResetVM_Task(); Wait-Task $task 'æ‰¹é‡é‡ç½®ç”µæº' }} else {{ Write-Output ('[éå¼€æœºçŠ¶æ€ï¼Œè·³è¿‡] ' + $vm.Name) }}
-}}
-";
-            ExecuteBatchOperation(script, $"æ‰¹é‡é‡ç½®ç”µæº ({vmMoRefs.Count} å°)", vmMoRefs);
-        }
-
-        private void BatchDeleteVm(List<List<string>> rows)
-        {
-            var vmNames = rows.Select(GetVmNameFromRow).Where(n => !string.IsNullOrEmpty(n)).ToList();
-            var vmMoRefs = rows.Select(r => FullVmRef(GetVmIdFromRow(r))).Where(n => !string.IsNullOrEmpty(n)).ToList();
+        private void BatchRestart(List<List<stringˆ›İÜÊCBˆÃBˆ˜\ˆ›S[Ô™YœÈH›İÜË”Ù[Xİ
+ˆBgVÆÅfÕ&Vb„vWEfÔ–Dg&öÕ&÷r‡"’’’åv†W&R†âÓâ7G&–ærä—4çVÆÄ÷$V×G’†â’’åFôÆ—7B‚“°Ğ¢–b‡fÔÖõ&Vg2ä6÷VçBÓÒ’&WGW&ã°Ğ¢7G&–ærÖõ&Vd'&’Ò7G&–ærä¦ö–â‚"Â"ÂfÔÖõ&Vg2å6VÆV7B†âÓâB"w¶çÒr"’“°Ğ¢7G&–ær67&—BÒD Ğ¢DW'&÷$7F–öå&VfW&Væ6RÒu7F÷s°Ğ¢Gf×2ÒvWBÕf–WrÔ–B‡¶Öõ&Vd'&—Ò’Õ&÷W'G’æÖRÅ'VçF–ÖRå÷vW%7FFRÄ6öæf–råFV×ÆFRÔW'&÷$7F–öâ6–ÆVçFÇ”6öçF–çVRÂv†W&RÔö&¦V7B·²Öæ÷BEòä6öæf–råFV×ÆFR×Ó°Ğ¦f÷&V6‚‚GfÒ–âGf×2’·°Ğ¢–b‚GfÒå'VçF–ÖRå÷vW%7FFRÖWw÷vW&VDöâr’·²GF6²ÒGfÒå&W6WEdÕõF6²‚“²v—BÕF6²GF6²~h›˜xş˜xŞ{ÚîyK^k©r×ÒVÇ6R·²w&—FRÔ÷WGWB‚u¦v{–òšrë*Ûš¼Œè·²/á×H	È
+È	›K“˜[YJH_CBŸ_CBˆÃBˆ^Xİ]P˜]ÚÜ\˜][ÛŠØÜš\	¹¢nzaã˜xŞ{ÚîyK^k©‡·fÔÖõ&Vg2ä6÷VçGÒXû’"ÂfÔÖõ&Vg2“°Ğ¢ĞĞ Ğ¢&—fFRfö–B&F6„FVÆWFUfÒ„Æ—7CÄÆ—7CÇ7G&–æsàÉ½İÌ¤4(€€€€€€€ì4(€€€€€€€€€€€Ù…ÈÙµ9…µ•Ì€ôÉ½İÌ¹M•±•Ğ¡•ÑYµ9…µ•É½µI½Ü¤¹]¡•É”¡¸€ôø€…ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡¸¤¤¹Q½1¥ÍĞ ¤ì4(€€€€€€€€€€€Ù…ÈÙµ5½I•™Ì€ôÉ½İÌ¹M•±•Ğ¡È€ôøÕ±±YµI•˜¡•ÑYµ%‘É½µI½Ü¡È¤¤¤¹]¡•É”¡¸€ô !string.IsNullOrEmpty(n)).ToList();
             if (vmNames.Count == 0) return;
 
             var confirmResult = MessageBox.Show(
-                $"âš  å±é™©æ“ä½œï¼šç¡®è®¤è¦ä»ç£ç›˜æ°¸ä¹…åˆ é™¤ä»¥ä¸‹ {vmNames.Count} å°è™šæ‹Ÿæœºå—ï¼Ÿ\n\n" +
-                string.Join(", ", vmNames) + "\n\n" +
-                "æ­¤æ“ä½œä¸å¯æ¢å¤ï¼å»ºè®®å…ˆç¡®è®¤ VM å·²å…³æœºã€‚",
-                "æ‰¹é‡åˆ é™¤è™šæ‹Ÿæœºç¡®è®¤",
-                MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Error);
+                $"âš  å±é™©æ“ä½œï&¹èkº+©:) y.ã¹èàyææ9¬.9.ayb(:fi9.éy."Èİ›S˜[Y\ËÛİ[H9c‰™®h¹şiË®Y	~ûÉõÆåÆâ"°Ğ¢7G&–ærä¦ö–â‚"Â"ÂfÔæÖW2’²%ÆåÆâ"°Ğ¢.jÚNi8ŞKÙÎKˆŞX¿š‹–’7¾ò–îë¢º»–#†»¢ºY4ƒ–ŞË–Æœºã€‚",
+                "æ‰¹é‡b(:fi:&f¹¢çiË®zîŠêB"ÀĞ¢ÖW76vT&÷„'WGFöç2äô´6æ6VÂÀĞ¢ÖW76vT&÷„–6öâäW'&÷"“°Ğ Ğ¢–b†6öæf—&Õ&W7VÇBÒF–Æöu&W7VÇBäô²’&WGW&ã°Ğ Ğ¢ÆötÖW76vR‚.K‡š¼ˆ°€‹š&Ÿ¢†3š&ç¦?šN7’öpèƒš&ç¦5ˆ é™¤è™šæ‹§.ˆ
+İ›S˜[Y\ËÛİ[H9cì
+HŠNÃBƒBˆ\ÚË”[Š\Ş[˜È
 
-            if (confirmResult != DialogResult.OK) return;
-
-            LogMessage("ä¿¡æ¯", $"æ‰§è¡Œæ‰¹é‡æ“ä½œ: æ‰¹é‡åˆ é™¤è™šæ‹Ÿæœº ({vmNames.Count} å°)");
-
-            Task.Run(async () =>
-            {
-                try
-                {
-                    string moRefArray = string.Join(",", vmMoRefs.Select(n => $"'{n}'"));
-                    string script = $@"
-$ErrorActionPreference = 'Stop';
-$vms = Get-View -Id @({moRefArray}) -Property Name,Runtime.PowerState,Config.Template -ErrorAction SilentlyContinue | Where-Object {{ -not $_.Config.Template }};
-$poweredOn = $vms | Where-Object {{ $_.Runtime.PowerState -eq 'poweredOn' }};
-$toDelete = $vms | Where-Object {{ $_.Runtime.PowerState -ne 'poweredOn' }};
-if ($poweredOn) {{ $names = ($poweredOn | ForEach-Object Name) -join ' '; Write-Output '[è­¦å‘Š] ä»¥ä¸‹è™šæ‹Ÿæœºå¤„äºå¼€æœºçŠ¶æ€ï¼Œå·²è·³è¿‡: ' + $names }};
-foreach ($vm in $toDelete) {{ $task = $vm.Destroy_Task(); Wait-Task $task 'æ‰¹é‡åˆ é™¤' }};
-if (-not $toDelete) {{ Write-Output '[æç¤º] æ²¡æœ‰å¯åˆ é™¤çš„è™šæ‹Ÿæœºï¼ˆå…¨éƒ¨å¤„äºå¼€æœºçŠ¶æ€ï¼‰' }}
+HOƒBˆÃBˆCBˆÃBˆİš[™È[Ô™Y\œ˜^HHİš[™Ë’›Ú[Š‹‹›S[Ô™YœË”Ù[Xİ
+ˆOˆ	‰ŞÛŸIÈŠJNÃBˆİš[™ÈØÜš\H	ƒB‰\œ›ÜXİ[Û”™Y™\™[˜ÙHH	ÔİÜ	ÎÃB‰›\ÈHÙ]UšY]ÈRY
+Û[Ô™Y\œ˜^_JHT›Ü\H˜[YK[[YK”İÙ\”İ]KÛÛ™šYË•[\]HQ\œ›ÜXİ[ÛˆÚ[[PÛÛ[YHÚ\™KSØš™XİŞÈ[›İ	ËÛÛ™šYË•[\]H_NÃB‰İÙ\™YÛˆH	›\ÈÚ\™KSØš™XİŞÈ	Ë”[[YK”İÙ\”İ]HY\H	ÜİÙ\™YÛ‰È_NÃB‰Ñ[]HH	›\ÈÚ\™KSØš™XİŞÈ	Ë”[[YK”İÙ\”İ]H[™H	ÜİÙ\™YÛ‰È_NÃBšYˆ
+	İÙ\™YÛŠHŞÈ	˜[Y\ÈH
+	İÙ\™YÛˆ›Ü‘XXÚSØš™Xİ˜[YJHZ›Ú[ˆ	È	ÎÈÜš]KSİ]]	ÖŠÚnY¥ÒKº^Kˆ¾‰™®h¹şiË®ZHNK¨î[ÈiË®x«nhûÈÎ[{.‹{>‹è€œ€¬€‘¹…µ•Ìõôì4)™½É•… € ‘Ù´¥¸€‘Ñ½•±•Ñ”¤íì€‘Ñ…Í¬€ô€‘Ù´¹•ÍÑÉ½å}Q…Í¬ ¤ì]…¥ĞµQ…Í¬€‘Ñ…Í¬€Ÿš&ç¦?–"ƒ¦fœõôì4)¥˜€ µ¹½Ğ€‘Ñ½•±•Ñ”¤íì]É¥Ñ”µ=ÕÑÁÕĞ€ošç¤º] æ²¡æœ‰å¯åˆ é™¤çš„è™šæ‹Ÿæœºï¼ˆå…¨éƒ¨å¤„äºå¼€æœºçŠ¶æ€ï¼‰' }}
 ";
                     string injected = $"$ErrorActionPreference = 'Stop'; {PsWaitTaskFunc} {script}";
 
@@ -454,181 +173,49 @@ if (-not $toDelete) {{ Write-Output '[æç¤º] æ²¡æœ‰å¯åˆ é™¤çš„è™šæ‹Ÿæœºï¼ˆå…¨é
 
                     _root.Invoke(new Action(() =>
                     {
-                        LogMessage("æˆåŠŸ", $"æ‰¹é‡åˆ é™¤è™šæ‹Ÿæœºæ“ä½œå®Œæˆ");
-                        ToastUtils.ShowToast(_root, $"æ‰¹é‡åˆ é™¤å®Œæˆ: {vmNames.Count} å°");
-                        DoQuery();
-                    }));
-                }
-                catch (Exception ex)
-                {
-                    _root.Invoke(new Action(() =>
+                        LogMessage("æˆåŠŸ", $"æ‰¹é‡b(:fi:&f¹¢çiË®i8ŞKÙÎZèÎh‰"“°Ğ¢Fö7EWF–Ç2å6†÷uFö7B…÷&ö÷BÂB.h›˜xşXŠ™šNZèÎh‰¢·fÔæÖW2ä6÷VçGÒXÀˆ¤ì4(€€€€€€€€€€€€€€€€€€€€€€€½EÕ•Éä ¤ì4(€€€€€€€€€€€€€€€€€€€ô¤¤ì4(€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€…Ñ €¡á•ÁÑ¥½¸•à¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€}É½½Ğ¹%¹Ù½­”¡¹•ÜÑ¥½¸  ¤€ô
                     {
                         LogMessage("é”™è¯¯", $"æ‰¹é‡åˆ é™¤è™šæ‹Ÿæœºå¤±è´¥: {ex.Message}");
-                        MessageBox.Show($"æ‰¹é‡åˆ é™¤å¤±è´¥:\n{ex.Message}", "é”™è¯¯", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }));
-                }
-            });
-        }
-
-        private void BatchCreateSnapshot(List<List<string>> rows)
-        {
-            var vmMoRefs = rows.Select(r => FullVmRef(GetVmIdFromRow(r))).Where(n => !string.IsNullOrEmpty(n)).ToList();
+                        MessageBox.Show($"æ‰¹é‡b(:fi9i,z-)N—Ù^“Y\ÜØYÙ_H‹ºe&z+ëÈ‹Y\ÜØYÙP›Ş]ÛœË“ÒËY\ÜØYÙP›ŞXÛÛ‹‘\œ›ÜŠNÃBˆJJNÃBˆCBˆJNÃBˆCBƒBˆš]˜]H›ÚY˜]ÚÜ™X]TÛ˜\Úİ
+\İ\İİš[™Ïˆ›İÜÊCBˆÃBˆ˜\ˆ›S[Ô™YœÈH›İÜË”Ù[Xİ
+ˆOˆ[›T™YŠÙ]›RYœ›ÛT›İÊŠJJK•Ú\™JˆB7G&–ærä—4çVÆÄ÷$V×G’†â’’åFôÆ—7B‚“°Ğ¢–b‡fÔÖõ&Vg2ä6÷VçBÓÒ’&WGW&ã°Ğ¢7G&–ærÖõ&Vd'&’Ò7G&–ærä¦ö–â‚"Â"ÂfÔÖõ&Vg2å6VÆV7B†âĞ€ˆí¹ôœˆ¤¤ì4(€€€€€€€€€€€ÍÑÉ¥¹œÍ¹…Á1…‰•°€ô€‰	…Ñ¡M¹…ÁÍ¡½Ñ}í…Ñ•Q¥µ”¹9½Üéåååå55‘‘}!!µµÍÍôˆì4(€€€€€€€€€€€ÍÑÉ¥¹œÍÉ¥ÁĞ€ô€‘ ˆ4(‘ÉÉ½ÉÑ¥½¹AÉ•™•É•¹”€ô€MÑ½Àœì4(‘ÙµÌ€ô•ĞµY¥•Ü€µ% ¡íµ½I•™ÉÉ…åô¤€µAÉ½Á•ÉÑä9…µ”±½¹™¥œ¹Q•µÁ±…Ñ”€µÉÉ½ÉÑ¥½¸M¥±•¹Ñ±å½¹Ñ¥¹Õ”ğ]¡•É”µ=‰©•Ğíì€µ¹½Ğ€‘|¹½¹™¥œ¹Q•µÁ±…Ñ”õôì4)™½É•… € ‘Ù´¥¸€‘ÙµÌ¤íì€‘Ñ…Í¬€ô€‘Ù´¹É•…Ñ•M¹…ÁÍ¡½Ñ}Q…Í¬ íÍ¹…Á1…‰•±ôœ°€–‰¹é‡b&[»¢rÂFfÇ6RÂFfÇ6R“²v—BÕF6²GF6²~h›˜xşX‰¾[»®[ú¾xZrr×ĞĞ¢#°Ğ¢W†V7WFT&F6„÷W&F–öâ‡67&—BÂB.h›˜xşX‰¾[»®[ú¾xZr‡·fÔÖõ&Vg2ä6÷VçGÒXÀ¤ˆ°½¹MÕ•ÍÌè€ ¤€ôøìô¤ì4(€€€€€€€ô4(4(€€€€€€€ÁÉ¥Ù…Ñ”Ù½¥	…Ñ¡I•µ½Ù•±±M¹…ÁÍ¡½ÑÌ¡1¥ÍĞñ1¥ÍĞñÍÑÉ¥¹œøøÉ½İÌ¤4(€€€€€€€ì4(€€€€€€€€€€€Ù…ÈÙµ5½I•™Ì€ôÉ½İÌ¹M•±•Ğ¡È€ôøÕ±±YµI•˜¡•ÑYµ%‘É½µI½Ü¡È¤¤¤¹]¡•É”¡¸€ô !string.IsNullOrEmpty(n)).ToList();
             if (vmMoRefs.Count == 0) return;
-            string moRefArray = string.Join(",", vmMoRefs.Select(n => $"'{n}'"));
-            string snapLabel = $"BatchSnapshot_{DateTime.Now:yyyyMMdd_HHmmss}";
-            string script = $@"
-$ErrorActionPreference = 'Stop';
-$vms = Get-View -Id @({moRefArray}) -Property Name,Config.Template -ErrorAction SilentlyContinue | Where-Object {{ -not $_.Config.Template }};
-foreach ($vm in $vms) {{ $task = $vm.CreateSnapshot_Task('{snapLabel}', 'æ‰¹é‡åˆ›å»º', $false, $false); Wait-Task $task 'æ‰¹é‡åˆ›å»ºå¿«ç…§' }}
-";
-            ExecuteBatchOperation(script, $"æ‰¹é‡åˆ›å»ºå¿«ç…§ ({vmMoRefs.Count} å°)", onSuccess: () => { });
-        }
+            string moRefArray = string.Join(",", vmMoRefs.Select(n =	‰ŞÛŸIÈŠJNÃBˆİš[™ÈØÜš\H	ƒB‰\œ›ÜXİ[Û”™Y™\™[˜ÙHH	ÔİÜ	ÎÃB‰›\ÈHÙ]UšY]ÈRY
+Û[Ô™Y\œ˜^_JHT›Ü\H˜[YKÛ˜\Úİ”›ÛİÛ˜\Úİ\İÛÛ™šYË•[\]HQ\œ›ÜXİ[ÛˆÚ[[PÛÛ[YHÚ\™KSØš™XİŞÈ[›İ	ËÛÛ™šYË•[\]H_NÃB™›Ü™XXÚ
+	›H[ˆ	›\ÊHŞÃBˆYˆ
+	›K”Û˜\ÚİX[™	›K”Û˜\Úİ”›ÛİÛ˜\Úİ\İ
+HŞÈ	\ÚÈH	›K”™[[İ™P[Û˜\Úİ×Õ\ÚÊ	[
+NÈØZ]U\ÚÈ	\ÚÈ	ù¢nzaãùb(:fi9¢`9§"yoêùáiÉÈ_H[ÙHŞÈÜš]KSİ]]
+	Öiz[út€œ€¬€‘Ù´¹9…µ”¤õô4)õô4(ˆì4(€€€€€€€€€€€á•ÕÑ•	…Ñ¡=Á•É…Ñ¥½¸¡ÍÉ¥ÁĞ°€‹š&ç¦5ˆ é™¤æ‰€æœ‰å¿©áiÈ
+İ›S[Ô™YœËÛİ[H9cì
+H‹Û”İXØÙ\ÜÎˆ
 
-        private void BatchRemoveAllSnapshots(List<List<string>> rows)
-        {
-            var vmMoRefs = rows.Select(r => FullVmRef(GetVmIdFromRow(r))).Where(n => !string.IsNullOrEmpty(n)).ToList();
-            if (vmMoRefs.Count == 0) return;
-            string moRefArray = string.Join(",", vmMoRefs.Select(n => $"'{n}'"));
-            string script = $@"
-$ErrorActionPreference = 'Stop';
-$vms = Get-View -Id @({moRefArray}) -Property Name,Snapshot.RootSnapshotList,Config.Template -ErrorAction SilentlyContinue | Where-Object {{ -not $_.Config.Template }};
-foreach ($vm in $vms) {{
-    if ($vm.Snapshot -and $vm.Snapshot.RootSnapshotList) {{ $task = $vm.RemoveAllSnapshots_Task($null); Wait-Task $task 'æ‰¹é‡åˆ é™¤æ‰€æœ‰å¿«ç…§' }} else {{ Write-Output ('[æ— å¿«ç…§] ' + $vm.Name) }}
-}}
-";
-            ExecuteBatchOperation(script, $"æ‰¹é‡åˆ é™¤æ‰€æœ‰å¿«ç…§ ({vmMoRefs.Count} å°)", onSuccess: () => { });
-        }
-
-        private void BatchMigrateToHost(List<List<string>> rows)
-        {
-            var vmMoRefs = rows.Select(r => FullVmRef(GetVmIdFromRow(r))).Where(n => !string.IsNullOrEmpty(n)).ToList();
-            if (vmMoRefs.Count == 0) return;
-            int vmCount = vmMoRefs.Count;
-
-            Task.Run(() =>
-            {
-                var hostList = UnifiedCache.GetCachedHosts();
-                if (hostList.Count == 0)
-                {
-                    try
-                    {
-                        var result = SessionManager.Instance.ExecuteQueryAsync(
-                            "Get-View -ViewType HostSystem -Property Name | Select-Object Name | Sort-Object Name",
-                            (msg, level) => { }
-                        ).Result;
-                        if (result != null && result.Count > 0)
-                        {
-                            foreach (var dict in result)
-                                if (dict.TryGetValue("Name", out var n) && !string.IsNullOrEmpty(n?.ToString()))
-                                    hostList.Add(n.ToString().Trim());
-                            UnifiedCache.UpdateResourceCache(hosts: hostList);
-                        }
-                    }
-                    catch (Exception ex) { LogMessage("error", $"[æ‰¹é‡è¿ç§»ä¸»æœº] æŸ¥è¯¢å¼‚å¸¸: {ex.Message}"); }
+HOˆÈJNÃBˆCBƒBˆš]˜]H›ÚY˜]ÚZYÜ˜]UÒÜİ
+\İ\İİš[™Ïˆ›İÜÊCBˆÃBˆ˜\ˆ›S[Ô™YœÈH›İÜË”Ù[Xİ
+ˆOˆ[›T™YŠÙ]›RYœ›ÛT›İÊŠJJK•Ú\™JˆB7G&–ærä—4çVÆÄ÷$V×G’†â’’åFôÆ—7B‚“°Ğ¢–b‡fÔÖõ&Vg2ä6÷VçBÓÒ’&WGW&ã°Ğ¢–çBfÔ6÷VçBÒfÔÖõ&Vg2ä6÷VçC°Ğ Ğ¢F6²å'Vâ‚‚’ÓàĞ¢°Ğ¢f"†÷7DÆ—7BÒVæ–f–VD66†RävWD66†VD†÷7G2‚“°Ğ¢–b††÷7DÆ—7Bä6÷VçBÓÒĞ¢°Ğ¢G'Ğ¢°Ğ¢f"&W7VÇBÒ6W76–öäÖævW"ä–ç7Fæ6RäW†V7WFUVW'”7–æ2€Ğ¢$vWBÕf–WrÕf–WuG—R†÷7E7—7FVÒÕ&÷W'G’æÖRÂ6VÆV7BÔö&¦V7BæÖRÂ6÷'BÔö&¦V7BæÖR"ÀĞ¢†×6rÂÆWfVÂ’Ğìô4(€€€€€€€€€€€€€€€€€€€€€€€€¤¹I•ÍÕ±Ğì4(€€€€€€€€€€€€€€€€€€€€€€€¥˜€¡É•ÍÕ±Ğ€„ô¹Õ±°€˜˜É•ÍÕ±Ğ¹½Õ¹Ğ€ø€À¤4(€€€€€€€€€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€™½É•… €¡Ù…È‘¥Ğ¥¸É•ÍÕ±Ğ¤4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€¥˜€¡‘¥Ğ¹QÉå•ÑY…±Õ” ‰9…µ”ˆ°½ÕĞÙ…È¸¤€˜˜€…ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡¸ü¹Q½MÑÉ¥¹œ ¤¤¤4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€¡½ÍÑ1¥ÍĞ¹‘¡¸¹Q½MÑÉ¥¹œ ¤¹QÉ¥´ ¤¤ì4(€€€€€€€€€€€€€€€€€€€€€€€€€€€U¹¥™¥•‘…¡”¹UÁ‘…Ñ•I•Í½ÕÉ•…¡”¡¡½ÍÑÌè¡½ÍÑ1¥ÍĞ¤ì4(€€€€€€€€€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€€€€€ô4(€€€€€€€€€€€€€€€€€€€…Ñ €¡á•ÁÑ¥½¸•à¤ì1½5•ÍÍ…” ‰•ÉÉ½Èˆ°€‰oš&ç¦?¢Áç§»ä¸»æœº] æŸ¥è¯¢å¼‚å¸¸: {ex.Message}"); }
                 }
 
                 _root.Invoke(new Action(() =>
                 {
                     string? targetHost = ShowBatchSelectDialog(
-                        $"æ‰¹é‡è¿ç§»åˆ°ä¸»æœºï¼ˆå…± {vmCount} å°ï¼‰",
-                        "è¯·é€‰æ‹©ç›®æ ‡ ESXi ä¸»æœºï¼š",
+                        $"æ‰¹é‡è°yéîùb,9..ù§.»ï"9alHİ›PÛİ[H9cì;ï"H‹Bˆº+í˜hºyºîjrU5†’K‹šrë¼š",
                         hostList);
                     if (string.IsNullOrEmpty(targetHost)) return;
 
                     var confirm = MessageBox.Show(
-                        $"ç¡®è®¤è¦å°†é€‰ä¸­çš„ {vmCount} å°è™šæ‹Ÿæœºè¿ç§»åˆ°ä¸»æœº [{targetHost}] å—ï¼Ÿ\n\n" +
-                        "âš  vMotion é›¶åœæœºè¿ç§»\n" +
-                        "âš  è¿ç§»è¿‡ç¨‹ä¸­è¯·å‹¿æ–­å¼€ç½‘ç»œ",
-                        "æ‰¹é‡è¿ç§»åˆ°ä¸»æœºç¡®è®¤",
-                        MessageBoxButtons.OKCancel,
-                        MessageBoxIcon.Question);
-                    if (confirm != DialogResult.OK) return;
-
-                    string moRefArray = string.Join(",", vmMoRefs.Select(n => $"'{n}'"));
-                    string script = $@"
-$ErrorActionPreference = 'Stop';
-$targetHost = Get-View -ViewType HostSystem -Filter @{{Name='{EscapePsString(targetHost)}'}} -ErrorAction Stop;
-$vms = Get-View -Id @({moRefArray}) -Property Name,Config.Template -ErrorAction SilentlyContinue | Where-Object {{ -not $_.Config.Template }};
-foreach ($vm in $vms) {{ $spec = New-Object VMware.Vim.VirtualMachineRelocateSpec; $spec.Host = $targetHost.MoRef; $task = $vm.RelocateVM_Task($spec, [VMware.Vim.VirtualMachineMovePriority]::defaultPriority); Wait-Task $task 'æ‰¹é‡è¿ç§»ä¸»æœº' }}
+                        $"ç¡®è®¤è¦å°†é€‰ä¸­çš„ {vmCount} å°è™šæ‹§.º/àyéîX‹K‹šrèmíÑ…É•Ñ!½ÍÑõtƒ–B_¾ò}q¹q¸ˆ€¬4(€€€€€€€€€€€€€€€€€€€€€€€€‹Šj€Ù5½Ñ¥½¸ƒ¦nÛ–sšrë¢Áç§»\n" +
+                        "âš  è°yéîú,~zˆ¾KŠŞŠß–.ÿšZ·–òöGîpˆ°4(€€€€€€€€€€€€€€€€€€€€€€€€‹š&ç¦?¢şï–"Ã’âïšrë†»¢ºˆ°4(€€€€€€€€€€€€€€€€€€€€€€€5•ÍÍ…•	½á	ÕÑÑ½¹Ì¹=-…¹•°°4(€€€€€€€€€€€€€€€€€€€€€€€5•ÍÍ…•	½á%½¸¹EÕ•ÍÑ¥½¸¤ì4(€€€€€€€€€€€€€€€€€€€¥˜€¡½¹™¥É´€„ô¥…±½I•ÍÕ±Ğ¹=,¤É•ÑÕÉ¸ì4(4(€€€€€€€€€€€€€€€€€€€ÍÑÉ¥¹œµ½I•™ÉÉ…ä€ôÍÑÉ¥¹œ¹)½¥¸ ˆ°ˆ°Ùµ5½I•™Ì¹M•±•Ğ¡¸€ôø€ˆí¹ôœˆ¤¤ì4(€€€€€€€€€€€€€€€€€€€ÍÑÉ¥¹œÍÉ¥ÁĞ€ô€‘ ˆ4(‘ÉÉ½ÉÑ¥½¹AÉ•™•É•¹”€ô€MÑ½Àœì4(‘Ñ…É•Ñ!½ÍĞ€ô•ĞµY¥•Ü€µY¥•İQåÁ”!½ÍÑMåÍÑ•´€µ¥±Ñ•Èíí9…µ”ôíÍ…Á•AÍMÑÉ¥¹œ¡Ñ…É•Ñ!½ÍĞ¥ôõô€µÉÉ½ÉÑ¥½¸MÑ½Àì4(‘ÙµÌ€ô•ĞµY¥•Ü€µ% ¡íµ½I•™ÉÉ…åô¤€µAÉ½Á•ÉÑä9…µ”±½¹™¥œ¹Q•µÁ±…Ñ”€µÉÉ½ÉÑ¥½¸M¥±•¹Ñ±å½¹Ñ¥¹Õ”ğ]¡•É”µ=‰©•Ğíì€µ¹½Ğ€‘|¹½¹™¥œ¹Q•µÁ±…Ñ”õôì4)™½É•… € ‘Ù´¥¸€‘ÙµÌ¤íì€‘ÍÁ•Œ€ô9•Üµ=‰©•ĞY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±5…¡¥¹•I•±½…Ñ•MÁ•Œì€‘ÍÁ•Œ¹!½ÍĞ€ô€‘Ñ…É•Ñ!½ÍĞ¹5½I•˜ì€‘Ñ…Í¬€ô€‘Ù´¹I•±½…Ñ•Y5}Q…Í¬ ‘ÍÁ•Œ°mY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±5…¡¥¹•5½Ù•AÉ¥½É¥Ñåtèé‘•™…Õ±ÑAÉ¥½É¥Ñä¤ì]…¥ĞµQ…Í¬€‘Ñ…Í¬€Ÿš&ç¦?¢Áç§»ä¸»æœº' }}
 ";
                     ExecuteBatchOperation(script, $"æ‰¹é‡è¿ç§»åˆ°ä¸»æœº ({vmCount} å°)", vmMoRefs);
                 }));
             });
         }
 
-        private void BatchMigrateToResourcePool(List<List<string>> rows)
-        {
-            var vmMoRefs = rows.Select(r => FullVmRef(GetVmIdFromRow(r))).Where(n => !string.IsNullOrEmpty(n)).ToList();
-            if (vmMoRefs.Count == 0) return;
-            int vmCount = vmMoRefs.Count;
-
-            Task.Run(() =>
-            {
-                var rpList = UnifiedCache.GetCachedResourcePools();
-                if (rpList.Count == 0)
-                {
-                    try
-                    {
-                        var result = SessionManager.Instance.ExecuteQueryAsync(
-                            "Get-View -ViewType ResourcePool -Property Name | Select-Object Name | Sort-Object Name",
-                            (msg, level) => { }
-                        ).Result;
-                        if (result != null && result.Count > 0)
-                        {
-                            foreach (var dict in result)
-                                if (dict.TryGetValue("Name", out var n) && !string.IsNullOrEmpty(n?.ToString()))
-                                    rpList.Add(n.ToString().Trim());
-                            UnifiedCache.UpdateResourceCache(resourcePools: rpList);
-                        }
-                    }
-                    catch (Exception ex) { LogMessage("error", $"[æ‰¹é‡è¿ç§»èµ„æºæ± ] æŸ¥è¯¢å¼‚å¸¸: {ex.Message}"); }
-                }
-
-                _root.Invoke(new Action(() =>
-                {
-                    string? targetPool = ShowBatchSelectDialog(
-                        $"æ‰¹é‡è¿ç§»åˆ°èµ„æºæ± ï¼ˆå…± {vmCount} å°ï¼‰",
-                        "è¯·é€‰æ‹©ç›®æ ‡èµ„æºæ± ï¼š",
-                        rpList);
-                    if (string.IsNullOrEmpty(targetPool)) return;
-
-                    var confirm = MessageBox.Show(
-                        $"ç¡®è®¤è¦å°†é€‰ä¸­çš„ {vmCount} å°è™šæ‹Ÿæœºè¿ç§»åˆ°èµ„æºæ±  [{targetPool}] å—ï¼Ÿ",
-                        "æ‰¹é‡è¿ç§»åˆ°èµ„æºæ± ç¡®è®¤",
-                        MessageBoxButtons.OKCancel,
-                        MessageBoxIcon.Question);
-                    if (confirm != DialogResult.OK) return;
-
-                    string moRefArray = string.Join(",", vmMoRefs.Select(n => $"'{n}'"));
-                    string script = $@"
-$ErrorActionPreference = 'Stop';
-$targetPool = Get-View -ViewType ResourcePool -Filter @{{Name='{EscapePsString(targetPool)}'}} -ErrorAction Stop;
-$vms = Get-View -Id @({moRefArray}) -Property Name,Config.Template -ErrorAction SilentlyContinue | Where-Object {{ -not $_.Config.Template }};
-foreach ($vm in $vms) {{ $spec = New-Object VMware.Vim.VirtualMachineRelocateSpec; $spec.Pool = $targetPool.MoRef; $task = $vm.RelocateVM_Task($spec, [VMware.Vim.VirtualMachineMovePriority]::defaultPriority); Wait-Task $task 'æ‰¹é‡è¿ç§»èµ„æºæ± ' }}
-";
-                    ExecuteBatchOperation(script, $"æ‰¹é‡è¿ç§»åˆ°èµ„æºæ±  ({vmCount} å°)", vmMoRefs);
-                }));
-            });
-        }
-
-        private void BatchMigrateToDatastore(List<List<string>> rows)
-        {
-            var vmMoRefs = rows.Select(r => FullVmRef(GetVmIdFromRow(r))).Where(n => !string.IsNullOrEmpty(n)).ToList();
-            if (vmMoRefs.Count == 0) return;
-            int vmCount = vmMoRefs.Count;
-
-            Task.Run(() =>
-            {
-                var dsList = UnifiedCache.GetCachedDatastores();
-                if (dsList.Count == 0)
-                {
-                    try
-                    {
-                        var result = SessionManager.Instance.ExecuteQueryAsync(
-                            "Get-View -ViewType Datastore -Property Name | Select-Object Name | Sort-Object Name",
-                            (msg, level) => { }
-                        ).Result;
-                        if (result != null && result.Count > 0)
+        private void BatchMigrateToResourcePool(List<List<stringˆ›İÜÊCBˆÃBˆ˜\ˆ›S[Ô™YœÈH›İÜË”Ù[Xİ
+ˆBgVÆÅfÕ&Vb„vWEfÔ–Dg&öÕ&÷r‡"’’’åv†W&R†âÓâ7G&–ærä—4çVÆÄ÷$V×G’†â’’åFôÆ—7B‚“°Ğ¢–b‡fÔÖõ&Vg2ä6÷VçBÓÒ’&WGW&ã°Ğ¢–çBfÔ6÷VçBÒfÔÖõ&Vg2ä6÷VçC°Ğ Ğ¢F6²å'Vâ‚‚’ÓàĞ¢°Ğ¢f"'Æ—7BÒVæ–f–VD66†RävWD66†VE&W6÷W&6UööÇ2‚“°Ğ¢–b‡'Æ—7Bä6÷VçBÓÒĞ¢°Ğ¢G'Ğ¢°Ğ¢f"&W7VÇBÒ6W76–öäÖævW"ä–ç7Fæ6RäW†V7WFUVW'”7–æ2€Ğ¢$vWBÕf–WrÕf–WuG—R&W6÷W&6UööÂÕ&÷W'G’æÖRÂ6VÆV7BÔö&¦V7BæÖRÂ6÷'BÔö&¦V7BæÖR"ÀĞ¢†×6rÂÆWfVÂ’Óâ²ĞĞ¢’å&W7VÇC°Ğ¢–b‡&W7VÇBÒçVÆÂbb&W7VÇBä6÷VçBâĞ¢°Ğ¢f÷&V6‚‡f"F–7B–â&W7VÇBĞ¢–b†F–7BåG'”vWEfÇVR‚$æÖR"Â÷WBf"â’bb7G&–ærä—4çVÆÄ÷$V×G’†ãòåFõ7G&–ær‚’’Ğ¢'Æ—7BäFB†âåFõ7G&–ær‚’åG&–Ò‚’“°Ğ¢Væ–f–VD66†RåWFFU&W6÷W&6T66†R‡&W6÷W&6UööÇ3¢'Æ—7B“°Ğ¢ĞĞ¢ĞĞ¢6F6‚„W†6WF–öâW‚’²ÆötÖW76vR‚&W'&÷""ÂB%¾h›˜xş‹ï¢ÖšêCšÆtƒš~—¢¾‹–ò–âàèí•à¹5•ÍÍ…•ôˆ¤ìô4(€€€€€€€€€€€€€€€ô4(4(€€€€€€€€€€€€€€€}É½½Ğ¹%¹Ù½­”¡¹•ÜÑ¥½¸  ¤€ôø4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€ÍÑÉ¥¹œüÑ…É•ÑA½½°€ôM¡½İ	…Ñ¡M•±•Ñ¥…±½œ 4(€€€€€€€€€€€€€€€€€€€€€€€€‹š&ç¦?¢Áç§»åˆ°èµ„æºæ± ï¼ˆå…± {vmCount} å°ï¼‰",
+                        "è¯¶`"y¢êyæë¹¨!‹XNk©kòhˆ°4(€€€€€€€€€€€€€€€€€€€€€€€ÉÁ1¥ÍĞ¤ì4(€€€€€€€€€€€€€€€€€€€¥˜€¡ÍÑÉ¥¹œ¹%Í9Õ±±=ÉµÁÑä¡Ñ…É•ÑA½½°¤¤É•ÑÕÉ¸ì4(4(€€€€€€€€€€€€€€€€€€€Ù…È½¹™¥É´€ô5•ÍÍ…•	½à¹M¡½Ü 4(€€€€€€€€€€€€€€€€€€€€€€€€‹†»¢º“¢š–Â¦'’â·jíÙµ½Õ¹Ñôƒ–>Ã¢fkš.šrë¢şï–"Ã¢ÖšêCšÆ€míÑ…É•ÑA½½±õtƒ–B_¾ò|ˆ°4(€€€€€€€€€€€€€€€€€€€€€€€€‹š&ç¦?¢şï–"Ã¢ÖšêCšÆƒ†»¢ºˆ°4(€€€€€€€€€€€€€€€€€€€€€€€5•ÍÍ…•	½á	ÕÑÑ½¹Ì¹=-…¹•°°4(€€€€€€€€€€€€€€€€€€€€€€€5•ÍÍ…•	½á%½¸¹EÕ•ÍÑ¥½¸¤ì4(€€€€€€€€€€€€€€€€€€€¥˜€¡½¹™¥É´€„ô¥…±½I•ÍÕ±Ğ¹=,¤É•ÑÕÉ¸ì4(4(€€€€€€€€€€€€€€€€€€€ÍÑÉ¥¹œµ½I•™ÉÉ…ä€ôÍÑÉ¥¹œ¹)½¥¸ ˆ°ˆ°Ùµ5½I•™Ì¹M•±•Ğ¡¸€ôø€ˆí¹ôœˆ¤¤ì4(€€€€€€€€€€€€€€€€€€€ÍÑÉ¥¹œÍÉ¥ÁĞ€ô€‘ ˆ4(‘ÉÉ½ÉÑ¥½¹AÉ•™•É•¹”€ô€MÑ½Àœì4(‘Ñ…É•ÑA½½°€ô•ĞµY¥•Ü€µY¥•İQåÁ”I•Í½ÕÉ•A½½°€µ¥±Ñ•Èíí9…µ”ôíÍ…Á•AÍMÑÉ¥¹œ¡Ñ…É•ÑA½½°¥ôõô€µÉÉ½ÉÑ¥½¸MÑ½Àì4(‘ÙµÌ€ô•ĞµY¥•Ü€µ% ¡íµ½I•™ÉÉ…åô¤€µAÉ½Á•ÉÑä9…µ”±½¹™¥œ¹Q•µÁ±…Ñ”€µÉÉ½ÉÑ¥½¸M¥±•¹Ñ±å½¹Ñ¥¹Õ”ğ]¡•É”µ=‰©•Ğíì€µ¹½Ğ€‘|¹½¹™¥œ¹Q•µÁ±…Ñ”õôì4)™½É•… € ‘Ù´¥¸€‘ÙµÌ¤íì€‘ÍÁ•Œ€ô9•Üµ=‰©•ĞY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±5…¡¥¹•I•±½…Ñ•MÁ•Œì€‘ÍÁ•Œ¹A½½°€ô€‘Ñ…É•ÑA½½°¹5½I•˜ì€‘Ñ…Í¬€ô€‘Ù´¹I•±½…Ñ•Y5}Q…Í¬ ‘ÍÁ•Œ°mY5İ…É”¹Y¥´¹Y¥ÉÑÕ…±5…¡¥¹•5½Ù•AÉ¥½É¥Ñåtèé‘•™…Õ±ÑAÉ¥½É¥Ñä¤ì]…¥ĞµQ…Í¬€‘Ñ…Í¬€Ÿš&ç¦?¢şï¢ÖšêCšÆ€œõô4(ˆì4(€€€€€€€€€€€€€€€€€€€á•ÕÑ•	…Ñ¡=Á•É…Ñ¥½¸¡ÍÉ¥ÁĞ°€‹š&ç¦8¿ç§¹b,:-a9®¤9¬h
+İ›PÛİ[H9cì
+H‹›S[Ô™YœÊNÃBˆJJNÃBˆJNÃBˆCBƒBˆš]˜]H›ÚY˜]ÚZYÜ˜]UÑ]\İÜ™J\İ\İİš[™Ï‚&÷w2Ğ¢°Ğ¢f"fÔÖõ&Vg2Ò&÷w2å6VÆV7B‡"ÓâgVÆÅfÕ&Vb„vWEfÔ–Dg&öÕ&÷r‡"’’’åv†W&R†âÓâ7G&–ærä—4çVÆÄ÷$V×G’†â’’åFôÆ—7B‚“°Ğ¢–b‡fÔÖõ&Vg2ä6÷VçBÓÒ’&WGW&ã°Ğ¢–çBfÔ6÷VçBÒfÔÖõ&Vg2ä6÷VçC°Ğ Ğ¢F6²å'Vâ‚‚’Ğ4(€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€Ù…È‘Í1¥ÍĞ€ôU¹¥™¥•‘…¡”¹•Ñ…¡•‘…Ñ…ÍÑ½É•Ì ¤ì4(€€€€€€€€€€€€€€€¥˜€¡‘Í1¥ÍĞ¹½Õ¹Ğ€ôô€À¤4(€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€ÑÉä4(€€€€€€€€€€€€€€€€€€€ì4(€€€€€€€€€€€€€€€€€€€€€€€Ù…ÈÉ•ÍÕ±Ğ€ôM•ÍÍ¥½¹5…¹…•È¹%¹ÍÑ…¹”¹á•ÕÑ•EÕ•ÉåÍå¹Œ 4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€‰•ĞµY¥•Ü€µY¥•İQåÁ”…Ñ…ÍÑ½É”€µAÉ½Á•ÉÑä9…µ”ğM•±•Ğµ=‰©•Ğ9…µ”ğM½ÉĞµ=‰©•Ğ9…µ”ˆ°4(€€€€€€€€€€€€€€€€€€€€€€€€€€€€¡µÍœ°±•Ù•°¤€ôøìô4(€€€€€€€€€€€€€€€€€€€€€€€€¤¹I•ÍÕ±Ğì4(€€€€€€€€€€€€€€€€€€€€€€€¥˜€¡É•ÍÕ±Ğ€„ô¹Õ±°€˜˜É•ÍÕ±Ğ¹½Õ¹Ğ€ 0)
                         {
                             foreach (var dict in result)
                                 if (dict.TryGetValue("Name", out var n) && !string.IsNullOrEmpty(n?.ToString()))
@@ -642,92 +229,22 @@ foreach ($vm in $vms) {{ $spec = New-Object VMware.Vim.VirtualMachineRelocateSpe
                 _root.Invoke(new Action(() =>
                 {
                     string? targetDs = ShowBatchSelectDialog(
-                        $"æ‰¹é‡è¿ç§»åˆ°å­˜å‚¨ï¼ˆå…± {vmCount} å°ï¼‰",
-                        "è¯·é€‰æ‹©ç›®æ ‡å­˜å‚¨ï¼š",
+                        $"æ‰¹é‡è°yéîùb,9kf9`ª;ï"9alHİ›PÛİ[H9cì;ï"H‹Bˆº+í˜hºyºîjV¶c–
+£¼š",
                         dsList);
                     if (string.IsNullOrEmpty(targetDs)) return;
 
                     var confirm = MessageBox.Show(
-                        $"ç¡®è®¤è¦å°†é€‰ä¸­çš„ {vmCount} å°è™šæ‹Ÿæœºè¿ç§»åˆ°å­˜å‚¨ [{targetDs}] å—ï¼Ÿ\n\n" +
-                        "âš  Storage vMotion åå°è¿ç§»ç£ç›˜\n" +
-                        "âš  å¼€æœºçŠ¶æ€ä¹Ÿå¯æ‰§è¡Œ",
-                        "æ‰¹é‡è¿ç§»åˆ°å­˜å‚¨ç¡®è®¤",
+                        $"ç¡®è®¤è¦å°†é€‰ä¸­çš„ {vmCount} åŒ:&f¹¢çù§.º,z{¾X‹ZÙX*‚··F&vWDG7ÕÒY	~ûÉõÆåÆâ"°Ğ¢.)ª7F÷&vRdÖ÷F–öâYîXû‹øz{¾z8y¹…Æâ"°Ğ¢.)ª[ÈiË®x«nhK™şXúşhš~ŠÂ"ÀĞ¢.h›˜xâşåˆ°å­˜å‚¨ç¡®è®¤",
                         MessageBoxButtons.OKCancel,
                         MessageBoxIcon.Question);
                     if (confirm != DialogResult.OK) return;
 
-                    string moRefArray = string.Join(",", vmMoRefs.Select(n => $"'{n}'"));
-                    string script = $@"
-$ErrorActionPreference = 'Stop';
-$targetDs = Get-View -ViewType Datastore -Filter @{{Name='{EscapePsString(targetDs)}'}} -ErrorAction Stop;
-$vms = Get-View -Id @({moRefArray}) -Property Name,Config.Template -ErrorAction SilentlyContinue | Where-Object {{ -not $_.Config.Template }};
-foreach ($vm in $vms) {{
-    $relocate = New-Object VMware.Vim.VirtualMachineRelocateSpec;
-    $relocate.Datastore = $targetDs.MoRef;
-    $task = $vm.RelocateVM_Task($relocate, [VMware.Vim.VirtualMachineMovePriority]::defaultPriority);
-    Wait-Task $task 'æ‰¹é‡è¿ç§»å­˜å‚¨'
-}}
-";
-                    ExecuteBatchOperation(script, $"æ‰¹é‡è¿ç§»åˆ°å­˜å‚¨ ({vmCount} å°)", vmMoRefs);
-                }));
-            });
-        }
-
-        private string? ShowBatchSelectDialog(string title, string prompt, List<string> itemList)
-        {
-            if (itemList.Count == 0)
-            {
-                MessageBox.Show("æœªæŸ¥è¯¢åˆ°å¯ç”¨çš„ç›®æ ‡åˆ—è¡¨ï¼Œè¯·æ£€æŸ¥ vCenter è¿æ¥ã€‚", "æç¤º",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return null;
-            }
-
-            using var dlg = new Form
-            {
-                Text = title,
-                Icon = CoreUtils.GetAppIcon(),
-                FormBorderStyle = FormBorderStyle.FixedDialog,
-                StartPosition = FormStartPosition.CenterParent,
-                MaximizeBox = false,
-                MinimizeBox = false,
-                ShowInTaskbar = false,
-                Font = new Font("Microsoft YaHei", 9),
-                AutoScaleMode = AutoScaleMode.Dpi,
-                AutoScaleDimensions = new SizeF(96F, 96F),
-                Size = new Size(480, 180)
-            };
-
-            var lbl = new Label { Text = prompt, Location = new Point(16, 14), AutoSize = true };
-            var combo = new ComboBox
-            {
-                Location = new Point(16, 42),
-                Width = 432,
-                DropDownStyle = ComboBoxStyle.DropDownList
-            };
-            combo.Items.AddRange(itemList.ToArray());
-            combo.SelectedIndex = 0;
-
-            var btnPanel = new FlowLayoutPanel
-            {
-                Dock = DockStyle.Bottom, Height = 44,
-                Padding = new Padding(0, 6, 0, 6),
-                BackColor = Color.FromArgb(240, 240, 240)
-            };
-            var btnOk = new Button { Text = "ç¡®å®š", DialogResult = DialogResult.OK, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-            var btnCancel = new Button { Text = "å–æ¶ˆ", DialogResult = DialogResult.Cancel, Size = new Size(80, 28), Font = new Font("Microsoft YaHei", 9) };
-            btnPanel.Controls.Add(btnOk);
-            btnPanel.Controls.Add(btnCancel);
-
-            CenterFlowPanel(btnPanel);
-
-            dlg.Controls.Add(btnPanel);
-            dlg.Controls.AddRange(new Control[] { lbl, combo });
-            dlg.AcceptButton = btnOk;
-            dlg.CancelButton = btnCancel;
-
-            if (dlg.ShowDialog(_root) == DialogResult.OK)
-                return combo.SelectedItem?.ToString();
-            return null;
-        }
-    }
-}
+                    string moRefArray = string.Join(",", vmMoRefs.Select(n =	‰ŞÛŸIÈŠJNÃBˆİš[™ÈØÜš\H	ƒB‰\œ›ÜXİ[Û”™Y™\™[˜ÙHH	ÔİÜ	ÎÃB‰\™Ù]ÈHÙ]UšY]ÈUšY]Õ\H]\İÜ™HQš[\ˆŞÓ˜[YOIŞÑ\ØØ\TÔİš[™Ê\™Ù]Ê_Iß_HQ\œ›ÜXİ[ÛˆİÜÃB‰›\ÈHÙ]UšY]ÈRY
+Û[Ô™Y\œ˜^_JHT›Ü\H˜[YKÛÛ™šYË•[\]HQ\œ›ÜXİ[ÛˆÚ[[PÛÛ[YHÚ\™KSØš™XİŞÈ[›İ	ËÛÛ™šYË•[\]H_NÃB™›Ü™XXÚ
+	›H[ˆ	›\ÊHŞÃBˆ	™[ØØ]HH™]ËSØš™Xİ“]Ø\™K•š[K•š\X[XXÚ[™T™[ØØ]TÜXÎÃBˆ	™[ØØ]K‘]\İÜ™HH	\™Ù]Ë“[Ô™YÃBˆ	\ÚÈH	›K”™[ØØ]U“WÕ\ÚÊ	™[ØØ]KÕ“]Ø\™K•š[K•š\X[XXÚ[™S[İ™Tš[Üš]WN™Y˜][š[Üš]JNÃBˆØZ]U\ÚÈ	\ÚÈ	ù¢nzaãú/àyéîùkf9`ª	ÃBŸ_CBˆÃBˆ^Xİ]P˜]ÚÜ\˜][ÛŠØÜš\	¹¢nzaãú/àyéîùb,9kf9`ª
+İ›PÛİ[H9cì
+H‹›S[Ô™YœÊNÃBˆJJNÃBˆJNÃBˆCBƒBˆš]˜]Hİš[™ÏÈÚİĞ˜]ÚÙ[XİX[ÙÊİš[™È]Kİš[™È›Û\\İİš[™Ïˆ][S\İ
+CBˆÃBˆYˆ
+][S\İÛİ[OH
+CBˆÃBˆY\ÜØYÙP›Ş”ÚİÊ¹§*¹§éz+è¹b,9cëùå*9æ¡9æë¹¨!ùb%ú(j;ï#:+íù¨à9§éHÙ[\ˆ:/ç¹£©xà ˆ‹¹¡zK¢"ÀĞ¢ÖW76vT&÷„'WGFöç2äô²ÂÖW76vT&÷„–6öâåv&æ–ær“°Ğ¢&WGW&âçVÆÃ°Ğ¢ĞĞ Ğ¢W6–ærf"FÆrÒæWrf÷&ĞĞ¢°Ğ¢FW‡BÒF—FÆRÀĞ¢–6öâÒ6÷&UWF–Ç2ävWD–6öâ‚’ÀĞ¢f÷&Ô&÷&FW%7G–ÆRÒf÷&Ô&÷&FW%7G–ÆRäf—†VDF–ÆörÀĞ¢7F'E÷6—F–öâÒf÷&Õ7F'E÷6—F–öâä6VçFW%&VçBÀĞ¢Ö†–Ö—¦T&÷‚ÒfÇ6RÀĞ¢Ö–æ–Ö—¦T&÷‚ÒfÇ6RÀĞ¢6†÷t–åF6¶&"ÒfÇ6RÀĞ¢föçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â’’ÀĞ¢WFõ66ÆTÖöFRÒWFõ66ÆTÖöFRäG’ÀĞ¢WFõ66ÆTF–ÖVç6–öç2ÒæWr6—¦Tbƒ“dbÂ“db’ÀĞ¢6—¦RÒæWr6—¦RƒCƒÂƒĞ¢Ó°Ğ Ğ¢f"Æ&ÂÒæWrÆ&VÂ²FW‡BÒ&ö×BÂÆö6F–öâÒæWrö–çBƒbÂB’ÂWFõ6—¦RÒG'VRÓ°Ğ¢f"6öÖ&òÒæWr6öÖ&ô&÷€Ğ¢°Ğ¢Æö6F–öâÒæWrö–çBƒbÂC"’ÀĞ¢v–GF‚ÒC3"ÀĞ¢G&÷F÷vå7G–ÆRÒ6öÖ&ô&÷…7G–ÆRäG&÷F÷väÆ—7@Ğ¢Ó°Ğ¢6öÖ&òä—FV×2äFE&ævR†—FVÔÆ—7BåFô'&’‚’“°Ğ¢6öÖ&òå6VÆV7FVD–æFW‚Ò°Ğ Ğ¢f"'FåæVÂÒæWrfÆ÷tÆ–÷WEæVÀĞ¢°Ğ¢Fö6²ÒFö6µ7G–ÆRä&÷GFöÒÂ†V–v‡BÒCBÀĞ¢FF–ærÒæWrFF–ærƒÂbÂÂb’ÀĞ¢&6´6öÆ÷"Ò6öÆ÷"äg&öÔ&v"ƒ#CÂ#CÂ#CĞ¢Ó°Ğ¢f"'Fäö²ÒæWr'WGFöâ²FW‡BÒ.zîZé¢"ÂF–Æöu&W7VÇBÒF–Æöu&W7VÇBäô²Â6—¦RÒæWr6—¦RƒƒÂ#‚’ÂföçBÒæWrföçB‚$Ö–7&÷6ögB–†V’"Â’’Ó°Ğ¢f"'Fä6æ6VÂÒæWr'WGFöâ²FW‡BÒ.X[šÚ ˆ°¥…±½I•ÍÕ±Ğ€ô¥…±½I•ÍÕ±Ğ¹…¹•°°M¥é”€ô¹•ÜM¥é” àÀ°€Èà¤°½¹Ğ€ô¹•Ü½¹Ğ ‰5¥É½Í½™Ğe…!•¤ˆ°€ä¤ôì4(€€€€€€€€€€€‰Ñ¹A…¹•°¹½¹ÑÉ½±Ì¹‘¡‰Ñ¹=¬¤ì4(€€€€€€€€€€€‰Ñ¹A…¹•°¹½¹ÑÉ½±Ì¹‘¡‰Ñ¹…¹•°¤ì4(4(€€€€€€€€€€€•¹Ñ•É±½İA…¹•°¡‰Ñ¹A…¹•°¤ì4(4(€€€€€€€€€€€‘±œ¹½¹ÑÉ½±Ì¹‘¡‰Ñ¹A…¹•°¤ì4(€€€€€€€€€€€‘±œ¹½¹ÑÉ½±Ì¹‘‘I…¹”¡¹•Ü½¹ÑÉ½±mtì±‰°°½µ‰¼ô¤ì4(€€€€€€€€€€€‘±œ¹•ÁÑ	ÕÑÑ½¸€ô‰Ñ¹=¬ì4(€€€€€€€€€€€‘±œ¹…¹•±	ÕÑÑ½¸€ô‰Ñ¹…¹•°ì4(4(€€€€€€€€€€€¥˜€¡‘±œ¹M¡½İ¥…±½œ¡}É½½Ğ¤€ôô¥…±½I•ÍÕ±Ğ¹=,¤4(€€€€€€€€€€€€€€€É•ÑÕÉ¸½µ‰¼¹M•±•Ñ•‘%Ñ•´ü¹Q½MÑÉ¥¹œ ¤ì4(€€€€€€€€€€€É•ÑÕÉ¸¹Õ±°ì4(€€€€€€€ô4(€€€ô4)
