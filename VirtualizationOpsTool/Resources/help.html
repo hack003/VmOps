@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VmOps 使用帮助</title>
+    <link rel="icon" href="vmware.ico">
+    <base target="_blank">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.8;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 100%;
+            width: auto;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px 30px;
+        }
+        h1 {
+            color: #1a73e8;
+            border-bottom: 2px solid #1a73e8;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #333;
+            margin: 30px 0 15px;
+            padding-left: 10px;
+            border-left: 3px solid #1a73e8;
+        }
+        h3 { color: #555; margin: 20px 0 10px; }
+        h4 { color: #666; margin: 15px 0 8px; }
+        p { margin: 10px 0; }
+        .step {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 15px 20px;
+            margin: 10px 0;
+        }
+        .step-number {
+            display: inline-block;
+            background: #1a73e8;
+            color: #fff;
+            width: 24px; height: 24px;
+            line-height: 24px; text-align: center;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        code {
+            background: #f0f0f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: "Consolas", "Courier New", monospace;
+            color: #d63384;
+            font-size: 14px;
+        }
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin: 10px 0;
+            overflow-x: auto;
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .code-block .comment { color: #6a9955; }
+        .code-block .cmd { color: #569cd6; }
+        .code-block .str { color: #ce9178; }
+        .code-block .var { color: #9cdcfe; }
+        .note {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin: 15px 0;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #28a745;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin: 15px 0;
+        }
+        .error-box {
+            background: #f8d7da;
+            border: 1px solid #dc3545;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin: 15px 0;
+        }
+        .info-box {
+            background: #d1ecf1;
+            border: 1px solid #17a2b8;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin: 15px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 15px;
+            text-align: left;
+        }
+        th { background: #1a73e8; color: #fff; }
+        tr:nth-child(even) { background: #f8f9fa; }
+        ul, ol { padding-left: 25px; margin: 10px 0; }
+        li { margin: 5px 0; }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            color: #888;
+            font-size: 14px;
+        }
+        .footer-contact {
+            margin-top: 12px;
+            font-size: 13px;
+        }
+        .footer-contact a {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+        .footer-contact a:hover {
+            text-decoration: underline;
+        }
+        .version-badge {
+            display: inline-block;
+            background: #1a73e8;
+            color: #fff;
+            font-size: 12px;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-family: Consolas, 'Courier New', monospace;
+            margin-left: 4px;
+        }
+        .toc-sidebar {
+            position: fixed;
+            left: 0; top: 0;
+            width: 210px;
+            height: 100vh;
+            background: rgba(26, 115, 232, 0.95);
+            border-radius: 0 8px 8px 0;
+            padding: 20px 14px;
+            z-index: 1000;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .toc-sidebar h4 {
+            color: #fff;
+            font-size: 16px;
+            margin: 0 0 12px 0;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+            flex-shrink: 0;
+        }
+        .toc-sidebar ul { list-style: none; padding: 0; margin: 0; flex: 1; overflow-y: auto; }
+        .toc-sidebar li { margin: 0; padding: 0; }
+        .toc-sidebar a {
+            display: block;
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-size: 15px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            white-space: nowrap;
+            line-height: 1.5;
+        }
+        .toc-sidebar a:hover { background: rgba(255,255,255,0.2); color: #fff; }
+        .toc-sidebar .has-children > a::after {
+            content: ' ▾';
+            font-size: 12px;
+            opacity: 0.7;
+        }
+        .toc-sidebar .has-children.open > a::after {
+            content: ' ▴';
+        }
+        .toc-sidebar .children {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.25s ease;
+        }
+        .toc-sidebar .has-children.open > .children {
+            max-height: 500px;
+        }
+        .toc-sidebar .children li.sub { padding-left: 18px; }
+        .toc-sidebar .children li.sub a { font-size: 14px; color: rgba(255,255,255,0.7); }
+        .toc-sidebar .children li.sub a:hover { color: #fff; }
+        .toc-sidebar .children li.sub.active a { color: #fff; background: rgba(255,255,255,0.25); }
+        .toc-sidebar .sub { padding-left: 0; }
+        .container { margin-left: 240px; max-width: calc(100% - 240px); }
+        @media (max-width: 900px) {
+            .toc-sidebar { position: static; transform: none; border-radius: 8px; margin-bottom: 20px; max-height: none; }
+            .container { margin-left: 0; max-width: 100%; }
+        }
+        hr { border: none; border-top: 2px solid #e0e0e0; margin: 25px 0; }
+        .risk-low { color: #28a745; font-weight: bold; }
+        .risk-mid { color: #fd7e14; font-weight: bold; }
+        .risk-high { color: #dc3545; font-weight: bold; }
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .badge-green { background: #d4edda; color: #155724; }
+        .badge-orange { background: #fff3cd; color: #856404; }
+        .badge-red { background: #f8d7da; color: #721c24; }
+        .script-wrapper {
+            position: relative;
+            margin: 10px 0;
+        }
+        .code-block { position: relative; }
+        .code-block .copy-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            padding: 3px 10px;
+            font-size: 12px;
+            border: 1px solid #1a73e8;
+            border-radius: 4px;
+            background: #fff;
+            color: #1a73e8;
+            cursor: pointer;
+            font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+            transition: all 0.15s;
+        }
+        .code-block .copy-btn:hover {
+            background: #1a73e8;
+            color: #fff;
+        }
+        .code-block .copy-btn.copied {
+            background: #28a745;
+            border-color: #28a745;
+            color: #fff;
+        }
+        .script-wrapper .code-block {
+            margin-top: 0;
+        }
+        .script-actions {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            display: flex;
+            gap: 6px;
+            z-index: 5;
+        }
+        .script-actions button {
+            padding: 3px 10px;
+            font-size: 12px;
+            border: 1px solid #1a73e8;
+            border-radius: 4px;
+            background: #fff;
+            color: #1a73e8;
+            cursor: pointer;
+            font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+            transition: all 0.15s;
+        }
+        .script-actions button:hover {
+            background: #1a73e8;
+            color: #fff;
+        }
+        .script-actions button.copied {
+            background: #28a745;
+            border-color: #28a745;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<nav class="toc-sidebar">
+    <h4>目录导航</h4>
+    <ul>
+        <li><a data-href="#intro">程序简介</a></li>
+
+        <li class="has-children open">
+            <a data-href="#env">一、环境准备</a>
+            <ul class="children">
+                <li class="sub"><a data-href="#install-online">在线安装</a></li>
+                <li class="sub"><a data-href="#install-offline">脱机安装</a></li>
+                <li class="sub"><a data-href="#config">PowerCLI 配置</a></li>
+            </ul>
+        </li>
+
+        <li class="has-children">
+            <a data-href="#interface">二、界面总览</a>
+            <ul class="children">
+                <li class="sub"><a data-href="#tabs">Tab 页签</a></li>
+                <li class="sub"><a data-href="#statusbar">状态栏与运行日志</a></li>
+            </ul>
+        </li>
+
+        <li class="has-children">
+            <a data-href="#flow">三、操作流程</a>
+            <ul class="children">
+                <li class="sub"><a data-href="#step-connect">连接资源</a></li>
+                <li class="sub"><a data-href="#step-deploy">执行部署</a></li>
+            </ul>
+        </li>
+
+        <li class="has-children">
+            <a data-href="#resource-tabs">四、资源查询 Tab</a>
+            <ul class="children">
+                <li class="sub"><a data-href="#vm-list">虚拟机列表</a></li>
+                <li class="sub"><a data-href="#host-list">主机/存储/网络列表</a></li>
+                <li class="sub"><a data-href="#vm-right-click">单台 VM 右键操作</a></li>
+                <li class="sub"><a data-href="#batch-ops">批量 VM 右键操作</a></li>
+                <li class="sub"><a data-href="#other-menus">通用菜单</a></li>
+            </ul>
+        </li>
+
+        <li class="has-children">
+            <a data-href="#csv-editor">五、编辑列表 Tab</a>
+            <ul class="children">
+                <li class="sub"><a data-href="#csv-fields">字段说明</a></li>
+                <li class="sub"><a data-href="#csv-naming">命名规则</a></li>
+            </ul>
+        </li>
+
+        <li><a data-href="#ovftool">六、OvfTool Tab</a></li>
+
+        <li class="has-children">
+            <a data-href="#practical-cmds">七、常用命令实战记录</a>
+            <ul class="children">
+                <li class="sub"><a data-href="#practical-vmware-unlun">VMware 卸载 LUN</a></li>
+                <li class="sub"><a data-href="#practical-nfs41">NFS访问故障处理</a></li>
+                <li class="sub"><a data-href="#practical-vmware-cmds">VMware 常用命令</a></li>
+                <li class="sub"><a data-href="#practical-vmfs-expand">扩展 VMFS 数据存储</a></li>
+                <li class="sub"><a data-href="#practical-vmware-cert">VMware 证书问题</a></li>
+                <li class="sub"><a data-href="#practical-vmware-snapshot">VMware 快照管理</a></li>
+                <li class="sub"><a data-href="#practical-vmware-password">VMware 密码问题处理</a></li>
+                <li class="sub"><a data-href="#practical-vmware-upgrade">VMware 版本升级</a></li>
+            </ul>
+        </li>
+
+        <li><a data-href="#faq">八、常见问题与错误处理</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <h1 id="intro">VmOps 使用帮助</h1>
+    <p><strong>VmOps</strong> 是一款专为企业虚拟化维护人员设计的批量虚拟机部署与自动化配置工具。本工具通过 CSV 文件配置虚拟机参数，利用 PowerShell + VMware PowerCLI 与 <strong>vCenter Server 或 ESXi 主机</strong> 交互，实现虚拟机的批量创建、自动配置 IP 地址等网络参数，大幅减少重复性手工操作，降低工作负载，提升运维效率。</p>
+
+    <h3>核心功能</h3>
+    <ul>
+        <li><strong>批量部署虚拟机</strong>：通过 CSV 模板文件批量定义虚拟机配置（CPU、内存、存储、网络、网关、掩码等），一键完成多台虚拟机的创建与部署</li>
+        <li><strong>资源查询与管理</strong>：实时查询虚拟机、主机、存储、网络等资源列表，支持搜索过滤、导出 CSV、双击查看详细信息</li>
+        <li><strong>VM 日常运维</strong>：分组下拉右键菜单，涵盖远程连接、电源管理、编辑配置（vCPU/内存智能升降、端口组、GuestOS 网络与密码）、磁盘管理、迁移克隆、快照管理、删除等全栈操作</li>
+        <li><strong>批量操作</strong>：多选 VM 后批量执行电源操作、快照操作、删除虚拟机、批量迁移（主机 vMotion / 资源池 / Storage vMotion）</li>
+        <li><strong>VMRC 远程控制台</strong>：在虚拟机详情页一键打开 VMware Remote Console 远程控制台</li>
+        <li><strong>在线编辑列表</strong>：内置表格编辑器，导入 / 编辑 / 保存 CSV 部署模板文件，无需外部工具</li>
+        <li><strong>OVF Tool 集成</strong>：支持导出/导入/转换 OVF/OVA/VMX 格式</li>
+        <li><strong>连接凭据记忆</strong>：自动保存 vCenter / ESXi 连接配置与密码，支持连接别名，减少重复输入</li>
+    </ul>
+
+    <h3>关于本工具</h3>
+    <p>本工具最初为企业内部虚拟化维护团队日常运维而开发，经过长期生产环境的实际使用与持续优化，已具备稳定可靠的批量部署能力。</p>
+    <div class="success">本工具已在实际生产环境中长期稳定运行，适用于需要频繁批量部署虚拟机及日常运维的企业场景。<br><strong>本工具永久免费，为个人兴趣开发，请勿商用或售卖。</strong></div>
+
+    <h3>程序数据文件</h3>
+    <p>程序数据文件统一存储在 <code>%APPDATA%\VMTool\</code> 目录下：</p>
+    <table>
+        <tr><th>文件</th><th>说明</th></tr>
+        <tr><td>credentials.json</td><td>连接凭据（支持 vCenter / ESXi 两种类型，包含地址、用户域、用户名、密码经 Base64 编码保存，可配置连接别名）</td></tr>
+        <tr><td>deploy_vm_list.csv</td><td>部署用的 CSV 模板文件（UTF-8 BOM 编码）</td></tr>
+        <tr><td>vm_cache.json</td><td>资源缓存（按服务器 IP 分段存储，刷新缓存后更新）</td></tr>
+    </table>
+
+    <h2 id="env">一、环境准备</h2>
+    <p>VmOps 依赖 <strong>VMware PowerCLI</strong> 模块与 VMware vCenter Server 或 ESXi 主机进行交互。使用前请确保已安装 PowerCLI。</p>
+
+    <h3 id="install-online">1. 在线安装</h3>
+    <div class="step"><span class="step-number">1</span><strong>以管理员身份打开 PowerShell</strong><p>按 <code>Win + X</code>，选择"Windows PowerShell (管理员)"。</p></div>
+    <div class="step"><span class="step-number">2</span><strong>设置执行策略</strong><div class="code-block"><span class="cmd">Set-ExecutionPolicy</span> RemoteSigned</div></div>
+    <div class="step"><span class="step-number">3</span><strong>设置信任 PSGallery 安装源并安装</strong>
+        <div class="code-block">
+            <span class="cmd">Set-PSRepository</span> <span class="var">-Name</span> PSGallery <span class="var">-InstallationPolicy</span> Trusted<br>
+            <span class="cmd">Install-Module</span> <span class="var">-Name</span> VMware.PowerCLI
+        </div>
+    </div>
+
+    <h3 id="install-offline">2. 脱机安装（推荐）</h3>
+    <p>无法联网的环境请使用以下两种方式之一，优先选择<strong>一键脚本自动安装</strong>。</p>
+
+    <h4>方式一：一键脚本自动安装（推荐）</h4>
+    <div class="step"><span class="step-number">1</span><strong>以管理员身份打开 PowerShell</strong><p>按 <code>Win + X</code>，选择"Windows PowerShell (管理员)"。</p></div>
+    <div class="step"><span class="step-number">2</span><strong>复制并执行以下脚本</strong>
+        <p>脚本会自动从下载服务器获取 PowerCLI ZIP，解压、解除阻止、完成全部配置：</p>
+        <div class="script-wrapper">
+            <div class="script-actions">
+                <button onclick="copyScript(this)">📋 复制代码</button>
+                <button onclick="saveScript(this, 'PowerCLI_Offline_Install.ps1')">💾 下载脚本</button>
+            </div>
+            <script type="text/plain" id="ps1-install-script">$zipUrl = 'http://file.trasen.cn/?download&weblink=e1b38afda665dad9272af8dfe67183fa&realfilename=VMware-PowerCLI-13.2.1-22851661.zip'
+$zipPath = "$env:TEMP\powercli.zip"
+
+$isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+if ($isAdmin) {
+    $destDir = "$env:ProgramFiles\WindowsPowerShell\Modules"
+    Write-Host "[管理员] 安装到全局模块目录: $destDir"
+} else {
+    $destDir = "$env:USERPROFILE\Documents\WindowsPowerShell\Modules"
+    Write-Host "[非管理员] 安装到当前用户模块目录: $destDir" -ForegroundColor Yellow
+}
+
+try { Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force -ErrorAction Stop } catch { }
+
+Write-Host "[1/4] 下载 PowerCLI ZIP..."
+curl.exe -L -o "$zipPath" "$zipUrl"
+if ($LASTEXITCODE -ne 0) { Write-Error "下载失败，curl 返回码 $LASTEXITCODE"; exit 1 }
+if (-not (Test-Path $zipPath)) { Write-Error "下载失败，请检查网络或手动下载"; exit 1 }
+
+Write-Host "[2/4] 解压到 $destDir ..."
+New-Item -ItemType Directory -Path $destDir -Force | Out-Null
+Expand-Archive -Path $zipPath -DestinationPath $destDir -Force
+
+Write-Host "[3/4] 解除文件阻止..."
+Get-ChildItem $destDir\VMware* -Recurse -File | Unblock-File
+
+Write-Host "[4/4] 配置 PowerCLI 并验证..."
+Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false
+Get-Module -ListAvailable VMware.PowerCLI | Select Name, Version
+
+Write-Host "✓ 脱机安装完成，可关闭此窗口后打开 VmOps 使用。"
+</script>
+            <div class="code-block"><span class="cmd">$zipUrl</span> <span class="str">=</span> <span class="str">'https://developer.broadcom.com/tools/vmware-powercli/latest/'</span><br>
+<span class="cmd">$zipPath</span> <span class="str">=</span> <span class="str">"$env:TEMP\powercli.zip"</span><br><br>
+<span class="cmd">$isAdmin</span> <span class="str">=</span> ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)<br>
+<span class="cmd">if</span> (<span class="var">$isAdmin</span>) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cmd">$destDir</span> <span class="str">=</span> <span class="str">"$env:ProgramFiles\WindowsPowerShell\Modules"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cmd">Write-Host</span> <span class="str">"[管理员] 安装到全局模块目录: $destDir"</span><br>
+} <span class="cmd">else</span> {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cmd">$destDir</span> <span class="str">=</span> <span class="str">"$env:USERPROFILE\Documents\WindowsPowerShell\Modules"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cmd">Write-Host</span> <span class="str">"[非管理员] 安装到当前用户模块目录: $destDir"</span> -ForegroundColor Yellow<br>
+}<br><br>
+<span class="cmd">try</span> { Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force -ErrorAction Stop } <span class="cmd">catch</span> { }<br><br>
+<span class="cmd">Write-Host</span> <span class="str">"[1/4] 下载 PowerCLI ZIP..."</span><br>
+<span class="cmd">curl.exe</span> -L -o <span class="str">"$zipPath"</span> <span class="str">"$zipUrl"</span><br>
+<span class="cmd">if</span> (<span class="var">$LASTEXITCODE</span> -ne 0) { Write-Error <span class="str">"下载失败，curl 返回码 $LASTEXITCODE"</span>; exit 1 }<br>
+<span class="cmd">if</span> (-not (Test-Path <span class="cmd">$zipPath</span>)) { Write-Error <span class="str">"下载失败，请检查网络或手动下载"</span>; exit 1 }<br><br>
+<span class="cmd">Write-Host</span> <span class="str">"[2/4] 解压到 <span class="var">$destDir</span> ..."</span><br>
+New-Item -ItemType Directory -Path <span class="cmd">$destDir</span> -Force | Out-Null<br>
+Expand-Archive -Path <span class="cmd">$zipPath</span> -DestinationPath <span class="cmd">$destDir</span> -Force<br><br>
+<span class="cmd">Write-Host</span> <span class="str">"[3/4] 解除文件阻止..."</span><br>
+Get-ChildItem <span class="cmd">$destDir</span>\VMware* -Recurse -File | Unblock-File<br><br>
+<span class="cmd">Write-Host</span> <span class="str">"[4/4] 配置 PowerCLI 并验证..."</span><br>
+Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false<br>
+Get-Module -ListAvailable VMware.PowerCLI | Select Name, Version<br><br>
+<span class="cmd">Write-Host</span> <span class="str">"✓ 脱机安装完成，可关闭此窗口后打开 VmOps 使用。"</span></div>
+        </div>
+        <div class="note">
+            <strong>说明</strong>：<code>curl.exe</code> 是 Windows 10/11 / Server 2019+ 自带的命令行工具（不是 PowerShell 的 Invoke-WebRequest），可直接使用。<br>
+            下载地址来自 Broadcom 官方仓库，如遇网络不可达，请使用<strong>方式二</strong>手动下载。
+        </div>
+    </div>
+
+    <h4>方式二：手动安装（备用）</h4>
+    <ol>
+        <li>如果需要脱机安装 PowerCLI，请从 <a target="_blank" href="https://developer.broadcom.com/tools/vmware-powercli/latest/" title="Broadcom 下载站">PowerCLI 下载页</a> 获取 ZIP 文件，或从内部文件服务器下载 <code>VMware-PowerCLI.zip</code>，传输到目标计算机。</li>
+        <li>使用 <code>$env:PSModulePath</code> 查看 PowerShell 模块路径</li>
+        <li>将 ZIP 文件内容解压到其中一个列出的文件夹中（推荐 <code>$env:ProgramFiles\WindowsPowerShell\Modules</code>）</li>
+        <li>进入模块目录，执行 <code>Get-ChildItem * -Recurse | Unblock-File</code> 取消文件阻止</li>
+        <li>使用 <code>Get-Module -Name VMware.PowerCLI -ListAvailable</code> 验证安装</li>
+        <li>忽略证书验证：<code>Set-PowerCLIConfiguration -InvalidCertificateAction Ignore</code></li>
+    </ol>
+
+
+    <h3 id="config">3. PowerCLI 配置</h3>
+    <div class="step"><span class="step-number">1</span><strong>查看已安装的模块</strong><div class="code-block"><span class="cmd">Get-Module -ListAvailable VMware*</span></div></div>
+    <div class="step"><span class="step-number">2</span><strong>忽略证书验证</strong><div class="code-block"><span class="cmd">Set-PowerCLIConfiguration -InvalidCertificateAction Ignore</span></div></div>
+    <div class="step"><span class="step-number">3</span><strong>加载 PSSnapin（旧版本需要）</strong><div class="code-block"><span class="cmd">Add-PSSnapin</span> vmware.vimautomation.core</div></div>
+
+    <h2 id="interface">二、界面总览</h2>
+    <p>程序启动后主界面包含顶部 Tab 页签区域和底部状态栏。PowerCLI 检测在启动时自动执行，无需手动操作。</p>
+
+    <h3 id="tabs">1. Tab 页签</h3>
+    <p>程序共包含 <strong>7 个 Tab 页签</strong>：</p>
+    <table>
+        <tr><th>Tab</th><th>名称</th><th>用途</th></tr>
+        <tr><td>1</td><td>主页</td><td>vCenter / ESXi 连接配置、部署管理、功能快捷导航、使用提示</td></tr>
+        <tr><td>2</td><td>虚拟机列表</td><td>查询虚拟机/模板列表，右键执行运维操作</td></tr>
+        <tr><td>3</td><td>主机列表</td><td>查询 ESXi 主机列表，查看主机详细信息，支持 SSH 连接</td></tr>
+        <tr><td>4</td><td>存储列表</td><td>查询 Datastore 列表，查看存储详细信息</td></tr>
+        <tr><td>5</td><td>网络列表</td><td>查询网络/端口组/分布式交换机列表</td></tr>
+        <tr><td>6</td><td>编辑列表</td><td>在线编辑 CSV 部署模板文件</td></tr>
+        <tr><td>7</td><td>虚拟机模板</td><td>OVF Tool 命令生成器（导出/导入/转换）</td></tr>
+    </table>
+
+    <h3 id="statusbar">2. 状态栏与运行日志</h3>
+    <ul>
+        <li><strong>连接状态</strong>：底部状态栏左侧显示当前 vCenter / ESXi 连接状态（带颜色图标）</li>
+        <li><strong>运行状态</strong>：中间显示当前操作文本，点击可展开/收起完整运行日志面板</li>
+        <li><strong>日志面板</strong>：
+            <ul>
+                <li>工具栏：<code>清空日志</code>、<code>导出日志</code>、<code>自动滚动</code>开关</li>
+                <li>颜色图例：灰色=信息、绿色=成功、橙色=警告、红色=错误</li>
+                <li>日志区右键菜单：复制选中内容、复制全部日志、全选、清空</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2 id="flow">三、操作流程</h2>
+    <h3 id="step-connect">1. 连接资源</h3>
+    <p>本工具支持两种连接目标，程序会根据用户名自动识别连接模式并采用相应的连接参数：</p>
+    <div class="info-box">
+        <strong>模式自动识别规则</strong>：
+        <ul>
+            <li><strong>ESXi 直连模式</strong>：当用户名为 <code>root</code> 时，自动使用 <code>-Force</code> 参数连接单个 ESXi 主机，无需填写用户域</li>
+            <li><strong>vCenter 模式</strong>：当用户名为 <code>administrator</code> 或其他域用户时，使用完整域用户格式（<code>域\用户名</code>）连接 vCenter Server</li>
+        </ul>
+    </div>
+    <div class="step"><span class="step-number">1</span><strong>填写连接信息</strong>
+        <table><tr><th>字段</th><th>说明</th><th>vCenter 示例</th><th>ESXi 示例</th></tr>
+        <tr><td>连接别名</td><td>可选，为当前连接起一个易记的名字（如"生产集群VC"、"测试主机ESXi01"），方便快速切换</td><td>生产VC</td><td>ESXi-Node01</td></tr>
+        <tr><td>连接地址</td><td>vCenter Server 或 ESXi 主机的 IP / 域名（下拉框自动记忆多个地址）</td><td>192.168.200.88</td><td>192.168.1.200</td></tr>
+        <tr><td>用户域</td><td>vCenter 连接需填写（预设 vsphere.local / local.net 等）；<strong>ESXi 直连留空</strong>即可</td><td>vsphere.local</td><td><em>（留空）</em></td></tr>
+        <tr><td>用户名</td><td>选择或输入用户名（预设 <code>root</code> / <code>administrator</code>），<strong>填 root 即为 ESXi 模式</strong></td><td>administrator</td><td>root</td></tr></table>
+    </div>
+    <div class="step"><span class="step-number">2</span><strong>开始连接</strong><p>点击"开始连接"按钮，首次连接会弹出密码输入框。连接成功后凭据自动保存（含别名、地址、域、用户名、密码），下次可通过别名下拉快速选择历史连接，无需重新输入。</p></div>
+    <div class="step"><span class="step-number">3</span><strong>刷新缓存（可选）</strong><p>连接成功后点击功能菜单跳转到各资源查询 Tab，程序会自动采集虚拟机、主机、存储、网络资源信息到本地缓存，后续切换 Tab 页时加载更快。</p></div>
+    <div class="step"><span class="step-number">4</span><strong>断开连接</strong><p>点击"断开连接"按钮断开当前会话（vCenter 或 ESXi）。</p></div>
+    <div class="step"><span class="step-number">5</span><strong>重置记忆</strong><p>在输入框中选择要清除的地址后，点击"重置记忆"按钮清除该服务器的已保存密码和连接配置。</p></div>
+
+    <h4>vCenter 与 ESXi 模式的功能差异</h4>
+    <table>
+        <tr><th>功能</th><th>vCenter 模式</th><th>ESXi 直连模式</th></tr>
+        <tr><td>虚拟机查询 / 管理</td><td>✓ 完整支持</td><td>✓ 支持（仅该主机上的 VM）</td></tr>
+        <tr><td>批量部署虚拟机</td><td>✓ 完整支持</td><td>✓ 支持（单主机范围）</td></tr>
+        <tr><td>vMotion / Storage vMotion</td><td>✓ 完整支持</td><td>✗ 无 vCenter 无法跨主机迁移</td></tr>
+        <tr><td>资源池 / 集群管理</td><td>✓ 完整支持</td><td>✗ 不涉及</td></tr>
+        <tr><td>OVF Tool 导入 / 导出</td><td>✓ 完整支持</td><td>✓ 支持（单主机范围）</td></tr>
+        <tr><td>快照管理</td><td>✓ 完整支持</td><td>✓ 支持</td></tr>
+        <tr><td>GuestOps（网络/密码配置）</td><td>✓ 完整支持</td><td>✓ 支持</td></tr>
+    </table>
+
+    <h3 id="step-deploy">2. 执行部署</h3>
+    <div class="step"><span class="step-number">2</span><strong>编辑部署列表</strong><p>点击"编辑列表"按钮打开内置表格编辑器，为每台虚拟机配置 IP 地址、子网掩码和网关等参数；也可以直接用 Excel / 文本编辑器编辑 CSV 文件。</p></div>
+    <div class="step"><span class="step-number">3</span><strong>执行部署</strong><p>点击"执行部署"按钮，程序会按 CSV 配置逐个处理虚拟机：不存在则新建，已存在则先关机再重新配置后开机。</p></div>
+
+    <h2 id="resource-tabs">四、资源查询 Tab</h2>
+    <h3 id="vm-list">1. 虚拟机列表</h3>
+    <p>切换到"虚拟机列表"Tab 页后自动查询资源列表。</p>
+    <h4>子类型切换</h4>
+    <p>Tab 顶部有 <code>虚拟机</code> / <code>模板</code> 两个子 Tab 按钮，可切换查看虚拟机或模板列表（绿色高亮当前选中项）。</p>
+    <h4>工具栏功能</h4>
+    <ul>
+        <li><strong>刷新列表</strong>：重新从 vCenter / ESXi 查询最新数据（支持终止查询）</li>
+        <li><strong>搜索框</strong>：实时过滤表格行，显示匹配数 / 总数</li>
+        <li><strong>复制/导出</strong>：复制选中行、复制全部、导出为 CSV 文件</li>
+    </ul>
+    <h4>表格操作</h4>
+    <ul>
+        <li><strong>双击行</strong>：弹出该资源的详细信息窗口（分节式展示基本信息、网络、磁盘、快照等，支持键值列表 / 表格 / 纯文本三种渲染模式；窗口内可就地刷新、复制整页，按 <code>ESC</code> 关闭）</li>
+        <li><strong>打开 VMRC</strong>：<strong>仅虚拟机详情页</strong>显示该按钮，点击后自动获取免密票据并启动 VMware Remote Console 图形控制台（需提前安装 VMRC 客户端）</li>
+        <li><strong>右键菜单</strong>：详细信息 + VM 操作菜单（按风险级别分组） + 复制单元格/选中行/全部/列标题</li>
+        <li><strong>多选操作</strong>：按住 Ctrl 多选，右键显示批量操作菜单（批量开机/关机/重启/快照/NTP 同步等）</li>
+        <li><strong>列头排序</strong>：点击列头可按该列排序（再次点击切换升序/降序），排序时会保留当前搜索过滤条件，不会清空过滤框内容</li>
+    </ul>
+
+    <h3 id="host-list">2. 主机 / 存储 / 网络列表</h3>
+    <p>主机列表、存储列表、网络列表的界面和操作与虚拟机列表一致。</p>
+    <div class="info-box">主机列表右键菜单支持 <strong>SSH 连接 (MobaXterm)</strong> 功能，可一键打开 MobaXterm 并 SSH 连接到目标主机。</div>
+
+    <h3 id="vm-right-click">3. 单台 VM 右键操作</h3>
+    <p>在虚拟机列表中<strong>右键单台 VM</strong>，菜单采用<strong>分组下拉</strong>结构，功能按类别聚合在子菜单内，避免主菜单过长。</p>
+
+    <h4><span class="badge badge-green">🟢 远程连接</span> <em>子菜单</em></h4>
+    <table>
+        <tr><th>操作</th><th>说明</th></tr>
+        <tr><td>🖥 VMRC 连接</td><td>调用 VMware Remote Console 打开图形控制台</td></tr>
+        <tr><td>🖥 RDP 连接</td><td>打开 Windows RDP 远程桌面（需 VM 有公网可达 IP）</td></tr>
+        <tr><td>🔧 SSH 连接 (MobaXterm)</td><td>调用 MobaXterm SSH 登录虚拟机 Guest OS（需已安装 MobaXterm 并配置在 PATH）</td></tr>
+    </table>
+
+    <h4><span class="badge badge-green">🟢 电源管理</span> <em>子菜单</em></h4>
+    <table>
+        <tr><th>操作</th><th>说明</th></tr>
+        <tr><td>▶ 打开电源</td><td>启动虚拟机，已开机则跳过</td></tr>
+        <tr><td>■ 关闭客户机</td><td>发送优雅关机指令（需 VMware Tools 正常运行）；5 分钟超时仍未关机可改用"关闭电源"</td></tr>
+        <tr><td>✖ 关闭电源</td><td>强制断电（PowerOffVM_Task），等同物理机拔电源，<strong>有数据丢失风险</strong>，二次确认</td></tr>
+        <tr><td>↻ 重置电源</td><td>硬件级 ResetVM_Task，等同物理机按 Reset 键，<strong>有数据丢失风险</strong>，二次确认</td></tr>
+    </table>
+
+    <h4><span class="badge badge-orange">🟡 编辑配置</span> <em>子菜单</em></h4>
+    <table>
+        <tr><th>操作</th><th>说明</th></tr>
+        <tr><td>🔲 修改 vCPU</td><td>智能变更：<strong>升配</strong>（核数增加）可在线 ReconfigVM_Task；<strong>降配</strong>会自动关机 → 改配置 → 恢复原开机状态</td></tr>
+        <tr><td>📊 修改内存</td><td>同 vCPU 智能升降逻辑，单位 GB，预设 1/2/4/8/16/32/64/128/256</td></tr>
+        <tr><td>🌐 修改端口组</td><td>弹出网卡编辑对话框，列出所有网卡（含标准端口组 / 分布式端口组），支持逐网卡更换</td></tr>
+        <tr><td>🌐 配置客户机网络...</td><td>通过 VMware Tools GuestOps 在 Guest OS 内修改 IP / 掩码 / 网关 / DNS，<strong>需 Tools 正常运行</strong>；Windows / Linux 自动适配命令</td></tr>
+        <tr><td>🔑 密码配置...</td><td>通过 GuestOps 重置 Guest OS 用户密码，<strong>需 Tools 正常运行</strong></td></tr>
+        <tr><td>✏ 重命名虚拟机</td><td>修改服务器清单中的 VM 显示名称</td></tr>
+        <tr><td>📝 编辑备注</td><td>设置 VM 的 annotation / 备注字段</td></tr>
+    </table>
+
+    <h4><span class="badge badge-orange">🟡 磁盘管理</span> <em>直接弹出对话框</em></h4>
+    <table>
+        <tr><th>功能</th><th>说明</th></tr>
+        <tr><td>磁盘列表</td><td>列出所有虚拟磁盘，显示容量、精简/厚置备格式、文件名、是否有 Backing</td></tr>
+        <tr><td>新增磁盘</td><td>指定容量、存储格式（Thin / LazyZeroedThick / EagerZeroedThick）、目标存储</td></tr>
+        <tr><td>调整容量</td><td>扩容现有磁盘（VMware vSphere 仅支持 GROW，<strong>不支持 shrink</strong>）</td></tr>
+        <tr><td>删除磁盘</td><td>从 VM 移除并从存储擦除 VMDK，<strong>操作前会二次确认</strong></td></tr>
+    </table>
+
+    <h4><span class="badge badge-orange">🟡 迁移克隆</span> <em>子菜单</em></h4>
+    <table>
+        <tr><th>操作</th><th>说明</th></tr>
+        <tr><td>↔ 迁移到主机 (vMotion)</td><td>在线迁移计算资源（RelocateVM_Task 只移 Host），<strong>零停机</strong>，选择目标 ESXi 主机对话框</td></tr>
+        <tr><td>📦 迁移到资源池</td><td>RelocateVM_Task 指定新 ResourcePool，选择目标资源池对话框</td></tr>
+        <tr><td>💾 迁移到存储 (Storage vMotion)</td><td>RelocateVM_Task 只移 Datastore，<strong>开机也可执行</strong>，选择目标存储对话框</td></tr>
+        <tr><td>🆕 克隆虚拟机</td><td>从现有 VM 克隆出一台新 VM，需指定新名称、目标主机、目标存储、是否定制 Guest OS</td></tr>
+    </table>
+
+    <h4><span class="badge badge-orange">🟡 高级操作</span> <em>子菜单</em></h4>
+    <table>
+        <tr><th>操作</th><th>说明</th></tr>
+        <tr><td>⏏ 断开光驱（卸载 ISO）</td><td>将光驱 Connectable.Connected / StartConnected 置 false，等效卸载 ISO</td></tr>
+        <tr><td>⚙ 优化配置 (VMX)</td><td>批量写入 6 条 ExtraConfig：启用 copy/paste/drag-drop、启用 setGUIOptions、启用 tools.syncTime、禁用 sched.mem.pshare.enable；<strong>部分选项需关机生效</strong></td></tr>
+        <tr><td>🔄 转为模板</td><td>ConvertToTemplate_Task，将虚拟机转成模板（虚拟机将从清单中消失）</td></tr>
+        <tr><td>🗑 删除虚拟机（从磁盘）</td><td>Destroy_Task，<strong>从服务器（vCenter / ESXi）和存储永久删除 .vmx / .vmdk / .nvram</strong>，不可恢复，<strong>建议先关机或创建快照</strong></td></tr>
+    </table>
+
+    <h4><span class="badge badge-orange">🟡 快照管理</span> <em>子菜单</em></h4>
+    <table>
+        <tr><th>操作</th><th>说明</th></tr>
+        <tr><td>📷 查看快照列表</td><td>弹出快照列表对话框，显示名称、描述、大小、创建时间、当前快照标记；支持<strong>回滚到任意选中快照</strong></td></tr>
+        <tr><td>📸 创建新快照</td><td>填写快照名称、描述，可选「包含内存状态」（还原时恢复运行状态，较慢；不勾选则仅磁盘快照，还原时冷启动）</td></tr>
+        <tr><td>↩ 回滚到最新快照</td><td>自动找到最新快照（按 CreateTime DESC），RevertToSnapshot_Task；<strong>会丢失最新快照之后的所有磁盘变更</strong>，二次确认</td></tr>
+        <tr><td>🗑 删除所有快照</td><td>RemoveAllSnapshots_Task，<strong>释放存储占用但不可恢复</strong>，二次确认</td></tr>
+    </table>
+
+    <h3 id="batch-ops">4. 批量 VM 右键操作</h3>
+    <p>在虚拟机列表中按住 <code>Ctrl</code>（或 <code>Shift</code> 连续多选）选中多台 VM 后右键，主菜单出现 <strong>⚡ 批量操作（已选 N 台）</strong> 子菜单：</p>
+
+    <p><span class="badge badge-green">🟢 批量电源操作</span></p>
+    <table>
+        <tr><th>操作</th><th>说明</th></tr>
+        <tr><td>▶ 批量打开电源</td><td>逐台 PowerOnVM_Task，已开机自动跳过；自动过滤模板</td></tr>
+        <tr><td>■ 批量关闭客户机</td><td>对 <strong>toolsOk / toolsOld</strong> 的 VM 发送 ShutdownGuest；Tools 未运行的 VM 会被跳过并在结果中标记</td></tr>
+        <tr><td>✖ 批量关闭电源</td><td>逐台 PowerOffVM_Task，<strong>强制断电</strong>，非开机状态自动跳过</td></tr>
+        <tr><td>↻ 批量重置电源</td><td>逐台 ResetVM_Task，非开机状态自动跳过</td></tr>
+    </table>
+
+    <p><span class="badge badge-red">🔴 批量删除</span></p>
+    <table>
+        <tr><th>操作</th><th>说明</th></tr>
+        <tr><td>🗑 批量删除虚拟机（从磁盘）</td><td>Destroy_Task 批量删除；<strong>自动跳过开机 VM</strong>（避免误删运行中业务），仅删除已关机 VM；删除前弹出确认框列出将删除的 VM 名称</td></tr>
+    </table>
+
+    <p><span class="badge badge-orange">🟡 批量快照</span></p>
+    <table>
+        <tr><th>操作</th><th>说明</th></tr>
+        <tr><td>📷 批量创建快照</td><td>统一名称格式 <code>BatchSnapshot_yyyyMMdd_HHmmss</code>，描述"批量创建"，<strong>不包含内存</strong>（速度优先）</td></tr>
+        <tr><td>🗑 批量删除所有快照</td><td>逐台 RemoveAllSnapshots_Task，无快照的 VM 会跳过并标记</td></tr>
+    </table>
+
+    <p><span class="badge badge-orange">🟡 🔄 批量迁移</span> <em>子菜单</em></p>
+    <table>
+        <tr><th>操作</th><th>说明</th></tr>
+        <tr><td>↔ 批量迁移到主机 (vMotion)</td><td>从主机列表对话框选一台目标 ESXi，逐台 RelocateVM_Task（指定 Host），<strong>零停机</strong></td></tr>
+        <tr><td>📦 批量迁移到资源池</td><td>从资源池列表对话框选一个目标 ResourcePool，逐台 RelocateVM_Task（指定 Pool）</td></tr>
+        <tr><td>💾 批量迁移到存储 (Storage vMotion)</td><td>从存储列表对话框选一个目标 Datastore，逐台 RelocateVM_Task（指定 Datastore），<strong>开机也可执行</strong></td></tr>
+    </table>
+
+    <div class="info-box">批量菜单中所有涉及 vMotion / Storage vMotion 的操作，目标列表均来自当前连接的服务器实时查询（UnifiedCache），不会展示失效的缓存条目；批量迁移过程中可随时在 PowerShell 输出区查看每个 VM 的 Task 完成进度。<br><strong>注意</strong>：ESXi 直连模式下因无 vCenter 调度层，vMotion / Storage vMotion 不可用。</div>
+
+    <h3 id="other-menus">5. 通用菜单</h3>
+
+    <h4>模板专用菜单</h4>
+    <p>当查询类型切换为模板（<code>subtype = template</code>）时，右键菜单自动切换为：</p>
+    <ul>
+        <li>✏ 重命名模板 — 修改服务器清单中的模板名称</li>
+        <li>📝 编辑备注 — 设置模板 annotation</li>
+        <li>🗑 删除模板 — 从服务器（vCenter / ESXi）和存储永久删除 .vmtx / .vmdk / .nvram</li>
+        <li>🔄 转为虚拟机 — ConvertToVm_Task，从模板还原为普通 VM</li>
+    </ul>
+
+    <h4>主机专用菜单</h4>
+    <p>当查询类型切换为主机（<code>queryType = host</code>）时，右键菜单自动切换为：</p>
+    <ul>
+        <li>🔧 SSH 连接 (MobaXterm) — 使用主机 IP 调用 MobaXterm SSH 连接</li>
+        <li>🌐 使用 Web 打开管理地址 — 用默认浏览器打开 https://&lt;host-ip&gt; 进入 ESXi Web 管理界面</li>
+    </ul>
+
+    <h4>通用「复制分享」菜单</h4>
+    <p>所有资源类型（VM / Host / Datastore / Network / Template）右键均有此菜单：</p>
+    <ul>
+        <li>📤 分享信息 — 仅 VM 可用，一键复制 VM 名称 + IP + 主机 + 状态等完整信息到剪贴板，方便 IM 分享</li>
+        <li>复制选中行 — 当前右键选中的那一行，多列制表符分隔</li>
+        <li>复制全部 — 整个 ListView 所有行，含列标题</li>
+        <li>复制列标题 — 仅列名，制表符分隔，用于粘贴到 Excel 做表头</li>
+    </ul>
+
+    <h2 id="csv-editor">五、编辑列表 Tab</h2>
+    <p>内置表格编辑器（DataGridView 渲染），启动时自动加载默认部署文件 <code>%APPDATA%\VMTool\deploy_vm_list.csv</code>。支持导入外部 CSV、内嵌编辑、外部编辑器自动重载、列宽记忆、编码自动识别，保存统一写入 UTF-8 with BOM 编码，确保 Excel 正确识别中文。</p>
+
+    <h3>1. 工具栏按钮</h3>
+    <table>
+        <tr><th>按钮</th><th>功能</th></tr>
+        <tr><td>📥 导入</td><td>弹出文件对话框，选择任意 CSV 文件加载到编辑器（不会覆盖默认文件，保存时仍写入默认路径）</td></tr>
+        <tr><td>💾 保存</td><td>将当前表格数据写入 <code>deploy_vm_list.csv</code>（UTF-8 BOM），Toast 提示"保存成功"</td></tr>
+        <tr><td>✏ 编辑</td><td>用系统默认程序打开当前 CSV（如 Excel / VS Code）；外部编辑器保存后，程序后台自动检测文件修改时间并重新加载最新内容，无需手动刷新</td></tr>
+        <tr><td>➕ 新增行</td><td>在表格末尾追加一空白行并选中，后续手动填写各字段</td></tr>
+        <tr><td>🗑 删除选中行</td><td>删除当前勾选的一行或多行（按 <code>Delete</code> 键等价）</td></tr>
+        <tr><td>🔄 重置为模板</td><td>清空所有数据行，保留列头结构（有二次确认）</td></tr>
+        <tr><td>💿 另存为</td><td>将当前编辑数据导出为独立 CSV 备份文件，默认文件名 <code>VmOps-{VC地址}.csv</code>（当前编辑的文件路径不变）</td></tr>
+    </table>
+
+    <h3>2. 编辑操作</h3>
+    <ul>
+        <li><strong>单元格编辑</strong>：双击目标单元格或选中后按 <code>F2</code> 进入编辑模式，<code>Enter</code> 确认、<code>Esc</code> 取消</li>
+        <li><strong>删除行</strong>：选中一行或多行（支持 <code>Ctrl</code> 多选）后按 <code>Delete</code> 键，或点击"删除选中行"按钮</li>
+        <li><strong>行选择</strong>：整行点击即选中，支持 <code>Ctrl+A</code> 全选</li>
+        <li><strong>列宽拖动</strong>：鼠标拖动列分隔线调整宽度，程序自动记忆每列宽度，下次加载时自动恢复</li>
+        <li><strong>未保存状态提示</strong>：工具栏右侧实时显示"✓ 已保存"或"* 未保存"橙色标记，任意单元格改动后自动切换为未保存状态</li>
+    </ul>
+
+    <h3>3. 文件编码说明</h3>
+    <p>编辑器加载 CSV 时按以下优先级自动识别编码，避免乱码：</p>
+    <ol>
+        <li>优先检测 <strong>UTF-8 BOM</strong>（0xEF 0xBB 0xBF）</li>
+        <li>其次检测 <strong>UTF-16 LE / BE BOM</strong></li>
+        <li>无 BOM 时，通过字节特征判断是否为合法 UTF-8；不是则回退到系统默认编码（中文 Windows 即 GBK）</li>
+    </ol>
+    <p>保存时<strong>统一写入 UTF-8 with BOM</strong>，确保 Excel 打开时正确识别中文内容。</p>
+
+    <h3>4. 外部编辑器联动</h3>
+    <p>点击"编辑"按钮后，程序会在后台启动一个监视线程（500ms 轮询），检测 CSV 文件的最后修改时间。当你在 Excel / VS Code 中保存文件时：</p>
+    <ul>
+        <li>程序自动从磁盘重新加载最新数据到表格</li>
+        <li>底部状态栏显示绿色"✅ 已从外部编辑器重新加载"提示</li>
+        <li>表格的列宽记忆会在每次加载后自动恢复</li>
+        <li>如果当前编辑器内有未保存修改，会弹窗提示先保存再打开外部编辑器</li>
+    </ul>
+
+    <h3 id="csv-fields">5. 字段说明</h3>
+    <table>
+        <tr><th>列名</th><th>必填</th><th>说明</th><th>示例</th></tr>
+        <tr><td>Name</td><td>是</td><td>虚拟机名称前缀</td><td>DEMO-NGINX1</td></tr>
+        <tr><td>IP</td><td>是</td><td>虚拟机 IP 地址</td><td>192.168.18.249</td></tr>
+        <tr><td>Mask</td><td>是</td><td>子网掩码（CIDR 或点分十进制）</td><td>24 / 255.255.255.0</td></tr>
+        <tr><td>Gateway</td><td>是</td><td>虚拟机默认网关</td><td>192.168.18.254</td></tr>
+        <tr><td>CPU</td><td>是</td><td>CPU 核心数</td><td>32</td></tr>
+        <tr><td>Memory</td><td>是</td><td>内存大小（GB）</td><td>96</td></tr>
+        <tr><td>Template</td><td>是</td><td>虚拟机模板名称</td><td>openEuler2203LTS-SP4</td></tr>
+        <tr><td>Vlan</td><td>是</td><td>网络名称（端口组）</td><td>VM Network</td></tr>
+        <tr><td>Host</td><td>是</td><td>目标 ESXi 主机 IP</td><td>192.168.1.200</td></tr>
+        <tr><td>DiskCapacityGB</td><td>否</td><td>额外数据磁盘容量（GB），0 表示不添加</td><td>1024</td></tr>
+        <tr><td>Datastore</td><td>是</td><td>存储名称</td><td>vsanDatastore</td></tr>
+    </table>
+
+    <h3 id="csv-naming">6. 命名规则</h3>
+    <p>程序会根据 CSV 中的 <code>Name</code> 和 <code>IP</code> 字段自动生成两个名称：</p>
+    <h4>虚拟机名称（服务器清单中显示的名称）</h4>
+    <div class="code-block"><span class="var">{Name}</span>-IP<span class="var">{IP 最后一段}</span></div>
+    <p>例如：Name = <code>DEMO-NGINX1</code>，IP = <code>192.168.18.249</code> → 虚拟机名称 = <code>DEMO-NGINX1-IP249</code></p>
+    <h4>计算机名称（Guest OS 内部的主机名）</h4>
+    <ul>
+        <li><strong>Windows 系统</strong>：计算机名称最长 15 个字符，超出部分会被截断，特殊字符会被替换为连字符</li>
+        <li><strong>Linux 系统</strong>：计算机名称最长 63 个字符，特殊字符会被替换为连字符</li>
+    </ul>
+
+    <h2 id="ovftool">六、OvfTool Tab</h2>
+    <p>封装 VMware OVF Tool（<code>ovftool.exe</code>）外部命令行工具，提供导出、导入、转换三种操作的可视化表单和命令执行入口。Tab 垂直三段式布局：操作类型 / 目标设置（上 15%）+ 动态参数表单（中 45%）+ 命令预览 &amp; 执行（下 40%）。所有输入框（ComboBox / TextBox）自动绑定右键菜单（剪切 / 复制 / 粘贴 / 全选 / 清空）。</p>
+
+    <h3>1. 操作类型与目标类型</h3>
+    <p>顶部 GroupBox 中两组单选按钮：</p>
+    <table>
+        <tr><th>分组</th><th>选项</th><th>说明</th></tr>
+        <tr><td rowspan="3">操作（左）</td><td>导出虚拟机</td><td>从 vCenter / ESXi 导出 VM 为 OVA 文件</td></tr>
+        <tr><td>导入虚拟机</td><td>从本地 OVF / OVA 文件部署到 vCenter / ESXi</td></tr>
+        <tr><td>虚拟机转换</td><td>OVF ↔ OVA ↔ VMX 格式互转（纯本地，无需服务器连接）</td></tr>
+        <tr><td rowspan="2">目标（右）</td><td>VCSA</td><td>通过 vCenter Server 操作（vi://user@vc/datacenter/vm/xxx）</td></tr>
+        <tr><td>ESXi主机</td><td>直连 ESXi 主机操作（vi://user@host/xxx）</td></tr>
+    </table>
+    <p class="info-box" style="background:#e8f0fe;border-color:#1a73e8;color:#1a73e8;font-size:13px;">选择"虚拟机转换"时，右侧目标类型单选自动隐藏。</p>
+
+    <h3>2. 导出虚拟机</h3>
+    <div class="two-col">
+        <div>
+            <p><strong>VCSA 模式</strong>：双列布局（左侧表单 70% + 右侧选项 30%）</p>
+            <ul>
+                <li><strong>VCSA IP</strong> — 来自 <code>UnifiedCache</code> 的最近 连接地址</li>
+                <li><strong>用户域</strong> — 默认取 <code>SessionManager.CurrentDomain</code>，回退 <code>vsphere.local</code>；生成命令时自动拼接 <code>administrator@domain</code></li>
+                <li><strong>虚拟机名称</strong> — 来自缓存的 VM 列表，ComboBox 支持输入即筛选（Contains 模糊匹配）</li>
+                <li><strong>保存路径</strong> — 带"浏览"按钮弹出 <code>FolderBrowserDialog</code></li>
+                <li><strong>OVA 名称</strong> — 默认等于虚拟机名，可手动修改（影响最终 <code>xxx.ova</code> 文件名）</li>
+            </ul>
+        </div>
+        <div>
+            <p><strong>ESXi 模式</strong>：字段同 VCSA，但用 <strong>ESXi 主机 IP</strong> 替代 VCSA IP，生成命令时用户名固定为 <code>root</code>，路径格式简化为 <code>vi://root@host/vmname</code>。</p>
+            <p><strong>右侧导出选项（默认全勾选）</strong>：</p>
+            <ul>
+                <li>覆盖（<code>-o</code>）</li>
+                <li>忽略 NVRAM（<code>--noNvramFile</code>）</li>
+                <li>忽略 SSL 验证（<code>--noSSLVerify</code>）</li>
+                <li>忽略镜像文件（<code>--noImageFiles</code>）</li>
+            </ul>
+        </div>
+    </div>
+
+    <h3>3. 导入虚拟机</h3>
+    <div class="two-col">
+        <div>
+            <p><strong>VCSA 模式</strong>：双列网格布局（4 行 × 2 列，共 8 字段 + 扩展磁盘模式行）</p>
+            <ul>
+                <li>行0 左：<strong>OVA 路径</strong>（浏览按钮，Filter = <code>*.ova;*.ovf</code>）；输入后自动以文件名（去扩展名）填充 <strong>VM 名称</strong></li>
+                <li>行0 右：<strong>VM 名称</strong>（可覆盖自动值）</li>
+                <li>行1 左：<strong>VCSA IP</strong>；行1 右：<strong>ESXi IP</strong>（目标主机，vi:// 路径中 <code>?ip=</code> 参数）</li>
+                <li>行2 左：<strong>存储</strong>（只读下拉，默认 <code>vsanDatastore</code> 兜底）；行2 右：<strong>用户域</strong></li>
+                <li>行3 左：<strong>源网卡</strong>（硬编码候选 <code>bridged/nat/Host-Only/VMnet0/VMnet1/VMnet2</code>）；行3 右：<strong>目标网卡</strong>（来自缓存的 PortGroup，默认 <code>VM Network</code>）</li>
+                <li>行4 左：<strong>磁盘模式</strong>（下拉 <code>thin/thick/eagerZeroedThick</code>，默认 thin）</li>
+            </ul>
+        </div>
+        <div>
+            <p><strong>ESXi 模式</strong>：单列简化布局，字段依次为 OVA 路径 → ESXi IP → VM 名称 → 存储 → 磁盘模式。生成命令时用户名固定 <code>root</code>，无 VCSA IP 和用户域字段。</p>
+            <p><strong>导入选项（右侧 GroupBox）</strong>：</p>
+            <ul>
+                <li><strong>指定网卡</strong> — 勾选后才启用源网卡 / 目标网卡下拉；命令生成 <code>--net:src="dst"</code> 参数</li>
+                <li><strong>导入为模板</strong> — 生成命令追加 <code>--importAsTemplate</code></li>
+            </ul>
+            <p class="info-box" style="background:#fff7e6;border-color:#fa8c16;color:#ad4e00;font-size:13px;">导入命令自动追加 <code>--overwrite --acceptAllEulas --noSSLVerify</code>，无需手动勾选。</p>
+        </div>
+    </div>
+
+    <h3>4. 虚拟机转换</h3>
+    <p>纯本地文件互转，无需 vCenter / ESXi 连接。四个字段上下排列：</p>
+    <ol>
+        <li><strong>源类型</strong>（下拉：<code>ovf / ova / vmx</code>）+ <strong>源路径</strong>（浏览 → <code>OpenFileDialog</code>，Filter 根据源类型动态生成）</li>
+        <li><strong>目标类型</strong>（下拉：<code>ovf / ova / vmx</code>）+ <strong>目标路径</strong>（浏览 → ovf/ova 用 <code>SaveFileDialog</code> 自动填扩展名、vmx 用 <code>FolderBrowserDialog</code>）</li>
+    </ol>
+    <p>生成的命令最简单：<code>ovftool "srcPath" "dstPath"</code>。</p>
+
+    <h3>5. 命令预览与执行</h3>
+    <p>底部 GroupBox 分按钮行（固定高 28px）+ 命令文本框（<code>Consolas 10pt</code> 等宽字体）：</p>
+    <table>
+        <tr><th>按钮</th><th>功能</th></tr>
+        <tr><td><strong>生成命令</strong></td><td>根据当前模式和表单填写内容调用 <code>BuildExportCommand / BuildImportCommand / BuildConvertCommand</code> 构建完整 ovftool 命令字符串</td></tr>
+        <tr><td><strong>复制命令</strong></td><td>一键复制到剪贴板，弹出绿色 Toast（800ms 自动消失）提示"命令已复制到剪贴板"</td></tr>
+        <tr><td><strong>执行命令</strong></td><td>启动 <code>OvfToolRunner</code> 子进程执行命令；未连接 vCenter 时按钮自动禁用</td></tr>
+    </table>
+
+    <h3>6. 密码与 URI 编码</h3>
+    <p>生成命令时根据 vCenter 连接状态决定是否嵌入密码：</p>
+    <ul>
+        <li><strong>已连接</strong> — 自动从 <code>SessionManager.CurrentCredentials.Password</code> 读取，对用户名和密码分别做 <code>Uri.EscapeDataString</code> 编码后嵌入 <code>vi://user:password@host/...</code></li>
+        <li><strong>未连接</strong> — 生成不带密码的命令（<code>vi://user@host/...</code>），保留占位让用户手动填写后再粘贴执行</li>
+    </ul>
+    <p class="info-box" style="background:#fff7e6;border-color:#fa8c16;color:#ad4e00;font-size:13px;">密码 URI 编码可正确处理 @、:、空格 等特殊字符，避免 ovftool 解析失败。</p>
+
+    <h3>7. 执行流程</h3>
+    <ol>
+        <li>点击"执行命令"后，去掉命令开头的 <code>ovftool </code> 前缀（因为 <code>OvfToolRunner</code> 会自己解析可执行文件路径）</li>
+        <li>清空命令预览区并切换为只读，<code>OvfToolRunner</code> 以 UTF-8 编码捕获子进程 stdout / stderr，实时追加到文本框并自动滚动到底部</li>
+        <li>所有日志行同步写入主程序日志区（带 <code>[OVF导出/导入/转换]</code> 前缀）</li>
+        <li>成功：追加 <code>[成功] xx完成，退出码: 0</code>；失败：追加 <code>[失败] 错误信息，退出码: N</code>；然后恢复命令框可编辑</li>
+    </ol>
+
+    <h3>8. ovftool.exe 自动搜索路径</h3>
+    <p><code>OvfToolRunner.ResolveOvfToolPath()</code> 按以下顺序查找可执行文件：</p>
+    <ol>
+        <li>显式传入路径（当前 Tab 未使用此入口）</li>
+        <li><code>C:\Program Files\VMware\VMware OVF Tool\ovftool.exe</code></li>
+        <li><code>C:\Program Files (x86)\VMware\VMware OVF Tool\ovftool.exe</code></li>
+        <li><code>C:\Program Files (x86)\VMware\VMware Workstation\OVFTool\ovftool.exe</code></li>
+        <li><code>C:\Program Files\VMware\VMware Workstation\OVFTool\ovftool.exe</code></li>
+        <li>遍历 <code>PATH</code> 环境变量中的每个目录，查找 <code>ovftool.exe</code></li>
+    </ol>
+    <p>全部找不到时直接返回错误："找不到 ovftool.exe，请确认 VMware OVF Tool 已安装。"</p>
+
+    <h3>9. 超时与取消</h3>
+    <p>所有 ovftool 命令默认 <strong>5 分钟超时</strong>（<code>TimeoutMs = 300000</code>），通过 <code>CancellationTokenSource</code> 实现：超时后调用 <code>process.Kill()</code> 强制终止子进程，返回退出码 <code>-98</code> 和错误信息 "执行超时 (300s)"。</p>
+
+    <h3>10. 下拉候选值来源</h3>
+    <p>所有 ComboBox 的可选值由 <code>UnifiedCache.CacheLoadResources()</code> 统一提供，按字段类型聚合多个缓存键并去重；缓存不足时回退硬编码兜底列表：</p>
+    <table>
+        <tr><th>字段</th><th>缓存键</th><th>硬编码兜底</th></tr>
+        <tr><td>VCSA / ESXi 主机</td><td><code>vc_host</code> / <code>host_names</code> / <code>hosts</code> / <code>host_ips</code></td><td>—</td></tr>
+        <tr><td>虚拟机名称</td><td><code>vm_names</code> / <code>vms</code></td><td>—</td></tr>
+        <tr><td>存储</td><td><code>datastore_names</code> / <code>datastores</code></td><td><code>vsanDatastore</code>、<code>datastore1</code></td></tr>
+        <tr><td>用户域</td><td><code>user_domain</code>（会去掉 @ 前缀）</td><td><code>vsphere.local</code>、<code>local.net</code></td></tr>
+        <tr><td>目标网卡</td><td><code>network_names</code> / <code>portgroups</code> / <code>networks</code></td><td><code>VM Network</code>、<code>Management Network</code></td></tr>
+    </table>
+
+    <h3>11. 命令文本框右键菜单</h3>
+    <p>命令预览区自带独立右键菜单（区别于输入框的剪切/复制/粘贴菜单）：</p>
+    <ul>
+        <li>复制选中内容 / 复制全部内容</li>
+        <li>全选</li>
+        <li>清空</li>
+    </ul>
+
+    <h3>12. 示例生成命令</h3>
+    <div class="code-block"># VCSA 导出（已连接，密码自动嵌入）
+ovftool -o --noNvramFile --noSSLVerify --noImageFiles "vi://administrator%40vsphere.local:%40%40%40@host192.168.1.100/Datacenter/vm/WebServer01" "D:\Export\WebServer01.ova"
+
+# VCSA 导入（网卡映射，导入为模板）
+ovftool --overwrite --acceptAllEulas -n=WebServer01 -ds=vsanDatastore --net:bridged="VM Network" -dm=thin --noSSLVerify --importAsTemplate "vi://administrator%40vsphere.local:%40%40%40@host192.168.1.100/?ip=192.168.1.50" "D:\OVA\WebServer01.ova"
+
+# OVA → OVF 转换（纯本地）
+ovftool "D:\OVA\WebServer01.ova" "D:\OVF\WebServer01.ovf"</div>
+
+    <h2 id="practical-cmds">七、常用命令实战记录</h2>
+
+    <h3 id="practical-vmware-unlun">1. VMware 卸载 LUN</h3>
+    <p class="info-box" style="background:#e8f0fe;border-color:#1a73e8;color:#1a73e8;font-size:13px;">2024-05-11 14:18</p>
+
+    <h4>1. 列出已挂载的数据存储</h4>
+    <p>首先，列出所有挂载到 ESXi 主机的数据存储，使用以下命令：</p>
+    <div class="code-block">esxcli storage filesystem list</div>
+    <p>示例输出会显示挂载的 VMFS 数据存储详情。</p>
+
+    <h4>2. 查找目标 LUN 的唯一标识符</h4>
+    <p>使用以下命令获取与数据存储关联的 LUN 的唯一标识符（<em>NAA_ID</em>）：</p>
+    <div class="code-block">esxcfg-scsidevs -m</div>
+    <p>记录要卸载的数据存储的 UUID 以供后续使用。</p>
+
+    <h4>3. 卸载数据存储</h4>
+    <p>使用其中一个命令格式卸载目标数据存储：</p>
+    <div class="code-block">esxcli storage filesystem unmount -l &lt;LUN名称&gt;
+esxcli storage filesystem unmount -u &lt;UUID&gt;
+esxcli storage filesystem unmount -p &lt;挂载点路径&gt;</div>
+
+    <h4>4. 验证数据存储是否卸载</h4>
+    <p>再次运行数据存储列表命令确认卸载状态：</p>
+    <div class="code-block">esxcli storage filesystem list</div>
+    <p>确保"Mounted"字段为 <code>false</code>。</p>
+
+    <h4>5. 分离设备/LUN</h4>
+    <p>将设备设置为离线状态：</p>
+    <div class="code-block">esxcli storage core device set --state=off -d &lt;NAA_ID&gt;</div>
+
+    <h4>6. 验证设备状态</h4>
+    <p>检查设备是否离线：</p>
+    <div class="code-block">esxcli storage core device list -d &lt;NAA_ID&gt;</div>
+    <p>确认状态为 <code>off</code>。</p>
+
+    <h4>7. 取消提供 LUN（SAN）</h4>
+    <p>联系存储管理员执行此步骤。</p>
+
+    <h4>8. 重新扫描 ESXi 主机上的设备</h4>
+    <p>扫描以移除设备：</p>
+    <div class="code-block">esxcli storage core adapter rescan [--all]</div>
+
+    <h4>9. 永久取消使用设备（可选）</h4>
+    <p>若需永久删除设备配置：</p>
+    <ol>
+        <li><strong>列出永久分离的设备</strong>：
+            <div class="code-block">esxcli storage core device detached list</div>
+        </li>
+        <li><strong>移除设备配置信息</strong>：
+            <div class="code-block">esxcli storage core device detached remove -d &lt;NAA_ID&gt;</div>
+        </li>
+    </ol>
+    <p>这将永久从 ESXi 主机配置中移除设备引用。</p>
+
+    <h3 id="practical-nfs41">2. ESXi 单台主机 NFS 4.1 存储不可访问故障处理</h3>
+    <p class="info-box" style="background:#e8f0fe;border-color:#1a73e8;color:#1a73e8;font-size:13px;">2025-04-18 10:30</p>
+
+    <h4>1. 故障现象</h4>
+    <ul>
+        <li>集群内仅单台 ESXi 主机（192.168.5.192）的 NFS 4.1 数据存储显示「不可访问」，容量显示为 0B；其余同集群主机挂载正常。</li>
+        <li>基础网络验证正常：<code>vmkping</code> 到 NFS 服务端零丢包，<code>nc</code> 测试 TCP 2049 端口连通成功。</li>
+        <li>NFS 服务端（192.168.5.197）服务、权限、目录均正常，无配置变更。</li>
+        <li>vCenter 界面显示存储名称带 <code>(1)</code> 后缀（如 <code>nas-data (1)</code>），属于清单缓存重复条目。</li>
+    </ul>
+
+    <h4>2. 根因定位</h4>
+    <ol>
+        <li>网络中断恢复后，ESXi 本地 NFS 4.1 客户端挂载会话僵死：内核保留卷记录，但实际 TCP 会话已失效，表现为 <code>Accessible: false</code>、<code>Mounted: false</code>，容量读取失败。</li>
+        <li>命令混用误区：<code>esxcli storage nfs</code> 是 NFS v3 专用命令，无法识别和操作 NFS 4.1 卷，会误判为「无挂载」。</li>
+        <li>卷名不匹配：vCenter 清单缓存生成带 <code>(1)</code> 的重复名称，用该名称执行删除会报 <code>Failed to remove unknown volume</code>。</li>
+    </ol>
+
+    <h4>3. 解决步骤（业务无影响，无需重启主机）</h4>
+
+    <p><strong>步骤 1：确认真实卷名与状态（NFS 4.1 专用命令）</strong></p>
+    <div class="code-block"># 查看本机所有NFS 4.1卷状态，获取真实卷名
+esxcli storage nfs41 list</div>
+    <p>输出示例关键信息：</p>
+    <ul>
+        <li>Volume Name: <code>nas-data</code>（真实名称，无 (1) 后缀）</li>
+        <li>Accessible: <code>false</code></li>
+        <li>Mounted: <code>false</code></li>
+    </ul>
+
+    <p><strong>步骤 2：强制移除僵死卷</strong></p>
+    <p>使用真实卷名执行删除，清理内核僵死挂载记录：</p>
+    <div class="code-block">esxcli storage nfs41 remove -v "nas-data"</div>
+    <p class="info-box" style="background:#fff7e6;border-color:#fa8c16;color:#ad4e00;font-size:13px;">若提示资源占用，可先执行懒卸载再删除：<br><code>umount -l /vmfs/volumes/nas-data</code></p>
+
+    <p><strong>步骤 3：验证清理结果</strong></p>
+    <div class="code-block"># 确认卷已移除
+esxcli storage nfs41 list
+# 确认挂载点已消失
+df -h | grep nfs</div>
+
+    <p><strong>步骤 4：命令行重新挂载 NFS 4.1</strong></p>
+    <p>绕过 vCenter 界面缓存，直接在 ESXi 本地执行挂载：</p>
+    <div class="code-block">esxcli storage nfs41 add -H 192.168.5.197 -s /nas/pacs -v nas-data</div>
+    <p>参数说明：</p>
+    <ul>
+        <li><code>-H</code>：NFS 服务端 IP 地址</li>
+        <li><code>-s</code>：服务端共享目录路径</li>
+        <li><code>-v</code>：本地数据存储名称</li>
+    </ul>
+
+    <p><strong>步骤 5：验证挂载恢复</strong></p>
+    <div class="code-block">esxcli storage nfs41 list</div>
+    <p>正常状态：<code>Accessible: true</code>、<code>Mounted: true</code>，<code>df -h</code> 可读取到正确容量；vCenter 界面会自动同步状态，「不可访问」提示消失。</p>
+
+    <h4>4. 关键注意事项</h4>
+    <ol>
+        <li><strong>命令区分版本</strong>：NFS v3 使用 <code>esxcli storage nfs</code> 子命令，NFS 4.1 使用 <code>esxcli storage nfs41</code> 子命令，二者不通用。</li>
+        <li><strong>卷名以本地为准</strong>：删除 / 挂载操作的卷名，必须以 <code>esxcli storage nfs41 list</code> 输出为准，禁止直接使用 vCenter 界面显示的带 <code>(1)</code> 后缀名称。</li>
+        <li><strong>业务安全</strong>：上述操作仅清理客户端挂载缓存、重建会话，不会影响 NFS 服务端数据，也不会中断其他主机的正常挂载。</li>
+        <li><strong>服务端辅助排查</strong>：若单台主机反复挂载失败，可在 NFS 服务端执行 <code>exportfs -rv</code> 安全重载导出规则，刷新客户端会话缓存，无需重启 NFS 服务。</li>
+    </ol>
+
+    <h3 id="practical-vmware-cmds">3. VMware 常用命令</h3>
+
+    <h4>ESXi 系统信息与管理</h4>
+    <p><strong>查看 ESXi 版本</strong>：</p>
+    <div class="code-block">vmware-v</div>
+
+    <p><strong>查看所有 ESXi 相关信息</strong>：</p>
+    <div class="code-block">esxcfg-info -a</div>
+
+    <p><strong>查看所有 ESXi 硬件信息</strong>：</p>
+    <div class="code-block">esxcfg-info -w</div>
+
+    <p><strong>重启 VMware 服务</strong>：</p>
+    <div class="code-block">servicemgmt-vmware restart</div>
+
+    <p><strong>查看宿主机 IP 地址</strong>：</p>
+    <div class="code-block">esxcfg-vmknic -l | grep IPv4</div>
+
+    <p><strong>禁用管理网卡 IPv6</strong>：</p>
+    <div class="code-block">esxcfg-vmknic --enable-ipv6 false</div>
+
+    <h4>硬件信息查询</h4>
+    <p><strong>CPU 信息（品牌、核心数、速度）</strong>：</p>
+    <div class="code-block">esxcli hardware cpu list</div>
+
+    <p><strong>获取 CPU 详细信息（核心数等）</strong>：</p>
+    <div class="code-block">esxcli hardware cpu global get</div>
+
+    <p><strong>内存信息</strong>：</p>
+    <div class="code-block"># 查看总内存大小
+esxcli hardware memory get
+# 内存条数、插槽数和内存大小
+smbiosDump | grep -i size
+# 查看具体内存的参数
+smbiosDump | grep -A 12 "Memory Device"
+# 只看内存大小和频率
+smbiosDump | grep -A 12 "Memory Device" | grep -iE "Size|Speed"</div>
+
+    <h4>时间管理</h4>
+    <p><strong>设置时间</strong>：</p>
+    <div class="code-block">esxcli system time set --year=2016 --month=9 --day=13 --hour=10 --minute=9</div>
+
+    <p><strong>查看当前时间</strong>：</p>
+    <div class="code-block">esxcli system time get</div>
+
+    <h4>网络与路由管理</h4>
+    <p><strong>查看 IP 配置</strong>：</p>
+    <div class="code-block">esxcli network ip interface ipv4 get</div>
+
+    <p><strong>查看路由列表</strong>：</p>
+    <div class="code-block">esxcli network ip route ipv4 list</div>
+
+    <p><strong>查看网卡状态</strong>：</p>
+    <div class="code-block">esxcli network nic list</div>
+
+    <p><strong>关闭 / 开启网络接口</strong>：</p>
+    <div class="code-block">esxcli network nic down -n vmnic1
+esxcli network nic up -n vmnic1</div>
+
+    <h4>存储设备与虚拟机操作</h4>
+    <p><strong>查看磁盘列表</strong>：</p>
+    <div class="code-block">esxcli storage core device list</div>
+
+    <p><strong>列出所有虚拟机及其 VMID</strong>：</p>
+    <div class="code-block">vim-cmd vmsvc/getallvms</div>
+
+    <p><strong>查看指定 VMID 虚拟机状态</strong>：</p>
+    <div class="code-block">vim-cmd vmsvc/power.getstate &lt;VMID&gt;</div>
+
+    <p><strong>关闭虚拟机</strong>：</p>
+    <div class="code-block">vim-cmd vmsvc/power.shutdown &lt;VMID&gt;</div>
+
+    <p><strong>启动虚拟机</strong>：</p>
+    <div class="code-block">vim-cmd vmsvc/power.on &lt;VMID&gt;</div>
+
+    <p><strong>强制关闭虚拟机</strong>：</p>
+    <div class="code-block">vim-cmd vmsvc/power.off &lt;VMID&gt;</div>
+
+    <p><strong>查看虚拟机配置信息</strong>：</p>
+    <div class="code-block">vim-cmd vmsvc/get.config &lt;VMID&gt;</div>
+
+    <p><strong>磁盘分区及操作工具</strong>：</p>
+    <div class="code-block">partedUtil</div>
+
+    <p><strong>注销虚拟机</strong>：</p>
+    <div class="code-block">vim-cmd vmsvc/unregister &lt;VMID&gt;</div>
+
+    <p><strong>注册虚拟机</strong>：</p>
+    <div class="code-block">vim-cmd solo/registervm /vmfs/volumes/iSCSI-1/TestDSL/TestDSL.vmx</div>
+
+    <p><strong>获取虚拟机正常运行时间</strong>：</p>
+    <div class="code-block">vim-cmd vmsvc/get.summary &lt;VMID&gt; | grep uptimeSeconds</div>
+
+    <p><strong>查看 vmtools 状态</strong>：</p>
+    <div class="code-block">vim-cmd vmsvc/get.summary &lt;VMID&gt; | grep toolsRunningStatus</div>
+
+    <p><strong>恢复到虚拟机快照状态</strong>：</p>
+    <div class="code-block">vim-cmd vmsvc/snapshot.revert &lt;VMID&gt; &lt;snapshotId&gt; [suppressPowerOff]</div>
+
+    <p><strong>查看内存、CPU 插槽使用情况</strong>：</p>
+    <div class="code-block">smbiosDump</div>
+
+    <p class="info-box" style="background:#fff7e6;border-color:#fa8c16;color:#ad4e00;font-size:13px;">上述命令中，尖括号 <code>&lt;&gt;</code> 内的部分需替换为实际参数值，方括号 <code>[]</code> 内的参数为可选。</p>
+
+    <h3 id="practical-vmfs-expand">4. VMware 扩展 VMFS 数据存储</h3>
+    <p class="info-box" style="background:#e8f0fe;border-color:#1a73e8;color:#1a73e8;font-size:13px;">2023-03-09 19:15</p>
+
+    <h4>问题描述</h4>
+    <p>尝试扩展 ESXi 主机上的本地数据存储（例如 <code>datastore1</code>）时失败，报错：</p>
+    <div class="code-block">Failed to expand VMFS datastore datastore1 - Cannot change the host configuration</div>
+
+    <h4>症状分析</h4>
+    <ul>
+        <li>扩展操作失败，提示无法更改主机配置。</li>
+        <li>在 ESXi Shell 中查看磁盘分区情况：</li>
+        <li><code>bootbank</code> 和 <code>altbootbank</code> 分别指向不同的 VMFS 卷。</li>
+        <li>使用 <code>vmkfstools -Ph -v10 bootbank</code> 查看逻辑设备信息。</li>
+        <li>使用 <code>partedUtil getptbl "vmfs/devices/disks/mpx.vmhba0:C0:T0:L0"</code> 显示当前磁盘分区表。</li>
+        <li>目标分区 8 的空间未能充分利用，需要将其扩展到整个磁盘可用空间。</li>
+    </ul>
+
+    <h4>解决步骤</h4>
+
+    <p><strong>步骤 1：调整分区大小（partedUtil resize）</strong></p>
+    <div class="code-block">partedUtil resize "/vmfs/devices/disks/mpx.vmhba0:C0:T0:L0" 8 268437504 419430366</div>
+
+    <p><strong>步骤 2：扩展文件系统（vmkfstools --growfs）</strong></p>
+    <div class="code-block">vmkfstools --growfs "/vmfs/devices/disks/mpx.vmhba0:C0:T0:L0:8" "/vmfs/volumes/datastore1"</div>
+
+    <h4>当前文件系统状态</h4>
+    <div class="code-block">Filesystem Size Used Available Use% Mounted on
+VMFS-6 71.8G 10.1G 61.6G 14% /vmfs/volumes/datastore1
+VFFS 119.8G 2.7G 117.0G 2% /vmfs/volumes/OSDATA-6405fb58-71728d8c-b6f9-000c293b096d
+vfat 4.0G 204.6M 3.8G 5% /vmfs/volumes/BOOTBANK1
+vfat 4.0G 64.0K 4.0G 0% /vmfs/volumes/BOOTBANK2</div>
+
+    <h4>参考链接</h4>
+    <p>详细说明可参考 CSDN 博文：<a href="https://blog.csdn.net/weixin_39565764/article/details/120881801" target="_blank">ESXi 硬盘无法扩容的处理方法</a>。</p>
+
+    <div class="error-box">
+        风险提示：执行分区调整和文件系统扩展前，请确保了解相关操作的风险。建议在非工作时间或维护窗口内执行，以防数据丢失或服务中断。同时查阅官方文档并根据实际环境和 vSphere 版本进行适当调整。
+    </div>
+
+    <h3 id="practical-vmware-cert">5. VMware 证书问题</h3>
+    <p class="info-box" style="background:#e8f0fe;border-color:#1a73e8;color:#1a73e8;font-size:13px;">更新时间: 2024-02-20 17:43</p>
+
+    <h4>步骤一：检查 STS 证书</h4>
+    <p>使用 <code>checksts.sh</code> 脚本检查 STS（安全令牌服务）证书的有效性。</p>
+    <div class="code-block"><span class="cmd">bash</span> checksts.sh</div>
+
+    <p>官方指导链接：<a href="https://kb.vmware.com/s/article/79248" target="_blank">https://kb.vmware.com/s/article/79248</a></p>
+
+    <h4>步骤二：修复 STS 证书并重启所有服务</h4>
+    <p>使用 <code>fixsts.sh</code> 脚本按照官方指导修复 STS 证书，然后重启所有服务：</p>
+    <div class="code-block"><span class="cmd">service-control</span> --stop --all
+<span class="cmd">service-control</span> --start --all</div>
+
+    <h4>步骤三：检查其他证书是否过期</h4>
+    <p>运行以下命令检查所有存储中的证书及其到期日期：</p>
+    <div class="code-block"><span class="cmd">for</span> store <span class="cmd">in</span> $(/usr/lib/vmware-vmafd/bin/vecs-cli store list | grep -v TRUSTED_ROOT_CRLS); <span class="cmd">do</span>
+    echo <span class="str">"[*] Store :" $store</span>;
+    /usr/lib/vmware-vmafd/bin/vecs-cli entry list --store $store --text | grep -ie <span class="str">"Alias"</span> -ie <span class="str">"Not After"</span>;
+<span class="cmd">done</span>;</div>
+
+    <p>如果发现证书已过期，根据输出结果选择相应修复操作。对于 <code>data-encipherment</code> 证书续订，请参考：</p>
+    <p><strong>数据加密证书续订指南</strong> — <a href="https://kb.vmware.com/s/article/88548?lang=en_US" target="_blank">https://kb.vmware.com/s/article/88548?lang=en_US</a></p>
+
+    <h4>步骤四：使用 Certificate Manager 续订证书</h4>
+    <p>执行 <code>/usr/lib/vmware-vmca/bin/certificate-manager</code> 工具，选择选项 <strong>8</strong> 或 <strong>4</strong> 进行续订：</p>
+    <div class="code-block">root@localhost [ ~ ]# /usr/lib/vmware-vmca/bin/certificate-manager
+
+                |                                                                     |
+                |      *** Welcome to the vSphere 7.0 Certificate Manager  ***        |
+                |                                                                     |
+                |                   -- Select Operation --                            |
+                |                                                                     |
+                |      1. Replace Machine SSL certificate with Custom Certificate     |
+                |                                                                     |
+                |      2. Replace VMCA Root certificate with Custom Signing           |
+                |         Certificate and replace all Certificates                    |
+                |                                                                     |
+                |      3. Replace Machine SSL certificate with VMCA Certificate       |
+                |                                                                     |
+                |      4. Regenerate a new VMCA Root Certificate and                  |
+                |         replace all certificates                                    |
+                |                                                                     |
+                |      5. Replace Solution user certificates with                     |
+                |         Custom Certificate                                          |
+                |         NOTE: Solution user certs will be deprecated in a future    |
+                |         release of vCenter. Refer to release notes for more details.|
+                |                                                                     |
+                |      6. Replace Solution user certificates with VMCA certificates   |
+                |                                                                     |
+                |      7. Revert last performed operation by re-publishing old        |
+                |         certificates                                                |
+                |                                                                     |
+                |      8. Reset all Certificates                                      |
+                |_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _|
+Note : Use Ctrl-D to exit.
+Option[1 to 8]:</div>
+
+    <p>查询结果若是 <code>MACHINE_SSL_CERT</code> 过期，选择选项 <strong>3</strong> 进行续订。</p>
+    <div class="note">
+        <strong>注意</strong>：在「Hostname」输入 vc 的 FQDN，在「IPAddress」输入与 Hostname 相同的值（如果是以 IP 部署的 VC，请输入 IP 地址），在「VMCA Name」输入与 Hostname 相同的值（如果是以 IP 部署的 VC，请输入 IP 地址）。
+    </div>
+
+    <p><strong>示例交互（选项 4）：</strong></p>
+    <div class="code-block">Option[1 to 8]: <span class="str">4</span>
+Do you wish to generate all certificates using configuration file : Option[Y/N] ? : <span class="str">y</span>
+
+Please provide valid SSO and VC privileged user credential to perform certificate operations.
+Enter username [Administrator@vsphere.local]:<span class="cmd">administrator@hdzy.net</span>
+Enter password:
+
+Please configure certool.cfg with proper values before proceeding to next step.
+
+Press Enter key to skip optional parameters or use Default value.
+
+Enter proper value for 'Country' [Default value : US] :
+
+Enter proper value for 'Name' [Default value : CA] :
+
+Enter proper value for 'Organization' [Default value : VMware] :
+
+Enter proper value for 'OrgUnit' [Default value : VMware Engineering] :
+
+Enter proper value for 'State' [Default value : California] :
+
+Enter proper value for 'Locality' [Default value : Palo Alto] :
+
+Enter proper value for 'IPAddress' (Provide comma separated values for multiple IP addresses) [optional] : <span class="cmd">192.168.3.100</span>
+
+Enter proper value for 'Email' [Default value : email@acme.com] :
+
+Enter proper value for 'Hostname' (Provide comma separated values for multiple Hostname entries) [Enter valid Fully Qualified Domain Name(FQDN), For Example : example.domain.com] : <span class="cmd">192.168.3.100</span>
+
+Enter proper value for VMCA 'Name' :<span class="cmd">192.168.3.100</span>
+
+You are going to regenerate Root Certificate and all other certificates using VMCA
+Continue operation : Option[Y/N] ? : <span class="str">y</span>
+Status : 60% Completed [Replace vpxd-extension Cert...]</div>
+
+    <h4>步骤五：修复后重启 VPXD 服务</h4>
+    <div class="code-block"><span class="cmd">service-control</span> --stop vpxd
+<span class="cmd">service-control</span> --start vpxd</div>
+
+    <h4>步骤六：删除 BACKUP_STORES 证书</h4>
+    <p>参考 VMware 官方文档：<a href="https://kb.vmware.com/s/article/82560?lang=en_US" target="_blank">https://kb.vmware.com/s/article/82560?lang=en_US</a>，运行清理脚本 <code>clean_backup_stores.sh</code>：</p>
+    <div class="code-block">./clean_backup_stores.sh</div>
+
+    <div class="error-box">
+        <strong>注意</strong>：若遇到错误消息 <code>-bash: ./clean_backup_stores.sh: /bin/bash^M: bad interpreter: No such file or directory</code>，说明脚本带有 Windows 换行符（CRLF），执行以下命令修复：
+        <div style="margin-top:8px;"><code>sed -i -e 's/\r$//' clean_backup_stores.sh</code></div>
+    </div>
+
+    <p>最后重启所有服务：</p>
+    <div class="code-block"><span class="cmd">service-control</span> --stop --all <span class="cmd">&amp;&amp;</span> <span class="cmd">service-control</span> --start --all</div>
+
+    <p><strong>后续操作</strong>：确认并重置所有与证书相关的警报至绿色状态。</p>
+    <p><strong>相关文件下载</strong>：已上传至阿里云盘 → Tools → vmware → 证书问题文件夹中。</p>
+
+    <h4>vSphere 7.x Certificate Manager 选项说明</h4>
+    <p>通过 vCenter Server 用户界面：<strong>菜单 → 系统管理 → 证书 → 证书管理</strong>。</p>
+    <div class="note">
+        <strong>注意</strong>：Windows 环境下需以管理员身份登录或"以管理员身份运行"。
+    </div>
+
+    <ul>
+        <li><strong>vCenter Server（Windows 版本）</strong>：<code>C:\Program Files\VMware\vCenter Server\vmcad\certificate-manager</code></li>
+        <li><strong>vCenter Server Appliance</strong>：<code>/usr/lib/vmware-vmca/bin/certificate-manager</code></li>
+    </ul>
+
+    <table>
+        <tr><th>选项</th><th>详细信息</th><th>所需信息</th></tr>
+        <tr><td>1</td><td>替换计算机 SSL 证书为自定义 CA 证书；同时可生成证书签名请求和密钥</td><td>administrator@vsphere.local 密码<br>自定义计算机证书和密钥路径<br>指向 VMCA Root 的自定义证书路径</td></tr>
+        <tr><td>2</td><td>替换 VMCA 根证书并替换所有证书；提供子选项生成证书签名请求和密钥</td><td>administrator@vsphere.local 密码<br>certool.cfg 文件配置<br>根签名证书 + 根签名密钥<br><strong>可选</strong>：解决方案用户和其他计算机证书的自定义证书和密钥路径</td></tr>
+        <tr><td>3</td><td>使用 VMCA 生成的新证书替换计算机 SSL 证书</td><td>administrator@vsphere.local 密码<br>certool.cfg 文件配置</td></tr>
+        <tr><td>4</td><td>重新生成新的默认 VMCA 根证书并替换所有证书</td><td>administrator@vsphere.local 密码<br>certool.cfg 文件配置</td></tr>
+        <tr><td>5</td><td>替换解决方案用户证书为自定义 CA 证书</td><td>administrator@vsphere.local 密码<br>自定义根 CA 证书路径<br>解决方案用户（vpxd、vpxd-extension、vSphere-webclient、machine、hvc、wcp）的自定义证书和密钥路径</td></tr>
+        <tr><td>6</td><td>使用 VMCA 生成的新证书替换解决方案用户证书</td><td>administrator@vsphere.local 密码</td></tr>
+        <tr><td>7</td><td>通过重新发布旧证书恢复上次操作</td><td>administrator@vsphere.local 密码</td></tr>
+        <tr><td>8</td><td>重置所有证书</td><td>administrator@vsphere.local 密码<br>certool.cfg 文件配置</td></tr>
+    </table>
+
+    <p><strong>Certool.cfg 文件位置：</strong></p>
+    <ul>
+        <li><strong>Windows</strong>：<code>C:\Program Files\VMware\vCenter Server\vmcad\certool.cfg</code></li>
+        <li><strong>VCSA 和外部 PSC 设备</strong>：<code>/usr/lib/vmware-vmca/share/config/certool.cfg</code></li>
+    </ul>
+
+    <div class="code-block"><span class="cmd">root@localhost</span> [ ~ ]# <span class="cmd">cat</span> /usr/lib/vmware-vmca/share/config/certool.cfg
+#
+# Template file for a CSR request
+#
+
+# Country is needed and has to be 2 characters
+<span class="cmd">Country</span> = US
+<span class="cmd">Name</span>    = CA
+<span class="cmd">Organization</span> = VMware
+<span class="cmd">OrgUnit</span> = VMware Engineering
+<span class="cmd">State</span> = California
+<span class="cmd">Locality</span> = Palo Alto
+<span class="cmd">IPAddress</span> = 127.0.0.1
+<span class="cmd">Email</span> = email@acme.com
+<span class="cmd">Hostname</span> = server.acme.com</div>
+
+    <h4>用 vecs-cli 删除过期证书（推荐，无密码、路径兼容）</h4>
+
+    <p><strong>删除 \_\_MACHINE_CSR（一步到位）：</strong></p>
+    <div class="code-block">/usr/lib/vmware-vmafd/bin/vecs-cli entry delete --store MACHINE_SSL_CERT --alias <span class="var">__MACHINE_CSR</span></div>
+    <p class="info-box" style="background:#e8f0fe;border-color:#1a73e8;color:#1a73e8;font-size:13px;">不需要密钥库密码，vecs-cli 自带本地管理员权限。专门管理 VECS 证书仓库，不会破坏 vCenter 证书体系。</p>
+
+    <p><strong>验证是否删除成功：</strong></p>
+    <div class="code-block">/usr/lib/vmware-vmafd/bin/vecs-cli entry list --store MACHINE_SSL_CERT</div>
+    <p>输出里看不到 <code>__MACHINE_CSR</code> 即清理完成。</p>
+
+    <p><strong>删除 BACKUP_STORE 中的 \_\_MACHINE_CERT：</strong></p>
+    <div class="code-block">/usr/lib/vmware-vmafd/bin/vecs-cli entry delete --store BACKUP_STORE --alias <span class="var">__MACHINE_CERT</span> -y</div>
+
+    <h3 id="practical-vmware-snapshot">6. VMware 快照管理</h3>
+
+    <h4>常用 vim-cmd 快照命令</h4>
+
+    <p><strong>查看虚拟机 ID：</strong></p>
+    <div class="code-block"><span class="cmd">vim-cmd</span> vmsvc/getallvms | <span class="cmd">awk</span> <span class="str">'{print $1, $2}'</span></div>
+
+    <p><strong>查看快照信息：</strong></p>
+    <div class="code-block"><span class="cmd">vim-cmd</span> vmsvc/snapshot.get</div>
+
+    <p><strong>查看任务状态：</strong></p>
+    <div class="code-block"><span class="cmd">cat</span> /etc/rc.local.d/local.sh</div>
+
+    <p><strong>查看定时任务：</strong></p>
+    <div class="code-block"><span class="cmd">cat</span> /var/spool/cron/crontabs/root</div>
+
+    <p><strong>手动删除快照：</strong></p>
+    <div class="code-block"><span class="cmd">vim-cmd</span> vmsvc/snapshot.remove <span class="var">VMID</span> <span class="var">SNAPSHOTID</span></div>
+
+    <div class="note">
+        <strong>注意</strong>：脚本文件（如 <code>snapshot_creat.sh</code> 和 <code>snapshot_del.sh</code>）需要放在 <code>/vmfs/volumes</code> 目录下，即虚拟机的存放目录。对于不需要创建快照的主机，在虚拟机备注（VM Note）中添加包含 <code>nosnap</code> 的过滤关键字。
+    </div>
+
+    <h4>自动创建快照脚本（snapshot_creat.sh）</h4>
+    <div class="code-block"><span class="cmd">#!/bin/sh</span>
+# 自动创建ESXi快照
+
+<span class="cmd">for</span> i <span class="cmd">in</span> `vim-cmd vmsvc/getallvms | grep -v nosnap | awk <span class="str">'{print $1}'</span> | grep -e <span class="str">"[0-9]"</span>`
+<span class="cmd">do</span>
+    vname=$(vim-cmd vmsvc/get.summary $i | grep name | awk <span class="str">'{print $3}'</span> | cut -d\" -f2)
+    vim-cmd vmsvc/snapshot.create $i $(date <span class="str">"+%F"</span>)
+    sleep 30s
+
+    <span class="cmd">if</span> [ $? -eq 0 ]; <span class="cmd">then</span>
+        <span class="cmd">echo</span> <span class="str">"$(date "+%F%T"): $vname snapshot create success.." >> ./schedule_snap.log</span>
+    <span class="cmd">else</span>
+        <span class="cmd">echo</span> <span class="str">"$(date "+%F%T"): $vname snapshot create FAILED.." >> ./schedule_snap.log</span>
+    <span class="cmd">fi</span>
+<span class="cmd">done</span></div>
+
+    <h4>删除过期快照脚本（snapshot_del.sh）</h4>
+    <div class="code-block"><span class="cmd">#!/bin/sh</span>
+<span class="cmd">DAY</span>=5 # 保留天数
+
+<span class="cmd">for</span> i <span class="cmd">in</span> `vim-cmd vmsvc/getallvms | awk <span class="str">'{print $1}'</span> | grep -e <span class="str">"[0-9]"</span>`
+<span class="cmd">do</span>
+    <span class="cmd">SNAPSHOT_COUNT</span>=`vim-cmd vmsvc/snapshot.get $i | egrep -- <span class="str">'--|-CHILD|^|-ROOT'</span> | wc -l`
+    <span class="cmd">if</span> [ $SNAPSHOT_COUNT -gt $DAY ]; <span class="cmd">then</span>
+        <span class="cmd">DELETE_COUNT</span>=$((SNAPSHOT_COUNT-DAY))
+        <span class="cmd">OLD_SNAPSHOT_ID</span>=`vim-cmd vmsvc/snapshot.get $i | grep Id | head -$DELETE_COUNT | awk -F: <span class="str">'{print $2}'</span>`
+
+        <span class="cmd">for</span> n <span class="cmd">in</span> $OLD_SNAPSHOT_ID
+        <span class="cmd">do</span>
+            vim-cmd vmsvc/snapshot.remove $i $n > /dev/null
+            sleep 30s
+        <span class="cmd">done</span>
+    <span class="cmd">fi</span>
+<span class="cmd">done</span></div>
+
+    <h4>添加定时任务</h4>
+    <p>在 ESXi 主机的 crond 任务配置文件 <code>/var/spool/cron/crontabs/root</code> 中添加如下内容。推荐方式：编辑 <code>/etc/rc.local.d/local.sh</code>，让主机在启动时自动写入 crond 任务：</p>
+    <div class="code-block">/bin/echo <span class="str">"01 1 * * * sh /vmfs/volumes/5a0eeb56-e924f565-353e-e04f430764dc/crontabs/snapshot_creat.sh"</span> >> /var/spool/cron/crontabs/root
+/bin/echo <span class="str">"30 1 * * * sh /vmfs/volumes/5a0eeb56-e924f565-353e-e04f430764dc/crontabs/snapshot_del.sh"</span> >> /var/spool/cron/crontabs/root
+<span class="cmd">kill</span> $(cat /var/run/crond.pid)
+<span class="cmd">crond</span></div>
+
+    <p>设置完成后，系统将每天自动执行快照创建与删除任务：</p>
+    <ul>
+        <li><strong>凌晨 01:01</strong> — 执行 <code>snapshot_creat.sh</code>，为所有未标记 <code>nosnap</code> 的虚拟机创建当日快照</li>
+        <li><strong>凌晨 01:30</strong> — 执行 <code>snapshot_del.sh</code>，超过保留天数（默认 5 天）的旧快照将被自动删除</li>
+    </ul>
+
+    <h3 id="practical-vmware-password">7. VMware 密码问题处理</h3>
+
+    <h4>一、VCSA 域密码忘记</h4>
+
+    <p><strong>步骤 1：进入 lwregshell 定位键值</strong></p>
+    <div class="code-block"><span class="cmd">/opt/likewise/bin/lwregshell</span>
+<span class="cmd">cd</span> HKEY_THIS_MACHINE\Services\vmdir
+<span class="cmd">list_values</span></div>
+
+    <p><strong>步骤 2：使用 vdcadmintool 获取临时密码（6.7 从这里开始，到步骤 3 结束）</strong></p>
+    <div class="code-block"><span class="cmd">/usr/lib/vmware-vmdir/bin/vdcadmintool</span></div>
+
+    <p>选择 <code>3</code> 输入账号，工具将返回一个"新密码"。<strong>vCenter 6.7 到此步即可</strong>，按 <code>0</code> 退出，用获取的新密码登录管理界面。</p>
+
+    <p><strong>步骤 3：设置新密码（7.x 及以上）</strong></p>
+    <div class="code-block"><span class="cmd">set_value</span> dcAccountPassword <span class="str">"新密码"</span></div>
+
+    <p><strong>步骤 4：重启所有服务</strong></p>
+    <div class="code-block"><span class="cmd">service-control</span> --stop --all
+<span class="cmd">service-control</span> --start --all</div>
+
+    <h4>二、修改 VCSA root 密码永不过期</h4>
+    <div class="code-block"><span class="cmd">chage</span> -M -1 -E -1 root
+<span class="cmd">chage</span> -l root  <span class="comment"># 查看 root 账户过期信息</span></div>
+
+    <h4>三、VCSA root 密码忘记恢复方法</h4>
+
+    <ol>
+        <li>重启 VCSA，在 GRUB 界面编辑启动命令，改为 <code>rw init=/bin/bash</code></li>
+        <li>启动后通过 <code>passwd</code> 命令修改 root 密码</li>
+        <li>使用 <code>umount</code> 卸载文件系统，然后执行 <code>reboot</code> 重启</li>
+    </ol>
+
+    <h4>四、ESXi 密码忘记重置方法</h4>
+
+    <h4>方式一：通过安装介质重置（推荐）</h4>
+    <ol>
+        <li>用同版本 ESXi 安装镜像启动主机</li>
+        <li>选择 <strong>安装</strong> 并保留现有配置</li>
+        <li>设置新密码，等待安装完成即可</li>
+    </ol>
+
+    <h4>方式二：通过 VCSA 主机配置文件批量重置</h4>
+    <ol>
+        <li>右键点击需要重置密码的 ESXi 主机 → <strong>提取主机配置文件</strong></li>
+        <li>编辑提取出的配置文件，取消所有选项，仅在「安全和服务 → 用户」中勾选 <code>root</code> 用户，配置固定密码并填入新密码</li>
+        <li>右键目标主机 → <strong>附加主机配置文件</strong></li>
+        <li>检查配置文件合规性</li>
+        <li>右键 → <strong>修复</strong></li>
+    </ol>
+
+    <h4>方式三：通过 CentOS 救援模式手动修改</h4>
+    <p>在救援模式 shell 提示符（<code>sh-4.2#</code>）下执行：</p>
+    <div class="code-block"><span class="cmd">mkdir</span> /mnt/usb
+<span class="cmd">mount</span> /dev/sda5 /mnt/usb
+<span class="cmd">cp</span> /mnt/sda5/stage.tgz /tmp/.
+<span class="cmd">cd</span> /tmp
+<span class="cmd">tar</span> zxvf stage.tgz
+<span class="cmd">tar</span> zxvf local.tgz
+<span class="cmd">vi</span> /etc/passwd
+<span class="comment"># 找到类似 root:x:密码:12232:9:99999:7 的行，把中间加密的"密码"字段清除</span>
+<span class="cmd">rm</span> -rf stage.tgz local.tgz
+<span class="cmd">tar</span> zxvf local.tgz etc
+<span class="cmd">tar</span> zxvf stage.tgz local.tgz
+<span class="cmd">cp</span> local.tgz /mnt/usb/.
+<span class="cmd">reboot</span></div>
+
+    <p>进入 ESXi 系统后，按 <strong>F2</strong> 即可在 DCUI 界面重新设置新密码。</p>
+
+    <h3 id="practical-vmware-upgrade">8. VMware 版本升级</h3>
+
+    <h4>一、ESXi 主机升级</h4>
+
+    <p><strong>步骤 1：下载补丁包</strong> — 访问 <a href="https://my.vmware.com/group/vmware/patch#search" target="_blank">VMware 补丁下载页</a> 获取最新的补丁 ZIP（depot）文件。</p>
+
+    <p><strong>步骤 2：查看当前版本</strong></p>
+    <div class="code-block"><span class="cmd">vmware</span> -vl</div>
+
+    <p><strong>步骤 3：进入维护模式</strong></p>
+    <div class="code-block"><span class="cmd">vim-cmd</span> hostsvc/maintenance_mode_enter</div>
+
+    <p><strong>步骤 4：查看补丁包包含的版本 Profile</strong></p>
+    <div class="code-block"><span class="cmd">esxcli</span> software sources profile list -d <span class="var">补丁包完整路径</span>
+
+<span class="comment"># 示例</span>
+<span class="cmd">esxcli</span> software sources profile list -d /vmfs/volumes/2F-5210-10T/update/VMware-ESXi-7.0U3v-24723872-depot.zip</div>
+
+    <p><strong>步骤 5：执行升级</strong></p>
+    <div class="code-block"><span class="cmd">esxcli</span> software profile update -d <span class="var">补丁包完整路径</span> -p <span class="var">版本Profile名</span>
+
+<span class="comment"># 示例</span>
+<span class="cmd">esxcli</span> software profile update -d /vmfs/volumes/2F-5210-10T/update/VMware-ESXi-7.0U3v-24723872-depot.zip -p <span class="str">ESXi-7.0U3v-24723872-standard</span></div>
+
+    <p><strong>步骤 6：重启主机</strong></p>
+    <div class="code-block"><span class="cmd">reboot</span></div>
+
+    <p><strong>步骤 7：确认升级后的版本</strong></p>
+    <div class="code-block"><span class="cmd">vmware</span> -vl</div>
+
+    <p><strong>方式二：直接更新 VIB（可选）</strong></p>
+    <div class="code-block"><span class="cmd">esxcli</span> software vib.update -d patch.zip</div>
+    <div class="info-box" style="background:#e8f0fe;border-color:#1a73e8;color:#1a73e8;font-size:13px;">此命令适用于通过 ZIP 文件直接更新单个或少数 VIB 的场景，不适用于完整版本升级的 depot 包。完整版本升级请使用上面的 <code>software profile update</code> 方式。</div>
+
+    <h4>二、VCSA（vCenter Server Appliance）升级</h4>
+
+    <p><strong>准备工作</strong>：通过 SSH + SFTP 将 ISO 补丁镜像上传到 VCSA 主机，并挂载到 CD-ROM 驱动器。</p>
+
+    <p><strong>步骤 1：Staging 阶段 — 暂存补丁并查看协议</strong></p>
+    <div class="code-block"><span class="cmd">software-packages</span> stage --iso</div>
+
+    <p>查看暂存的升级包详情：</p>
+    <div class="code-block"><span class="cmd">software-packages</span> list --staged</div>
+
+    <p><strong>步骤 2：执行升级</strong></p>
+    <div class="code-block"><span class="cmd">software-packages</span> install --staged</div>
+
+    <p><strong>步骤 3：重启 VCSA</strong></p>
+    <div class="code-block"><span class="cmd">reboot</span></div>
+
+    <p><strong>步骤 4：验证升级后的版本</strong></p>
+    <div class="code-block"><span class="cmd">version.get</span></div>
+
+    <h2 id="faq">八、常见问题与错误处理</h2>
+
+    <h3>A. 常见问题</h3>
+    <h4>1. 保存的密码存储在哪里？</h4>
+    <p>密码经 Base64 编码后保存在 <code>%APPDATA%\VMTool\credentials.json</code> 文件中。首次输入密码后自动保存，后续连接无需重新输入。可通过主页"重置记忆"按钮清除。</p>
+    <h4>2. 部署后 IP 地址未生效怎么办？</h4>
+    <p>检查虚拟机模板的 Guest OS 类型是否受当前 ESXi 版本支持，Linux 需安装 cloud-init，Windows 需确保模板系统的管理员密码正确。</p>
+    <h4>3. 如何打开虚拟机的远程控制台？</h4>
+    <p>在虚拟机列表中双击某台虚拟机打开详情页，点击顶部"打开 VMRC"按钮。需提前安装 VMware Remote Console 客户端。</p>
+    <h4>4. 会话失效后如何处理？</h4>
+    <p>程序内置心跳保活机制，会话断开后会自动尝试静默重连。若自动重连失败，会弹窗提示手动重连。也可通过主页"断开连接"后重新连接。</p>
+
+    <h3>B. 常见错误处理</h3>
+    <h4>1. PowerCLI 命令无法识别</h4>
+    <div class="error-box">Set-PowerCLIConfiguration : 无法将"Set-PowerCLIConfiguration"项识别为 cmdlet、函数、脚本文件或可运行程序的名称。</div>
+    <p><strong>解决方法</strong>：按"环境准备"中的步骤安装 PowerCLI。</p>
+
+    <h4>2. 连接 vCenter / ESXi 失败</h4>
+    <div class="error-box">Connect-VIServer : 无法连接到服务器</div>
+    <p><strong>解决方法</strong>：确认服务器地址正确且 443 端口网络可达、用户名密码正确、证书状态正常。<br>
+    <em>vCenter</em>：确认用户域填写正确（如 <code>vsphere.local</code>），用户名应为域用户格式（如 <code>administrator</code>）。<br>
+    <em>ESXi 直连</em>：用户域留空，用户名使用 <code>root</code>，程序会自动添加 <code>-Force</code> 参数连接。</p>
+
+    <h4>3. 部署虚拟机失败 - 找不到模板/网络/存储</h4>
+    <div class="error-box">New-VM : 找不到模板 / 网络不存在 / 存储不可用</div>
+    <p><strong>解决方法</strong>：确认 CSV 中的资源名称与当前连接的服务器（vCenter / ESXi）中完全一致（区分大小写）。可使用"刷新缓存"后通过资源列表查看正确的名称。</p>
+
+    <h4>4. 资源不足</h4>
+    <p><strong>解决方法</strong>：选择其他有足够资源的主机或存储。</p>
+
+    <h4>5. CSV 文件编码问题</h4>
+    <p><strong>解决方法</strong>：用 Excel 或 VS Code 重新保存为 UTF-8 BOM 编码。</p>
+
+    <h4>6. VMRC 控制台无法启动</h4>
+    <div class="error-box">未检测到 VMware Remote Console</div>
+    <p><strong>解决方法</strong>：下载并安装 VMware Remote Console 客户端。确保客户端出站 443 和 902 端口放行。</p>
+
+    <div class="footer">
+        <p>如有问题或建议，欢迎反馈。</p>
+        <p>VmOps &mdash; 虚拟化运维批量部署工具 &nbsp;<span class="version-badge">v__APP_VERSION__</span></p>
+        <p class="footer-contact">开发者：XuGuihong &nbsp;|&nbsp; 邮箱：<a href="mailto:hack003@163.com">hack003@163.com</a></p>
+        <p class="footer-contact">
+            开源项目：
+            <a href="https://gitee.com/hack003/VmOps-Tool" target="_blank">Gitee 仓库</a>
+            &nbsp;|&nbsp;
+            <a href="https://gitee.com/hack003/VmOps-Tool/issues" target="_blank">问题反馈</a>
+            &nbsp;|&nbsp;
+            <a href="https://gitee.com/hack003/VmOps-Tool/releases" target="_blank">下载发布</a>
+        </p>
+    </div>
+</div>
+    <script>
+        (function() {
+            var items = document.querySelectorAll('.toc-sidebar .has-children > a');
+            for (var i = 0; i < items.length; i++) {
+                items[i].addEventListener('click', function(e) {
+                    e.preventDefault();
+                    this.parentElement.classList.toggle('open');
+                });
+            }
+
+            var subLinks = document.querySelectorAll('.toc-sidebar .children a');
+            for (var j = 0; j < subLinks.length; j++) {
+                subLinks[j].addEventListener('click', function() {
+                    var kids = this.closest('.children');
+                    if (kids) {
+                        var siblings = kids.querySelectorAll('.sub.active');
+                        for (var k = 0; k < siblings.length; k++) siblings[k].classList.remove('active');
+                        this.parentElement.classList.add('active');
+                    }
+                });
+            }
+
+            var hash = window.location.hash;
+            if (hash) {
+                var openLink = document.querySelector('.toc-sidebar a[href="' + hash + '"]');
+                if (openLink) {
+                    var parent = openLink.closest('.has-children');
+                    if (parent) parent.classList.add('open');
+                    if (openLink.parentElement.classList.contains('sub'))
+                        openLink.parentElement.classList.add('active');
+                }
+            }
+        })();
+    </script>
+    <script>
+        (function() {
+            var blocks = document.querySelectorAll('.code-block');
+            for (var i = 0; i < blocks.length; i++) {
+                if (blocks[i].closest('.script-wrapper')) continue;
+                if (blocks[i].querySelector('.copy-btn')) continue;
+                var btn = document.createElement('button');
+                btn.className = 'copy-btn';
+                btn.textContent = '📋 复制代码';
+                btn.onclick = function() { copyScript(this); };
+                blocks[i].appendChild(btn);
+            }
+        })();
+        function copyScript(btn) {
+            var text = '';
+            var wrapper = btn.closest('.script-wrapper');
+            if (wrapper) {
+                var scriptEl = wrapper.querySelector('script[type="text/plain"]');
+                if (scriptEl) {
+                    text = scriptEl.textContent;
+                } else {
+                    var wb = wrapper.querySelector('.code-block');
+                    var wbClone = wb.cloneNode(true);
+                    var wbBtn = wbClone.querySelector('.copy-btn, .script-actions');
+                    if (wbBtn) wbBtn.remove();
+                    text = wbClone.innerText.replace(/\s+$/, '');
+                }
+            } else {
+                var block = btn.closest('.code-block');
+                if (block) {
+                    var clone = block.cloneNode(true);
+                    var extra = clone.querySelector('.copy-btn, .script-actions');
+                    if (extra) extra.remove();
+                    text = clone.innerText.replace(/\s+$/, '');
+                }
+            }
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(function() {
+                    markCopied(btn);
+                }, function() {
+                    fallbackCopy(text, btn);
+                });
+            } else {
+                fallbackCopy(text, btn);
+            }
+        }
+        function fallbackCopy(text, btn) {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); markCopied(btn); }
+            catch(e) { alert('复制失败，请手动选择代码块复制'); }
+            document.body.removeChild(ta);
+        }
+        function markCopied(btn) {
+            var orig = btn.textContent;
+            btn.textContent = '✓ 已复制';
+            btn.classList.add('copied');
+            setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+        }
+        function saveScript(btn, filename) {
+            var wrapper = btn.closest('.script-wrapper');
+            var scriptEl = wrapper.querySelector('script[type="text/plain"]');
+            var text = scriptEl.textContent;
+            var blob = new Blob(['\uFEFF' + text], { type: 'text/plain;charset=utf-8' });
+            if (window.navigator.msSaveBlob) {
+                window.navigator.msSaveBlob(blob, filename);
+            } else {
+                var a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(a.href);
+            }
+        }
+    </script>
+    <script>
+        document.addEventListener('click', function(e) {
+            var a = e.target.closest && e.target.closest('a[data-href]');
+            if (!a) return;
+            var hash = a.getAttribute('data-href');
+            if (!hash || hash.length < 2) return;
+            var el = document.getElementById(hash.substring(1));
+            if (!el) return;
+            e.preventDefault();
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, false);
+    </script>
+</body>
+</html>
