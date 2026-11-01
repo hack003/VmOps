@@ -1,8 +1,0 @@
-D:\code-虚拟化运维工具.NET-v1.8.0.0\UpdateHelper\bin\Release\net48\win-x64\update_helper.exe.config
-D:\code-虚拟化运维工具.NET-v1.8.0.0\UpdateHelper\bin\Release\net48\win-x64\update_helper.exe
-D:\code-虚拟化运维工具.NET-v1.8.0.0\UpdateHelper\obj\Release\net48\win-x64\VirtualizationOpsTool.UpdateHelper.csproj.AssemblyReference.cache
-D:\code-虚拟化运维工具.NET-v1.8.0.0\UpdateHelper\obj\Release\net48\win-x64\VirtualizationOpsTool.UpdateHelper.GeneratedMSBuildEditorConfig.editorconfig
-D:\code-虚拟化运维工具.NET-v1.8.0.0\UpdateHelper\obj\Release\net48\win-x64\VirtualizationOpsTool.UpdateHelper.AssemblyInfoInputs.cache
-D:\code-虚拟化运维工具.NET-v1.8.0.0\UpdateHelper\obj\Release\net48\win-x64\VirtualizationOpsTool.UpdateHelper.AssemblyInfo.cs
-D:\code-虚拟化运维工具.NET-v1.8.0.0\UpdateHelper\obj\Release\net48\win-x64\VirtualizationOpsTool.UpdateHelper.csproj.CoreCompileInputs.cache
-D:\code-虚拟化运维工具.NET-v1.8.0.0\UpdateHelper\obj\Release\net48\win-x64\update_helper.exe
