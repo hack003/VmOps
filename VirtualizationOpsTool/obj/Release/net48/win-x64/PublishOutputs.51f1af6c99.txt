@@ -1,0 +1,2 @@
+D:\code-虚拟化运维工具.NET-v1.8.0.0\VirtualizationOpsTool\bin\Release\net48\win-x64\publish\VirtualizationOpsTool.exe
+D:\code-虚拟化运维工具.NET-v1.8.0.0\VirtualizationOpsTool\bin\Release\net48\win-x64\publish\VirtualizationOpsTool.exe.config

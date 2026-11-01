@@ -30,7 +30,6 @@ namespace VirtualizationOpsTool
         private const int WINDOW_BASE_WIDTH = 1100;
         private const int WINDOW_BASE_HEIGHT = 750;
         private const string STATUS_BAR_BG = "#F5F7FA";
-        private const string PLACEHOLDER_TEXT = "（功能开发中...）";
         private TabControl? notebook;
         private Panel? status_bar;
         private Label? running_status_label;
