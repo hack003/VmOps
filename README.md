@@ -9,7 +9,8 @@
 
 本工具已在实际生产环境中长期稳定运行，适用于需要频繁批量部署虚拟机及日常运维的企业场景。
 
-国内项目地址：https://gitee.com/hack003/VmOps-Tool
+国内项目地址：https://gitee.com/hack003/VmOps
+
 github项目地址：https://github.com/hack003/VmOps
 ---
 
@@ -199,7 +200,3 @@ SOFTWARE.
 - **VMware PowerCLI** —— 本工具的核心依赖
 - **Costura.Fody** —— 单 exe 分发方案
 - **所有测试用户** —— 生产环境反馈与改进建议
-
-
-
-
