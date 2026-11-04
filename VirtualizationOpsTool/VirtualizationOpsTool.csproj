@@ -8,7 +8,7 @@
     <Nullable>enable</Nullable>
     <NoWarn>CS8600;CS8601;CS8602;CS8603;CS8604;CS8618;CS8620;CS8625</NoWarn>
     <ApplicationIcon>Resources\vmware.ico</ApplicationIcon>
-    <AssemblyName>VirtualizationOpsTool</AssemblyName>
+    <AssemblyName>VmOps.NET</AssemblyName>
     <RootNamespace>VirtualizationOpsTool</RootNamespace>
     <Version>1.8.0.3</Version>
     <Authors>Virtualization Ops Team</Authors>
@@ -65,6 +65,11 @@
 
   <Target Name="CopyAppManifest" AfterTargets="Build">
     <Copy SourceFiles="app.manifest" DestinationFiles="$(OutDir)$(AssemblyName).exe.manifest" />
+  </Target>
+
+  <Target Name="CopyToReleaseFolder" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+    <MakeDir Directories="$(MSBuildThisFileDirectory)..\Releases" />
+    <Copy SourceFiles="$(OutDir)$(AssemblyName).exe" DestinationFiles="$(MSBuildThisFileDirectory)..\Releases\VmOps.NET.exe" />
   </Target>
 
 </Project>

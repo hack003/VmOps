@@ -24,7 +24,7 @@ namespace VirtualizationOpsTool.Utils
 {
     public static class UpdateUtils
     {
-        public const string RELEASE_API_URL = "https://gitee.com/api/v5/repos/hack003/VmOps-Tool/releases/latest";
+        public const string RELEASE_API_URL = "https://gitee.com/api/v5/repos/hack003/VmOps/releases/latest";
 
         private const string EmbeddedHelperResourceName = "VirtualizationOpsTool.Resources.update_helper.exe";
 
