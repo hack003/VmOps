@@ -23,7 +23,7 @@ github项目地址：https://github.com/hack003/VmOps
 | 📋 **资源查询** | 实时查询虚拟机、主机、存储、网络列表；支持搜索过滤、导出 CSV、双击详情 |
 | ⚙️ **VM 日常运维** | 分组右键菜单：远程连接、电源管理、编辑配置（智能升降）、磁盘管理、迁移克隆、快照管理 |
 | 🔥 **批量操作** | 多选 VM 后批量执行电源、快照、删除、vMotion 迁移等 |
-| 🖥 **VMRC 远程控制台** | 一键打开 VMware Remote Console 图形控制台（自动获取免密票据） |
+| 🖥 **VMRC 远程控制台** | 一键打开 VMware Remote Console 图形控制台 |
 | 📝 **在线编辑 CSV** | 内置表格编辑器，导入 / 编辑 / 保存部署模板，无需外部工具 |
 | 📦 **OVF Tool 集成** | 支持导出 / 导入 / 转换 OVF、OVA、VMX 格式 |
 | 🔐 **凭据记忆** | 自动保存 vCenter / ESXi 连接配置，支持连接别名，减少重复输入 |
@@ -69,7 +69,8 @@ Get-ChildItem "C:\Program Files\WindowsPowerShell\Modules\VMware*" -Recurse -Fil
 
 ### 2. 下载 VmOps 可执行文件
 
-前往 **[Releases](https://gitee.com/hack003/VmOps-Tool/releases)** 页面下载最新版本 `虚拟化运维工具.Net.exe`（无需安装，单文件分发）。
+前往 **[Gitee Releases](https://gitee.com/hack003/VmOps/releases)** 页面下载最新版本 `VmOps.NET.exe`（无需安装，单文件分发）。
+前往 **[github Releases](https://github.com/hack003/VmOps/releases)** 页面下载最新版本 `VmOps.NET.exe`（无需安装，单文件分发）。
 
 ### 3. 连接 vCenter / ESXi
 
@@ -103,7 +104,7 @@ Get-ChildItem "C:\Program Files\WindowsPowerShell\Modules\VMware*" -Recurse -Fil
 ```
 远程连接 (🟢)      → VMRC / RDP / SSH
 电源管理 (🟢)      → 开机 / 关机 / 强制断电 / Reset
-编辑配置 (🟡)      → vCPU智能升降 / 内存智能升降 / 端口组 / GuestOS网络 / 密码
+编辑配置 (🟡)      → vCPU调整 / 内存调整 / 端口组 / GuestOS网络 / 密码配置
 磁盘管理 (🟡)      → 列表 / 新增 / 扩容 / 删除
 迁移克隆 (🟡)      → vMotion主机 / 资源池 / Storage vMotion / 克隆
 快照管理 (🟡)      → 查看 / 创建 / 回滚最新 / 删除所有

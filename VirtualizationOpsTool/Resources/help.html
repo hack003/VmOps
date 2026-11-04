@@ -381,7 +381,7 @@
 
     <h3>关于本工具</h3>
     <p>本工具最初为企业内部虚拟化维护团队日常运维而开发，经过长期生产环境的实际使用与持续优化，已具备稳定可靠的批量部署能力。</p>
-    <div class="success">本工具已在实际生产环境中长期稳定运行，适用于需要频繁批量部署虚拟机及日常运维的企业场景。<br><strong>本工具永久免费，为个人兴趣开发，请勿商用或售卖。</strong></div>
+    <div class="success">本工具已在实际生产环境中长期稳定运行，适用于需要频繁批量部署虚拟机及日常运维的企业场景。</div>
 
     <h3>程序数据文件</h3>
     <p>程序数据文件统一存储在 <code>%APPDATA%\VMTool\</code> 目录下：</p>
@@ -444,7 +444,7 @@ Write-Host "[3/4] 解除文件阻止..."
 Get-ChildItem $destDir\VMware* -Recurse -File | Unblock-File
 
 Write-Host "[4/4] 配置 PowerCLI 并验证..."
-Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false
+Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false -Force -ErrorAction SilentlyContinue | Out-Null
 Get-Module -ListAvailable VMware.PowerCLI | Select Name, Version
 
 Write-Host "✓ 脱机安装完成，可关闭此窗口后打开 VmOps 使用。"
