@@ -70,6 +70,7 @@ Get-ChildItem "C:\Program Files\WindowsPowerShell\Modules\VMware*" -Recurse -Fil
 ### 2. 下载 VmOps 可执行文件
 
 前往 **[Gitee Releases](https://gitee.com/hack003/VmOps/releases)** 页面下载最新版本 `VmOps.NET.exe`（无需安装，单文件分发）。
+
 前往 **[github Releases](https://github.com/hack003/VmOps/releases)** 页面下载最新版本 `VmOps.NET.exe`（无需安装，单文件分发）。
 
 ### 3. 连接 vCenter / ESXi
