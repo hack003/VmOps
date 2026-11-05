@@ -53,14 +53,26 @@
     <EmbeddedResource Include="Resources\update_helper.exe" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <UpdateHelperProject>UpdateHelper\VirtualizationOpsTool.UpdateHelper.csproj</UpdateHelperProject>
+    <UpdateHelperExe>UpdateHelper\bin\$(Configuration)\net48\win-x64\update_helper.exe</UpdateHelperExe>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="UpdateHelper\**\*.cs" />
+    <EmbeddedResource Remove="UpdateHelper\**\*" />
+    <None Remove="UpdateHelper\**\*" />
+    <Content Remove="UpdateHelper\**\*" />
+  </ItemGroup>
+
   <!-- 构建前：编译 UpdateHelper 并复制到 Resources\update_helper.exe 供嵌入 -->
-  <Target Name="BuildUpdateHelper" BeforeTargets="Compile" Condition="Exists('..\UpdateHelper\VirtualizationOpsTool.UpdateHelper.csproj')">
-    <MSBuild Projects="..\UpdateHelper\VirtualizationOpsTool.UpdateHelper.csproj"
+  <Target Name="BuildUpdateHelper" BeforeTargets="Compile" Condition="Exists('$(UpdateHelperProject)')">
+    <MSBuild Projects="$(UpdateHelperProject)"
              Targets="Restore;Build"
              Properties="Configuration=$(Configuration);RuntimeIdentifier=win-x64" />
-    <Copy SourceFiles="..\UpdateHelper\bin\$(Configuration)\net48\win-x64\update_helper.exe"
+    <Copy SourceFiles="$(UpdateHelperExe)"
           DestinationFiles="Resources\update_helper.exe"
-          Condition="Exists('..\UpdateHelper\bin\$(Configuration)\net48\win-x64\update_helper.exe')" />
+          Condition="Exists('$(UpdateHelperExe)')" />
   </Target>
 
   <Target Name="CopyAppManifest" AfterTargets="Build">
