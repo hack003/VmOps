@@ -384,10 +384,10 @@
     <div class="success">本工具已在实际生产环境中长期稳定运行，适用于需要频繁批量部署虚拟机及日常运维的企业场景。</div>
 
     <h3>程序数据文件</h3>
-    <p>程序数据文件统一存储在 <code>%APPDATA%\VMTool\</code> 目录下：</p>
+    <p>程序数据文件统一存储在 <code>%APPDATA%\VmOps\</code> 目录下：</p>
     <table>
         <tr><th>文件</th><th>说明</th></tr>
-        <tr><td>credentials.json</td><td>连接凭据（支持 vCenter / ESXi 两种类型，包含地址、用户域、用户名、密码经 Base64 编码保存，可配置连接别名）</td></tr>
+        <tr><td>credentials.json</td><td>连接凭据（支持 vCenter / ESXi 两种类型，包含地址、用户域、用户名、密码经 Windows DPAPI 加密保存，可配置连接别名）</td></tr>
         <tr><td>deploy_vm_list.csv</td><td>部署用的 CSV 模板文件（UTF-8 BOM 编码）</td></tr>
         <tr><td>vm_cache.json</td><td>资源缓存（按服务器 IP 分段存储，刷新缓存后更新）</td></tr>
     </table>
@@ -718,7 +718,7 @@ Get-Module -ListAvailable VMware.PowerCLI | Select Name, Version<br><br>
     </ul>
 
     <h2 id="csv-editor">五、编辑列表 Tab</h2>
-    <p>内置表格编辑器（DataGridView 渲染），启动时自动加载默认部署文件 <code>%APPDATA%\VMTool\deploy_vm_list.csv</code>。支持导入外部 CSV、内嵌编辑、外部编辑器自动重载、列宽记忆、编码自动识别，保存统一写入 UTF-8 with BOM 编码，确保 Excel 正确识别中文。</p>
+    <p>内置表格编辑器（DataGridView 渲染），启动时自动加载默认部署文件 <code>%APPDATA%\VmOps\deploy_vm_list.csv</code>。支持导入外部 CSV、内嵌编辑、外部编辑器自动重载、列宽记忆、编码自动识别，保存统一写入 UTF-8 with BOM 编码，确保 Excel 正确识别中文。</p>
 
     <h3>1. 工具栏按钮</h3>
     <table>
@@ -1560,7 +1560,7 @@ Status : 60% Completed [Replace vpxd-extension Cert...]</div>
 
     <h3>A. 常见问题</h3>
     <h4>1. 保存的密码存储在哪里？</h4>
-    <p>密码经 Base64 编码后保存在 <code>%APPDATA%\VMTool\credentials.json</code> 文件中。首次输入密码后自动保存，后续连接无需重新输入。可通过主页"重置记忆"按钮清除。</p>
+    <p>密码通过 Windows DPAPI（Data Protection API）加密后保存在 <code>%APPDATA%\VmOps\credentials.json</code> 文件中，绑定当前登录用户，其他账户无法解密。首次输入密码后自动保存，后续连接无需重新输入。可通过主页"重置记忆"按钮清除。</p>
     <h4>2. 部署后 IP 地址未生效怎么办？</h4>
     <p>检查虚拟机模板的 Guest OS 类型是否受当前 ESXi 版本支持，Linux 需安装 cloud-init，Windows 需确保模板系统的管理员密码正确。</p>
     <h4>3. 如何打开虚拟机的远程控制台？</h4>

@@ -48,7 +48,7 @@ namespace VirtualizationOpsTool.Core
             get
             {
                 string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                string dataDir = Path.Combine(appdata, "VMTool");
+                string dataDir = Path.Combine(appdata, "VmOps");
                 if (!Directory.Exists(dataDir))
                 {
                     Directory.CreateDirectory(dataDir);

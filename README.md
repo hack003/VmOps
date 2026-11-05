@@ -120,11 +120,11 @@ Get-ChildItem "C:\Program Files\WindowsPowerShell\Modules\VMware*" -Recurse -Fil
 
 ## 📂 程序数据
 
-所有数据文件统一存储在 `%APPDATA%\VMTool\` 目录：
+所有数据文件统一存储在 `%APPDATA%\VmOps\` 目录：
 
 | 文件 | 说明 |
 |------|------|
-| `credentials.json` | 连接凭据（地址、域、用户名、Base64 密码、别名） |
+| `credentials.json` | 连接凭据（地址、域、用户名、DPAPI 加密密码、别名） |
 | `deploy_vm_list.csv` | CSV 部署模板（UTF-8 BOM 编码） |
 | `vm_cache.json` | 资源缓存（按服务器 IP 分段） |
 
@@ -162,11 +162,11 @@ VmOps-Tool/
 
 ## 🔧 关于 VIM API 的设计
 
-本项目 vCenter 操作**统一使用 Get-View + VIM API**：
+本项目 vCenter 操作**统一使用底层原生 Get-View + VIM API**：
 
 - **查询**：`Get-View -ViewType ... -Property ...`
 - **写操作**：调用 `*_Task()` 方法，参数传 `.MoRef`，Task 轮询 `Get-View -Id $task.MoRef` 看 `Info.State`
-- **禁用**：`Get-VM` / `New-VM` / `Move-VM` / `Set-VM` / `Start-VM` / `Stop-VM` / `New-Snapshot` 等高级 cmdlet，保证代码风格统一
+- **禁用**：`Get-VM` / `New-VM` / `Move-VM` / `Set-VM` / `Start-VM` / `Stop-VM` / `New-Snapshot` 等高层 cmdlet，保证代码风格统一
 
 ---
 

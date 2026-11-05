@@ -77,7 +77,7 @@ namespace VirtualizationOpsTool.Utils
             if (File.Exists(direct))
                 return direct;
 
-            string tempDir = Path.Combine(Path.GetTempPath(), "VMTool", "v" + AppVersion.VERSION_STR);
+            string tempDir = Path.Combine(Path.GetTempPath(), "VmOps", "v" + AppVersion.VERSION_STR);
             Directory.CreateDirectory(tempDir);
             string tempFile = Path.Combine(tempDir, filename);
 
@@ -105,7 +105,7 @@ namespace VirtualizationOpsTool.Utils
                 string content = File.ReadAllText(srcPath, new UTF8Encoding(false));
                 content = content.Replace("__APP_VERSION__", AppVersion.VERSION_STR);
 
-                string tempDir = Path.Combine(Path.GetTempPath(), "VMTool");
+                string tempDir = Path.Combine(Path.GetTempPath(), "VmOps");
                 Directory.CreateDirectory(tempDir);
                 string tempFile = Path.Combine(tempDir, "help.html");
                 File.WriteAllText(tempFile, content, new UTF8Encoding(false));
@@ -154,7 +154,7 @@ namespace VirtualizationOpsTool.Utils
         public static string GetUserDataDir()
         {
             string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string dataDir = Path.Combine(appdata, "VMTool");
+            string dataDir = Path.Combine(appdata, "VmOps");
             if (!Directory.Exists(dataDir))
             {
                 Directory.CreateDirectory(dataDir);

@@ -824,7 +824,7 @@ namespace VirtualizationOpsTool.UI
         private string GetCredentialsPath()
         {
             string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            return Path.Combine(appData, "VMTool", "credentials.json");
+            return Path.Combine(appData, "VmOps", "credentials.json");
         }
         private void LoadCredentials()
         {

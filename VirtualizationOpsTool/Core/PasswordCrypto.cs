@@ -34,7 +34,7 @@ namespace VirtualizationOpsTool.Core
         private static string GetRuleConfigPath()
         {
             string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string dir = Path.Combine(appData, "VMTool");
+            string dir = Path.Combine(appData, "VmOps");
             if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
             return Path.Combine(dir, RuleConfigFileName);
         }
