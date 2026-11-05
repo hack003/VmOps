@@ -10,7 +10,7 @@
     <ApplicationIcon>Resources\vmware.ico</ApplicationIcon>
     <AssemblyName>VmOps.NET</AssemblyName>
     <RootNamespace>VirtualizationOpsTool</RootNamespace>
-    <Version>1.8.0.3</Version>
+    <Version>1.8.0.4</Version>
     <Authors>Virtualization Ops Team</Authors>
     <Description>虚拟化运维管理工具</Description>
     <EnableWindowsFormsHighDpi>true</EnableWindowsFormsHighDpi>
