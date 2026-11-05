@@ -16,4 +16,4 @@ VMwareOps/*.zip
 VMwareOps/*.pdb
 VMwareOps/UpdateHelper/bin/
 VMwareOps/UpdateHelper/obj/
-VMwareOps/Resource/*.exe
+VMwareOps/Resources/*.exe
