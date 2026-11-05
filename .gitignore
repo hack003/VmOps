@@ -16,3 +16,4 @@ VirtualizationOpsTool/*.zip
 VirtualizationOpsTool/*.pdb
 VirtualizationOpsTool/UpdateHelper/bin/
 VirtualizationOpsTool/UpdateHelper/obj/
+VirtualizationOpsTool/Resource/*.exe
