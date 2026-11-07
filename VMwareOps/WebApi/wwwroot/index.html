@@ -1,0 +1,273 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>VmOps - vSphere 管理</title>
+<link rel="stylesheet" href="/css/element-plus.css">
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div id="app">
+  <el-container class="app-wrap">
+    <el-aside :width="collapsed ? '64px' : '220px'" class="aside" :class="{collapsed: collapsed}">
+      <div class="logo">
+        <span v-if="!collapsed">VmOps</span>
+        <span v-else>V</span>
+      </div>
+      <el-menu :default-active="activeTab" router @select="onMenuSelect" class="side-menu"
+               :collapse="collapsed" :collapse-transition="false" :collapse-tooltip="false">
+        <el-menu-item index="dashboard">🏠 <span>仪表盘</span></el-menu-item>
+        <el-menu-item index="vm">🖥️ <span>虚拟机</span></el-menu-item>
+        <el-menu-item index="host">🔌 <span>主机</span></el-menu-item>
+        <el-menu-item index="cluster">📊 <span>集群</span></el-menu-item>
+        <el-menu-item index="datastore">📁 <span>存储</span></el-menu-item>
+        <el-menu-item index="session">🔗 <span>连接</span></el-menu-item>
+      </el-menu>
+    </el-aside>
+
+    <el-container>
+      <el-header class="header">
+        <span class="collapse-btn" @click="collapsed = !collapsed">{{ collapsed ? '»' : '«' }}</span>
+        <div class="title">{{ pageTitle }}</div>
+        <div class="header-right">
+          <el-tag v-if="connected" type="success" size="small" effect="plain">● 已连接 {{ vcInfo }}</el-tag>
+          <el-tag v-else type="info" size="small" effect="plain">○ 未连接</el-tag>
+          <span class="refresh-btn" @click="refresh">↻</span>
+        </div>
+      </el-header>
+
+      <el-main class="main">
+        <div v-if="activeTab === 'dashboard'" class="page">
+          <el-row :gutter="16">
+            <el-col :xs="12" :sm="6"><el-card shadow="hover" class="stat-card"><div class="stat-num">{{ stats.TotalVMs ?? '-' }}</div><div class="stat-label">虚拟机总数</div><div class="stat-sub">运行 {{ stats.VMsPoweredOn ?? 0 }} / 关机 {{ stats.VMsPoweredOff ?? 0 }}</div></el-card></el-col>
+            <el-col :xs="12" :sm="6"><el-card shadow="hover" class="stat-card"><div class="stat-num">{{ stats.TotalHosts ?? '-' }}</div><div class="stat-label">主机总数</div><div class="stat-sub">在线 {{ stats.HostsConnected ?? 0 }}</div></el-card></el-col>
+            <el-col :xs="12" :sm="6"><el-card shadow="hover" class="stat-card"><div class="stat-num">{{ stats.TotalClusters ?? '-' }}</div><div class="stat-label">集群数</div><div class="stat-sub">共 {{ stats.TotalDatastores ?? 0 }} 个存储</div></el-card></el-col>
+            <el-col :xs="12" :sm="6"><el-card shadow="hover" class="stat-card"><div class="stat-num">{{ stats.StorageUsedPercent ?? 0 }}%</div><div class="stat-label">存储使用率</div><div class="stat-sub">总 {{ stats.TotalStorageGB ?? 0 }} GB / 剩 {{ stats.FreeStorageGB ?? 0 }} GB</div></el-card></el-col>
+          </el-row>
+          <el-row :gutter="16" style="margin-top:16px">
+            <el-col :xs="12"><el-card shadow="hover" class="stat-card"><div class="stat-num">{{ stats.TotalCPUCores ?? '-' }}</div><div class="stat-label">CPU 核心数</div></el-card></el-col>
+            <el-col :xs="12"><el-card shadow="hover" class="stat-card"><div class="stat-num">{{ stats.TotalMemoryGB ?? '-' }} GB</div><div class="stat-label">物理内存</div></el-card></el-col>
+          </el-row>
+          <el-card v-if="!connected" style="margin-top:16px">
+            <el-empty description="请先在桌面端连接 vCenter"><el-button type="primary" @click="activeTab='session'">去连接</el-button></el-empty>
+          </el-card>
+        </div>
+
+        <div v-if="activeTab === 'vm'" class="page">
+          <div class="toolbar">
+            <el-input v-model="vmFilter" placeholder="搜索 VM 名称" clearable style="width:220px" @keyup.enter="loadVMs">
+              <template #append><el-button @click="loadVMs">搜索</el-button></template>
+            </el-input>
+            <div style="flex:1"></div>
+            <el-button-group v-if="selectedVMs.length">
+              <el-button type="primary" @click="batchPower('on')">批量开机</el-button>
+              <el-button type="success" @click="batchPower('off')">批量关机</el-button>
+              <el-button type="warning" @click="batchPower('restart')">批量重启</el-button>
+              <el-button type="danger" @click="batchPower('offhard')">硬关机</el-button>
+              <el-button @click="batchSnap('create')">批量快照</el-button>
+            </el-button-group>
+            <el-button @click="loadVMs">刷新</el-button>
+          </div>
+          <el-table :data="vms" @selection-change="onVmSelection" stripe highlight-current-row @row-click="openVmDetail">
+            <el-table-column type="selection" width="48"></el-table-column>
+            <el-table-column prop="Name" label="名称" sortable min-width="180"></el-table-column>
+            <el-table-column prop="PowerState" label="状态" width="100">
+              <template #default="{row}">
+                <el-tag :type="row.PowerState==='PoweredOn'?'success':row.PowerState==='PoweredOff'?'info':'warning'" size="small">{{ row.PowerState==='PoweredOn'?'运行中':row.PowerState==='PoweredOff'?'已关机':row.PowerState }}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column prop="GuestOS" label="系统" min-width="150" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="Host" label="主机" min-width="140"></el-table-column>
+            <el-table-column prop="NumCpu" label="CPU" width="70"></el-table-column>
+            <el-table-column prop="MemoryGB" label="内存(GB)" width="90"></el-table-column>
+            <el-table-column label="操作" width="220" fixed="right">
+              <template #default="{row}">
+                <el-button-group>
+                  <el-button v-if="row.PowerState!=='PoweredOn'" size="small" type="success" @click.stop="vmPower(row,'on')">开机</el-button>
+                  <el-button v-if="row.PowerState==='PoweredOn'" size="small" type="danger" @click.stop="vmPower(row,'off')">关机</el-button>
+                  <el-button size="small" @click.stop="vmPower(row,'restart')">重启</el-button>
+                  <el-button size="small" @click.stop="openVmDetail(row)">详情</el-button>
+                </el-button-group>
+              </template>
+            </el-table-column>
+          </el-table>
+
+          <el-drawer v-model="vmDetailVisible" :title="vmDetail?.Name || 'VM 详情'" size="600px" :with-header="true">
+            <template v-if="vmDetail">
+              <el-descriptions :column="2" border>
+                <el-descriptions-item label="名称">{{ vmDetail.Name }}</el-descriptions-item>
+                <el-descriptions-item label="状态">
+                  <el-tag :type="vmDetail.PowerState==='PoweredOn'?'success':'info'">{{ vmDetail.PowerState }}</el-tag>
+                </el-descriptions-item>
+                <el-descriptions-item label="主机">{{ vmDetail.Host }}</el-descriptions-item>
+                <el-descriptions-item label="集群">{{ vmDetail.Cluster }}</el-descriptions-item>
+                <el-descriptions-item label="操作系统" :span="2">{{ vmDetail.GuestOS }}</el-descriptions-item>
+                <el-descriptions-item label="CPU 核数">{{ vmDetail.NumCpu }}</el-descriptions-item>
+                <el-descriptions-item label="内存">{{ vmDetail.MemoryGB }} GB</el-descriptions-item>
+              </el-descriptions>
+
+              <el-tabs v-model="vmTab" style="margin-top:16px">
+                <el-tab-pane label="电源操作" name="power">
+                  <el-space wrap>
+                    <el-button type="success" :disabled="vmDetail.PowerState==='PoweredOn'" @click="vmPower(vmDetail,'on')">开机</el-button>
+                    <el-button type="danger" :disabled="vmDetail.PowerState!=='PoweredOn'" @click="vmPower(vmDetail,'off')">正常关机</el-button>
+                    <el-button type="danger" :disabled="vmDetail.PowerState!=='PoweredOn'" @click="vmPower(vmDetail,'offhard')">硬关机</el-button>
+                    <el-button type="warning" :disabled="vmDetail.PowerState!=='PoweredOn'" @click="vmPower(vmDetail,'restart')">重启</el-button>
+                    <el-button type="info" :disabled="vmDetail.PowerState!=='PoweredOn'" @click="vmPower(vmDetail,'suspend')">挂起</el-button>
+                  </el-space>
+                </el-tab-pane>
+
+                <el-tab-pane label="资源配置" name="resource">
+                  <div v-if="vmResources">
+                    <div class="resource-row">
+                      <span>CPU 核数</span>
+                      <el-input-number v-model="cpuValue" :min="1" :max="128"></el-input-number>
+                      <el-button type="primary" size="small" @click="setCpu">应用</el-button>
+                    </div>
+                    <div class="resource-row">
+                      <span>内存 (MB)</span>
+                      <el-input-number v-model="memValue" :min="32" :step="512"></el-input-number>
+                      <el-button type="primary" size="small" @click="setMemory">应用</el-button>
+                    </div>
+                    <el-divider content-position="left">磁盘</el-divider>
+                    <el-table :data="vmResources.Disks || []" size="small">
+                      <el-table-column prop="Name" label="名称" width="120"></el-table-column>
+                      <el-table-column prop="CapacityGB" label="容量(GB)" width="120"></el-table-column>
+                      <el-table-column prop="Datastore" label="存储"></el-table-column>
+                    </el-table>
+                    <el-divider content-position="left">网卡</el-divider>
+                    <el-table :data="vmResources.NICs || []" size="small">
+                      <el-table-column prop="Name" label="名称" width="100"></el-table-column>
+                      <el-table-column prop="Mac" label="MAC" width="160"></el-table-column>
+                      <el-table-column prop="Network" label="网络"></el-table-column>
+                      <el-table-column label="连接" width="80"><template #default="{row}"><el-tag size="small" :type="row.Connected?'success':'info'">{{ row.Connected?'是':'否' }}</el-tag></template></el-table-column>
+                    </el-table>
+                    <el-divider content-position="left">新增磁盘</el-divider>
+                    <el-input-number v-model="newDiskGB" :min="1" :max="10240"></el-input-number> GB
+                    <el-button type="primary" @click="addDisk">添加</el-button>
+                  </div>
+                </el-tab-pane>
+
+                <el-tab-pane label="快照" name="snapshot">
+                  <el-button type="primary" size="small" @click="newSnapDialog=true">+ 创建快照</el-button>
+                  <el-table :data="vmSnapshots" size="small" style="margin-top:8px">
+                    <el-table-column prop="Name" label="名称"></el-table-column>
+                    <el-table-column prop="SizeGB" label="大小(GB)" width="100"></el-table-column>
+                    <el-table-column prop="Created" label="创建时间" width="180"></el-table-column>
+                    <el-table-column prop="Description" label="描述"></el-table-column>
+                    <el-table-column label="操作" width="160">
+                      <template #default="{row}">
+                        <el-button size="small" type="primary" @click="revertSnap(row)">回滚</el-button>
+                        <el-button size="small" type="danger" @click="deleteSnap(row)">删除</el-button>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </el-tab-pane>
+              </el-tabs>
+            </template>
+          </el-drawer>
+
+          <el-dialog v-model="newSnapDialog" title="创建快照" width="400px">
+            <el-form :model="snapForm" label-width="80px">
+              <el-form-item label="名称"><el-input v-model="snapForm.name"></el-input></el-form-item>
+              <el-form-item label="描述"><el-input v-model="snapForm.desc" type="textarea"></el-input></el-form-item>
+            </el-form>
+            <template #footer>
+              <el-button @click="newSnapDialog=false">取消</el-button>
+              <el-button type="primary" @click="createSnap">确定</el-button>
+            </template>
+          </el-dialog>
+
+          <el-dialog v-model="batchSnapDialog" :title="'批量快照 ('+selectedVMs.length+' 台)'" width="400px">
+            <el-form :model="batchSnapForm" label-width="80px">
+              <el-form-item label="名称"><el-input v-model="batchSnapForm.name" placeholder="批量快照名称"></el-input></el-form-item>
+              <el-form-item label="描述"><el-input v-model="batchSnapForm.desc" type="textarea"></el-input></el-form-item>
+            </el-form>
+            <template #footer>
+              <el-button @click="batchSnapDialog=false">取消</el-button>
+              <el-button type="primary" @click="doBatchSnap">执行</el-button>
+            </template>
+          </el-dialog>
+        </div>
+
+        <div v-if="activeTab === 'host'" class="page">
+          <el-table :data="hosts" stripe highlight-current-row @row-click="openHostDetail">
+            <el-table-column prop="Name" label="名称" min-width="180"></el-table-column>
+            <el-table-column prop="PowerState" label="电源" width="90"><template #default="{row}"><el-tag :type="row.PowerState==='PoweredOn'?'success':'danger'" size="small">{{ row.PowerState }}</el-tag></template></el-table-column>
+            <el-table-column prop="ConnectionState" label="连接" width="90"><template #default="{row}"><el-tag :type="row.ConnectionState==='Connected'?'success':'warning'" size="small">{{ row.ConnectionState }}</el-tag></template></el-table-column>
+            <el-table-column prop="ManagementIp" label="管理IP" width="150"></el-table-column>
+            <el-table-column prop="Cluster" label="集群" min-width="130"></el-table-column>
+            <el-table-column prop="Sockets" label="CPU插槽" width="80"></el-table-column>
+            <el-table-column prop="Cores" label="核心数" width="80"></el-table-column>
+            <el-table-column prop="MemoryGB" label="内存(GB)" width="100"></el-table-column>
+            <el-table-column prop="VmCount" label="VM数" width="80"></el-table-column>
+          </el-table>
+
+          <el-drawer v-model="hostDetailVisible" :title="hostDetail?.Name" size="550px">
+            <template v-if="hostDetail">
+              <el-descriptions :column="1" border>
+                <el-descriptions-item label="电源状态"><el-tag :type="hostDetail.PowerState==='PoweredOn'?'success':'danger'">{{ hostDetail.PowerState }}</el-tag></el-descriptions-item>
+                <el-descriptions-item label="连接状态"><el-tag :type="hostDetail.ConnectionState==='Connected'?'success':'warning'">{{ hostDetail.ConnectionState }}</el-tag></el-descriptions-item>
+                <el-descriptions-item label="管理 IP">{{ hostDetail.ManagementIp }}</el-descriptions-item>
+                <el-descriptions-item label="集群">{{ hostDetail.Cluster }}</el-descriptions-item>
+                <el-descriptions-item label="型号">{{ hostDetail.Vendor }} {{ hostDetail.Model }}</el-descriptions-item>
+                <el-descriptions-item label="CPU">{{ hostDetail.Sockets }} 插槽 × {{ hostDetail.Cores }} 核心 @ {{ hostDetail.CpuMhz }} MHz</el-descriptions-item>
+                <el-descriptions-item label="内存">{{ hostDetail.MemoryGB }} GB</el-descriptions-item>
+                <el-descriptions-item label="ESXi 版本">{{ hostDetail.EsxVersion }} ({{ hostDetail.Build }})</el-descriptions-item>
+              </el-descriptions>
+              <el-divider content-position="left">该主机虚拟机</el-divider>
+              <el-table :data="hostVMs" size="small">
+                <el-table-column prop="Name" label="名称"></el-table-column>
+                <el-table-column prop="PowerState" label="状态" width="80"><template #default="{r}"><el-tag :type="r.PowerState==='PoweredOn'?'success':'info'" size="small">{{ r.PowerState==='PoweredOn'?'运行':'关机' }}</el-tag></template></el-table-column>
+              </el-table>
+            </template>
+          </el-drawer>
+        </div>
+
+        <div v-if="activeTab === 'cluster'" class="page">
+          <el-table :data="clusters" stripe>
+            <el-table-column prop="Name" label="集群名称" min-width="200"></el-table-column>
+            <el-table-column label="DRS" width="120"><template #default="{row}"><el-tag :type="row.DrsEnabled?'success':'info'" size="small">{{ row.DrsEnabled?'已启用':'已禁用' }}</el-tag></template></el-table-column>
+            <el-table-column label="HA" width="120"><template #default="{row}"><el-tag :type="row.HaEnabled?'success':'info'" size="small">{{ row.HaEnabled?'已启用':'已禁用' }}</el-tag></template></el-table-column>
+            <el-table-column prop="HostCount" label="主机数" width="100"></el-table-column>
+            <el-table-column prop="VmCount" label="VM数" width="100"></el-table-column>
+          </el-table>
+        </div>
+
+        <div v-if="activeTab === 'datastore'" class="page">
+          <el-table :data="datastores" stripe>
+            <el-table-column prop="Name" label="名称" min-width="200"></el-table-column>
+            <el-table-column prop="Type" label="类型" width="100"></el-table-column>
+            <el-table-column prop="CapacityGB" label="容量(GB)" width="120"></el-table-column>
+            <el-table-column prop="FreeSpaceGB" label="剩余(GB)" width="120"></el-table-column>
+            <el-table-column label="使用率" min-width="180">
+              <template #default="{row}">
+                <el-progress :percentage="Math.round((1-row.FreeSpaceGB/row.CapacityGB)*100)" :status="(row.CapacityGB-row.FreeSpaceGB)>row.CapacityGB*0.8?'exception':''"></el-progress>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+
+        <div v-if="activeTab === 'session'" class="page">
+          <el-card style="max-width:500px">
+            <template #header><span>vCenter 连接</span></template>
+            <div v-if="connected">
+              <el-alert type="success" :closable="false" :title="'已连接到 '+vcInfo" style="margin-bottom:16px"></el-alert>
+              <el-button type="danger" @click="disconnect">断开连接</el-button>
+            </div>
+            <div v-else>
+              <el-alert type="info" :closable="false" title="请在桌面端 VmOps 主界面中连接 vCenter，Web 管理端将自动共享连接会话"></el-alert>
+            </div>
+          </el-card>
+        </div>
+      </el-main>
+    </el-container>
+  </el-container>
+</div>
+
+<script src="/js/vue.global.prod.js"></script>
+<script src="/js/element-plus.min.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>

@@ -8,12 +8,12 @@ echo ========================================
 echo.
 
 set "SCRIPT_DIR=%~dp0"
-set "PROJECT_DIR=%SCRIPT_DIR%VirtualizationOpsTool"
+set "PROJECT_DIR=%SCRIPT_DIR%VMwareOps"
 set "OUTPUT_DIR=%SCRIPT_DIR%"
 
 set "APP_NAME=VmOps.NET"
 set "EXE_NAME=%APP_NAME%.exe"
-set "CSPROJ_FILE=%PROJECT_DIR%\VirtualizationOpsTool.csproj"
+set "CSPROJ_FILE=%PROJECT_DIR%\VMwareOps.csproj"
 
 for /f "delims=" %%a in ('powershell -NoProfile -Command "(Get-Content '%CSPROJ_FILE%' -Raw) -match '<Version>([^<]*)</Version>' | Out-Null; if ($Matches.Count -gt 1) { $Matches[1] } else { 'VERSION_NOT_FOUND' }"') do (
     set "OLD_VERSION=%%a"

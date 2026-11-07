@@ -1,21 +1,16 @@
-// ============================================================================
-// Program.cs - 应用入口
-// ============================================================================
-// 启动顺序：
-//   ✅ CheckPowerShellEnvironment() — 检查 PowerShell 5.1 是否可用（失败则弹窗退出）
-//   ✅ DpiUtils.EnableDpiAware() — 进程级 DPI 感知设置
-//   ✅ Application.EnableVisualStyles() / SetCompatibleTextRenderingDefault(false)
-//   ✅ 启动 MainForm 主窗口
-//
-// 约束：.NET Framework 4.8，单 STA 线程模型
-// ============================================================================
 using System;
+using System.Threading;
 using System.Windows.Forms;
+using Microsoft.Owin.Hosting;
 
 namespace VMwareOps
 {
     internal static class Program
     {
+        private static IDisposable _webServer;
+        public const string WebBaseUrl = "http://localhost:5036";
+        public const string WebBaseUrlAlt = "http://127.0.0.1:5036";
+
         [STAThread]
         static void Main()
         {
@@ -36,42 +31,57 @@ namespace VMwareOps
                 return;
             }
 
-            using (var form = new MainForm())
+            StartWebServer();
+
+            try
             {
-                Application.Run(form);
-                form.WaitForCleanup().Wait(TimeSpan.FromSeconds(20));
+                using (var form = new MainForm())
+                {
+                    Application.Run(form);
+                    form.WaitForCleanup().Wait(TimeSpan.FromSeconds(20));
+                }
+            }
+            finally
+            {
+                StopWebServer();
             }
         }
 
-        /// <summary>
-        /// 检测 PowerShell 5.1 GAC 环境是否可用
-        /// </summary>
+        private static void StartWebServer()
+        {
+            try
+            {
+                var options = new StartOptions();
+                options.Urls.Add(WebBaseUrl);
+                options.Urls.Add(WebBaseUrlAlt);
+                _webServer = WebApp.Start<WebApi.Startup>(options);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Web Server start failed: {ex.Message}");
+            }
+        }
+
+        private static void StopWebServer()
+        {
+            _webServer?.Dispose();
+            _webServer = null;
+        }
+
         private static bool CheckPowerShellEnvironment()
         {
             try
             {
-                // 检测 System.Management.Automation 程序集是否可从 GAC 加载
                 var asm = System.Reflection.Assembly.Load(
                     "System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35");
-                
-                if (asm == null)
-                {
-                    return false;
-                }
 
-                // 检测 PowerShell 核心类型是否可用
+                if (asm == null) return false;
+
                 var psType = asm.GetType("System.Management.Automation.PowerShell");
-                if (psType == null)
-                {
-                    return false;
-                }
+                if (psType == null) return false;
 
-                // 检测 RunspaceFactory 是否可用
                 var runspaceFactoryType = asm.GetType("System.Management.Automation.Runspaces.RunspaceFactory");
-                if (runspaceFactoryType == null)
-                {
-                    return false;
-                }
+                if (runspaceFactoryType == null) return false;
 
                 return true;
             }
