@@ -40,6 +40,7 @@ namespace VMwareOps
         // 状态栏左侧图标按钮
         private Button? btn_status_icon;
         private Button? btn_web;
+        private Button? btn_extensions;
         private Button? btn_cmd;
         private Button? btn_ps;
         private Panel? left_icons_panel;
@@ -167,6 +168,12 @@ namespace VMwareOps
             status_bar_tool_tip.SetToolTip(btn_web, "打开 vCenter Web 管理页面");
             btn_web.Click += BtnWeb_Click;
             left_icons_panel.Controls.Add(btn_web);
+
+            // 2.5 扩展图标按钮
+            btn_extensions = CreateIconButton("\uD83D\uDD0C", ColorTranslator.FromHtml("#7B1FA2"), iconSize);
+            status_bar_tool_tip.SetToolTip(btn_extensions, "扩展管理");
+            btn_extensions.Click += BtnExtensions_Click;
+            left_icons_panel.Controls.Add(btn_extensions);
 
             // 3. CMD 图标按钮
             btn_cmd = CreateIconButton("\u2318", ColorTranslator.FromHtml("#2E7D32"), iconSize);
@@ -672,6 +679,13 @@ namespace VMwareOps
                 }
             }
             catch { }
+        }
+
+        private void BtnExtensions_Click(object? sender, EventArgs e)
+        {
+            using var dlg = new ExtensionManagerDialog();
+            dlg.StartPosition = FormStartPosition.CenterParent;
+            dlg.ShowDialog(this);
         }
 
         /// <summary>

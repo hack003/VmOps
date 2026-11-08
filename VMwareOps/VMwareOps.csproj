@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -54,14 +54,6 @@
     <EmbeddedResource Include="Resources\vmware.ico" />
     <EmbeddedResource Include="Resources\help.html" />
     <EmbeddedResource Include="Resources\update_helper.exe" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="WebApi\wwwroot\**\*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <Link>WebApi\wwwroot\%(RecursiveDir)%(Filename)%(Extension)</Link>
-    </Content>
   </ItemGroup>
 
   <PropertyGroup>

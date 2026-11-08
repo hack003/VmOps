@@ -162,6 +162,16 @@ namespace VMwareOps.Utils
             return dataDir;
         }
 
+        public static string GetExtensionsDir()
+        {
+            string dir = Path.Combine(GetUserDataDir(), "extensions");
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+            return dir;
+        }
+
         public static void OrganizeResourceFiles()
         {
             try

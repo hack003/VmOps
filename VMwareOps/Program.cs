@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Owin.Hosting;
+using VMwareOps.Core;
 
 namespace VMwareOps
 {
@@ -51,6 +52,8 @@ namespace VMwareOps
         {
             try
             {
+                ExtensionManager.Instance.Initialize();
+
                 var options = new StartOptions();
                 options.Urls.Add(WebBaseUrl);
                 options.Urls.Add(WebBaseUrlAlt);
