@@ -32,7 +32,7 @@ if "%OLD_VERSION%"=="VERSION_NOT_FOUND" (
     exit /b 1
 )
 
-echo [1/5] 处理版本号...
+echo [1/6] 处理版本号...
 echo       当前版本: v%OLD_VERSION%
 echo.
 echo       请选择:
@@ -77,7 +77,45 @@ if "%VER_CHOICE%"=="2" (
 echo       本次打包版本: v%NEW_VERSION%
 echo.
 
-echo [2/5] 编译 Release 版本...
+echo [2/5] 编译 update_helper.exe...
+cd /d "%PROJECT_DIR%"
+
+set "UPDATE_HELPER_PROJ=%PROJECT_DIR%\UpdateHelper\VMwareOps.UpdateHelper.csproj"
+
+if not exist "%UPDATE_HELPER_PROJ%" (
+    echo [错误] 未找到 UpdateHelper 项目: %UPDATE_HELPER_PROJ%
+    pause
+    exit /b 1
+)
+
+call dotnet publish "%UPDATE_HELPER_PROJ%" --configuration Release --framework net48 --runtime win-x64 -p:SelfContained=false -p:DebugType=none
+
+if %errorlevel% neq 0 (
+    echo.
+    echo update_helper.exe 编译失败！
+    pause
+    exit /b 1
+)
+
+set "HELPER_EXE=%PROJECT_DIR%\UpdateHelper\bin\Release\net48\win-x64\publish\update_helper.exe"
+if not exist "%HELPER_EXE%" set "HELPER_EXE=%PROJECT_DIR%\UpdateHelper\bin\Release\net48\win-x64\update_helper.exe"
+if not exist "%HELPER_EXE%" (
+    echo [错误] 未找到编译输出的 update_helper.exe
+    pause
+    exit /b 1
+)
+
+copy /Y "%HELPER_EXE%" "%PROJECT_DIR%\Resources\update_helper.exe" >nul
+if %errorlevel% neq 0 (
+    echo [错误] 复制 update_helper.exe 到 Resources 目录失败！
+    pause
+    exit /b 1
+)
+
+echo       update_helper.exe 编译完成: %HELPER_EXE%
+echo.
+
+echo [3/6] 编译主程序 Release 版本...
 cd /d "%PROJECT_DIR%"
 
 call dotnet publish --configuration Release --framework net48 --runtime win-x64 -p:SelfContained=false -p:DebugType=none
@@ -92,7 +130,7 @@ if %errorlevel% neq 0 (
 echo       编译成功
 echo.
 
-echo [3/5] 查找编译输出...
+echo [4/6] 查找编译输出...
 set "EXE_PATH=%PROJECT_DIR%\bin\Release\net48\win-x64\publish\VmOps.NET.exe"
 
 if not exist "%EXE_PATH%" (
@@ -109,7 +147,7 @@ if not exist "%EXE_PATH%" (
 echo       找到: %EXE_PATH%
 echo.
 
-echo [4/5] 复制到输出目录...
+echo [5/6] 复制到输出目录...
 copy /Y "%EXE_PATH%" "%OUTPUT_DIR%%EXE_NAME%" >nul
 echo       主程序: %EXE_NAME%
 
@@ -145,9 +183,9 @@ if exist "%PROJECT_DIR%\bin\Release" (
 echo.
 
 if "%SKIP_BACKUP%"=="yes" (
-    echo [5/5] 跳过备份 ^(测试编译模式^)
+    echo [6/6] 跳过备份 ^(测试编译模式^)
 ) else (
-    echo [5/5] 备份代码...
+    echo [6/6] 备份代码...
     call "%SCRIPT_DIR%backup_code.bat" publish %NEW_VERSION%
 )
 
