@@ -510,11 +510,7 @@ namespace VmOps.UI
             if (_allRowValues.Count == 0 || string.IsNullOrWhiteSpace(_searchBox?.Text))
                 return;
 
-            var keywords = _searchBox.Text.Trim().ToLowerInvariant()
-                .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            var filteredRows = _allRowValues.Where(row =>
-                keywords.All(kw => row.Any(cell => cell.ToLowerInvariant().Contains(kw)))
-            ).ToList();
+            var filteredRows = FilterRowsBySearch(_allRowValues);
 
             _rows = filteredRows;
             RebuildListView();
@@ -542,15 +538,39 @@ namespace VmOps.UI
                 return;
             }
 
-            var keywords = _searchBox.Text.Trim().ToLowerInvariant()
-                .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            var filteredRows = source.Where(row =>
-                keywords.All(kw => row.Any(cell => cell.ToLowerInvariant().Contains(kw)))
-            ).ToList();
+            var filteredRows = FilterRowsBySearch(source);
 
             _rows = filteredRows;
             RebuildListView();
             RefreshStatusBar();
+        }
+
+        private List<List<string>> FilterRowsBySearch(List<List<string>> source)
+        {
+            string text = _searchBox.Text.Trim().Replace('，', ',').ToLowerInvariant();
+            if (string.IsNullOrEmpty(text))
+                return new List<List<string>>(source);
+
+            var orGroups = text
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(g => g.Trim().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList())
+                .Where(g => g.Count > 0)
+                .ToList();
+
+            if (orGroups.Count == 0)
+                return new List<List<string>>(source);
+
+            if (orGroups.Count == 1 && orGroups[0].Count == 1)
+            {
+                string kw = orGroups[0][0];
+                return source.Where(row => row.Any(cell => cell.ToLowerInvariant().Contains(kw))).ToList();
+            }
+
+            return source.Where(row =>
+                orGroups.Any(group =>
+                    group.All(kw => row.Any(cell => cell.ToLowerInvariant().Contains(kw)))
+                )
+            ).ToList();
         }
 
         private void UpdateStatus(string text, Color fg)

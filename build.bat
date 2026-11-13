@@ -36,11 +36,11 @@ echo [1/6] Version handling...
 echo       Current version: v%OLD_VERSION%
 echo.
 echo       Choose:
-echo         [1] Bump revision (v%OLD_VERSION% ^> v?  default)
-echo         [2] Keep version (test build only)
+echo         [1] Bump revision (v%OLD_VERSION% ^> v?)
+echo         [2] Keep version (test build only,  default)
 echo.
-set /p "VER_CHOICE=Your choice [Enter=1]: "
-if "%VER_CHOICE%"=="" set "VER_CHOICE=1"
+set /p "VER_CHOICE=Your choice [Enter=2]: "
+if "%VER_CHOICE%"=="" set "VER_CHOICE=2"
 
 if "%VER_CHOICE%"=="2" (
     set "NEW_VERSION=%OLD_VERSION%"
