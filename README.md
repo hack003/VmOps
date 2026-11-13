@@ -50,6 +50,49 @@ github项目地址：https://github.com/hack003/VmOps
 
 ---
 
+## 📸 界面截图
+
+### 主界面总览
+
+<img src="image/PixPin_2026-11-13_09-38-20.png" width="700" />
+
+### Tab 页展示
+
+
+
+
+
+
+<img src="image/PixPin_2026-11-13_09-38-31.png" width="700" />
+<img src="image/PixPin_2026-11-13_09-40-26.png" width="700" />
+<img src="image/PixPin_2026-11-13_09-40-36.png" width="700" />
+<img src="image/PixPin_2026-11-13_09-41-06.png" width="700" />
+<img src="image/PixPin_2026-11-13_09-41-34.png" width="700" />
+<img src="image/PixPin_2026-11-13_09-41-44.png" width="700" />
+<img src="image/PixPin_2026-11-13_09-42-46.png" width="700" />
+<img src="image/PixPin_2026-11-13_09-44-09.png" width="700" />
+
+### 右键菜单
+
+<img src="image/PixPin_2026-11-13_09-44-49.png" width="700" />
+<img src="image/PixPin_2026-11-13_09-45-02.png" width="700" />
+<img src="image/PixPin_2026-11-13_09-45-18.png" width="700" />
+
+
+### 配置窗口
+<img src="image/PixPin_2026-11-13_09-54-09.png" width="700" />
+<img src="image/PixPin_2026-11-13_09-45-44.png" width="700" />
+<img src="image/PixPin_2026-11-13_09-59-42.png" width="700" />
+<img src="image/PixPin_2026-11-13_10-06-56.png" width="700" />
+<img src="image/PixPin_2026-11-13_10-07-27.png" width="700" />
+
+### 日志展示
+<img src="image/PixPin_2026-11-13_09-36-57.png" width="700" />
+<img src="image/PixPin_2026-11-13_09-37-30.png" width="700" />
+<img src="image/PixPin_2026-11-13_09-38-00.png" width="700" />
+<img src="image/PixPin_2026-11-13_09-56-03.png" width="700" />
+---
+
 ## 🚀 快速开始
 
 ### 1. 安装 VMware PowerCLI（必装）
