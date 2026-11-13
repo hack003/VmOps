@@ -65,14 +65,12 @@
     <Content Remove="UpdateHelper\**\*" />
   </ItemGroup>
 
-  <!-- 构建前：编译 UpdateHelper 并复制到 Resources\update_helper.exe 供嵌入 -->
-  <Target Name="BuildUpdateHelper" BeforeTargets="Compile" Condition="Exists('$(UpdateHelperProject)')">
+  <Target Name="BuildUpdateHelper" BeforeTargets="ResolveResources" Condition="Exists('$(UpdateHelperProject)')">
     <MSBuild Projects="$(UpdateHelperProject)"
              Targets="Restore;Build"
              Properties="Configuration=$(Configuration);RuntimeIdentifier=win-x64" />
     <Copy SourceFiles="$(UpdateHelperExe)"
-          DestinationFiles="Resources\update_helper.exe"
-          Condition="Exists('$(UpdateHelperExe)')" />
+          DestinationFiles="Resources\update_helper.exe" />
   </Target>
 
   <Target Name="CopyAppManifest" AfterTargets="Build">
