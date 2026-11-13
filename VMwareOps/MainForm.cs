@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // MainForm.cs - 应用主窗口
 // ============================================================================
 // 布局：
@@ -19,11 +19,11 @@ using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using VMwareOps.Core;
-using VMwareOps.Utils;
-using VMwareOps.UI;
+using VmOps.Core;
+using VmOps.Utils;
+using VmOps.UI;
 
-namespace VMwareOps
+namespace VmOps
 {
     public partial class MainForm : Form
     {

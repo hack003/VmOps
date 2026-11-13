@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // Update.cs - 远程版本检查与下载 + 启动 UpdateHelper
 // ============================================================================
 // 职责：
@@ -20,13 +20,13 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace VMwareOps.Utils
+namespace VmOps.Utils
 {
     public static class UpdateUtils
     {
         public const string RELEASE_API_URL = "https://gitee.com/api/v5/repos/hack003/VmOps/releases/latest";
 
-        private const string EmbeddedHelperResourceName = "VMwareOps.Resources.update_helper.exe";
+        private const string EmbeddedHelperResourceName = "VmOps.Resources.update_helper.exe";
 
         private static readonly object _helperLock = new object();
 

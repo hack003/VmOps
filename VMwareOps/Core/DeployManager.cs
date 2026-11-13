@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // DeployManager.cs - 批量部署编排器
 // ============================================================================
 // 职责：读取 CSV 部署列表 → 创建临时部署通道 → 逐台执行 New-VM + Guest 网络配置
@@ -17,9 +17,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using VMwareOps.Utils;
+using VmOps.Utils;
 
-namespace VMwareOps.Core
+namespace VmOps.Core
 {
     /// <summary>
     /// .NET Framework 4.8 兼容扩展方法
@@ -981,13 +981,13 @@ while ($true) {{
             string scriptTemplateLinux;
             string scriptTemplateWindows;
             var asm = System.Reflection.Assembly.GetExecutingAssembly();
-            var asmName = asm.GetName().Name;
+            const string resNs = "VmOps";
             string linuxRes = guestOpsMode ? "guestops-linux-network.sh" : "linux-network-config.sh";
             string windowsRes = guestOpsMode ? "guestops-windows-network.ps1" : "windows-network-config.ps1";
             string safeHostname = ComputeSafeHostnameStatic(rawHostname, vmNameRaw);
 
             try {
-                string resName = asmName + ".scripts." + linuxRes;
+                string resName = resNs + ".scripts." + linuxRes;
                 using var stream = asm.GetManifestResourceStream(resName);
                 if (stream != null) {
                     using var reader = new System.IO.StreamReader(stream, System.Text.Encoding.UTF8);
@@ -999,7 +999,7 @@ while ($true) {{
                 scriptTemplateLinux = "#!/bin/bash\necho 'ERROR: Linux resource load: " + ex.Message.Replace("'", "\\'") + "';\necho 'Guest Ops OK'; exit 0";
             }
             try {
-                string resName = asmName + ".scripts." + windowsRes;
+                string resName = resNs + ".scripts." + windowsRes;
                 using var stream = asm.GetManifestResourceStream(resName);
                 if (stream != null) {
                     using var reader = new System.IO.StreamReader(stream, System.Text.Encoding.UTF8);
@@ -1046,7 +1046,7 @@ while ($true) {{
 
             return $@"
 $ErrorActionPreference = 'Stop';
-Write-Host ('GuestOps Assembly=' + '{asmName}' + ' Scripts embedded=OK');
+Write-Host ('GuestOps Assembly=' + '{resNs}' + ' Scripts embedded=OK');
 Write-Host ('GuestOps GuestOS 信息:');
 $vmView = $null;
 for ($i = 0; $i -lt 15; $i++) {{

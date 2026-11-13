@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // SessionManager.cs - 常驻通用 Runspace 会话（单例）
 // ============================================================================
 // 职责：程序启动时初始化一个长驻 Runspace，全程复用，串行执行
@@ -24,7 +24,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace VMwareOps.Core
+namespace VmOps.Core
 {
     /// <summary>
     /// PowerShell 执行异常

@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // UpdateHelper.cs - 全自动更新辅助程序
 // ============================================================================
 // 职责：等待指定 PID 主进程退出 → 原子替换 exe → 重启 → 自删
@@ -15,7 +15,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading;
 
-namespace VMwareOps.UpdateHelper
+namespace VmOps.UpdateHelper
 {
     class Program
     {

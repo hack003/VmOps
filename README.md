@@ -177,7 +177,7 @@ Get-ChildItem "C:\Program Files\WindowsPowerShell\Modules\VMware*" -Recurse -Fil
 
 ```
 VmOps-Tool/
-├── VMwareOps/
+├── VmOps/
 │   ├── MainForm.cs              # 主窗口（状态栏 + Tab 容器）
 │   ├── Program.cs               # 程序入口
 │   ├── Core/
@@ -197,7 +197,7 @@ VmOps-Tool/
 │   │   └── DpiUtils.cs          # DPI 自适应工具
 │   ├── scripts/                 # 内嵌 PowerShell / Shell 脚本
 │   ├── Resources/               # 图标 + help.html
-│   └── VMwareOps.csproj
+│   └── VmOps.csproj
 └── Releases/                    # 打包输出
 ```
 

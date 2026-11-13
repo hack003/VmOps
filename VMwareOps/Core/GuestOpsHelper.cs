@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Text;
 
-namespace VMwareOps.Core
+namespace VmOps.Core
 {
     public static class GuestOpsHelper
     {

@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // VmOpsResources.cs - 虚拟机资源配置操作（CPU / 内存 / 磁盘 / 网络）
 // ============================================================================
 // 所有方法：static async Task，传入 vmName + 参数 + logCallback
@@ -15,9 +15,9 @@
 // ============================================================================
 using System;
 using System.Threading.Tasks;
-using VMwareOps.Core;
+using VmOps.Core;
 
-namespace VMwareOps.VmOps
+namespace VmOps.VmOps
 {
     public static class VmOpsResources
     {

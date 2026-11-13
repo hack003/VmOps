@@ -7,7 +7,7 @@
 // ============================================================================
 using System.Reflection;
 
-namespace VMwareOps.Utils
+namespace VmOps.Utils
 {
     public static class AppVersion
     {

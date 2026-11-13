@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // CsvEditorTab.cs - CSV 部署列表编辑器 Tab
 // ============================================================================
 // 职责：在应用内嵌一个 CSV 表格编辑器，供用户填写批量部署参数
@@ -18,10 +18,10 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using VMwareOps.Core;
-using VMwareOps.Utils;
+using VmOps.Core;
+using VmOps.Utils;
 
-namespace VMwareOps.UI
+namespace VmOps.UI
 {
     public class CsvEditorTab
     {

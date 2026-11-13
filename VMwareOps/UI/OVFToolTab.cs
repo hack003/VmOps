@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // OVFToolTab.cs - OVF 工具 Tab（封装 ovftool.exe 子进程）
 // ============================================================================
 // 三种操作模式：
@@ -18,10 +18,10 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using VMwareOps.Core;
-using VMwareOps.Utils;
+using VmOps.Core;
+using VmOps.Utils;
 
-namespace VMwareOps.UI
+namespace VmOps.UI
 {
     public class OVFToolTab
     {

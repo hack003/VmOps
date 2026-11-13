@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // VmOpsSnapshot.cs - 虚拟机快照操作
 // ============================================================================
 // 所有方法：static async Task，传入 vmName + 参数 + logCallback
@@ -17,9 +17,9 @@
 // ============================================================================
 using System;
 using System.Threading.Tasks;
-using VMwareOps.Core;
+using VmOps.Core;
 
-namespace VMwareOps.VmOps
+namespace VmOps.VmOps
 {
     public static class VmOpsSnapshot
     {

@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // OvfToolRunner.cs - VMware OVF Tool 进程执行器
 // ============================================================================
 // 职责：封装外部 ovftool.exe 子进程，支持 OVF 导出 / OVA 导出 / OVF 导入
@@ -20,7 +20,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace VMwareOps.Core
+namespace VmOps.Core
 {
     /// <summary>
     /// OVF 导出输入参数

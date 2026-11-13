@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // UnifiedCache.cs - 统一资源缓存管理
 // ============================================================================
 // 缓存内容（内存 + 文件）：
@@ -23,7 +23,7 @@ using System.Threading;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace VMwareOps.Core
+namespace VmOps.Core
 {
     public static class UnifiedCache
     {

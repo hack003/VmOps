@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // TableConvertUtils.cs - PowerCLI 数据 → WinForms 表格渲染 + 导出工具
 // ============================================================================
 // 职责范围（全部为 static 静态方法）：
@@ -43,7 +43,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 
-namespace VMwareOps.Utils
+namespace VmOps.Utils
 {
     public static class TableConvertUtils
     {

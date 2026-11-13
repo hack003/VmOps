@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // IPsRunner.cs - PowerShell 执行器接口定义
 // ============================================================================
 // 职责：定义 PowerShell 执行通道的统一契约
@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace VMwareOps.Core
+namespace VmOps.Core
 {
     public interface IPsRunner : IDisposable
     {

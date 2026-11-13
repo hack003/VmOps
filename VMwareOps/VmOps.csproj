@@ -7,10 +7,10 @@
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
     <NoWarn>CS8600;CS8601;CS8602;CS8603;CS8604;CS8618;CS8620;CS8625</NoWarn>
-    <ApplicationIcon>Resources\vmware.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\vmops.ico</ApplicationIcon>
     <AssemblyName>VmOps.NET</AssemblyName>
-    <RootNamespace>VMwareOps</RootNamespace>
-    <Version>1.8.0.4</Version>
+    <RootNamespace>VmOps</RootNamespace>
+    <Version>1.8.0.5</Version>
     <Authors>Virtualization Ops Team</Authors>
     <Description>虚拟化运维管理工具</Description>
     <EnableWindowsFormsHighDpi>true</EnableWindowsFormsHighDpi>
@@ -48,13 +48,13 @@
     <EmbeddedResource Include="scripts\guestops-windows-network.ps1" />
     <EmbeddedResource Include="scripts\guestops-linux-pass.sh" />
     <EmbeddedResource Include="scripts\guestops-windows-pass.ps1" />
-    <EmbeddedResource Include="Resources\vmware.ico" />
+    <EmbeddedResource Include="Resources\vmops.ico" />
     <EmbeddedResource Include="Resources\help.html" />
     <EmbeddedResource Include="Resources\update_helper.exe" />
   </ItemGroup>
 
   <PropertyGroup>
-    <UpdateHelperProject>UpdateHelper\VMwareOps.UpdateHelper.csproj</UpdateHelperProject>
+    <UpdateHelperProject>UpdateHelper\VmOps.UpdateHelper.csproj</UpdateHelperProject>
     <UpdateHelperExe>UpdateHelper\bin\$(Configuration)\net48\win-x64\update_helper.exe</UpdateHelperExe>
   </PropertyGroup>
 

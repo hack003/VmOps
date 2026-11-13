@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // CoreUtils.cs - 通用杂项工具集合（静态方法）
 // ============================================================================
 // 职责范围：
@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace VMwareOps.Utils
+namespace VmOps.Utils
 {
     public static class CoreUtils
     {
@@ -84,7 +84,7 @@ namespace VMwareOps.Utils
             if (!File.Exists(tempFile))
             {
                 var asm = System.Reflection.Assembly.GetExecutingAssembly();
-                string resourceName = $"VMwareOps.Resources.{filename}";
+                string resourceName = $"VmOps.Resources.{filename}";
                 using var stream = asm.GetManifestResourceStream(resourceName);
                 if (stream == null) return direct;
                 using var fs = new FileStream(tempFile, FileMode.Create, FileAccess.Write);
@@ -110,8 +110,8 @@ namespace VMwareOps.Utils
                 string tempFile = Path.Combine(tempDir, "help.html");
                 File.WriteAllText(tempFile, content, new UTF8Encoding(false));
 
-                string srcIcon = GetResourcePath("vmware.ico");
-                string dstIcon = Path.Combine(tempDir, "vmware.ico");
+                string srcIcon = GetResourcePath("vmops.ico");
+                string dstIcon = Path.Combine(tempDir, "vmops.ico");
                 if (!string.IsNullOrEmpty(srcIcon) && File.Exists(srcIcon) && !File.Exists(dstIcon))
                 {
                     File.Copy(srcIcon, dstIcon);
@@ -131,7 +131,7 @@ namespace VMwareOps.Utils
             {
                 // 优先尝试从内嵌资源加载
                 var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-                var resourceName = "VMwareOps.Resources.vmware.ico";
+                var resourceName = "VmOps.Resources.vmops.ico";
                 using (var stream = assembly.GetManifestResourceStream(resourceName))
                 {
                     if (stream != null)
@@ -141,7 +141,7 @@ namespace VMwareOps.Utils
                 }
 
                 // 备用：从文件路径加载
-                string iconPath = GetResourcePath("vmware.ico");
+                string iconPath = GetResourcePath("vmops.ico");
                 if (File.Exists(iconPath))
                 {
                     return new System.Drawing.Icon(iconPath);
@@ -170,7 +170,7 @@ namespace VMwareOps.Utils
                 string resourcesDir = Path.Combine(baseDir, "Resources");
                 Directory.CreateDirectory(resourcesDir);
 
-                foreach (var name in new[] { "vmware.ico", "help.html" })
+                foreach (var name in new[] { "vmops.ico", "help.html" })
                 {
                     string src = Path.Combine(baseDir, name);
                     string dst = Path.Combine(resourcesDir, name);

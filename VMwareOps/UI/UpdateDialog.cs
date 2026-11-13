@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // UpdateDialog.cs - 版本更新弹窗（含自动下载）
 // ============================================================================
 // 内嵌 WebBrowser 渲染 Markdown 更新日志
@@ -11,9 +11,9 @@ using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using VMwareOps.Utils;
+using VmOps.Utils;
 
-namespace VMwareOps.UI
+namespace VmOps.UI
 {
     public class UpdateDialog : Form
     {

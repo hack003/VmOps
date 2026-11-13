@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // ResourceQueryTab.VmOps.cs - 虚拟机操作中心
 // ============================================================================
 // 职责范围：
@@ -25,10 +25,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using VMwareOps.Core;
-using VMwareOps.Utils;
+using VmOps.Core;
+using VmOps.Utils;
 
-namespace VMwareOps.UI
+namespace VmOps.UI
 {
     public partial class ResourceQueryTab
     {

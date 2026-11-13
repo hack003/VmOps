@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // DetailForm.cs - 资源详情查看弹窗
 // ============================================================================
 // 职责：显示 VM / Host / Datastore / Network 等资源的详情查询结果
@@ -17,9 +17,9 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Newtonsoft.Json;
-using VMwareOps.Utils;
+using VmOps.Utils;
 
-namespace VMwareOps.UI
+namespace VmOps.UI
 {
     public class DetailForm : Form
     {

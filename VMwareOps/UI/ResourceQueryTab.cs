@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // 资源查询标签页 - 主文件（字段定义、构造函数、UI构建、子类型切换）
 // ============================================================================
 
@@ -10,10 +10,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using VMwareOps.Core;
-using VMwareOps.Utils;
+using VmOps.Core;
+using VmOps.Utils;
 
-namespace VMwareOps.UI
+namespace VmOps.UI
 {
     public partial class ResourceQueryTab
     {

@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // QueryBuilder.cs - PowerCLI 脚本片段构建器（查询 + 详情）
 // ============================================================================
 // 职责：根据资源类型（vm/host/datastore/network/template）构建对应 PowerShell 脚本
@@ -12,9 +12,9 @@
 //   -ErrorAction Stop 必须加，vCenter 操作全在 Runspace 全局作用域执行
 // ============================================================================
 using System.Collections.Generic;
-using VMwareOps.Utils;
+using VmOps.Utils;
 
-namespace VMwareOps.Core
+namespace VmOps.Core
 {
     public static class QueryBuilder
     {

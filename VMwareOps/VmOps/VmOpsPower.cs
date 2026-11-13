@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // VmOpsPower.cs - 虚拟机电源操作（Get-View + VIM API）
 // ============================================================================
 // 所有方法：static async Task，传入 vmName + logCallback，通过 SessionManager 执行
@@ -13,9 +13,9 @@
 // ============================================================================
 using System;
 using System.Threading.Tasks;
-using VMwareOps.Core;
+using VmOps.Core;
 
-namespace VMwareOps.VmOps
+namespace VmOps.VmOps
 {
     public static class VmOpsPower
     {

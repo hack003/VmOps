@@ -4,7 +4,7 @@
     <TargetFramework>net48</TargetFramework>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <AssemblyName>update_helper</AssemblyName>
-    <RootNamespace>VMwareOps.UpdateHelper</RootNamespace>
+    <RootNamespace>VmOps.UpdateHelper</RootNamespace>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
     <NoWarn>CS8600;CS8601;CS8602;CS8603;CS8604</NoWarn>

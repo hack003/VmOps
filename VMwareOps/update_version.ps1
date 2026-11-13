@@ -8,7 +8,7 @@ $ErrorActionPreference = "Stop"
 $OutputEncoding = [System.Text.Encoding]::UTF8
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
-$csprojFile = Join-Path $ProjectRoot "VMwareOps.csproj"
+$csprojFile = Join-Path $ProjectRoot "VmOps.csproj"
 
 Write-Host "更新 csproj 文件..."
 $content = Get-Content $csprojFile -Raw -Encoding UTF8

@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // ResourceQueryTab.Utils.cs - 通用工具集
 // ============================================================================
 // 职责范围：
@@ -23,10 +23,10 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using VMwareOps.Core;
-using VMwareOps.Utils;
+using VmOps.Core;
+using VmOps.Utils;
 
-namespace VMwareOps.UI
+namespace VmOps.UI
 {
     public partial class ResourceQueryTab
     {

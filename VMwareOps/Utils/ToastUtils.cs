@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // ToastUtils.cs - 轻量级 Toast 弹窗通知
 // ============================================================================
 // 职责：在指定控件中下方弹一个半透明提示条（类似 Android Toast）
@@ -11,7 +11,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace VMwareOps.Utils
+namespace VmOps.Utils
 {
     public static class ToastUtils
     {

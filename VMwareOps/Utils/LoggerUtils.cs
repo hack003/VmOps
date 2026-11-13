@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // LoggerUtils.cs - UI 日志输出工具（RichTextBox 写消息）
 // ============================================================================
 // 职责：向窗口底部/侧边 RichTextBox 输出彩色分级日志
@@ -16,7 +16,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 
-namespace VMwareOps.Utils
+namespace VmOps.Utils
 {
     public static class LoggerUtils
     {

@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // PsRunnerBase.cs - PowerShell Runspace 执行基类（抽象）
 // ============================================================================
 // 职责：封装 Runspace 创建、PowerShell 脚本异步执行、超时控制、结果收集
@@ -20,7 +20,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace VMwareOps.Core
+namespace VmOps.Core
 {
     public abstract class PsRunnerBase
     {

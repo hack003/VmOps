@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // ResourceQueryTab.VmOpsDialog.cs - 虚拟机操作对话框中心
 // ============================================================================
 // 职责范围：
@@ -24,10 +24,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using VMwareOps.Core;
-using VMwareOps.Utils;
+using VmOps.Core;
+using VmOps.Utils;
 
-namespace VMwareOps.UI
+namespace VmOps.UI
 {
     public partial class ResourceQueryTab
     {
@@ -2281,8 +2281,8 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
                 lblValidateStatus.Text = "⏳ 正在通过 VMware Tools 验证凭证...";
                 lblValidateStatus.ForeColor = Color.Gray;
 
-                string psCheck = VMwareOps.Core.GuestOpsHelper.BuildCredentialCheckScript(vmMoRef, u, p, isLinux);
-                string checkOutput = await VMwareOps.Core.SessionManager.Instance.ExecutePsScriptAsync(psCheck);
+                string psCheck = global::VmOps.Core.GuestOpsHelper.BuildCredentialCheckScript(vmMoRef, u, p, isLinux);
+                string checkOutput = await global::VmOps.Core.SessionManager.Instance.ExecutePsScriptAsync(psCheck);
 
                 btnValidate.Enabled = true;
                 btnValidate.Text = "🔍 验证凭证";
@@ -2845,8 +2845,8 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
                 lblValidateStatus.Text = "⏳ 正在通过 VMware Tools 验证凭证...";
                 lblValidateStatus.ForeColor = Color.Gray;
 
-                string psCheck = VMwareOps.Core.GuestOpsHelper.BuildCredentialCheckScript(vmMoRef, u, p, isLinux);
-                string checkOutput = await VMwareOps.Core.SessionManager.Instance.ExecutePsScriptAsync(psCheck);
+                string psCheck = global::VmOps.Core.GuestOpsHelper.BuildCredentialCheckScript(vmMoRef, u, p, isLinux);
+                string checkOutput = await global::VmOps.Core.SessionManager.Instance.ExecutePsScriptAsync(psCheck);
 
                 btnValidate.Enabled = true;
                 btnValidate.Text = "🔍 验证凭证";
@@ -2959,9 +2959,9 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
         private static string BuildGuestOpsPasswordPsScript(string vmMoRef, string guestUser, string guestPassword, string targetUser, string newPassword, bool isLinux)
         {
             var asm = System.Reflection.Assembly.GetExecutingAssembly();
-            var asmName = asm.GetName().Name;
+            const string resNs = "VmOps";
             string scriptTemplate;
-            string resName = asmName + ".scripts." + (isLinux ? "guestops-linux-pass.sh" : "guestops-windows-pass.ps1");
+            string resName = resNs + ".scripts." + (isLinux ? "guestops-linux-pass.sh" : "guestops-windows-pass.ps1");
 
             try
             {
@@ -3008,7 +3008,7 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
 
             return $@"
 $ErrorActionPreference = 'Stop';
-Write-Host ('GuestOps Password: isLinux=' + '{isLinux}' + ' target=' + '{userFinal}' + ' Assembly=' + '{asmName}');
+Write-Host ('GuestOps Password: isLinux=' + '{isLinux}' + ' target=' + '{userFinal}' + ' Assembly=' + '{resNs}');
 $vi = Get-VM -Id '{vmMoRefPs}' -ErrorAction Stop;
 $scriptContent = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('{scriptB64}'));
 $userLogin = '{userLogin}';

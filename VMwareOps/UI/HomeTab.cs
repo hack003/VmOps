@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // HomeTab.cs - 应用首页 Tab
 // ============================================================================
 // 布局结构：
@@ -18,10 +18,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
-using VMwareOps.Core;
-using VMwareOps.Utils;
+using VmOps.Core;
+using VmOps.Utils;
 
-namespace VMwareOps.UI
+namespace VmOps.UI
 {
     public class HomeTab
     {
