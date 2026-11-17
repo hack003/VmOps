@@ -701,15 +701,8 @@ namespace VmOps.UI
 
         private string FindMobaXterm()
         {
-            string[] paths = {
-                @"C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe",
-                @"C:\Program Files\Mobatek\MobaXterm\MobaXterm.exe"
-            };
-            foreach (var p in paths)
-            {
-                if (File.Exists(p)) return p;
-            }
-            return "";
+            // 路径唯一来源：全局设置，未配置或无效返回空
+            return Utils.AppSettings.Instance.GetMobaXtermPath() ?? "";
         }
 
         private void CopySelectedRows()

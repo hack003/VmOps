@@ -76,6 +76,10 @@ namespace VmOps
         private const int LOG_FLUSH_INTERVAL_MS = 200;
         private const int LOG_QUEUE_MAX = 500;
 
+        private NotifyIcon? _trayIcon;
+        private ContextMenuStrip? _trayMenu;
+        private bool _forceExit;
+
         public MainForm()
         {
             AutoScaleMode = AutoScaleMode.Dpi;
@@ -693,9 +697,9 @@ namespace VmOps
             }
 
             string mobaPath = FindMobaXterm();
-            if (string.IsNullOrEmpty(mobaPath))
+            if (string.IsNullOrEmpty(mobaPath) || !File.Exists(mobaPath))
             {
-                MessageBox.Show("未找到 MobaXterm，请确认已安装\n\n默认查找路径：\nC:\\Program Files (x86)\\Mobatek\\MobaXterm\\MobaXterm.exe\nC:\\Program Files\\Mobatek\\MobaXterm\\MobaXterm.exe",
+                MessageBox.Show("未配置 MobaXterm 路径或路径无效，请在全局设置中指定 MobaXterm 可执行文件。",
                     "未找到 MobaXterm", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -774,19 +778,12 @@ namespace VmOps
         }
 
         /// <summary>
-        /// 查找 MobaXterm 安装路径
+        /// 获取 MobaXterm 路径（唯一来源：全局设置）
         /// </summary>
         private string FindMobaXterm()
         {
-            string[] paths = {
-                @"C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe",
-                @"C:\Program Files\Mobatek\MobaXterm\MobaXterm.exe"
-            };
-            foreach (var p in paths)
-            {
-                if (File.Exists(p)) return p;
-            }
-            return "";
+            // 路径唯一来源：全局设置，未配置或无效返回空
+            return Utils.AppSettings.Instance.GetMobaXtermPath() ?? "";
         }
 
         private void RunningStatusLabel_Click(object? sender, EventArgs e)
@@ -843,77 +840,67 @@ namespace VmOps
 
                 string url = new Uri(helpPath).AbsoluteUri;
 
-                string[] browsers = {
-                    @"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
-                    @"C:\Program Files\Microsoft\Edge\Application\msedge.exe",
-                    @"C:\Program Files\Google\Chrome\Application\chrome.exe",
-                    @"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
-                };
-
-                foreach (var browser in browsers)
+                // 路径唯一来源：全局设置，未配置或无效即提示
+                string browser = Utils.AppSettings.Instance.GetBrowserPath() ?? "";
+                if (string.IsNullOrEmpty(browser) || !File.Exists(browser))
                 {
-                    if (File.Exists(browser))
-                    {
-                        try
-                        {
-                            var psi = new System.Diagnostics.ProcessStartInfo
-                            {
-                                FileName = browser,
-                                Arguments = $"--app=\"{url}\"",
-                                UseShellExecute = false
-                            };
-                            System.Diagnostics.Process.Start(psi);
-
-                            _ = System.Threading.Tasks.Task.Run(() =>
-                            {
-                                System.Threading.Thread.Sleep(4000);
-
-                                bool hasWindow = false;
-                                foreach (var name in new[] { "msedge", "chrome" })
-                                {
-                                    foreach (var p in System.Diagnostics.Process.GetProcessesByName(name))
-                                    {
-                                        try { if (p.MainWindowHandle != IntPtr.Zero) { hasWindow = true; break; } } catch { }
-                                    }
-                                    if (hasWindow) break;
-                                }
-
-                                if (!hasWindow)
-                                {
-                                    try
-                                    {
-                                        var psiFallback = new System.Diagnostics.ProcessStartInfo
-                                        {
-                                            FileName = browser,
-                                            Arguments = $"\"{helpPath}\"",
-                                            UseShellExecute = false
-                                        };
-                                        System.Diagnostics.Process.Start(psiFallback);
-                                    }
-                                    catch { }
-                                }
-                            });
-
-                            return;
-                        }
-                        catch
-                        {
-                            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-                            {
-                                FileName = browser,
-                                Arguments = $"\"{helpPath}\"",
-                                UseShellExecute = false
-                            });
-                            return;
-                        }
-                    }
+                    MessageBox.Show("未配置浏览器路径，请在全局设置中指定浏览器可执行文件。",
+                        "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
                 }
 
-                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                try
                 {
-                    FileName = helpPath,
-                    UseShellExecute = true
-                });
+                    var psi = new System.Diagnostics.ProcessStartInfo
+                    {
+                        FileName = browser,
+                        Arguments = $"--app=\"{url}\"",
+                        UseShellExecute = false
+                    };
+                    System.Diagnostics.Process.Start(psi);
+
+                    _ = System.Threading.Tasks.Task.Run(() =>
+                    {
+                        System.Threading.Thread.Sleep(4000);
+
+                        bool hasWindow = false;
+                        foreach (var name in new[] { "msedge", "chrome" })
+                        {
+                            foreach (var p in System.Diagnostics.Process.GetProcessesByName(name))
+                            {
+                                try { if (p.MainWindowHandle != IntPtr.Zero) { hasWindow = true; break; } } catch { }
+                            }
+                            if (hasWindow) break;
+                        }
+
+                        if (!hasWindow)
+                        {
+                            try
+                            {
+                                var psiFallback = new System.Diagnostics.ProcessStartInfo
+                                {
+                                    FileName = browser,
+                                    Arguments = $"\"{helpPath}\"",
+                                    UseShellExecute = false
+                                };
+                                System.Diagnostics.Process.Start(psiFallback);
+                            }
+                            catch { }
+                        }
+                    });
+
+                    return;
+                }
+                catch
+                {
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                    {
+                        FileName = browser,
+                        Arguments = $"\"{helpPath}\"",
+                        UseShellExecute = false
+                    });
+                    return;
+                }
             }
             catch { }
         }
@@ -1139,10 +1126,16 @@ namespace VmOps
             CreateLogPanel();
             // 3. notebook.pack(expand=True, fill='both', padx=px(6), pady=px(4))
             CreateTabs();
+            CreateTrayIcon();
 
             this.ResumeLayout(false);
 
             _ = CheckForUpdatesSilentAsync();
+
+            if (AppSettings.Instance.MinimizeToTrayOnStart)
+            {
+                this.Shown += (s, e) => ShowInTray();
+            }
         }
 
         private bool _updateCheckedThisSession = false;
@@ -1213,12 +1206,124 @@ namespace VmOps
             }
         }
 
+        private void CreateTrayIcon()
+        {
+            var toggleItem = new ToolStripMenuItem("显示窗口");
+            toggleItem.Click += (s, e) => ToggleTray();
+
+            _trayMenu = new ContextMenuStrip();
+            _trayMenu.Items.Add(toggleItem);
+            _trayMenu.Items.Add(new ToolStripSeparator());
+            _trayMenu.Items.Add("全局设置...", null, (s, e) => OpenSettings());
+            _trayMenu.Items.Add(new ToolStripSeparator());
+            _trayMenu.Items.Add("退出", null, (s, e) =>
+            {
+                _forceExit = true;
+                this.Close();
+            });
+            _trayMenu.Opening += (s, e) =>
+            {
+                toggleItem.Text = this.Visible ? "最小化到托盘" : "显示窗口";
+            };
+
+            _trayIcon = new NotifyIcon
+            {
+                Icon = this.Icon,
+                Visible = true,
+                Text = this.Text,
+                ContextMenuStrip = _trayMenu
+            };
+            _trayIcon.DoubleClick += (s, e) => ToggleTray();
+        }
+
+        private void ToggleTray()
+        {
+            if (this.Visible)
+                ShowInTray(suppressBalloon: true);
+            else
+                RestoreFromTray();
+        }
+
+        private bool _settingsOpen;
+
+        private void OpenSettings()
+        {
+            if (_settingsOpen) return;
+            _settingsOpen = true;
+            try
+            {
+                if (!this.Visible) RestoreFromTray();
+                using var dlg = new UI.SettingsDialog();
+                dlg.ShowDialog(this);
+            }
+            finally
+            {
+                _settingsOpen = false;
+            }
+        }
+
+        private void ShowInTray(bool suppressBalloon = false)
+        {
+            if (_trayIcon == null) return;
+            this.Visible = false;
+            this.ShowInTaskbar = false;
+            _trayIcon.Visible = true;
+            _trayIcon.Text = "VmOps.NET 已最小化到托盘";
+            if (!suppressBalloon)
+                _trayIcon.ShowBalloonTip(3000, "VmOps.NET", "程序已最小化到系统托盘，双击图标还原窗口", ToolTipIcon.Info);
+        }
+
+        public void RestoreFromTray()
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new Action(() => RestoreFromTray()));
+                return;
+            }
+
+            this.Visible = true;
+            this.ShowInTaskbar = true;
+
+            if (this.WindowState == FormWindowState.Minimized)
+                this.WindowState = FormWindowState.Normal;
+
+            if (!this.Bounds.IntersectsWith(Screen.FromControl(this).WorkingArea))
+            {
+                CenterWindow(WINDOW_BASE_WIDTH, WINDOW_BASE_HEIGHT);
+            }
+
+            this.Show();
+            this.Activate();
+            this.BringToFront();
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+
+            if (WindowState == FormWindowState.Minimized && !_forceExit)
+            {
+                ShowInTray();
+            }
+        }
+
         private Task? _cleanupTask;
 
         public Task WaitForCleanup() => _cleanupTask ?? Task.CompletedTask;
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
+            bool minimizeToTray = !_forceExit && AppSettings.Instance.MinimizeToTrayOnClose;
+            if (minimizeToTray)
+            {
+                e.Cancel = true;
+                ShowInTray();
+                return;
+            }
+
+            _trayIcon?.Dispose();
+            _trayIcon = null;
+
             base.OnFormClosing(e);
 
             _marqueeTimer?.Stop();

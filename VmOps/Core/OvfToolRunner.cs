@@ -249,34 +249,8 @@ namespace VmOps.Core
             if (!string.IsNullOrEmpty(explicitPath) && File.Exists(explicitPath))
                 return explicitPath;
 
-            // 常见安装路径
-            var commonPaths = new[]
-            {
-                @"C:\Program Files\VMware\VMware OVF Tool\ovftool.exe",
-                @"C:\Program Files (x86)\VMware\VMware OVF Tool\ovftool.exe",
-                @"C:\Program Files (x86)\VMware\VMware Workstation\OVFTool\ovftool.exe",
-                @"C:\Program Files\VMware\VMware Workstation\OVFTool\ovftool.exe",
-            };
-
-            foreach (var path in commonPaths)
-            {
-                if (File.Exists(path))
-                    return path;
-            }
-
-            // 尝试从 PATH 查找
-            string? pathEnv = Environment.GetEnvironmentVariable("PATH");
-            if (!string.IsNullOrEmpty(pathEnv))
-            {
-                foreach (var dir in pathEnv.Split(';'))
-                {
-                    string candidate = Path.Combine(dir.Trim(), "ovftool.exe");
-                    if (File.Exists(candidate))
-                        return candidate;
-                }
-            }
-
-            return "";
+            // 路径唯一来源：全局设置，未配置或无效返回空
+            return Utils.AppSettings.Instance.GetOvfToolPath() ?? "";
         }
 
         /// <summary>

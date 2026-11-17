@@ -1042,10 +1042,11 @@ if (-not $vm) {{ throw 'VM not found: {EscapePsString(vmName)}' }};
                         string ticket = parts[2].Trim();
                         string vmrcUrl = $"vmrc://clone:{ticket}@{vcHost}/?moid={moid}";
 
-                        string vmrcExe = @"C:\Program Files (x86)\VMware\VMware Remote Console\vmrc.exe";
-                        if (!File.Exists(vmrcExe))
+                        // 路径唯一来源：全局设置，未配置或无效即提示
+                        string vmrcExe = Utils.AppSettings.Instance.GetVmrcPath() ?? "";
+                        if (string.IsNullOrEmpty(vmrcExe) || !File.Exists(vmrcExe))
                         {
-                            LogMessage("错误", "VMRC 客户端未安装，请安装 VMware Remote Console");
+                            LogMessage("错误", "未配置 VMRC 路径或路径无效，请在全局设置中指定 VMRC 可执行文件");
                             return;
                         }
 
@@ -1106,7 +1107,14 @@ if (-not $vm) {{ throw 'VM not found: {EscapePsString(vmName)}' }};
                 sb.AppendLine("disable themes:i:0");
 
                 File.WriteAllText(rdpFile, sb.ToString(), Encoding.UTF8);
-                System.Diagnostics.Process.Start("mstsc.exe", rdpFile);
+                // 路径唯一来源：全局设置，未配置或无效即提示
+                string rdpExe = Utils.AppSettings.Instance.GetRdpPath() ?? "";
+                if (string.IsNullOrEmpty(rdpExe))
+                {
+                    LogMessage("错误", "未配置 RDP 客户端路径，请在全局设置中指定 mstsc.exe");
+                    return;
+                }
+                System.Diagnostics.Process.Start(rdpExe, rdpFile);
                 LogMessage("成功", $"已启动 RDP 连接: administrator@{vmIp}");
             }
             catch (Exception ex)
@@ -1125,9 +1133,9 @@ if (-not $vm) {{ throw 'VM not found: {EscapePsString(vmName)}' }};
             }
 
             string mobaPath = FindMobaXterm();
-            if (string.IsNullOrEmpty(mobaPath))
+            if (string.IsNullOrEmpty(mobaPath) || !File.Exists(mobaPath))
             {
-                LogMessage("警告", "未找到 MobaXterm，请确认已安装");
+                LogMessage("错误", "未配置 MobaXterm 路径或路径无效，请在全局设置中指定 MobaXterm 可执行文件");
                 return;
             }
 
@@ -1164,9 +1172,9 @@ if (-not $vm) {{ throw 'VM not found: {EscapePsString(vmName)}' }};
             }
 
             string mobaPath = FindMobaXterm();
-            if (string.IsNullOrEmpty(mobaPath))
+            if (string.IsNullOrEmpty(mobaPath) || !File.Exists(mobaPath))
             {
-                LogMessage("警告", "未找到 MobaXterm，请确认已安装");
+                LogMessage("警告", "未配置 MobaXterm 路径或路径无效，请在全局设置中指定 MobaXterm 可执行文件");
                 return;
             }
 
