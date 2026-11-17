@@ -858,38 +858,6 @@ namespace VmOps
                         UseShellExecute = false
                     };
                     System.Diagnostics.Process.Start(psi);
-
-                    _ = System.Threading.Tasks.Task.Run(() =>
-                    {
-                        System.Threading.Thread.Sleep(4000);
-
-                        bool hasWindow = false;
-                        foreach (var name in new[] { "msedge", "chrome" })
-                        {
-                            foreach (var p in System.Diagnostics.Process.GetProcessesByName(name))
-                            {
-                                try { if (p.MainWindowHandle != IntPtr.Zero) { hasWindow = true; break; } } catch { }
-                            }
-                            if (hasWindow) break;
-                        }
-
-                        if (!hasWindow)
-                        {
-                            try
-                            {
-                                var psiFallback = new System.Diagnostics.ProcessStartInfo
-                                {
-                                    FileName = browser,
-                                    Arguments = $"\"{helpPath}\"",
-                                    UseShellExecute = false
-                                };
-                                System.Diagnostics.Process.Start(psiFallback);
-                            }
-                            catch { }
-                        }
-                    });
-
-                    return;
                 }
                 catch
                 {
@@ -899,7 +867,6 @@ namespace VmOps
                         Arguments = $"\"{helpPath}\"",
                         UseShellExecute = false
                     });
-                    return;
                 }
             }
             catch { }

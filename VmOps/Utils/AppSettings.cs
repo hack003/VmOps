@@ -86,7 +86,7 @@ namespace VmOps.Utils
 
         private static readonly string[] OvfToolDefaults =
         {
-            @"C:\Program Files\VMware\VMware Workstation\OVFTool\ovftool.exe",
+            @"C:\Program Files (x86)\VMware\VMware Workstation\OVFTool\ovftool.exe",
             @"C:\Program Files\VMware\VMware OVF Tool\ovftool.exe"
         };
         private const string VmrcDefault       = @"C:\Program Files (x86)\VMware\VMware Remote Console\vmrc.exe";
