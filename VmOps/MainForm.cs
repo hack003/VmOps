@@ -1195,7 +1195,7 @@ namespace VmOps
             }
         }
 
-        private void ShowInTray(bool suppressBalloon = false)
+        private void ShowInTray(bool suppressBalloon = true)
         {
             if (_trayIcon == null) return;
             this.Visible = false;
