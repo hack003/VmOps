@@ -561,13 +561,11 @@ namespace VmOps.UI
         private void ShowPasswordDialog()
         {
             if (_txtPassword == null) return;
-            
+
             using (var dialog = new Form())
             {
                 dialog.Text = "密码";
                 dialog.Icon = CoreUtils.GetAppIcon();
-                dialog.Width = 300;
-                dialog.Height = 150;
                 dialog.FormBorderStyle = FormBorderStyle.FixedDialog;
                 dialog.StartPosition = FormStartPosition.CenterParent;
                 dialog.MaximizeBox = false;
@@ -576,18 +574,20 @@ namespace VmOps.UI
                 dialog.AutoScaleMode = AutoScaleMode.Dpi;
                 dialog.AutoScaleDimensions = new SizeF(96F, 96F);
                 dialog.Font = new Font("Microsoft YaHei", 9, FontStyle.Regular);
+                dialog.ClientSize = new Size(DpiUtils.Px(300), DpiUtils.Px(160));
 
                 var lblPrompt = new Label
                 {
-                    Text = "请输入密码:", Location = new Point(20, 20),
+                    Text = "请输入密码:",
+                    Location = new Point(DpiUtils.Px(20), DpiUtils.Px(18)),
                     AutoSize = true
                 };
                 dialog.Controls.Add(lblPrompt);
 
                 var txtPassword = new TextBox
                 {
-                    Location = new Point(20, 50),
-                    Width = 240,
+                    Location = new Point(DpiUtils.Px(20), DpiUtils.Px(46)),
+                    Width = DpiUtils.Px(240),
                     PasswordChar = '*',
                     Text = _txtPassword.Text
                 };
@@ -597,8 +597,8 @@ namespace VmOps.UI
                 {
                     Text = "确定",
                     DialogResult = DialogResult.OK,
-                    Location = new Point(80, 85),
-                    Width = 80
+                    Location = new Point(DpiUtils.Px(80), DpiUtils.Px(95)),
+                    Size = new Size(DpiUtils.Px(80), DpiUtils.Px(28))
                 };
                 dialog.Controls.Add(btnOk);
 
@@ -606,8 +606,8 @@ namespace VmOps.UI
                 {
                     Text = "取消",
                     DialogResult = DialogResult.Cancel,
-                    Location = new Point(170, 85),
-                    Width = 80
+                    Location = new Point(DpiUtils.Px(170), DpiUtils.Px(95)),
+                    Size = new Size(DpiUtils.Px(80), DpiUtils.Px(28))
                 };
                 dialog.Controls.Add(btnCancel);
 
