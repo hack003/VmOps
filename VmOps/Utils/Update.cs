@@ -7,7 +7,7 @@
 //   3. 每次都重新从嵌入资源释放 update_helper.exe（覆盖旧文件）
 //   4. 启动 helper 时传入主进程 PID，主程序用 Environment.Exit 强制退出
 // Gitee Release API（无需 token，公开访问）：
-//   https://gitee.com/api/v5/repos/hack003/VmOps-Tool/releases/latest
+//   https://gitee.com/api/v5/repos/hack003/VmOps/releases/latest
 // ============================================================================
 using System;
 using System.Diagnostics;

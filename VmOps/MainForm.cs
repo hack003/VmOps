@@ -1097,42 +1097,9 @@ namespace VmOps
 
             this.ResumeLayout(false);
 
-            _ = CheckForUpdatesSilentAsync();
-
             if (AppSettings.Instance.MinimizeToTrayOnStart)
             {
                 this.Shown += (s, e) => ShowInTray();
-            }
-        }
-
-        private bool _updateCheckedThisSession = false;
-
-        private async Task CheckForUpdatesSilentAsync()
-        {
-            try
-            {
-                await System.Threading.Tasks.Task.Delay(3000);
-                var info = await UpdateUtils.CheckForUpdatesAsync(AppVersion.VERSION_STR);
-                if (info != null && info.IsNewer && !_updateCheckedThisSession)
-                {
-                    _updateCheckedThisSession = true;
-                    this.BeginInvoke(new Action(() =>
-                    {
-                        try
-                        {
-                            using var dlg = new UpdateDialog(info, AppVersion.VERSION_STR);
-                            dlg.ShowDialog(this);
-                        }
-                        catch (System.Exception ex)
-                        {
-                            System.Diagnostics.Debug.WriteLine($"[Update] 弹窗异常: {ex.Message}");
-                        }
-                    }));
-                }
-            }
-            catch (System.Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"[Update] 静默检查异常: {ex.Message}");
             }
         }
 
@@ -1153,7 +1120,6 @@ namespace VmOps
 
                 if (info.IsNewer)
                 {
-                    _updateCheckedThisSession = true;
                     using var dlg = new UpdateDialog(info, AppVersion.VERSION_STR);
                     dlg.ShowDialog(this);
                 }
