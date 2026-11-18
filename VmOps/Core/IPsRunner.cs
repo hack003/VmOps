@@ -4,7 +4,7 @@
 // 职责：定义 PowerShell 执行通道的统一契约
 //
 // 核心接口 IPsRunner：
-//   ✅ IsConnected / CurrentVc — 连接状态 + 当前 vCenter 别名
+//   ✅ IsConnected / CurrentVc — 连接状态 + 当前 vCenter 地址
 //   ✅ ExecuteScriptAsync() — 执行脚本并返回文本输出（详情查询/操作脚本）
 //   ✅ ExecuteQueryAsync() — 执行查询脚本并返回 Dictionary 列表（表格数据）
 //   ✅ DisconnectAsync() — 断开通道连接

@@ -35,7 +35,6 @@ namespace VmOps.UI
         private Panel? _notebookContainer;
         private Panel? _fullLogView;
         private Label? _runningStatusLabel;
-        private ComboBox? _aliasCombo;
         private ComboBox? _vcCombo;
         private ComboBox? _domainCombo;
         private ComboBox? _userCombo;
@@ -189,48 +188,23 @@ namespace VmOps.UI
         }
         private void BuildConnectFrame(GroupBox connectFrame)
         {
-            // ===== 主布局：3列 x 4行（纯输入区，无按钮） =====
+            // ===== 主布局：3列 x 3行（纯输入区，无按钮） =====
             // 列0: 标签(固定90px) | 列1: 输入框(弹性百分比) | 列2: 间隔(10px)
             var layout = new TableLayoutPanel
             {
-                Dock = DockStyle.Fill, ColumnCount = 3, RowCount = 4, Padding = new Padding(0, 10, 0, 10), AutoSize = false
+                Dock = DockStyle.Fill, ColumnCount = 3, RowCount = 3, Padding = new Padding(0, 10, 0, 10), AutoSize = false
             };
 
             layout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 90));
             layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
             layout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 10));
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 3; i++)
             {
                 layout.RowStyles.Add(new RowStyle(SizeType.Absolute, DpiUtils.Px(30)));
             }
 
-            // ===== 第0行：连接别名 =====
-            var lblAlias = new Label
-            {
-                Text = "连接别名:",
-                TextAlign = ContentAlignment.MiddleLeft,
-                Padding = new Padding(0, 0, 2, 0),
-                Margin = Padding.Empty,
-                AutoSize = false,
-                AutoEllipsis = false,
-                Width = 88,
-                Height = 22,
-                Anchor = AnchorStyles.Top | AnchorStyles.Left
-            };
-            layout.Controls.Add(lblAlias, 0, 0);
-
-            _aliasCombo = new ComboBox
-            {
-                DropDownStyle = ComboBoxStyle.DropDown,
-                DropDownHeight = 200,
-                Margin = Padding.Empty,
-                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
-            };
-            _aliasCombo.SelectedIndexChanged += (s, e) => OnAliasSelected();
-            layout.Controls.Add(_aliasCombo, 1, 0);
-
-            // ===== 第1行：连接地址 =====
+            // ===== 第0行：连接地址 =====
             var lblVc = new Label
             {
                 Text = "连接地址:",
@@ -243,7 +217,7 @@ namespace VmOps.UI
                 Height = 22,
                 Anchor = AnchorStyles.Top | AnchorStyles.Left
             };
-            layout.Controls.Add(lblVc, 0, 1);
+            layout.Controls.Add(lblVc, 0, 0);
 
             _vcCombo = new ComboBox
             {
@@ -252,9 +226,9 @@ namespace VmOps.UI
                 Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
             };
             _vcCombo.SelectedIndexChanged += (s, e) => OnVcSelected();
-            layout.Controls.Add(_vcCombo, 1, 1);
+            layout.Controls.Add(_vcCombo, 1, 0);
 
-            // ===== 第2行：用户域 =====
+            // ===== 第1行：用户域 =====
             var lblDomain = new Label
             {
                 Text = "用户域:",
@@ -267,7 +241,7 @@ namespace VmOps.UI
                 Height = 22,
                 Anchor = AnchorStyles.Top | AnchorStyles.Left
             };
-            layout.Controls.Add(lblDomain, 0, 2);
+            layout.Controls.Add(lblDomain, 0, 1);
 
             _domainCombo = new ComboBox
             {
@@ -280,9 +254,9 @@ namespace VmOps.UI
                 _domainCombo.Text = "vsphere.local";
             _domainCombo.SelectedIndexChanged += (s, e) => UpdateUserVar();
             _domainCombo.TextChanged += (s, e) => UpdateUserVar();
-            layout.Controls.Add(_domainCombo, 1, 2);
+            layout.Controls.Add(_domainCombo, 1, 1);
 
-            // ===== 第3行：用户名 =====
+            // ===== 第2行：用户名 =====
             var lblUser = new Label
             {
                 Text = "用户名:",
@@ -295,7 +269,7 @@ namespace VmOps.UI
                 Height = 22,
                 Anchor = AnchorStyles.Top | AnchorStyles.Left
             };
-            layout.Controls.Add(lblUser, 0, 3);
+            layout.Controls.Add(lblUser, 0, 2);
 
             _userCombo = new ComboBox
             {
@@ -308,7 +282,7 @@ namespace VmOps.UI
                 _userCombo.Text = "administrator";
             _userCombo.SelectedIndexChanged += (s, e) => UpdateUserVar();
             _userCombo.TextChanged += (s, e) => UpdateUserVar();
-            layout.Controls.Add(_userCombo, 1, 3);
+            layout.Controls.Add(_userCombo, 1, 2);
 
             // ===== 右侧按钮面板（独立 Dock=Right） =====
             var btnPanel = new Panel
@@ -480,7 +454,7 @@ namespace VmOps.UI
                 "② 点击上方功能菜单按钮，可直接跳转到对应功能页，并自动刷新内容。",
                 "③ 顶部右侧的『帮助文档』『设置』按钮，可随时查阅帮助或调整参数。",
                 "④ 点击底部状态栏，可展开/收起完整运行日志面板。",
-                "⑤ 成功连接后，系统会记忆凭证（密码加密存储），下次连接时可快速选择历史 连接地址或连接别名自动填充。",
+                "⑤ 成功连接后，系统会记忆凭证（密码加密存储），下次连接时可快速选择历史连接地址自动填充。",
                 "⑥ 在虚拟机/主机/存储/网络列表中，支持右键菜单进行批量操作（开机、关机、重启、快照等）。",
                 "⑦ 列表页支持按列头排序和条件过滤，过滤后仍可正常排序，数据操作互不干扰。",
                 "⑧ 『执行部署』功能会读取 CSV 模板文件批量创建虚拟机，部署前请确保模板格式正确。",
@@ -771,32 +745,6 @@ namespace VmOps.UI
                 LogMessage("error", $"断开连接异常: {ex.Message}");
             }
         }
-        private void OnAliasSelected()
-        {
-            if (_aliasCombo == null) return;
-
-            string alias = _aliasCombo.Text.Trim();
-            if (string.IsNullOrEmpty(alias)) return;
-
-            foreach (var kvp in _savedCredentials)
-            {
-                var vc = kvp.Key;
-                var cred = kvp.Value;
-                if (cred.TryGetValue("alias", out var credAlias) && credAlias == alias)
-                {
-                    if (_vcCombo != null) _vcCombo.Text = vc;
-                    if (_domainCombo != null && cred.TryGetValue("domain", out var domain))
-                        _domainCombo.Text = domain;
-                    if (_userCombo != null && cred.TryGetValue("user", out var user))
-                        _userCombo.Text = user;
-                    if (_txtPassword != null && cred.TryGetValue("password", out var pw))
-                        _txtPassword.Text = pw;
-                    LogMessage("信息", $"已选择别名「{alias}」→ {vc}");
-                    UpdatePasswordLabel();
-                    break;
-                }
-            }
-        }
         private void OnVcSelected()
         {
             if (_vcCombo == null) return;
@@ -806,8 +754,6 @@ namespace VmOps.UI
 
             if (_savedCredentials.TryGetValue(vc, out var cred))
             {
-                if (cred.TryGetValue("alias", out var alias) && !string.IsNullOrEmpty(alias))
-                    _aliasCombo.Text = alias;
                 if (cred.TryGetValue("domain", out var domain))
                     _domainCombo.Text = domain;
                 if (cred.TryGetValue("user", out var user))
@@ -838,12 +784,10 @@ namespace VmOps.UI
                 if (encoded == null) return;
 
                 var vcHosts = new List<string>();
-                var aliases = new List<string>();
 
                 foreach (var kvp in encoded)
                 {
                     string vc = kvp.Key;
-                    if (vc == "_aliases") continue;
 
                     var cred = kvp.Value;
                     var decodedCred = new Dictionary<string, string>();
@@ -857,28 +801,14 @@ namespace VmOps.UI
                         string decrypted = PasswordCrypto.Decrypt(pw);
                         decodedCred["password"] = decrypted ?? "";
                     }
-                    if (cred.TryGetValue("alias", out var alias))
-                        decodedCred["alias"] = alias;
 
                     _savedCredentials[vc] = decodedCred;
                     vcHosts.Add(vc);
-                    if (!string.IsNullOrEmpty(alias))
-                        aliases.Add(alias);
                 }
 
-                // 先填充下拉框
                 if (vcHosts.Count > 0)
                 {
                     _vcCombo.Items.AddRange(vcHosts.ToArray());
-                }
-                if (aliases.Count > 0)
-                {
-                    _aliasCombo.Items.AddRange(aliases.ToArray());
-                }
-
-                // 再设置默认值
-                if (vcHosts.Count > 0)
-                {
                     _vcCombo.Text = vcHosts[0];
 
                     if (_savedCredentials.TryGetValue(vcHosts[0], out var firstCred))
@@ -889,11 +819,8 @@ namespace VmOps.UI
                             _userCombo.Text = user;
                         if (firstCred.TryGetValue("password", out var pw))
                             _txtPassword.Text = pw;
-                        if (firstCred.TryGetValue("alias", out var alias))
-                            _aliasCombo.Text = alias;
                     }
                     
-                    // 更新密码标签状态
                     UpdatePasswordLabel();
                 }
             }
@@ -921,40 +848,31 @@ namespace VmOps.UI
                 }
 
                 string pw = _txtPassword?.Text ?? "";
-                string alias = _aliasCombo?.Text ?? "";
 
                 encoded[vc] = new Dictionary<string, string>
                 {
                     { "domain", domain },
                     { "user", user },
-                    { "password", PasswordCrypto.Encrypt(pw) },
-                    { "alias", alias }
+                    { "password", PasswordCrypto.Encrypt(pw) }
                 };
 
                 string outJson = JsonConvert.SerializeObject(encoded, Formatting.Indented);
                 File.WriteAllText(credPath, outJson);
 
-                // 更新内存中的凭证缓存
                 var decodedCred = new Dictionary<string, string>
                 {
                     { "domain", domain },
                     { "user", user },
-                    { "password", pw },
-                    { "alias", alias }
+                    { "password", pw }
                 };
                 _savedCredentials[vc] = decodedCred;
 
-                // 更新下拉框选项
                 if (_vcCombo != null && !_vcCombo.Items.Contains(vc))
                 {
                     _vcCombo.Items.Add(vc);
                 }
-                if (_aliasCombo != null && !string.IsNullOrEmpty(alias) && !_aliasCombo.Items.Contains(alias))
-                {
-                    _aliasCombo.Items.Add(alias);
-                }
 
-                LogMessage("信息", $"凭证已保存: {vc} (别名: {alias})");
+                LogMessage("信息", $"凭证已保存: {vc}");
             }
             catch (Exception ex)
             {
@@ -970,20 +888,14 @@ namespace VmOps.UI
                 return;
             }
 
-            string aliasHint = "";
-            if (_savedCredentials.TryGetValue(vcKey, out var cred) &&
-                cred.TryGetValue("alias", out var a) && !string.IsNullOrEmpty(a))
-                aliasHint = $"（别名：{a}）";
-
             var result = MessageBox.Show(
-                $"确定要清除 vCenter「{vcKey}」{aliasHint} 的记忆凭证吗？\n其他 vCenter 的记忆不受影响。",
+                $"确定要清除 vCenter「{vcKey}」的记忆凭证吗？\n其他 vCenter 的记忆不受影响。",
                 "确认清除", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result != DialogResult.Yes) return;
 
             try
             {
                 string credPath = GetCredentialsPath();
-                string removedAlias = null;
 
                 if (File.Exists(credPath))
                 {
@@ -991,8 +903,6 @@ namespace VmOps.UI
                     var encoded = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(json);
                     if (encoded != null && encoded.ContainsKey(vcKey))
                     {
-                        if (encoded[vcKey].TryGetValue("alias", out var al))
-                            removedAlias = al;
                         encoded.Remove(vcKey);
 
                         string dir = Path.GetDirectoryName(credPath);
@@ -1008,12 +918,6 @@ namespace VmOps.UI
                 {
                     _vcCombo.Items.Remove(vcKey);
                     _vcCombo.Text = "";
-                }
-                if (_aliasCombo != null)
-                {
-                    if (!string.IsNullOrEmpty(removedAlias))
-                        _aliasCombo.Items.Remove(removedAlias);
-                    _aliasCombo.Text = "";
                 }
                 if (_domainCombo != null) _domainCombo.Text = "vsphere.local";
                 if (_userCombo != null) _userCombo.Text = "administrator";
@@ -1097,7 +1001,6 @@ namespace VmOps.UI
         {
             var state = enabled ? true : false;
 
-            if (_aliasCombo != null) _aliasCombo.Enabled = !enabled;
             if (_vcCombo != null) _vcCombo.Enabled = !enabled;
             if (_domainCombo != null) _domainCombo.Enabled = !enabled;
             if (_userCombo != null) _userCombo.Enabled = !enabled;
