@@ -1,5 +1,9 @@
-﻿// ============================================================================
-// ResourceQueryTab.VmOpsDialog.cs - 虚拟机操作对话框中心
+// ============================================================================
+// [UTF-8 无 BOM] ResourceQueryTab.VmOpsDialog.cs - 虚拟机操作对话框中心
+// ============================================================================
+
+//
+// UI 编码规范见 MainForm.cs 头部注释
 // ============================================================================
 // 职责范围：
 //   ✅ ShowEditConfigDialog       - CPU/内存/端口组编辑对话框
@@ -18,10 +22,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using VmOps.Core;
@@ -1392,50 +1394,19 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
 
                 if (confirmResult != DialogResult.OK) return;
 
-                string thinFlag = storageFormat.Equals("Thin", StringComparison.OrdinalIgnoreCase) ? "$true" : "$false";
-                string eagerFlag = storageFormat.Equals("EagerZeroedThick", StringComparison.OrdinalIgnoreCase) ? "$true" : "$false";
                 string script =
-                    $"{PsWaitTaskFunc}" +
                     $"$ErrorActionPreference = 'Stop'; " +
-                    $"$vm = Get-View -Id '{vmMoRef}' -Property Name,Runtime.PowerState,Config.Hardware.Device -ErrorAction Stop | Select-Object -First 1; " +
-                    "Write-Host ('=== VM 硬件诊断 ==='); " +
-                    "foreach ($d in $vm.Config.Hardware.Device) { $t = $d.GetType().Name; if ($t -like '*Controller*' -or $t -like '*Disk*') { Write-Host ('  [' + $t + '] Key=' + $d.Key + ' ' + $(if ($d -is [VMware.Vim.VirtualController]) { 'BusNumber=' + $d.BusNumber } else { '' }) + ' ' + $(if ($d -is [VMware.Vim.VirtualDisk]) { 'CtrlKey=' + $d.ControllerKey + ' Unit=' + $d.UnitNumber + ' Label=' + $d.DeviceInfo.Label } else { '' })) } }; " +
-                    "$allScsi = @($vm.Config.Hardware.Device | Where-Object { $_ -is [VMware.Vim.VirtualSCSIController] }); " +
-                    "if ($allScsi.Count -eq 0) { throw '未找到 SCSI 控制器' }; " +
-                    "$allDisks = @($vm.Config.Hardware.Device | Where-Object { $_ -is [VMware.Vim.VirtualDisk] -and $_.Backing }); " +
-                    "if ($allDisks.Count -eq 0) { throw 'VM 无有效系统盘' }; " +
-                    "$scsiCtrl = $null; $sysDisk = $null; " +
-                    "foreach ($ctrl in ($allScsi | Sort-Object BusNumber, Key)) { $disksOnCtrl = @($allDisks | Where-Object { $_.ControllerKey -eq $ctrl.Key }); if ($disksOnCtrl.Count -gt 0) { $scsiCtrl = $ctrl; $sysDisk = $disksOnCtrl[0]; break } }; " +
-                    "if (-not $scsiCtrl) { throw '所有 SCSI 控制器上均无磁盘' }; " +
-                    "Write-Host ('选中 SCSI 控制器 Type=' + $scsiCtrl.GetType().Name + ' Key=' + $scsiCtrl.Key + ' BusNumber=' + $scsiCtrl.BusNumber); " +
-                    "Write-Host ('系统盘 Key=' + $sysDisk.Key + ' CtrlKey=' + $sysDisk.ControllerKey + ' Unit=' + $sysDisk.UnitNumber + ' DS=' + $sysDisk.Backing.Datastore); " +
-                    "$scsiDisks = @($allDisks | Where-Object { $_.ControllerKey -eq $scsiCtrl.Key }); " +
-                    "$usedUnits = @($scsiDisks | ForEach-Object { [int]$_.UnitNumber }); " +
-                    "$nextUnit = 0; foreach ($u in $usedUnits) { if ($u -ge $nextUnit) { $nextUnit = $u + 1 } }; " +
-                    $"$newSizeGB = [int64]{newSize}; " +
-                    "$newDisk = New-Object VMware.Vim.VirtualDisk; " +
-                    "$newDisk.Key = -1; " +
-                    "$newDisk.ControllerKey = $scsiCtrl.Key; " +
-                    "$newDisk.UnitNumber = $nextUnit; " +
-                    "$newDisk.CapacityInBytes = $newSizeGB * 1GB; " +
-                    "$newDisk.DeviceInfo = New-Object VMware.Vim.Description; " +
-                    "$newDisk.DeviceInfo.Label = ('Hard disk ' + ($scsiDisks.Count + 1)); " +
-                    "$newDisk.DeviceInfo.Summary = ('Hard disk ' + ($scsiDisks.Count + 1)); " +
-                    "$backing = New-Object VMware.Vim.VirtualDiskFlatVer2BackingInfo; " +
-                    "$backing.DiskMode = [VMware.Vim.VirtualDiskMode]::persistent; " +
-                    "$backing.ThinProvisioned = $thinFlag; " +
-                    "$backing.EagerlyScrub = $eagerFlag; " +
-                    "$backing.Datastore = $sysDisk.Backing.Datastore; " +
-                    "$backing.FileName = ''; " +
-                    "$newDisk.Backing = $backing; " +
-                    "$ds = New-Object VMware.Vim.VirtualDeviceConfigSpec; " +
-                    "$ds.Operation = [VMware.Vim.VirtualDeviceConfigSpecOperation]::add; " +
-                    "$ds.FileOperation = [VMware.Vim.VirtualDeviceConfigSpecFileOperation]::create; " +
-                    "$ds.Device = $newDisk; " +
-                    "$cfg = New-Object VMware.Vim.VirtualMachineConfigSpec; " +
-                    "$cfg.DeviceChange = @($ds); " +
-                    "Write-Host ('准备新增磁盘: CtrlKey=' + $newDisk.ControllerKey + ' Unit=' + $newDisk.UnitNumber + ' Size=' + $newDisk.CapacityInBytes + 'B Thin=' + $backing.ThinProvisioned); " +
-                    "$task = $vm.ReconfigVM_Task($cfg); Wait-Task $task '新增磁盘' " +
+                    $"$vm = Get-VM -Id '{vmMoRef}' -ErrorAction Stop | Select-Object -First 1; " +
+                    $"Write-Host ('VM: ' + $vm.Name + '  PowerState=' + $vm.PowerState); " +
+                    $"$storageFmt = '{storageFormat}'; " +
+                    "if ($storageFmt -eq 'Thin') { $hdFmt = 'Thin' } else { $hdFmt = 'Thick' }; " +
+                    "Write-Host ('置备模式: ' + $hdFmt); " +
+                    $"$before = @($vm | Get-HardDisk); " +
+                    $"Write-Host ('新增前磁盘数: ' + $before.Count); " +
+                    $"$newHd = New-HardDisk -VM $vm -CapacityGB {newSize} -StorageFormat $hdFmt -DiskType Flat -ErrorAction Stop; " +
+                    "$after = @($vm | Get-HardDisk | Sort-Object Name); " +
+                    "Write-Host ('新增后磁盘数: ' + $after.Count); " +
+                    "foreach ($d in $after) { Write-Host ('  ' + $d.Name + '  ' + $d.CapacityGB + ' GB  ' + $d.StorageFormat) }; " +
                     $"Write-Output '【{EscapePsString(vmName)}】已新增 {newSize} GB 虚拟磁盘（{storageFormat}）'";
 
                 ExecuteVmOperation(script, $"新增磁盘: {vmName} → {newSize} GB ({storageFormat})", onSuccess: () =>

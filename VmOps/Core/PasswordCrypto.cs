@@ -1,4 +1,8 @@
-﻿using System;
+// ============================================================================
+// [UTF-8 无 BOM] PasswordCrypto.cs - DPAPI 密码加密/解密（Windows Data Protection API）
+// ============================================================================
+
+using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;

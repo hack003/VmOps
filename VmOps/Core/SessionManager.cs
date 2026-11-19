@@ -1,5 +1,5 @@
-﻿// ============================================================================
-// SessionManager.cs - 常驻通用 Runspace 会话（单例）
+// ============================================================================
+// [UTF-8 无 BOM] SessionManager.cs - 常驻通用 Runspace 会话（单例）
 // ============================================================================
 // 职责：程序启动时初始化一个长驻 Runspace，全程复用，串行执行
 //   适用场景：查询操作 / 单台手动 VM 操作 / 轻量运维操作
@@ -126,7 +126,8 @@ namespace VmOps.Core
                 _runspace.Open();
 
                 string initScript = @"
-Import-Module VMware.VimAutomation.Core -ErrorAction SilentlyContinue;
+Import-Module VMware.VimAutomation.Core -Force -ErrorAction Stop;
+try { New-Object 'VMware.VimAutomation.ViCore.Types.V1.Hardware.StorageFormat' 0 | Out-Null } catch {};
 Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false -Scope Session | Out-Null;
 Set-PowerCLIConfiguration -ParticipateInCEIP $false -Confirm:$false -Scope Session | Out-Null;
 ";

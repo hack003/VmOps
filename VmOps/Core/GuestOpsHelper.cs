@@ -1,5 +1,8 @@
-﻿using System;
-using System.Text;
+// ============================================================================
+// [UTF-8 无 BOM] GuestOpsHelper.cs - 来宾操作系统命令执行辅助（VMware Tools GuestOperations）
+// ============================================================================
+
+using System;
 
 namespace VmOps.Core
 {

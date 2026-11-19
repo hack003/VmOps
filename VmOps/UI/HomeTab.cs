@@ -1,5 +1,9 @@
-﻿// ============================================================================
-// HomeTab.cs - 应用首页 Tab
+// ============================================================================
+// [UTF-8 无 BOM] HomeTab.cs - 应用首页 Tab
+// ============================================================================
+
+//
+// UI 编码规范见 MainForm.cs 头部注释
 // ============================================================================
 // 布局结构：
 //   ✅ 顶部三列 TableLayoutPanel：vCenter 连接配置 | 批量部署管理 | 功能菜单入口
@@ -13,8 +17,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net.Sockets;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
@@ -754,10 +756,16 @@ namespace VmOps.UI
 
             if (_savedCredentials.TryGetValue(vc, out var cred))
             {
-                if (cred.TryGetValue("domain", out var domain))
+                if (_domainCombo != null && cred.TryGetValue("domain", out var domain))
+                {
                     _domainCombo.Text = domain;
-                if (cred.TryGetValue("user", out var user))
+                    _domainCombo.Select(0, 0);
+                }
+                if (_userCombo != null && cred.TryGetValue("user", out var user))
+                {
                     _userCombo.Text = user;
+                    _userCombo.Select(0, 0);
+                }
                 if (cred.TryGetValue("password", out var pw))
                     _txtPassword.Text = pw;
                 UpdatePasswordLabel();
@@ -784,11 +792,11 @@ namespace VmOps.UI
                 if (encoded == null) return;
 
                 var vcHosts = new List<string>();
+                var saved = new Dictionary<string, Dictionary<string, string>>();
 
                 foreach (var kvp in encoded)
                 {
                     string vc = kvp.Key;
-
                     var cred = kvp.Value;
                     var decodedCred = new Dictionary<string, string>();
 
@@ -802,32 +810,45 @@ namespace VmOps.UI
                         decodedCred["password"] = decrypted ?? "";
                     }
 
-                    _savedCredentials[vc] = decodedCred;
+                    saved[vc] = decodedCred;
                     vcHosts.Add(vc);
                 }
 
                 if (vcHosts.Count > 0)
                 {
-                    _vcCombo.Items.AddRange(vcHosts.ToArray());
-                    _vcCombo.Text = vcHosts[0];
-
-                    if (_savedCredentials.TryGetValue(vcHosts[0], out var firstCred))
-                    {
-                        if (firstCred.TryGetValue("domain", out var domain))
-                            _domainCombo.Text = domain;
-                        if (firstCred.TryGetValue("user", out var user))
-                            _userCombo.Text = user;
-                        if (firstCred.TryGetValue("password", out var pw))
-                            _txtPassword.Text = pw;
-                    }
-                    
-                    UpdatePasswordLabel();
+                    _root.BeginInvoke(new Action(() => ApplyLoadedCredentials(saved, vcHosts)));
                 }
             }
             catch
             {
                 _savedCredentials = new Dictionary<string, Dictionary<string, string>>();
             }
+        }
+        private void ApplyLoadedCredentials(Dictionary<string, Dictionary<string, string>> saved, List<string> vcHosts)
+        {
+            _savedCredentials = saved;
+            if (_vcCombo != null)
+            {
+                _vcCombo.Items.AddRange(vcHosts.ToArray());
+                _vcCombo.Text = vcHosts[0];
+                _vcCombo.Select(0, 0);
+            }
+            if (_savedCredentials.TryGetValue(vcHosts[0], out var firstCred))
+            {
+                if (_domainCombo != null && firstCred.TryGetValue("domain", out var domain))
+                {
+                    _domainCombo.Text = domain;
+                    _domainCombo.Select(0, 0);
+                }
+                if (_userCombo != null && firstCred.TryGetValue("user", out var user))
+                {
+                    _userCombo.Text = user;
+                    _userCombo.Select(0, 0);
+                }
+                if (_txtPassword != null && firstCred.TryGetValue("password", out var pw))
+                    _txtPassword.Text = pw;
+            }
+            UpdatePasswordLabel();
         }
         private void SaveCredentials(string vc, string user, string domain)
         {
@@ -919,8 +940,16 @@ namespace VmOps.UI
                     _vcCombo.Items.Remove(vcKey);
                     _vcCombo.Text = "";
                 }
-                if (_domainCombo != null) _domainCombo.Text = "vsphere.local";
-                if (_userCombo != null) _userCombo.Text = "administrator";
+                if (_domainCombo != null)
+                {
+                    _domainCombo.Text = "vsphere.local";
+                    _domainCombo.Select(0, 0);
+                }
+                if (_userCombo != null)
+                {
+                    _userCombo.Text = "administrator";
+                    _userCombo.Select(0, 0);
+                }
                 if (_txtPassword != null) _txtPassword.Text = "";
 
                 LogMessage("success", $"已清除 vCenter「{vcKey}」的记忆凭证");

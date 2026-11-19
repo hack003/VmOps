@@ -1,5 +1,5 @@
-﻿// ============================================================================
-// DeployManager.cs - 批量部署编排器
+// ============================================================================
+// [UTF-8 无 BOM] DeployManager.cs - 批量部署编排器
 // ============================================================================
 // 职责：读取 CSV 部署列表 → 创建临时部署通道 → 逐台执行 New-VM + Guest 网络配置
 //
@@ -295,6 +295,20 @@ namespace VmOps.Core
                     await ExecuteInSessionAsync(psScript, "reconfigure");
                     LogVmStep("  → 完成");
 
+                    LogVmStep("检查并启动虚拟机...");
+                    string powerScript = $@"
+$vm = Get-View -Id '{EscapePsString(vmMoRef)}' -Property Runtime.PowerState -ErrorAction Stop;
+if ($vm.Runtime.PowerState -ne 'poweredOn') {{
+    Write-Host ('当前 PowerState=' + $vm.Runtime.PowerState + '，正在开机...');
+    $task = $vm.PowerOnVM_Task($null);
+    while ($true) {{ Start-Sleep -Seconds 2; $t = Get-View -Id $task -Property Info.State,Info.Error -ErrorAction SilentlyContinue; if ($null -ne $t -and $t.Info.State -eq 'success') {{ Write-Host '开机成功'; break }}; if ($null -ne $t -and $t.Info.State -eq 'error') {{ throw ('开机失败: ' + $t.Info.Error.LocalizedMessage) }} }}
+}} else {{
+    Write-Host ('虚拟机已处于开机状态');
+}}
+";
+                    await ExecuteInSessionAsync(powerScript, "poweron");
+                    LogVmStep("  → 完成");
+
                     statusText = "重新配置";
                 }
                 else
@@ -583,48 +597,29 @@ Write-Output '[STEP] Step1 全部完成';
             if (diskCap > 0)
             {
                 string diskScript = $@"
-$vmView = Get-View -Id '{EscapePsString(vmMoRef)}' -Property Config.Hardware.Device -ErrorAction Stop;
-if (-not $vmView) {{ throw '未找到虚拟机 MoRef: {EscapePsString(vmMoRef)}' }};
-$allDisks = @($vmView.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualDisk] }});
-$allScsi = @($vmView.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualSCSIController] }});
-if ($allScsi.Count -eq 0) {{ throw '未找到任何 SCSI 控制器（VirtualSCSIController 子类），请检查模板硬件' }};
-$scsiCtrl = $allScsi | Sort-Object BusNumber, Key | Select-Object -First 1;
-$systemDisk = $allDisks | Where-Object {{ $_.ControllerKey -eq $scsiCtrl.Key }} | Select-Object -First 1;
-if (-not $systemDisk) {{ throw ('选中的 SCSI 控制器 (Key=' + $scsiCtrl.Key + ') 上无磁盘') }};
-$targetCapBytes = [int64]{diskCap} * 1GB;
-$configSpec = New-Object VMware.Vim.VirtualMachineConfigSpec;
-$scsiDisks = @($allDisks | Where-Object {{ $_.ControllerKey -eq $scsiCtrl.Key }});
-$dataDisk = if ($scsiDisks.Count -ge 2) {{ $scsiDisks[1] }} else {{ $null }};
-if (-not $dataDisk) {{
-    Write-Host ('数据盘不存在，新建第2块硬盘（容量: ' + {diskCap} + ' GB，挂 SCSI 控制器 Key=' + $scsiCtrl.Key + '）');
-    $newDisk = New-Object VMware.Vim.VirtualDisk;
-    $newDisk.Key = -1;
-    $newDisk.ControllerKey = $scsiCtrl.Key;
-    $usedUnits = @($scsiDisks | ForEach-Object {{ [int]$_.UnitNumber }});
-    $nextUnit = 0; foreach ($u in $usedUnits) {{ if ($u -ge $nextUnit) {{ $nextUnit = $u + 1 }} }};
-    $newDisk.UnitNumber = $nextUnit;
-    $newDisk.CapacityInBytes = $targetCapBytes;
-    $backing = New-Object VMware.Vim.VirtualDiskFlatVer2BackingInfo;
-    $backing.DiskMode = [VMware.Vim.VirtualDiskMode]::persistent;
-    $backing.ThinProvisioned = $true;
-    $backing.Datastore = $systemDisk.Backing.Datastore;
-    $backing.FileName = '';
-    $newDisk.Backing = $backing;
-    $diskSpec = New-Object VMware.Vim.VirtualDeviceConfigSpec;
-    $diskSpec.Operation = [VMware.Vim.VirtualDeviceConfigSpecOperation]::add;
-    $diskSpec.FileOperation = [VMware.Vim.VirtualDeviceConfigSpecFileOperation]::create;
-    $diskSpec.Device = $newDisk;
-    $configSpec.DeviceChange += $diskSpec;
+$vm = Get-VM -Id '{EscapePsString(vmMoRef)}' -ErrorAction Stop;
+if (-not $vm) {{ throw '未找到虚拟机 MoRef: {EscapePsString(vmMoRef)}' }};
+$allDisks = @($vm | Get-HardDisk);
+$targetCapGB = {diskCap};
+if ($allDisks.Count -lt 2) {{
+    Write-Host ('数据盘不存在，新建第2块硬盘（容量: ' + {diskCap} + ' GB，Thin）');
+    $newHd = New-HardDisk -VM $vm -CapacityGB {diskCap} -StorageFormat Thin -DiskType Flat -ErrorAction Stop;
+    Write-Host ('数据盘创建完成: ' + $newHd.Name + '  ' + $newHd.CapacityGB + ' GB');
 }} else {{
-    Write-Host ('数据盘已存在，扩容到 ' + {diskCap} + ' GB');
-    $dataDisk.CapacityInBytes = $targetCapBytes;
-    $diskSpec = New-Object VMware.Vim.VirtualDeviceConfigSpec;
-    $diskSpec.Operation = [VMware.Vim.VirtualDeviceConfigSpecOperation]::edit;
-    $diskSpec.Device = $dataDisk;
-    $configSpec.DeviceChange += $diskSpec;
+    $dataDisk = $allDisks[1];
+    $existingCapGB = [math]::Round([double]$dataDisk.CapacityGB, 2);
+    Write-Host ('数据盘已存在（当前容量: ' + $existingCapGB + ' GB）');
+    if ({diskCap} -gt $existingCapGB) {{
+        Write-Host ('扩展数据盘至: ' + {diskCap} + ' GB');
+        $hd = Get-HardDisk -VM $vm -ErrorAction Stop | Select-Object -Index 1;
+        Set-HardDisk -HardDisk $hd -CapacityGB {diskCap} -ErrorAction Stop;
+        Write-Host '数据盘扩容完成';
+    }} elseif ({diskCap} -lt $existingCapGB) {{
+        Write-Host '目标容量小于当前容量，为避免数据丢失，跳过缩容操作';
+    }} else {{
+        Write-Host '目标容量与当前容量一致，无需操作';
+    }}
 }}
-$task = $vmView.ReconfigVM_Task($configSpec);
-while ($true) {{ Start-Sleep -Seconds 3; $t = Get-View -Id $task -Property Info.State,Info.Error -ErrorAction SilentlyContinue; if ($null -ne $t -and $t.Info.State -eq 'success') {{ Write-Host '数据盘配置完成'; break }}; if ($null -ne $t -and $t.Info.State -eq 'error') {{ throw ('磁盘操作失败: ' + $t.Info.Error.LocalizedMessage) }} }}
 ";
                 return scriptBody + "; " + diskScript;
             }
@@ -755,56 +750,26 @@ if ($vm.Runtime.PowerState -ne 'poweredOn') {{
             if (diskCap > 0)
             {
                 string diskScript = $@"
-$vmView = Get-View -Id '{EscapePsString(vmMoRef)}' -Property Config.Hardware.Device -ErrorAction Stop;
-if (-not $vmView) {{ throw '未找到虚拟机 MoRef: {EscapePsString(vmMoRef)}' }};
-$allDisks = @($vmView.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualDisk] }});
-$allScsi = @($vmView.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualSCSIController] }});
-if ($allScsi.Count -eq 0) {{ throw '未找到任何 SCSI 控制器（VirtualSCSIController 子类），请检查模板硬件' }};
-$scsiCtrl = $allScsi | Sort-Object BusNumber, Key | Select-Object -First 1;
-$systemDisk = $allDisks | Where-Object {{ $_.ControllerKey -eq $scsiCtrl.Key }} | Select-Object -First 1;
-if (-not $systemDisk) {{ throw ('选中的 SCSI 控制器 (Key=' + $scsiCtrl.Key + ') 上无磁盘') }};
-$targetCapBytes = [int64]{diskCap} * 1GB;
-$configSpec = New-Object VMware.Vim.VirtualMachineConfigSpec;
-$scsiDisks = @($allDisks | Where-Object {{ $_.ControllerKey -eq $scsiCtrl.Key }});
-$dataDisk = if ($scsiDisks.Count -ge 2) {{ $scsiDisks[1] }} else {{ $null }};
-if (-not $dataDisk) {{
-    Write-Host ('数据盘不存在，新建第2块硬盘（容量: ' + {diskCap} + ' GB，挂 SCSI 控制器 Key=' + $scsiCtrl.Key + '）');
-    $newDisk = New-Object VMware.Vim.VirtualDisk;
-    $newDisk.Key = -1;
-    $newDisk.ControllerKey = $scsiCtrl.Key;
-    $usedUnits = @($scsiDisks | ForEach-Object {{ [int]$_.UnitNumber }});
-    $nextUnit = 0; foreach ($u in $usedUnits) {{ if ($u -ge $nextUnit) {{ $nextUnit = $u + 1 }} }};
-    $newDisk.UnitNumber = $nextUnit;
-    $newDisk.CapacityInBytes = $targetCapBytes;
-    $backing = New-Object VMware.Vim.VirtualDiskFlatVer2BackingInfo;
-    $backing.DiskMode = [VMware.Vim.VirtualDiskMode]::persistent;
-    $backing.ThinProvisioned = $true;
-    $backing.Datastore = $systemDisk.Backing.Datastore;
-    $backing.FileName = '';
-    $newDisk.Backing = $backing;
-    $diskSpec = New-Object VMware.Vim.VirtualDeviceConfigSpec;
-    $diskSpec.Operation = [VMware.Vim.VirtualDeviceConfigSpecOperation]::add;
-    $diskSpec.FileOperation = [VMware.Vim.VirtualDeviceConfigSpecFileOperation]::create;
-    $diskSpec.Device = $newDisk;
-    $configSpec.DeviceChange += $diskSpec;
-    $task = $vmView.ReconfigVM_Task($configSpec);
-    while ($true) {{ Start-Sleep -Seconds 3; $t = Get-View -Id $task -Property Info.State,Info.Error -ErrorAction SilentlyContinue; if ($null -ne $t -and $t.Info.State -eq 'success') {{ Write-Host '数据盘创建完成'; break }}; if ($null -ne $t -and $t.Info.State -eq 'error') {{ throw ('新建磁盘失败: ' + $t.Info.Error.LocalizedMessage) }} }}
+$vm = Get-VM -Id '{EscapePsString(vmMoRef)}' -ErrorAction Stop;
+if (-not $vm) {{ throw '未找到虚拟机 MoRef: {EscapePsString(vmMoRef)}' }};
+$allDisks = @($vm | Get-HardDisk);
+if ($allDisks.Count -lt 2) {{
+    Write-Host ('数据盘不存在，新建第2块硬盘（容量: ' + {diskCap} + ' GB，Thin）');
+    $newHd = New-HardDisk -VM $vm -CapacityGB {diskCap} -StorageFormat Thin -DiskType Flat -ErrorAction Stop;
+    Write-Host ('数据盘创建完成: ' + $newHd.Name + '  ' + $newHd.CapacityGB + ' GB');
 }} else {{
-    $existingCap = [math]::Round([double]$dataDisk.CapacityGB, 2);
-    Write-Host ('数据盘已存在（当前容量: ' + $existingCap + ' GB）');
-    if ({diskCap} -gt $existingCap) {{
+    $dataDisk = $allDisks[1];
+    $existingCapGB = [math]::Round([double]$dataDisk.CapacityGB, 2);
+    Write-Host ('数据盘已存在（当前容量: ' + $existingCapGB + ' GB）');
+    if ({diskCap} -gt $existingCapGB) {{
         Write-Host ('扩展数据盘至: ' + {diskCap} + ' GB');
-        $dataDisk.CapacityInBytes = $targetCapBytes;
-        $diskSpec = New-Object VMware.Vim.VirtualDeviceConfigSpec;
-        $diskSpec.Operation = [VMware.Vim.VirtualDeviceConfigSpecOperation]::edit;
-        $diskSpec.Device = $dataDisk;
-        $configSpec.DeviceChange += $diskSpec;
-        $task = $vmView.ReconfigVM_Task($configSpec);
-        while ($true) {{ Start-Sleep -Seconds 3; $t = Get-View -Id $task -Property Info.State,Info.Error -ErrorAction SilentlyContinue; if ($null -ne $t -and $t.Info.State -eq 'success') {{ Write-Host '数据盘扩容完成'; break }}; if ($null -ne $t -and $t.Info.State -eq 'error') {{ throw ('扩容磁盘失败: ' + $t.Info.Error.LocalizedMessage) }} }}
-    }} elseif ({diskCap} -lt $existingCap) {{
-        Write-Host ('目标容量小于当前容量，为避免数据丢失，跳过缩容操作')
+        $hd = Get-HardDisk -VM $vm -ErrorAction Stop | Select-Object -Index 1;
+        Set-HardDisk -HardDisk $hd -CapacityGB {diskCap} -ErrorAction Stop;
+        Write-Host '数据盘扩容完成';
+    }} elseif ({diskCap} -lt $existingCapGB) {{
+        Write-Host '目标容量小于当前容量，为避免数据丢失，跳过缩容操作';
     }} else {{
-        Write-Host ('目标容量与当前容量一致，无需操作')
+        Write-Host '目标容量与当前容量一致，无需操作';
     }}
 }}
 ";

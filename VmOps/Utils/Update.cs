@@ -1,5 +1,5 @@
-﻿// ============================================================================
-// Update.cs - 远程版本检查与下载 + 启动 UpdateHelper
+// ============================================================================
+// [UTF-8 无 BOM] Update.cs - 远程版本检查与下载 + 启动 UpdateHelper
 // ============================================================================
 // 职责：
 //   1. HttpClient 请求 Gitee Release API，比对本地 AppVersion.VERSION_STR
@@ -14,7 +14,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;

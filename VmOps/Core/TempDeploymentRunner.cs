@@ -1,5 +1,5 @@
-﻿// ============================================================================
-// TempDeploymentRunner.cs - 临时批量部署 Runspace 通道
+// ============================================================================
+// [UTF-8 无 BOM] TempDeploymentRunner.cs - 临时批量部署 Runspace 通道
 // ============================================================================
 // 职责：批量部署任务时动态创建的独立 Runspace 通道，与 SessionManager 互不干扰
 //
@@ -13,7 +13,6 @@
 // ============================================================================
 using System;
 using System.Collections.Generic;
-using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Net.Sockets;
 using System.Threading;

@@ -1,5 +1,53 @@
-﻿// ============================================================================
-// MainForm.cs - 应用主窗口
+// ============================================================================
+// [UTF-8 无 BOM] MainForm.cs - 应用主窗口
+// ============================================================================
+
+//
+// UI 编码规范（全项目遵循）
+// ──────────────────────────────────────────────────────────────────────────
+//
+// 【布局策略】
+//   · 首选 TableLayoutPanel 做整体骨架，FlowLayoutPanel 做按钮行/工具栏
+//   · 窗口 Dock=Fill 填满父容器，控件用 Dock/Anchor 自适应
+//   · 禁止硬编码控件坐标（new Point(x,y)），能用布局容器就不用绝对定位
+//   · 固定尺寸控件（按钮、分隔线）才用 FlowLayoutPanel + DpiUtils.Px() 定宽
+//
+// 【DPI 适配】
+//   · Form 级别：AutoScaleMode = AutoScaleMode.Dpi（MainForm 构造函数设置）
+//   · 手工布局尺寸必须用 DpiUtils.Px() 缩放（详见 Utils/DpiUtils.cs 完整规范）
+//   · 96DPI 基准值写死在源码里，Px() 运行时换算
+//
+// 【跨线程 UI 更新】
+//   · 后台线程 → UI 线程：必须用 control.Invoke() 或 control.BeginInvoke()
+//   · Invoke   — 需要等待 UI 线程完成（读值、同步状态时）
+//   · BeginInvoke — 不等待，fire-and-forget（日志追加、状态提示时）
+//   · 统一通过根控件 _root.BeginInvoke(new Action(() => { ... })) 封送
+//   · 子线程禁止直接访问任何 WinForms 控件属性/方法
+//
+// 【异步事件处理器】
+//   · 仅允许事件处理器用 async void（Click/Load/Shown 等）
+//   · 业务方法一律用 async Task，由事件处理器 await
+//   · async void 事件中 try/catch 必须覆盖所有 await 调用
+//
+// 【日志输出】
+//   · 业务代码不直接写 RichTextBox，统一通过 logCallback 委托回调
+//   · Tab → MainForm：mainForm.BeginInvoke(() => mainForm.AppendLog(text, level))
+//   · 等级：info / success / warning / error / connecting
+//
+// 【Tab 类约定】
+//   · 构造函数签名统一：(TabPage parent, Form root, Control app, ...)
+//   · _root 存父 Form，所有 Invoke/BeginInvoke 从 _root 发起
+//   · _parent 存 TabPage，便于操作 Tab 容器
+//
+// 【对话框约定】
+//   · Form 用 ShowDialog() 模态弹出，DialogResult.OK/Cancel 回调
+//   · 对话框内部控件全部用布局容器，不用绝对坐标
+//   · 确认/取消按钮放底部 FlowLayoutPanel，居中排列
+//
+// 【资源释放】
+//   · 临时 Graphics、FileStream、MemoryStream 用 using 自动释放
+//   · 控件事件解绑在 FormClosing 或 Dispose 中处理
+//
 // ============================================================================
 // 布局：
 //   ✅ 顶部标题栏（版本号来自 AppVersion.VERSION_STR）

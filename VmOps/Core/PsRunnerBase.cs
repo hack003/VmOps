@@ -1,5 +1,5 @@
-﻿// ============================================================================
-// PsRunnerBase.cs - PowerShell Runspace 执行基类（抽象）
+// ============================================================================
+// [UTF-8 无 BOM] PsRunnerBase.cs - PowerShell Runspace 执行基类（抽象）
 // ============================================================================
 // 职责：封装 Runspace 创建、PowerShell 脚本异步执行、超时控制、结果收集
 //
@@ -16,9 +16,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace VmOps.Core
 {
@@ -299,7 +296,8 @@ namespace VmOps.Core
             Runspace.Open();
 
             string initScript = @"
-Import-Module VMware.VimAutomation.Core -ErrorAction SilentlyContinue;
+Import-Module VMware.VimAutomation.Core -Force -ErrorAction Stop;
+try { New-Object 'VMware.VimAutomation.ViCore.Types.V1.Hardware.StorageFormat' 0 | Out-Null } catch {};
 Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false -Scope Session | Out-Null;
 Set-PowerCLIConfiguration -ParticipateInCEIP $false -Confirm:$false -Scope Session | Out-Null;
 ";

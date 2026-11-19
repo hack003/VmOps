@@ -1,15 +1,51 @@
-﻿// ============================================================================
-// DpiUtils.cs - DPI 缩放工具（硬编码尺寸适配）
 // ============================================================================
-// 职责：96DPI 基准值 → 按当前屏幕 DPI 换算实际像素
-// 核心方法：
-//   Px(value96) → 96DPI 下写的尺寸值 → 返回当前 DPI 下的实际像素
-//   EnableDpiAware() → 程序入口设置 DPI 感知
+// [UTF-8 无 BOM] DpiUtils.cs - DPI 缩放工具
+// ============================================================================
 //
-// 约束（Rule 14）：
-//   - 仅用于状态栏手工布局、分割线、ListView 列宽、TableLayoutPanel 行列尺寸
-//   - Label/TextBox/Button/Panel 等普通控件禁止调用
-//   - 传入参数必须是硬编码常量，禁止运行时变量
+// DPI 编码规范（全项目遵循）
+// ──────────────────────────────────────────────────────────────────────────
+//
+// 【双层缩放机制】
+//   第一层：WinForms 原生 → AutoScaleMode.Dpi 自动处理控件大小/字体
+//   第二层：DpiUtils.Px() → 补充处理 WinForms 覆盖不到的手工布局值
+//
+// 【EnableDpiAware()】
+//   · 必须在 Program.Main() 中、第一个 Form 创建之前调用
+//   · 按系统版本自动选择 PerMonitorV2 / PerMonitor / System DPI 感知
+//   · 只调一次，进程级设置，无需后续重复调用
+//
+// 【Px(int value96) 合法使用场景】← 只允许以下 5 类
+//   1. TableLayoutPanel 的 RowStyle / ColumnStyle 的 Absolute 值
+//        layout.RowStyles.Add(new RowStyle(SizeType.Absolute, DpiUtils.Px(44)));
+//   2. Padding / Margin 的固定像素值
+//        Padding = new Padding(DpiUtils.Px(18), DpiUtils.Px(14), ...);
+//   3. 窗体 / 控件的固定 Size / Location（手工布局的弹窗、对话框）
+//        ClientSize = new Size(DpiUtils.Px(540), DpiUtils.Px(440));
+//   4. ListView / DataGridView 的列宽（固定宽度列）
+//        listView.Columns[col].Width = DpiUtils.Px(presetWidth);
+//   5. 分割线 / 边框 / 工具条的固定高度
+//        Height = DpiUtils.Px(28);
+//
+// 【Px() 禁止使用场景】
+//   · Label / TextBox / Button / CheckBox / RadioButton —— AutoScaleMode.Dpi 已自动缩放
+//   · PictureBox / ProgressBar / ComboBox 等标准控件 —— 同上
+//   · Dock=Fill 或 Dock=Top/Bottom/Left/Right 的控件 —— 由布局引擎决定尺寸
+//   · 运行时动态计算值（MeasureString 结果、用户输入、数据库值等）
+//        ❌ DpiUtils.Px(graphics.MeasureString(text, font).Width)
+//        ❌ DpiUtils.Px(userInputSize)
+//     允许：硬编码常量、const 字段、static readonly 字典/数组取值
+//        ✅ DpiUtils.Px(44)
+//        ✅ DpiUtils.Px(presetWidth)   // presetWidth 来自 static readonly Dictionary
+//
+// 【96DPI 基准约定】
+//   · Px() 的入参含义是 "96DPI（100% 缩放）下的像素值"
+//   · 所有源码中的尺寸数字，写的就是 96DPI 下的视觉大小
+//   · 例如 Px(100) 在 150% 缩放屏上返回 156，在 125% 屏上返回 125
+//
+// 【实现说明】
+//   · GetScaleRatio() 首次调用时读取 GDI+ LOGPIXELSX 并缓存
+//   · 多显示器场景：按主显示器 DPI 统一缩放，不做 per-monitor 动态切换
+//
 // ============================================================================
 using System;
 using System.Drawing;
