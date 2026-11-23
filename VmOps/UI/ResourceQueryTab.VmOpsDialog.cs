@@ -2425,7 +2425,7 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
                 ShowInTaskbar = false,
                 AutoScaleMode = AutoScaleMode.Dpi,
                 AutoScaleDimensions = new SizeF(96F, 96F),
-                Size = new Size(440, 340),
+                Size = new Size(460, 380),
                 Font = new Font("Microsoft YaHei", 9)
             };
 
@@ -2468,17 +2468,28 @@ $vm.Config.Hardware.Device | Where-Object {{ $_ -is [VMware.Vim.VirtualEthernetC
             var lblOff = new Label { Text = "偏移量：", Location = new Point(LBL_X, y + 3), Size = new Size(100, 20), TextAlign = ContentAlignment.MiddleRight };
             dlg.Controls.Add(lblOff);
             var txtOff = new TextBox { Text = current.Offset.ToString(), Location = new Point(CTRL_X, y), Width = 60 };
-            dlg.Controls.Add(txtOff); y += 40;
+            dlg.Controls.Add(txtOff); y += 38;
 
-            var btnOk = new Button { Text = "保存", DialogResult = DialogResult.OK, Location = new Point(CTRL_X, y), Size = new Size(80, 30) };
-            var btnCancel = new Button { Text = "取消", DialogResult = DialogResult.Cancel, Location = new Point(CTRL_X + 90, y), Size = new Size(80, 30) };
+            var btnReset = new Button { Text = "↻ 重置", Location = new Point(LBL_X, y), Size = new Size(80, 30), Cursor = Cursors.Hand };
+            var btnOk = new Button { Text = "保存", DialogResult = DialogResult.OK, Location = new Point(CTRL_X + 10, y), Size = new Size(80, 30) };
+            var btnCancel = new Button { Text = "取消", DialogResult = DialogResult.Cancel, Location = new Point(CTRL_X + 100, y), Size = new Size(80, 30) };
+            dlg.Controls.Add(btnReset);
             dlg.Controls.Add(btnOk);
             dlg.Controls.Add(btnCancel);
             dlg.AcceptButton = btnOk;
             dlg.CancelButton = btnCancel;
 
-            var lblSample = new Label { Text = "", Location = new Point(LBL_X, y + 36), AutoSize = true, ForeColor = Color.FromArgb(0, 100, 0) };
+            var lblSample = new Label { Text = "", Location = new Point(LBL_X, y + 40), AutoSize = true, ForeColor = Color.FromArgb(0, 100, 0) };
             dlg.Controls.Add(lblSample);
+
+            btnReset.Click += (s, e) =>
+            {
+                txtPrefix.Text = "";
+                txtSep.Text = "#";
+                txtSep2.Text = "$";
+                txtMul.Text = "4";
+                txtOff.Text = "0";
+            };
 
             void UpdateSample()
             {

@@ -291,10 +291,90 @@
             border-color: #28a745;
             color: #fff;
         }
+        .toc-search {
+            flex-shrink: 0;
+            margin-bottom: 12px;
+        }
+        .toc-search input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.95);
+            color: #333;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            transition: box-shadow 0.2s;
+        }
+        .toc-search input:focus {
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.6);
+        }
+        .toc-search input::placeholder { color: #999; }
+        .toc-search-results {
+            max-height: 240px;
+            overflow-y: auto;
+            background: #fff;
+            border-radius: 0 0 6px 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            display: none;
+            margin-top: 4px;
+        }
+        .toc-search-results.show { display: block; }
+        .toc-search-results .result-item {
+            padding: 8px 12px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            color: #333;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .toc-search-results .result-item:last-child { border-bottom: none; }
+        .toc-search-results .result-item:hover { background: #e8f0fe; }
+        .toc-search-results .result-path {
+            font-size: 11px;
+            color: #888;
+            margin-bottom: 2px;
+        }
+        .toc-search-results .result-text mark {
+            background: #ffeb3b;
+            color: #333;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        .toc-search-results .result-tag {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 1px 6px;
+            border-radius: 3px;
+            margin-right: 6px;
+            vertical-align: 1px;
+            line-height: 14px;
+        }
+        .toc-search-results .tag-h {
+            background: #1976d2;
+            color: #fff;
+        }
+        .toc-search-results .tag-p {
+            background: #e0e0e0;
+            color: #555;
+        }
+        .toc-search-results .no-match {
+            padding: 12px;
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+        }
     </style>
 </head>
 <body>
 <nav class="toc-sidebar">
+    <div class="toc-search">
+        <input type="text" id="tocSearchInput" placeholder="🔍 检索关键词..." autocomplete="off">
+        <div class="toc-search-results" id="tocSearchResults"></div>
+    </div>
     <h4>目录导航</h4>
     <ul>
         <li><a data-href="#intro">程序简介</a></li>
@@ -329,6 +409,7 @@
             <ul class="children">
                 <li class="sub"><a data-href="#vm-list">虚拟机列表</a></li>
                 <li class="sub"><a data-href="#host-list">主机/存储/网络列表</a></li>
+                <li class="sub"><a data-href="#search-syntax">搜索框语法详解</a></li>
                 <li class="sub"><a data-href="#vm-right-click">单台 VM 右键操作</a></li>
                 <li class="sub"><a data-href="#batch-ops">批量 VM 右键操作</a></li>
                 <li class="sub"><a data-href="#other-menus">通用菜单</a></li>
@@ -586,7 +667,52 @@ Get-Module -ListAvailable VMware.PowerCLI | Select Name, Version<br><br>
     <p>主机列表、存储列表、网络列表的界面和操作与虚拟机列表一致。</p>
     <div class="info-box">主机列表右键菜单支持 <strong>SSH 连接 (MobaXterm)</strong> 功能，可一键打开 MobaXterm 并 SSH 连接到目标主机。</div>
 
-    <h3 id="vm-right-click">3. 单台 VM 右键操作</h3>
+    <h3 id="search-syntax">3. 搜索框语法详解</h3>
+    <p>资源列表 Tab（虚拟机 / 模板 / 主机 / 存储 / 网络）顶部的<strong>搜索框</strong>支持强大的多关键词组合过滤，通过<strong>空格</strong>和<strong>逗号</strong>两个符号就能表达复杂的 AND / OR 逻辑。</p>
+
+    <h4>核心规则（一眼看懂）</h4>
+    <table>
+        <tr><th>符号</th><th>名称</th><th>含义</th><th>示例</th><th>效果</th></tr>
+        <tr><td><code>空格</code></td><td>AND（和）</td><td>同一行内所有关键词<strong>都要</strong>命中</td><td><code>win 2019</code></td><td>同时包含 "win" 且 "2019"</td></tr>
+        <tr><td><code>,</code></td><td>OR（或）</td><td>任意一组<strong>命中</strong>即可</td><td><code>linux,win</code></td><td>包含 "linux" 或 "win"</td></tr>
+        <tr><td><code>，</code></td><td>中文逗号</td><td>自动转英文逗号</td><td><code>linux，win</code></td><td>等同于 <code>linux,win</code></td></tr>
+        <tr><td>混合</td><td>组合</td><td>空格分组内 AND，组间 OR</td><td><code>linux redhat,win 2019</code></td><td>(linux 且 redhat) 或 (win 且 2019)</td></tr>
+    </table>
+
+    <h4>逻辑图解</h4>
+    <div class="code-block" style="font-family:'Consolas','Courier New',monospace;font-size:13px;">输入: "linux redhat,win 2019,esxi"
+         ↓
+按逗号分割 → 得到 3 个 OR 组:
+   组1: ["linux", "redhat"]   ← 空格分割，组内 AND
+   组2: ["win", "2019"]       ← 空格分割，组内 AND
+   组3: ["esxi"]              ← 单个词直接匹配
+         ↓
+匹配规则: 行命中 = (组1全命中) OR (组2全命中) OR (组3命中)
+              = (linux 且 redhat) 或 (win 且 2019) 或 (esxi)</div>
+
+    <h4>使用示例</h4>
+    <table>
+        <tr><th>搜索输入</th><th>匹配行为</th></tr>
+        <tr><td><code>test</code></td><td>任何单元格包含 "test" 的行（单关键词子串匹配）</td></tr>
+        <tr><td><code>srv 01</code></td><td>同时包含 "srv" <strong>且</strong> "01" 的行（AND 逻辑）</td></tr>
+        <tr><td><code>linux,win</code></td><td>包含 "linux" <strong>或</strong> "win" 的行（OR 逻辑）</td></tr>
+        <tr><td><code>prod linux,test win</code></td><td>(prod 且 linux) <strong>或</strong> (test 且 win)</td></tr>
+        <tr><td><code>esxi，vcsa</code></td><td>包含 "esxi" <strong>或</strong> "vcsa"（中文逗号自动识别）</td></tr>
+        <tr><td><code>off esxi,error</code></td><td>(off 且 esxi) <strong>或</strong> error</td></tr>
+    </table>
+
+    <h4>匹配特性</h4>
+    <ul>
+        <li><strong>不区分大小写</strong>：自动转为小写匹配，<code>Linux</code>、<code>LINUX</code>、<code>linux</code> 效果相同</li>
+        <li><strong>子串包含匹配</strong>：使用 Contains 而非精确等于，<code>lin</code> 可以命中 <code>linux</code></li>
+        <li><strong>全字段扫描</strong>：搜索不限定特定列，行内<strong>任何单元格</strong>包含关键词即命中</li>
+        <li><strong>实时过滤</strong>：输入即过滤，无需按回车；清空输入框立即恢复全部数据</li>
+        <li><strong>中文逗号兼容</strong>：输入法不小心打出的全角逗号 <code>，</code> 会自动转换为半角 <code>,</code></li>
+    </ul>
+
+    <div class="info-box"><strong>小技巧</strong>：搜索框下方状态栏会实时显示筛选结果，例如 <code>筛选 23/156 条</code>，让你一眼看到过滤效果。多列排序后搜索仍生效，不会丢失过滤条件。</div>
+
+    <h3 id="vm-right-click">4. 单台 VM 右键操作</h3>
     <p>在虚拟机列表中<strong>右键单台 VM</strong>，菜单采用<strong>分组下拉</strong>结构，功能按类别聚合在子菜单内，避免主菜单过长。</p>
 
     <h4><span class="badge badge-green">🟢 远程连接</span> <em>子菜单</em></h4>
@@ -654,7 +780,7 @@ Get-Module -ListAvailable VMware.PowerCLI | Select Name, Version<br><br>
         <tr><td>🗑 删除所有快照</td><td>RemoveAllSnapshots_Task，<strong>释放存储占用但不可恢复</strong>，二次确认</td></tr>
     </table>
 
-    <h3 id="batch-ops">4. 批量 VM 右键操作</h3>
+    <h3 id="batch-ops">5. 批量 VM 右键操作</h3>
     <p>在虚拟机列表中按住 <code>Ctrl</code>（或 <code>Shift</code> 连续多选）选中多台 VM 后右键，主菜单出现 <strong>⚡ 批量操作（已选 N 台）</strong> 子菜单：</p>
 
     <p><span class="badge badge-green">🟢 批量电源操作</span></p>
@@ -689,7 +815,7 @@ Get-Module -ListAvailable VMware.PowerCLI | Select Name, Version<br><br>
 
     <div class="info-box">批量菜单中所有涉及 vMotion / Storage vMotion 的操作，目标列表均来自当前连接的服务器实时查询（UnifiedCache），不会展示失效的缓存条目；批量迁移过程中可随时在 PowerShell 输出区查看每个 VM 的 Task 完成进度。<br><strong>注意</strong>：ESXi 直连模式下因无 vCenter 调度层，vMotion / Storage vMotion 不可用。</div>
 
-    <h3 id="other-menus">5. 通用菜单</h3>
+    <h3 id="other-menus">6. 通用菜单</h3>
 
     <h4>模板专用菜单</h4>
     <p>当查询类型切换为模板（<code>subtype = template</code>）时，右键菜单自动切换为：</p>
@@ -1732,6 +1858,175 @@ Status : 60% Completed [Replace vpxd-extension Cert...]</div>
             e.preventDefault();
             el.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, false);
+    </script>
+    <script>
+        (function() {
+            var sections = [];
+            var h2Titles = {};
+            document.querySelectorAll('.container h2').forEach(function(h) { h2Titles[h.id] = h.textContent.trim(); });
+
+            var allHeadings = document.querySelectorAll('.container h2, .container h3, .container h4');
+            allHeadings.forEach(function(h) {
+                if (!h.id) return;
+                var level = h.tagName;
+                var text = h.textContent.trim();
+                var parentPath = '';
+                if (level === 'h3' || level === 'h4') {
+                    var prev = h.previousElementSibling;
+                    while (prev && prev.tagName !== 'H2') prev = prev.previousElementSibling;
+                    if (prev && prev.id && h2Titles[prev.id]) parentPath = h2Titles[prev.id];
+                }
+                sections.push({ kind: 'heading', el: h, id: h.id, text: text, level: level, parentPath: parentPath });
+            });
+
+            function findAncestorHeading(el) {
+                var cur = el.parentElement;
+                while (cur && cur !== document.querySelector('.container')) {
+                    if (cur.id && (cur.tagName === 'H2' || cur.tagName === 'H3' || cur.tagName === 'H4')) return cur;
+                    cur = cur.parentElement;
+                }
+                return null;
+            }
+
+            var bodyTargets = '.container p, .container li, .container td, .container th, .container label, .container figcaption, .container .code-block, .container .step, .container .note, .container .success, .container .error-box, .container .info-box';
+            document.querySelectorAll(bodyTargets).forEach(function(el) {
+                var txt = (el.textContent || '').trim();
+                if (!txt || txt.length < 2) return;
+                var heading = findAncestorHeading(el);
+                var parentPath = '';
+                if (heading) {
+                    if (heading.tagName === 'H3' || heading.tagName === 'H4') {
+                        var prev = heading.previousElementSibling;
+                        while (prev && prev.tagName !== 'H2') prev = prev.previousElementSibling;
+                        if (prev && prev.id && h2Titles[prev.id]) parentPath = h2Titles[prev.id];
+                    } else if (heading.tagName === 'H2') {
+                        parentPath = h2Titles[heading.id] || '';
+                    }
+                }
+                sections.push({
+                    kind: 'body',
+                    el: el,
+                    anchorId: heading ? heading.id : null,
+                    text: txt,
+                    parentPath: parentPath || (heading ? heading.textContent.trim() : '')
+                });
+            });
+
+            var searchInput = document.getElementById('tocSearchInput');
+            var searchResults = document.getElementById('tocSearchResults');
+            if (!searchInput || !searchResults) return;
+            var debounceTimer = null;
+
+            function escapeHtml(s) {
+                var div = document.createElement('div');
+                div.textContent = s;
+                return div.innerHTML;
+            }
+
+            function highlight(text, kw) {
+                if (!kw) return escapeHtml(text);
+                var safeKw = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                var re = new RegExp('(' + safeKw + ')', 'gi');
+                return escapeHtml(text).replace(re, '<mark>$1</mark>');
+            }
+
+            function buildSnippet(text, kw) {
+                if (!kw) return text.length > 80 ? text.slice(0, 80) + '…' : text;
+                var idx = text.toLowerCase().indexOf(kw.toLowerCase());
+                if (idx < 0) return text.length > 80 ? text.slice(0, 80) + '…' : text;
+                var start = Math.max(0, idx - 30);
+                var end = Math.min(text.length, idx + kw.length + 40);
+                var head = start > 0 ? '…' : '';
+                var tail = end < text.length ? '…' : '';
+                return head + text.slice(start, end) + tail;
+            }
+
+            function doSearch(kw) {
+                kw = kw.trim();
+                if (!kw) {
+                    searchResults.classList.remove('show');
+                    searchResults.innerHTML = '';
+                    return;
+                }
+                var lowerKw = kw.toLowerCase();
+                var rawHits = [];
+                for (var i = 0; i < sections.length; i++) {
+                    if (sections[i].text.toLowerCase().indexOf(lowerKw) >= 0) rawHits.push(sections[i]);
+                }
+                var hits = [];
+                for (var r = 0; r < rawHits.length; r++) {
+                    var candidate = rawHits[r];
+                    var covered = false;
+                    for (var e = 0; e < hits.length; e++) {
+                        if (hits[e].el.contains(candidate.el)) { covered = true; break; }
+                    }
+                    if (!covered) {
+                        hits = hits.filter(function(h) { return !candidate.el.contains(h.el); });
+                        hits.push(candidate);
+                    }
+                }
+                if (hits.length === 0) {
+                    searchResults.innerHTML = '<div class="no-match">未找到相关内容</div>';
+                } else {
+                    var html = '';
+                    var limit = Math.min(hits.length, 20);
+                    for (var j = 0; j < limit; j++) {
+                        var h = hits[j];
+                        var anchorId = h.kind === 'heading' ? h.id : (h.anchorId || null);
+                        var pathHtml = h.parentPath ? '<div class="result-path">' + escapeHtml(h.parentPath) + '</div>' : '';
+                        var typeLabel = h.kind === 'heading'
+                            ? '<span class="result-tag tag-h">' + h.level + '</span>'
+                            : '<span class="result-tag tag-p">正文</span>';
+                        var displayText = h.kind === 'heading' ? h.text : buildSnippet(h.text, kw);
+                        html += '<div class="result-item" data-anchor="' + (anchorId || '') + '" data-el-idx="' + j + '">'
+                              + pathHtml
+                              + '<div class="result-text">' + typeLabel + highlight(displayText, kw) + '</div>'
+                              + '</div>';
+                    }
+                    if (hits.length > 20) html += '<div class="no-match">还有 ' + (hits.length - 20) + ' 条未显示…</div>';
+                    searchResults.innerHTML = html;
+                }
+                searchResults.classList.add('show');
+
+                var items = searchResults.querySelectorAll('.result-item[data-el-idx]');
+                for (var k = 0; k < items.length; k++) {
+                    items[k].addEventListener('click', function() {
+                        var idx = parseInt(this.getAttribute('data-el-idx'), 10);
+                        var hit = hits[idx];
+                        if (!hit) return;
+                        var targetEl = hit.el;
+                        if (targetEl && targetEl.scrollIntoView) {
+                            targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                        var anchorId = this.getAttribute('data-anchor');
+                        if (anchorId) {
+                            var sidebarLink = document.querySelector('.toc-sidebar a[data-href="#' + anchorId + '"]');
+                            if (sidebarLink) {
+                                var parent = sidebarLink.closest('.has-children');
+                                if (parent) parent.classList.add('open');
+                                var activeOnes = document.querySelectorAll('.toc-sidebar .sub.active');
+                                for (var a = 0; a < activeOnes.length; a++) activeOnes[a].classList.remove('active');
+                                if (sidebarLink.parentElement.classList.contains('sub'))
+                                    sidebarLink.parentElement.classList.add('active');
+                            }
+                        }
+                        searchResults.classList.remove('show');
+                        searchInput.value = '';
+                    });
+                }
+            }
+
+            searchInput.addEventListener('input', function() {
+                if (debounceTimer) clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(function() { doSearch(searchInput.value); }, 150);
+            });
+            searchInput.addEventListener('focus', function() {
+                if (searchInput.value.trim()) doSearch(searchInput.value);
+            });
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.toc-search')) searchResults.classList.remove('show');
+            });
+        })();
     </script>
 </body>
 </html>
